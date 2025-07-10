@@ -1,0 +1,12 @@
+{
+    "common": {
+        "add": "Add",
+        "edit": "Edit",
+        "delete": "Delete"
+    },
+    "login": {
+        "login": "Login",
+        "username": "Username",
+        "password": "Password"
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "common": {
+        "add": "Thêm",
+        "edit": "Sửa",
+        "delete": "Xóa"
+    },
+    "login": {
+        "login": "Đăng nhập",
+        "username": "Tên đăng nhập",
+        "password": "Mật khẩu"
+    }
+}

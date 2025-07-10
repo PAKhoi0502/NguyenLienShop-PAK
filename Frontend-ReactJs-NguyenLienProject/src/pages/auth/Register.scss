@@ -1,0 +1,83 @@
+.register-page {
+   min-height: 80vh;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   background-color: #f1f1f1;
+   font-family: 'Segoe UI', sans-serif;
+
+   .register-box {
+      background: #fff;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+
+      h2 {
+         text-align: center;
+         margin-bottom: 20px;
+      }
+
+      input {
+         width: 100%;
+         padding: 12px;
+         margin-bottom: 15px;
+         border-radius: 8px;
+         border: 1px solid #ccc;
+         font-size: 15px;
+      }
+
+      .btn-register {
+         width: 100%;
+         padding: 12px;
+         background-color: #111;
+         color: white;
+         border: none;
+         border-radius: 8px;
+         font-weight: bold;
+         cursor: pointer;
+
+         &:hover {
+            background-color: #333;
+         }
+      }
+
+      .error {
+         color: red;
+         margin-bottom: 10px;
+         font-size: 14px;
+         text-align: center;
+      }
+
+      .redirecting {
+         font-size: 13px;
+         color: #555;
+         text-align: center;
+         margin-top: -10px;
+         margin-bottom: 10px;
+      }
+
+      .success {
+         color: green;
+         margin-bottom: 10px;
+         font-size: 14px;
+         text-align: center;
+      }
+
+      .redirect-login {
+         text-align: center;
+         font-size: 14px;
+         margin-top: 15px;
+
+         a {
+            color: #0066cc;
+            text-decoration: none;
+
+            &:hover {
+               text-decoration: underline;
+            }
+         }
+      }
+   }
+}
