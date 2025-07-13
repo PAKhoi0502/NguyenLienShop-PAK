@@ -20,6 +20,17 @@ export const isSuccessStatusCode = (s) => {
     return (typeof s === 'number' && s === 0) || (typeof s === 'string' && s.toUpperCase() === 'OK');
 };
 
+instance.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem('token'); // hoặc từ Redux nếu lưu ở store
+        if (token) {
+            config.headers['Authorization'] = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => Promise.reject(error)
+);
+
 instance.interceptors.response.use(
     (response) => {
         const { data } = response;

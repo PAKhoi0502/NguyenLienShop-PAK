@@ -1,22 +1,24 @@
-@import "common";
+@use "common";
+@use "variables";
 
 .custom-form-group {
-
   .custom-form-control {
-    background-color: $common-white;
-    border: 1px solid $border;
+    background-color: variables.$common-white;
+    border: 1px solid variables.$border;
+
     &.readonly {
       cursor: not-allowed;
-      background-color: darken($common-white, 5);
+      background-color: darken(variables.$common-white, 5); // nên đổi sang color.adjust sau
     }
+
     &:focus {
       outline: none;
-      border: 1px solid darken($border, 50);
+      border: 1px solid darken(variables.$border, 50);
     }
   }
 
   select.custom-form-control {
-    background-image: $dropdown-image;
+    background-image: variables.$dropdown-image;
   }
 
   margin-bottom: 10px;
@@ -67,5 +69,4 @@
       margin-left: 5px;
     }
   }
-
 }

@@ -1,33 +1,31 @@
-@import "../styles/common.scss";
+@use "../styles/common";
+@use "../styles/variables";
 
 .toast-container {
   .toast-item {
     white-space: pre-wrap;
-    box-shadow: 0 0 5px 5px $box-shadow-color;
-    -webkit-box-shadow: 0 0 5px 5px $box-shadow-color;
+    box-shadow: 0 0 5px 5px variables.$box-shadow-color;
+    -webkit-box-shadow: 0 0 5px 5px variables.$box-shadow-color;
 
     &.Toastify__toast--success {
-      background: $common-green;
+      background: variables.$common-green;
     }
 
     &.Toastify__toast--error {
-      background: $common-red;
+      background: variables.$common-red;
     }
 
-    &.Toastify__toast--warn {
-      background: $colormain;
-    }
-
+    &.Toastify__toast--warn,
     &.Toastify__toast--info {
-      background: $colormain;
+      background: variables.$colormain;
     }
 
     .toast-close {
       position: absolute;
       right: 10px;
-      top:10px;
-      color: $common-text-color;
-      font-size: $base-size;
+      top: 10px;
+      color: variables.$common-text-color;
+      font-size: variables.$base-size;
       padding: 0;
       cursor: pointer;
       background: transparent;
@@ -37,22 +35,23 @@
     }
 
     .toast-item-body {
-      color: $common-text-color;
+      color: variables.$common-text-color;
       display: block;
       flex: none;
       width: 100%;
 
       .toast-title {
         font-weight: bold;
-        font-size: $base-size;
+        font-size: variables.$base-size;
         margin: 0 20px 5px 0;
 
         .fixed-scroll-bar {
           height: 50px;
         }
+
         .date {
           float: right;
-          font-size: $base-size - 2px;
+          font-size: variables.$base-size - 2px;
           vertical-align: middle;
           margin-right: 5px;
           margin-bottom: 0;
@@ -66,7 +65,7 @@
       }
 
       .toast-content {
-        font-size: $base-size - 2px;
+        font-size: variables.$base-size - 2px;
       }
     }
   }

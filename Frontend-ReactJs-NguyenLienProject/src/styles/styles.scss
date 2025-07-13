@@ -1,11 +1,10 @@
-@import "variables";
-@import "../../node_modules/bootstrap/scss/bootstrap";
+@use "variables" as *;
+@use "../../node_modules/bootstrap/scss/bootstrap" as *;
 
-$fa-font-path : "~@fortawesome/fontawesome-free-webfonts/webfonts";
-@import "~@fortawesome/fontawesome-free-webfonts/scss/fontawesome.scss";
-@import "~@fortawesome/fontawesome-free-webfonts/scss/fa-solid.scss";
-@import "~@fortawesome/fontawesome-free-webfonts/scss/fa-regular.scss";
-@import "~@fortawesome/fontawesome-free-webfonts/scss/fa-brands.scss";
+@use "@fortawesome/fontawesome-free/scss/fontawesome" as *;
+@use "@fortawesome/fontawesome-free/scss/solid" as *;
+@use "@fortawesome/fontawesome-free/scss/regular" as *;
+@use "@fortawesome/fontawesome-free/scss/brands" as *;
 
-@import "base";
-@import "form";
+@use "base" as *;
+@use "form" as *;

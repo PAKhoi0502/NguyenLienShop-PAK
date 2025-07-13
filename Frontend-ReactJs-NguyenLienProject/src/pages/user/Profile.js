@@ -8,9 +8,9 @@ import './Profile.scss';
 import { FormattedMessage } from 'react-intl';
 
 class Profile extends Component {
-   constructor(props) {
-      super(props);
-   }
+   // constructor(props) {
+   //    super(props);
+   // }
 
 
    render() {

@@ -43,9 +43,7 @@ const handleLogin = async (req, res) => {
    });
 };
 
-
 const handleRegister = async (req, res) => {
-   console.log("📦 Register body:", req.body);
    const result = await authService.registerUser(req.body);
 
    return sendResponse(res, {

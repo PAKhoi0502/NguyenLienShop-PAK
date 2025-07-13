@@ -9,7 +9,6 @@ import jwt from 'jsonwebtoken';
 
 const loginUser = async (identifier, password) => {
    try {
-      console.log("Attempting login with identifier:", identifier);  // Log identifier (phone number or email)
 
       const user = await db.User.findOne({
          where: { phoneNumber: identifier },
@@ -18,44 +17,36 @@ const loginUser = async (identifier, password) => {
       });
 
       if (!user) {
-         console.log("User not found");
          return { errCode: 1, errMessage: "Wrong account or password!" };
       }
 
-      console.log("User found:", user);  // Log the user object found in DB
-
       const match = bcrypt.compareSync(password, user.password);
       if (!match) {
-         console.log("Password does not match");
          return { errCode: 3, errMessage: "Sai mật khẩu!" };
       }
 
-      // Tạo JWT token
       const token = jwt.sign(
          { id: user.id, roleId: user.roleId },
          process.env.JWT_SECRET,
          { expiresIn: '1h' }
       );
 
-      console.log("Generated JWT token:", token);  // Log the generated token
-
       const userPlain = user.get({ plain: true });
       delete userPlain.password;
       delete userPlain.Role;
 
-      // Trả về thông tin người dùng và token
       return {
          errCode: 0,
          errMessage: "OK",
-         token,  // Trả về token
+         token,
          user: userPlain
       };
 
    } catch (err) {
-      console.error("Login error:", err);  // Log any errors that occur during the process
       return { errCode: -1, errMessage: "Internal server error" };
    }
 };
+
 
 
 let registerUser = (data) => {

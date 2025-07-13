@@ -1,4 +1,4 @@
-@import "variables";
+@use "variables";
 
 .text-center {
     text-align: center !important;
@@ -13,5 +13,5 @@
 }
 
 .text-red {
-    color: $common-red !important;
+    color: variables.$common-red !important;
 }

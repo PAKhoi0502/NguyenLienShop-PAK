@@ -15,6 +15,36 @@ class Login extends Component {
       rememberMe: false,
    }
 
+   componentDidMount() {
+      this.loadRememberedInfo();
+   }
+
+   // ✅ Hàm riêng: đọc dữ liệu từ localStorage
+   loadRememberedInfo = () => {
+      const rememberMe = localStorage.getItem('rememberMe') === 'true';
+      const savedIdentifier = localStorage.getItem('savedIdentifier') || '';
+
+      if (rememberMe && savedIdentifier) {
+         this.setState({
+            identifier: savedIdentifier,
+            rememberMe: true,
+         });
+      }
+   }
+
+   // ✅ Hàm riêng: xử lý lưu hoặc xoá Remember Me
+   handleRememberMe = () => {
+      const { rememberMe, identifier } = this.state;
+
+      if (rememberMe) {
+         localStorage.setItem('rememberMe', 'true');
+         localStorage.setItem('savedIdentifier', identifier);
+      } else {
+         localStorage.removeItem('rememberMe');
+         localStorage.removeItem('savedIdentifier');
+      }
+   }
+
    handleChange = (e) => {
       const { name, value, type, checked } = e.target;
       this.setState({
@@ -28,52 +58,31 @@ class Login extends Component {
       const { location } = this.props;
 
       if (!identifier || !password) {
-         console.log("Missing login details:", { identifier, password });
          return this.setState({ error: "Vui lòng nhập đầy đủ thông tin" });
       }
 
-      console.log("Attempting login with identifier:", identifier);
-
-      // Gửi yêu cầu login đến API
-      const res = await login({ identifier, password });
-      console.log("Response from login API:", res);
-
-      // Kiểm tra cấu trúc phản hồi API
-      const { errCode, errMessage, token, data: user } = res;
-
-      console.log("Token from API:", token);  // Kiểm tra token
+      const response = await login({ identifier, password });
+      const { errCode, errMessage, token, data: user } = response;
 
       if (!token) {
-         console.log("Token không có trong phản hồi API");
          return this.setState({ error: 'Không nhận được token từ server' });
       }
 
-      // Kiểm tra nếu có lỗi trong quá trình đăng nhập
       if (errCode !== 0) {
-         console.log("Login failed with error code:", errCode);
-         console.log("Error message from API:", errMessage);
          return this.setState({ error: errMessage || 'Đăng nhập thất bại!' });
       }
 
-      // Nếu đăng nhập thành công, lưu token và roleId vào localStorage
-      console.log("Login successful, storing token...");
-      localStorage.setItem('token', token);  // Lưu token vào localStorage
-      localStorage.setItem('roleId', user.roleId);  // Lưu roleId vào localStorage
+      localStorage.setItem('token', token);
+      localStorage.setItem('roleId', user.roleId);
 
-      console.log("Token stored in localStorage:", localStorage.getItem('token'));
+      this.handleRememberMe(); // ✅ gọi hàm riêng để lưu thông tin
 
-      // Dispatch hành động login thành công
       this.props.adminLoginSuccess(user);
 
-      // Xử lý chuyển hướng sau khi đăng nhập
       const params = new URLSearchParams(location.search);
       const redirectPath = params.get('redirect') || '/';
-      console.log("Redirecting to:", redirectPath);
-
-      this.props.navigate(redirectPath);  // Chuyển hướng người dùng
+      this.props.navigate(redirectPath);
    };
-
-
 
    render() {
       const { identifier, password, error } = this.state;
@@ -91,6 +100,7 @@ class Login extends Component {
                   value={identifier}
                   onChange={this.handleChange}
                />
+
                <div className="password-wrapper">
                   <input
                      type={this.state.showPassword ? 'text' : 'password'}

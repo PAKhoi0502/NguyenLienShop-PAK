@@ -5,12 +5,12 @@ import { push } from "connected-react-router";
 import * as actions from "../../store/actions";
 import './Home.scss';
 
-import { FormattedMessage } from 'react-intl';
+// import { FormattedMessage } from 'react-intl';
 
 class Home extends Component {
-   constructor(props) {
-      super(props);
-   }
+   // constructor(props) {
+   //    super(props);
+   // }
 
 
    render() {
