@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import * as actions from "../../store/actions";
 import Navigator from '../Navigator';
-import './Footer.scss';
+import './FooterAdmin.scss';
 
 class Footer extends Component {
 

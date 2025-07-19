@@ -1,9 +1,10 @@
-import webRoutes from './webRoutes.js';
+import webRoutesBackend from './webRoutesBackend.js';
 import apiRoutes from './apiRoutes.js';
 
 const initRoutes = (app) => {
-   app.use('/', webRoutes);              // View-based routing
-   app.use('/api', apiRoutes);           // All API under /api/*
+   app.use('/', webRoutesBackend);              // View-based routing
+   app.use('/api', apiRoutes);                // API-based routing
+
 };
 
-export default initRoutes;
+export default initRoutes; 

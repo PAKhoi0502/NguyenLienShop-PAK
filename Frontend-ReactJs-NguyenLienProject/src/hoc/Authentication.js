@@ -1,18 +1,29 @@
-import locationHelperBuilder from "redux-auth-wrapper/history4/locationHelper";
-import { connectedRouterRedirect } from "redux-auth-wrapper/history4/redirect";
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 
-const locationHelper = locationHelperBuilder({});
+const userIsAuthenticated = (WrappedComponent) => {
+    const AuthenticatedComponent = (props) => {
+        const isLoggedIn = useSelector((state) => state.admin.isLoggedIn);
+        if (!isLoggedIn) {
+            return <Navigate to="/login" replace />;
+        }
+        return <WrappedComponent {...props} />;
+    };
+    AuthenticatedComponent.displayName = `UserIsAuthenticated(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
+    return AuthenticatedComponent;
+};
 
-export const userIsAuthenticated = connectedRouterRedirect({
-    authenticatedSelector: state => state.admin.isLoggedIn,
-    wrapperDisplayName: 'UserIsAuthenticated',
-    redirectPath: '/login'
-});
+const userIsNotAuthenticated = (WrappedComponent) => {
+    const NotAuthenticatedComponent = (props) => {
+        const isLoggedIn = useSelector((state) => state.admin.isLoggedIn);
+        if (isLoggedIn) {
+            return <Navigate to="/" replace />;
+        }
+        return <WrappedComponent {...props} />;
+    };
+    NotAuthenticatedComponent.displayName = `UserIsNotAuthenticated(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
+    return NotAuthenticatedComponent;
+};
 
-export const userIsNotAuthenticated = connectedRouterRedirect({
-    // Want to redirect the user when they are authenticated
-    authenticatedSelector: state => !state.admin.isLoggedIn,
-    wrapperDisplayName: 'UserIsNotAuthenticated',
-    redirectPath: (state, ownProps) => locationHelper.getRedirectQueryParam(ownProps) || '/',
-    allowRedirectBack: false
-});
+export { userIsAuthenticated, userIsNotAuthenticated };

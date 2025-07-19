@@ -1,162 +1,194 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { push } from "connected-react-router";
-import * as actions from "../../store/actions";
-import './Login.scss';
-import { withRouter } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useIntl } from 'react-intl';
+import { adminLoginSuccess, adminLoginFail } from '../../store/reducers/adminReducer';
 import { login } from '../../services/authService';
+import CustomToast from '../../components/CustomToast';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import './Login.scss';
 
-class Login extends Component {
-   state = {
-      identifier: '',
-      password: '',
-      error: '',
-      showPassword: false,
-      rememberMe: false,
-   }
+const Login = () => {
+   const [identifier, setIdentifier] = useState('');
+   const [password, setPassword] = useState('');
+   const [showPassword, setShowPassword] = useState(false);
+   const [rememberMe, setRememberMe] = useState(false);
+   const [loading, setLoading] = useState(false);
 
-   componentDidMount() {
-      this.loadRememberedInfo();
-   }
+   const dispatch = useDispatch();
+   const navigate = useNavigate();
+   const location = useLocation();
+   const intl = useIntl();
 
-   // ✅ Hàm riêng: đọc dữ liệu từ localStorage
-   loadRememberedInfo = () => {
-      const rememberMe = localStorage.getItem('rememberMe') === 'true';
+   useEffect(() => {
+      const rememberMeStored = localStorage.getItem('rememberMe') === 'true';
       const savedIdentifier = localStorage.getItem('savedIdentifier') || '';
-
-      if (rememberMe && savedIdentifier) {
-         this.setState({
-            identifier: savedIdentifier,
-            rememberMe: true,
-         });
+      if (rememberMeStored && savedIdentifier) {
+         setIdentifier(savedIdentifier);
+         setRememberMe(true);
       }
-   }
+   }, []);
 
-   // ✅ Hàm riêng: xử lý lưu hoặc xoá Remember Me
-   handleRememberMe = () => {
-      const { rememberMe, identifier } = this.state;
-
-      if (rememberMe) {
-         localStorage.setItem('rememberMe', 'true');
-         localStorage.setItem('savedIdentifier', identifier);
-      } else {
-         localStorage.removeItem('rememberMe');
-         localStorage.removeItem('savedIdentifier');
-      }
-   }
-
-   handleChange = (e) => {
-      const { name, value, type, checked } = e.target;
-      this.setState({
-         [name]: type === 'checkbox' ? checked : value,
-         error: ''
-      });
+   const handleChange = (e) => {
+      const { name, value, checked } = e.target;
+      if (name === 'rememberMe') setRememberMe(checked);
+      else if (name === 'identifier') setIdentifier(value);
+      else if (name === 'password') setPassword(value);
    };
 
-   handleLogin = async () => {
-      const { identifier, password } = this.state;
-      const { location } = this.props;
-
+   const handleLogin = async () => {
       if (!identifier || !password) {
-         return this.setState({ error: "Vui lòng nhập đầy đủ thông tin" });
+         toast(
+            <CustomToast
+               type="error"
+               titleId="login.failed"
+               message={intl.formatMessage({ id: 'login.missing_info' })}
+               time={new Date()}
+            />,
+            { closeButton: false, type: "error" }
+         );
+         return;
       }
 
-      const response = await login({ identifier, password });
-      const { errCode, errMessage, token, data: user } = response;
+      setLoading(true);
+      try {
+         const response = await login({ identifier, password });
+         if (response.errCode !== 0) {
+            toast(
+               <CustomToast
+                  type="error"
+                  titleId="login.failed"
+                  message={response.errMessage || intl.formatMessage({ id: 'login.failed' })}
+                  time={new Date()}
+               />,
+               { closeButton: false, type: "error" }
+            );
+            dispatch(adminLoginFail());
+            return;
+         }
 
-      if (!token) {
-         return this.setState({ error: 'Không nhận được token từ server' });
+         if (!response.token) {
+            toast(
+               <CustomToast
+                  type="error"
+                  titleId="login.failed"
+                  message={intl.formatMessage({ id: 'login.no_token' })}
+                  time={new Date()}
+               />,
+               { closeButton: false, type: "error" }
+            );
+            return;
+         }
+
+         const { token, data: user } = response;
+         localStorage.setItem('token', token);
+         localStorage.setItem('roleId', user.roleId);
+         if (rememberMe) {
+            localStorage.setItem('rememberMe', 'true');
+            localStorage.setItem('savedIdentifier', identifier);
+         } else {
+            localStorage.removeItem('rememberMe');
+            localStorage.removeItem('savedIdentifier');
+         }
+         dispatch(adminLoginSuccess(user));
+         toast(
+            <CustomToast
+               type="success"
+               titleId="login.success"
+               message={intl.formatMessage({ id: 'login.success' })}
+               time={new Date()}
+            />,
+            { closeButton: false, type: "success" }
+         );
+         const params = new URLSearchParams(location.search);
+         const redirectPath = params.get('redirect') || '/';
+         setTimeout(() => {
+            navigate(redirectPath);
+         }, 800);
+      } catch (err) {
+         toast(
+            <CustomToast
+               type="error"
+               titleId="login.failed"
+               message={intl.formatMessage({ id: 'login.failed' })}
+               time={new Date()}
+            />,
+            { closeButton: false, type: "error" }
+         );
+         dispatch(adminLoginFail());
+      } finally {
+         setLoading(false);
       }
-
-      if (errCode !== 0) {
-         return this.setState({ error: errMessage || 'Đăng nhập thất bại!' });
-      }
-
-      localStorage.setItem('token', token);
-      localStorage.setItem('roleId', user.roleId);
-
-      this.handleRememberMe(); // ✅ gọi hàm riêng để lưu thông tin
-
-      this.props.adminLoginSuccess(user);
-
-      const params = new URLSearchParams(location.search);
-      const redirectPath = params.get('redirect') || '/';
-      this.props.navigate(redirectPath);
    };
 
-   render() {
-      const { identifier, password, error } = this.state;
+   return (
+      <div className="login-page">
+         <div className="login-box">
+            <h2>{intl.formatMessage({ id: 'login.title' })}</h2>
+            <p className="subtitle">{intl.formatMessage({ id: 'login.subtitle' })}</p>
 
-      return (
-         <div className="login-page">
-            <div className="login-box">
-               <h2>Chào mừng bạn</h2>
-               <p className="subtitle">Đăng nhập để tiếp tục</p>
+            <input
+               type="text"
+               name="identifier"
+               placeholder={intl.formatMessage({ id: 'login.identifier_placeholder' })}
+               value={identifier}
+               onChange={handleChange}
+               disabled={loading}
+            />
 
+            <div className="password-wrapper">
                <input
-                  type="text"
-                  name="identifier"
-                  placeholder="Số điện thoại"
-                  value={identifier}
-                  onChange={this.handleChange}
+                  type={showPassword ? 'text' : 'password'}
+                  name="password"
+                  placeholder={intl.formatMessage({ id: 'login.password_placeholder' })}
+                  value={password}
+                  onChange={handleChange}
+                  disabled={loading}
                />
+               <span
+                  className="toggle-password"
+                  onClick={() => !loading && setShowPassword(!showPassword)}
+               >
+                  <i className={`fa-solid ${showPassword ? 'fa-eye' : 'fa-eye-slash'}`}></i>
+               </span>
+            </div>
 
-               <div className="password-wrapper">
-                  <input
-                     type={this.state.showPassword ? 'text' : 'password'}
-                     name="password"
-                     placeholder="Mật khẩu"
-                     value={password}
-                     onChange={this.handleChange}
-                  />
-                  <span
-                     className="toggle-password"
-                     onClick={() => this.setState({ showPassword: !this.state.showPassword })}
-                  >
-                     <i className={`fa-solid ${this.state.showPassword ? 'fa-eye' : 'fa-eye-slash'}`}></i>
-                  </span>
-               </div>
+            <div className="remember-me">
+               <input
+                  type="checkbox"
+                  name="rememberMe"
+                  checked={rememberMe}
+                  onChange={handleChange}
+                  id="rememberMe"
+                  disabled={loading}
+               />
+               <label htmlFor="rememberMe">
+                  {intl.formatMessage({ id: 'login.remember' })}
+               </label>
+            </div>
 
-               <div className="remember-me">
-                  <input
-                     type="checkbox"
-                     name="rememberMe"
-                     checked={this.state.rememberMe}
-                     onChange={this.handleChange}
-                     id="rememberMe"
-                  />
-                  <label htmlFor="rememberMe">Lưu mật khẩu</label>
-               </div>
+            <button className="btn-login" onClick={handleLogin} disabled={loading}>
+               {loading
+                  ? intl.formatMessage({ id: 'login.loading' })
+                  : intl.formatMessage({ id: 'login.button' })
+               }
+            </button>
 
-               {error && <div className="error">{error}</div>}
+            <div className="login-options">
+               <a href="/forgot-password">{intl.formatMessage({ id: 'login.forgot' })}</a>
+               <a href="/register">{intl.formatMessage({ id: 'login.register' })}</a>
+            </div>
 
-               <button className="btn-login" onClick={this.handleLogin}>Đăng nhập</button>
+            <div className="divider">{intl.formatMessage({ id: 'login.or' })}</div>
 
-               <div className="login-options">
-                  <a href="/forgot-password">Quên mật khẩu?</a>
-                  <a href="/register">Đăng ký tài khoản</a>
-               </div>
-
-               <div className="divider">Hoặc đăng nhập bằng</div>
-
-               <div className="social-login">
-                  <button className="btn-social fb">Facebook</button>
-                  <button className="btn-social gg">Gmail</button>
-               </div>
+            <div className="social-login">
+               <button className="btn-social fb" disabled={loading}>Facebook</button>
+               <button className="btn-social gg" disabled={loading}>Gmail</button>
             </div>
          </div>
-      );
-   }
-}
+      </div>
+   );
+};
 
-const mapStateToProps = state => ({
-   lang: state.app.language
-});
-
-const mapDispatchToProps = dispatch => ({
-   navigate: (path) => dispatch(push(path)),
-   adminLoginSuccess: (adminInfo) => dispatch(actions.adminLoginSuccess(adminInfo)),
-   adminLoginFail: () => dispatch(actions.adminLoginFail()),
-});
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Login));
+export default Login;

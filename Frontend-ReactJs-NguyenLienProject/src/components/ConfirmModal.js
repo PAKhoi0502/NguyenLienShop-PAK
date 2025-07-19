@@ -14,13 +14,6 @@ class ConfirmModal extends Component {
         this.acceptBtnRef = React.createRef();
     }
 
-    initialState = {
-    };
-
-    state = {
-        ...this.initialState
-    };
-
     componentDidMount() {
         document.addEventListener('keydown', this.handlerKeyDown);
     }
@@ -38,19 +31,15 @@ class ConfirmModal extends Component {
     }
 
     onAcceptBtnClick = () => {
-        const { contentOfConfirmModal } = this.props;
-        if (contentOfConfirmModal.handleFunc) {
-            contentOfConfirmModal.handleFunc(contentOfConfirmModal.dataFunc);
-        }
+        const { handleFunc, dataFunc } = this.props;
+        if (handleFunc) handleFunc(dataFunc);
         this.onClose();
     }
 
     onClose = () => {
         this.props.setContentOfConfirmModal({
             isOpen: false,
-            messageId: "",
-            handleFunc: null,
-            dataFunc: null
+            messageId: '',
         });
     }
 
@@ -74,14 +63,14 @@ class ConfirmModal extends Component {
                     <div className="confirm-modal-content">
                         <div className="row">
                             <div className="col-12">
-                                <FormattedMessage id={contentOfConfirmModal.messageId ? contentOfConfirmModal.messageId : "common.confirm-this-task"} />
+                                <FormattedMessage id={contentOfConfirmModal.messageId || "common.confirm-this-task"} />
                             </div>
 
                             <hr />
 
                             <div className="col-12">
                                 <div className="btn-container text-center">
-                                    <button className="btn btn-add" onClick={this.onClose} >
+                                    <button className="btn btn-add" onClick={this.onClose}>
                                         <FormattedMessage id="common.close" />
                                     </button>
                                     <button ref={this.acceptBtnRef} className="btn btn-add" onClick={this.onAcceptBtnClick}>
@@ -92,7 +81,7 @@ class ConfirmModal extends Component {
                         </div>
                     </div>
                 </div>
-            </Modal >
+            </Modal>
         );
     }
 
@@ -101,13 +90,13 @@ class ConfirmModal extends Component {
 const mapStateToProps = state => {
     return {
         lang: state.app.language,
-        contentOfConfirmModal: state.app.contentOfConfirmModal
+        contentOfConfirmModal: state.app.contentOfConfirmModal,
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        setContentOfConfirmModal: (contentOfConfirmModal) => dispatch(actions.setContentOfConfirmModal(contentOfConfirmModal))
+        setContentOfConfirmModal: (data) => dispatch(actions.setContentOfConfirmModal(data))
     };
 };
 

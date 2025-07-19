@@ -2,12 +2,12 @@ import { resolveInclude } from "ejs";
 import db from "../models/index"
 import bcrypt from 'bcryptjs';
 import { where } from "sequelize";
-import { checkPhoneNumberExists, checkUserNameExists } from "./validators";
+import { checkPhoneNumberExists, checkUserNameExists } from "../utils/validators";
 import { Op } from 'sequelize';
 import validator from 'validator';
 import jwt from 'jsonwebtoken';
 
-const loginUser = async (identifier, password) => {
+let loginUser = async (identifier, password) => {
    try {
 
       const user = await db.User.findOne({
@@ -17,7 +17,7 @@ const loginUser = async (identifier, password) => {
       });
 
       if (!user) {
-         return { errCode: 1, errMessage: "Wrong account or password!" };
+         return { errCode: 1, errMessage: "Sai tài khoản hoặc mật khẩu!" };
       }
 
       const match = bcrypt.compareSync(password, user.password);
@@ -46,9 +46,6 @@ const loginUser = async (identifier, password) => {
       return { errCode: -1, errMessage: "Internal server error" };
    }
 };
-
-
-
 let registerUser = (data) => {
    return new Promise(async (resolve, reject) => {
       try {
@@ -59,6 +56,9 @@ let registerUser = (data) => {
 
          if (!data.phoneNumber || !data.password) {
             return resolve({ errCode: 6, errMessage: 'Phone number and password are required' });
+         }
+         if (!data.roleId || isNaN(parseInt(data.roleId))) {
+            return resolve({ errCode: 5, errMessage: 'Invalid or missing roleId' });
          }
 
          const errors = [];
@@ -95,10 +95,7 @@ let registerUser = (data) => {
       }
    });
 };
-
-
-
-const hashUserPassword = async (password) => {
+let hashUserPassword = async (password) => {
    try {
       const salt = await bcrypt.genSalt(10);
       const hashed = await bcrypt.hash(password, salt);

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import './FooterPublic.scss';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
 import logo from '../../assets/icon/footer/logo.png';
 import facebook from '../../assets/icon/footer/facebook_icon.svg';
@@ -15,81 +16,83 @@ import cod from '../../assets/icon/footer/cod-icon.png';
 import confirm1 from '../../assets/icon/footer/confirm-1.png';
 import confirm2 from '../../assets/icon/footer/confirm-2.png';
 
-const FooterPublic = () => {
+const FooterPublic = forwardRef((props, ref) => {
+   const intl = useIntl();
+
    return (
-      <footer className="footer">
-
-
-
-         {/* Đăng ký nhận tin */}
+      <footer ref={ref} className="footer">
          <div className="newsletter-row">
             <div className="newsletter-inner">
                <div className="logo">
                   <img src={logo} alt="Logo" />
                </div>
                <div className="newsletter-form">
-                  <h4>ĐĂNG KÝ NHẬN TIN</h4>
+                  <h4>
+                     <FormattedMessage id="footer.newsletter_title" defaultMessage="ĐĂNG KÝ NHẬN TIN" />
+                  </h4>
                   <div className="form-inputs">
-                     <input type="email" placeholder="Nhập email của bạn" />
-                     <button>Đăng ký</button>
+                     <input
+                        type="email"
+                        placeholder={intl.formatMessage({ id: 'footer.email_placeholder', defaultMessage: 'Nhập email của bạn' })}
+                     />
+                     <button>
+                        <FormattedMessage id="footer.newsletter_button" defaultMessage="Đăng ký" />
+                     </button>
                   </div>
                </div>
             </div>
          </div>
 
-
-
-         {/* Nội dung chính 4 cột */}
          <div className="footer-content">
-
-            {/* Giới thiệu */}
             <div className="footer-col">
-               <h5>GIỚI THIỆU</h5>
-               <p>Công ty TNHH Lưới Nông Sản Việt</p>
-               <p><FaMapMarkerAlt /> 123 Trồng Trọt, TP.HCM</p>
-               <p><FaPhone /> 0989 888 888</p>
-               <p><FaEnvelope /> lienhe@luoiviet.com</p>
-               <h5>MUA HÀNG - GÓP Ý</h5>
+               <h5>
+                  <FormattedMessage id="footer.intro_title" defaultMessage="GIỚI THIỆU" />
+               </h5>
+               <p>
+                  <FormattedMessage id="footer.company" defaultMessage="Công ty TNHH Lưới Nông Sản Việt" />
+               </p>
+               <p><FaMapMarkerAlt /> <FormattedMessage id="footer.address" defaultMessage="Châu Thành, Tiền Giang" /></p>
+               <p><FaPhone /> 0979 502 094</p>
+               <p><FaEnvelope /> nguyenlienshop@nguyenlien.com</p>
+               <h5><FormattedMessage id="footer.purchase_feedback" defaultMessage="MUA HÀNG - GÓP Ý" /></h5>
                <p>Hotline: 0979502094</p>
                <p>E-mail: sales@nguyenlien.vn</p>
                <p>Website: nguyenlienshop.vn</p>
-               <p>Gọi qua Zalo: NGUYENLIEN SHOP</p>
+               <p>Zalo: NGUYENLIEN SHOP</p>
             </div>
 
-            {/* Chính sách */}
             <div className="footer-col">
-               <h5>THÔNG TIN</h5>
+               <h5><FormattedMessage id="footer.info_title" defaultMessage="THÔNG TIN" /></h5>
                <ul>
-                  <li>Quy định chung</li>
-                  <li>Mua hàng trả góp</li>
-                  <li>Quy định bảo hành</li>
-                  <li>Quy định đặt cọc</li>
-                  <li>Hướng dẫn đặt hàng</li>
-                  <li>Chính sách đổi trả</li>
-                  <li>Chính sách bảo mật</li>
-                  <li>Chính sách vận chuyển</li>
-                  <li>Chính sách đổi/trả hàng</li>
+                  <li><FormattedMessage id="footer.info.rules" defaultMessage="Quy định chung" /></li>
+                  <li><FormattedMessage id="footer.info.installment" defaultMessage="Mua hàng trả góp" /></li>
+                  <li><FormattedMessage id="footer.info.warranty" defaultMessage="Quy định bảo hành" /></li>
+                  <li><FormattedMessage id="footer.info.deposit" defaultMessage="Quy định đặt cọc" /></li>
+                  <li><FormattedMessage id="footer.info.order_guide" defaultMessage="Hướng dẫn đặt hàng" /></li>
+                  <li><FormattedMessage id="footer.info.return_policy" defaultMessage="Chính sách đổi trả" /></li>
+                  <li><FormattedMessage id="footer.info.privacy_policy" defaultMessage="Chính sách bảo mật" /></li>
+                  <li><FormattedMessage id="footer.info.shipping_policy" defaultMessage="Chính sách vận chuyển" /></li>
+                  <li><FormattedMessage id="footer.info.product_return" defaultMessage="Chính sách đổi/trả hàng" /></li>
                </ul>
             </div>
 
-            {/* Hệ thống cửa hàng */}
             <div className="footer-col">
-               <h5>ĐỊA CHỈ</h5>
+               <h5><FormattedMessage id="footer.address_title" defaultMessage="ĐỊA CHỈ" /></h5>
+
                <ul>
-                  <li>TP. HCM - 123 Trần Văn Đang</li>
-                  <li>Đà Lạt - 77 Tăng Bạt Hổ</li>
-                  <li>Cần Thơ - 90 Nguyễn Trãi</li>
+                  <li><FormattedMessage id="footer.address_hcm" defaultMessage="TP. HCM - 123 Trần Văn Đang" /></li>
+                  <li><FormattedMessage id="footer.address_dalat" defaultMessage="Đà Lạt - 77 Tăng Bạt Hổ" /></li>
+                  <li><FormattedMessage id="footer.address_cantho" defaultMessage="Cần Thơ - 90 Nguyễn Trãi" /></li>
                </ul>
-               <h5>THỜI GIAN LÀM VIỆC</h5>
+               <h5><FormattedMessage id="footer.working_time_title" defaultMessage="THỜI GIAN LÀM VIỆC" /></h5>
                <ul>
-                  <li>Các ngày trong tuần (T2 - T7) : 9h - 20h</li>
-                  <li>Chủ nhật và ngày lễ: 9h - 19h</li>
+                  <li><FormattedMessage id="footer.working_time_week" defaultMessage="Các ngày trong tuần (T2 - T7) : 9h - 20h" /></li>
+                  <li><FormattedMessage id="footer.working_time_sunday" defaultMessage="Chủ nhật và ngày lễ: 9h - 19h" /></li>
                </ul>
             </div>
 
-            {/* Kết nối */}
             <div className="footer-col">
-               <h5>KẾT NỐI VỚI CHÚNG TÔI</h5>
+               <h5><FormattedMessage id="footer.social_title" defaultMessage="KẾT NỐI VỚI CHÚNG TÔI" /></h5>
                <div className="social-icons">
                   <img src={facebook} alt="Facebook" />
                   <img src={messenger} alt="Messenger" />
@@ -99,26 +102,25 @@ const FooterPublic = () => {
                   <img src={tiktok} alt="TikTok" />
                </div>
                <div className="payments">
-                  <h5>PHƯƠNG THỨC THANH TOÁN</h5>
+                  <h5><FormattedMessage id="footer.payments_title" defaultMessage="PHƯƠNG THỨC THANH TOÁN" /></h5>
                   <img src={visa} alt="Visa" />
                   <img src={momo} alt="Momo" />
                   <img src={zaloPay} alt="Zalo Pay" />
                   <img src={cod} alt="COD" />
                </div>
                <div className="confirm">
-                  <h5>UY TÍN - BẢO MẬT</h5>
+                  <h5><FormattedMessage id="footer.confirm_title" defaultMessage="UY TÍN - BẢO MẬT" /></h5>
                   <img src={confirm1} alt="confirm" />
                   <img src={confirm2} alt="confirm" />
                </div>
             </div>
          </div>
 
-         {/* Bản quyền */}
          <div className="footer-bottom">
-            <p>© 2025 Lưới Nông Sản Việt. All rights reserved.</p>
+            <p><FormattedMessage id="footer.bottom" defaultMessage="© 2025 Lưới Nông Sản Việt. All rights reserved." /></p>
          </div>
       </footer>
    );
-};
+});
 
 export default FooterPublic;

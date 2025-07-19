@@ -1,25 +1,24 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
 
-const PublicRoute = ({ component: Component, render, ...rest }) => {
-   const token = localStorage.getItem('token');
-   const roleId = localStorage.getItem('roleId');
+const PublicRoute = ({ element: Element }) => {
+   const { isAuthenticated, roleId } = useAuth();
+   const location = useLocation();
 
-   return (
-      <Route
-         {...rest}
-         render={(props) => {
-            if (token) {
-               // ✅ Nếu đã đăng nhập → redirect về role tương ứng
-               if (roleId === '1') return <Redirect to="/admin" />;
-               if (roleId === '2') return <Redirect to="/profile" />;
-               return <Redirect to="/" />;
-            }
+   if (isAuthenticated) {
+      if (roleId === '1' && location.pathname !== '/admin') {
+         return <Navigate to="/admin" replace />;
+      }
+      if (roleId === '2' && location.pathname !== '/profile') {
+         return <Navigate to="/profile" replace />;
+      }
+      if (location.pathname !== '/') {
+         return <Navigate to="/" replace />;
+      }
+   }
 
-            return render ? render(props) : <Component {...props} />;
-         }}
-      />
-   );
+   return <Element />;
 };
 
 export default PublicRoute;

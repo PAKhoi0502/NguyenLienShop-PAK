@@ -1,42 +1,73 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, forwardRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import * as actions from '../../store/actions';
+import { useNavigate } from 'react-router-dom';
+import { processLogout } from '../../store/reducers/adminReducer';
+import { setLanguage } from '../../store/reducers/appReducer';
 import { FaSearch, FaUser, FaShoppingBag, FaHeart, FaTimes } from 'react-icons/fa';
 import './HeaderPublic.scss';
 import logo from '../../assets/icon/footer/logo.png';
+import { toast } from 'react-toastify';
+import CustomToast from '../../components/CustomToast';
+import { FormattedMessage } from 'react-intl';
 
-const HeaderPublic = () => {
+const HeaderPublic = forwardRef((props, ref) => {
    const [hideBanner, setHideBanner] = useState(false);
    const [showBanner, setShowBanner] = useState(true);
    const [showAccountMenu, setShowAccountMenu] = useState(false);
-
+   const language = useSelector((state) => state.app.language);
    const dispatch = useDispatch();
-   const history = useHistory();
-   const isLoggedIn = useSelector(state => state.admin.isLoggedIn);
+   const navigate = useNavigate();
+   const isLoggedIn = useSelector((state) => state.admin.isLoggedIn);
    const accountRef = useRef();
 
    const handleCloseBanner = () => {
       setHideBanner(true);
       setTimeout(() => setShowBanner(false), 400);
-   };
+   }
 
    const handleLogout = () => {
       localStorage.removeItem('token');
       localStorage.removeItem('roleId');
-      dispatch(actions.processLogout());
-      history.push('/login');
+      dispatch(processLogout());
+      toast(
+         (props) => (
+            <CustomToast
+               {...props}
+               type="success"
+               titleId="header.logout_title"
+               messageId="header.logout_message"
+               time={new Date()}
+            />
+         ),
+         { closeButton: false, type: "success" }
+      );
+      navigate('/login');
    };
 
+   const handleChangeLanguage = (e) => {
+      const lang = e.target.value;
+      dispatch(setLanguage(lang));
 
+      toast(
+         (props) => (
+            <CustomToast
+               {...props}
+               type="info"
+               titleId="header.language_changed"
+               messageId={`header.language_${lang}`}
+               time={new Date()}
+            />
+         ),
+         { closeButton: false, type: "info" }
+      );
+   };
 
    const notifications = [
       'SALE UP 25% – Áp dụng từ hôm nay',
       'MUA 10 TẶNG 1 – Dành cho khách thân thiết',
-      'Miễn phí vận chuyển toàn quốc'
+      'Miễn phí vận chuyển toàn quốc',
    ];
 
-   // Đóng menu khi click ra ngoài
    useEffect(() => {
       const handleClickOutside = (event) => {
          if (accountRef.current && !accountRef.current.contains(event.target)) {
@@ -50,7 +81,7 @@ const HeaderPublic = () => {
    }, []);
 
    return (
-      <header className="main-header">
+      <header ref={ref} className="main-header">
          {showBanner && (
             <div className={`top-banner ${hideBanner ? 'hide' : ''}`}>
                <div className="banner-marquee-wrapper">
@@ -70,20 +101,33 @@ const HeaderPublic = () => {
 
          <div className="navbar">
             <div className="navbar-left">
-               <div className="logo" onClick={() => history.push('/')}>
+               <div className="logo" onClick={() => navigate('/')}>
                   <img src={logo} alt="Logo" />
                </div>
             </div>
 
             <div className="navbar-center">
                <ul className="nav-menu">
-                  <li>Hàng mới</li>
-                  <li>Khuyến mãi</li>
-                  <li className="has-dropdown">Loại túi</li>
-                  <li>Mặt hàng khác</li>
-                  <li>Tin tức</li>
-                  <li>Cửa hàng trên Shopee</li>
+                  <li>
+                     <FormattedMessage id="header.menu.new" defaultMessage="Hàng mới" />
+                  </li>
+                  <li>
+                     <FormattedMessage id="header.menu.promotion" defaultMessage="Khuyến mãi" />
+                  </li>
+                  <li className="has-dropdown">
+                     <FormattedMessage id="header.menu.bagType" defaultMessage="Loại túi" />
+                  </li>
+                  <li>
+                     <FormattedMessage id="header.menu.other" defaultMessage="Mặt hàng khác" />
+                  </li>
+                  <li>
+                     <FormattedMessage id="header.menu.news" defaultMessage="Tin tức" />
+                  </li>
+                  <li>
+                     <FormattedMessage id="header.menu.shopee" defaultMessage="Cửa hàng trên Shopee" />
+                  </li>
                </ul>
+
             </div>
 
             <div className="navbar-right">
@@ -99,13 +143,40 @@ const HeaderPublic = () => {
                      <div className="account-dropdown">
                         {isLoggedIn ? (
                            <>
-                              <div className="dropdown-item" onClick={() => { history.push('/profile'); setShowAccountMenu(false); }}>Tài khoản</div>
-                              <div className="dropdown-item" onClick={handleLogout}>Đăng xuất</div>
+                              <div
+                                 className="dropdown-item"
+                                 onClick={() => {
+                                    navigate('/profile');
+                                    setShowAccountMenu(false);
+                                 }}
+                              >
+                                 Tài khoản
+                              </div>
+                              <div className="dropdown-item" onClick={handleLogout}>
+                                 <FormattedMessage id="header.menu.logout" defaultMessage="Đăng xuất" />
+                              </div>
+
                            </>
                         ) : (
                            <>
-                              <div className="dropdown-item" onClick={() => { history.push('/login'); setShowAccountMenu(false); }}>Đăng nhập</div>
-                              <div className="dropdown-item" onClick={() => { history.push('/register'); setShowAccountMenu(false); }}>Đăng ký</div>
+                              <div
+                                 className="dropdown-item"
+                                 onClick={() => {
+                                    navigate('/login');
+                                    setShowAccountMenu(false);
+                                 }}
+                              >
+                                 Đăng nhập
+                              </div>
+                              <div
+                                 className="dropdown-item"
+                                 onClick={() => {
+                                    navigate('/register');
+                                    setShowAccountMenu(false);
+                                 }}
+                              >
+                                 Đăng ký
+                              </div>
                            </>
                         )}
                      </div>
@@ -117,14 +188,20 @@ const HeaderPublic = () => {
                   <span className="cart-count">0</span>
                </div>
 
-               <select className="language-select">
-                  <option>VN</option>
-                  <option>EN</option>
+               <select
+                  className="language-select"
+                  value={language}
+                  onChange={handleChangeLanguage}
+               >
+                  <option value="vi">VN</option>
+                  <option value="en">EN</option>
                </select>
+
+
             </div>
          </div>
       </header>
    );
-};
+});
 
 export default HeaderPublic;

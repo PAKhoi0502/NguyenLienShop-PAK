@@ -1,10 +1,10 @@
 .login-page {
-   min-height: 80vh;
    display: flex;
    align-items: center;
    justify-content: center;
    background-color: #f1f1f1;
    font-family: 'Segoe UI', sans-serif;
+   padding: 20px 10px;
 
    .login-box {
       background: #fff;
@@ -48,6 +48,11 @@
 
          &:hover {
             background-color: #333;
+         }
+
+         &:disabled {
+            background-color: #666;
+            cursor: not-allowed;
          }
       }
 
@@ -94,7 +99,6 @@
             user-select: none;
          }
       }
-
 
       .login-options {
          display: flex;
@@ -157,6 +161,11 @@
                &:hover {
                   background-color: #2d4373;
                }
+
+               &:disabled {
+                  background-color: #8b9dc3;
+                  cursor: not-allowed;
+               }
             }
 
             &.gg {
@@ -164,6 +173,11 @@
 
                &:hover {
                   background-color: #c23321;
+               }
+
+               &:disabled {
+                  background-color: #e8a39b;
+                  cursor: not-allowed;
                }
             }
          }

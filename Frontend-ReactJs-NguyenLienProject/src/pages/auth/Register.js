@@ -1,129 +1,212 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import axios from '../../axios';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { register } from '../../services/authService';
+import { toast } from 'react-toastify';
+import CustomToast from '../../components/CustomToast';
+import { useIntl } from 'react-intl';
 import './Register.scss';
-import { push } from "connected-react-router";
 
-class Register extends Component {
-   state = {
-      phoneNumber: '',
-      password: '',
-      confirmPassword: '',
-      fullName: '',
-      error: '',
-      success: '',
-      countdown: 3
+const Register = () => {
+   const [phoneNumber, setPhoneNumber] = useState('');
+   const [password, setPassword] = useState('');
+   const [confirmPassword, setConfirmPassword] = useState('');
+   const [countdown, setCountdown] = useState(3);
+   const [shouldRedirect, setShouldRedirect] = useState(false);
+   const [loading, setLoading] = useState(false);
+   const navigate = useNavigate();
+   const intl = useIntl();
+
+   const handleChange = (e) => {
+      const { name, value } = e.target;
+      if (name === 'phoneNumber') setPhoneNumber(value);
+      if (name === 'password') setPassword(value);
+      if (name === 'confirmPassword') setConfirmPassword(value);
    };
 
-   handleChange = (e) => {
-      this.setState({
-         [e.target.name]: e.target.value,
-         error: '',
-         success: ''
-      });
-   };
-
-   handleRegister = async () => {
+   const handleRegister = async () => {
       const phonePattern = /^0\d{9}$/;
       const passwordPattern = /^(?=.*[a-z])(?=.*\d).{6,}$/;
-      const { phoneNumber, password, confirmPassword, fullName } = this.state;
 
-      if (!phoneNumber) {
-         return this.setState({ error: 'Cần nhập số điện thoại!' });
+      if (!phoneNumber || !password || !confirmPassword) {
+         toast(
+            (props) => (
+               <CustomToast
+                  {...props}
+                  type="error"
+                  titleId="register.error_title"
+                  messageId="register.error_missing_info"
+                  time={new Date()}
+               />
+            ),
+            { closeButton: false, type: "error" }
+         );
+         return;
       }
       if (!phonePattern.test(phoneNumber)) {
-         return this.setState({ error: 'Số điện thoại không hợp lệ!' });
+         toast(
+            (props) => (
+               <CustomToast
+                  {...props}
+                  type="error"
+                  titleId="register.error_title"
+                  messageId="register.error_invalid_phone"
+                  time={new Date()}
+               />
+            ),
+            { closeButton: false, type: "error" }
+         );
+         return;
       }
-
-      if (!password) {
-         return this.setState({ error: 'Cần nhập mật khẩu!' });
-      }
-
       if (!passwordPattern.test(password)) {
-         return this.setState({
-            error: 'Mật khẩu phải có ít nhất 6 ký tự, gồm ít nhất 1 chữ thường và 1 số!'
-         });
+         toast(
+            (props) => (
+               <CustomToast
+                  {...props}
+                  type="error"
+                  titleId="register.error_title"
+                  messageId="register.error_invalid_password"
+                  time={new Date()}
+               />
+            ),
+            { closeButton: false, type: "error" }
+         );
+         return;
+      }
+      if (password !== confirmPassword) {
+         toast(
+            (props) => (
+               <CustomToast
+                  {...props}
+                  type="error"
+                  titleId="register.error_title"
+                  messageId="register.error_password_mismatch"
+                  time={new Date()}
+               />
+            ),
+            { closeButton: false, type: "error" }
+         );
+         return;
       }
 
-      if (!password || !confirmPassword || password !== confirmPassword) {
-         return this.setState({ error: 'Mật khẩu không khớp!' });
-      }
-
+      setLoading(true);
       try {
-         const res = await axios.post('/api/register', {
-            phoneNumber,
-            password,
-            fullName,
-            roleId: 2,
-         });
-
+         const res = await register({ phoneNumber, password, roleId: 2 });
          if (res.errCode === 0) {
-            this.setState({
-               success: 'Đăng ký thành công!',
-               error: '',
-               countdown: 3
-            });
-
-            this.countdownInterval = setInterval(() => {
-               this.setState(prevState => {
-                  if (prevState.countdown <= 1) {
-                     clearInterval(this.countdownInterval);
-                     this.props.navigate('/login');
-                     return null; // không cần cập nhật state nữa
-                  }
-                  return { countdown: prevState.countdown - 1 };
-               });
-            }, 1000);
-         }
-         else {
-            this.setState({ error: res.errMessage || 'Đăng ký thất bại!' });
+            toast(
+               (props) => (
+                  <CustomToast
+                     {...props}
+                     type="success"
+                     titleId="register.success_title"
+                     messageId="register.success_message"
+                     time={new Date()}
+                  />
+               ),
+               { closeButton: false, type: "success" }
+            );
+            setShouldRedirect(true);
+         } else {
+            toast(
+               (props) => (
+                  <CustomToast
+                     {...props}
+                     type="error"
+                     titleId="register.error_title"
+                     message={res.errMessage || intl.formatMessage({ id: 'register.error_failed' })}
+                     time={new Date()}
+                  />
+               ),
+               { closeButton: false, type: "error" }
+            );
          }
       } catch (err) {
-         this.setState({
-            error: err.response?.data?.message || err.errorMessage || 'Lỗi máy chủ. Vui lòng thử lại sau!'
-         });
+         toast(
+            (props) => (
+               <CustomToast
+                  {...props}
+                  type="error"
+                  titleId="register.error_title"
+                  message={intl.formatMessage({ id: 'register.error_failed' })}
+                  time={new Date()}
+               />
+            ),
+            { closeButton: false, type: "error" }
+         );
+      } finally {
+         setLoading(false);
       }
-
-
-
    };
-   componentWillUnmount() {
-      if (this.countdownInterval) {
-         clearInterval(this.countdownInterval);
-      }
-   }
-   render() {
-      const { phoneNumber, password, confirmPassword, error, success, countdown } = this.state;
 
-      return (
-         <div className="register-page">
-            <div className="register-box">
-               <h2>Tạo tài khoản</h2>
+   useEffect(() => {
+      if (!shouldRedirect) return;
+      const interval = setInterval(() => {
+         setCountdown((prev) => {
+            if (prev <= 1) {
+               clearInterval(interval);
+               navigate('/login');
+               return 0;
+            }
+            return prev - 1;
+         });
+      }, 1000);
+      return () => clearInterval(interval);
+   }, [shouldRedirect, navigate]);
 
-               <input type="text" name="phoneNumber" placeholder="Số điện thoại" value={phoneNumber} onChange={this.handleChange} />
-               <input type="password" name="password" placeholder="Mật khẩu" value={password} onChange={this.handleChange} />
-               <input type="password" name="confirmPassword" placeholder="Nhập lại mật khẩu" value={confirmPassword} onChange={this.handleChange} />
+   return (
+      <div className="register-page">
+         <div className="register-box">
+            <h2>{intl.formatMessage({ id: 'register.title' })}</h2>
 
-               {error && <div className="error">{error}</div>}
-               {success && <div className="success">{success}</div>}
-               {success && countdown > 0 && (
-                  <div className="redirecting">
-                     Đang chuyển đến trang đăng nhập trong {countdown} giây...
-                  </div>
-               )}
-               <button className="btn-register" onClick={this.handleRegister}>Đăng ký</button>
+            <input
+               type="text"
+               name="phoneNumber"
+               placeholder={intl.formatMessage({ id: 'register.phone_placeholder' })}
+               value={phoneNumber}
+               onChange={handleChange}
+               disabled={loading}
+            />
+            <input
+               type="password"
+               name="password"
+               placeholder={intl.formatMessage({ id: 'register.password_placeholder' })}
+               value={password}
+               onChange={handleChange}
+               disabled={loading}
+            />
+            <input
+               type="password"
+               name="confirmPassword"
+               placeholder={intl.formatMessage({ id: 'register.confirm_password_placeholder' })}
+               value={confirmPassword}
+               onChange={handleChange}
+               disabled={loading}
+            />
 
-               <div className="redirect-login">
-                  <p>Đã có tài khoản? <a href="/login">Đăng nhập</a></p>
+            {shouldRedirect && countdown > 0 && (
+               <div className="redirecting">
+                  {intl.formatMessage(
+                     { id: 'register.redirecting' },
+                     { seconds: countdown }
+                  )}
                </div>
+            )}
+
+            <button className="btn-register" onClick={handleRegister} disabled={loading}>
+               {loading
+                  ? intl.formatMessage({ id: 'register.loading' })
+                  : intl.formatMessage({ id: 'register.button' })
+               }
+            </button>
+
+            <div className="redirect-login">
+               <p>
+                  {intl.formatMessage({ id: 'register.login_redirect' })}{' '}
+                  <a href="/login">{intl.formatMessage({ id: 'register.login_link' })}</a>
+               </p>
             </div>
          </div>
-      );
-   }
-}
+      </div>
+   );
+};
 
-const mapDispatchToProps = dispatch => ({
-   navigate: (path) => dispatch(push(path))
-});
-
-export default connect(null, mapDispatchToProps)(Register);
+export default Register;

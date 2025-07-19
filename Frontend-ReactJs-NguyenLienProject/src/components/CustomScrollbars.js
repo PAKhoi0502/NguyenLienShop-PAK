@@ -1,98 +1,51 @@
 import React, { Component } from 'react';
 import { Scrollbars } from 'react-custom-scrollbars-2';
-
-
 import './CustomScrollbars.scss';
 
 class CustomScrollbars extends Component {
-
     ref = React.createRef();
 
-    getScrollLeft = () => {
-        const scrollbars = this.ref.current;
-        return scrollbars.getScrollLeft();
-    }
-    getScrollTop = () => {
-        const scrollbars = this.ref.current;
-        return scrollbars.getScrollTop();
-    }
+    getScrollLeft = () => this.ref.current?.getScrollLeft() || 0;
+    getScrollTop = () => this.ref.current?.getScrollTop() || 0;
 
     scrollToBottom = () => {
-        if (!this.ref || !this.ref.current) {
-            return;
-        }
-        const scrollbars = this.ref.current;
-        const targetScrollTop = scrollbars.getScrollHeight();
-        this.scrollTo(targetScrollTop);
+        if (!this.ref.current) return;
+        this.ref.current.scrollTop(this.ref.current.getScrollHeight());
     };
 
     scrollTo = (targetTop) => {
-        const { quickScroll } = this.props;
-        if (!this.ref || !this.ref.current) {
-            return;
-        }
-        const scrollbars = this.ref.current;
-        const originalTop = scrollbars.getScrollTop();
-        let iteration = 0;
-
-        const scroll = () => {
-            iteration++;
-            if (iteration > 30) {
-                return;
-            }
-            scrollbars.scrollTop(originalTop + (targetTop - originalTop) / 30 * iteration);
-
-            if (quickScroll && quickScroll === true) {
-                scroll();
-            } else {
-                setTimeout(() => {
-                    scroll();
-                }, 20);
-            }
-        };
-
-        scroll();
+        if (!this.ref.current) return;
+        this.ref.current.scrollTop(targetTop);
     };
 
-    renderTrackHorizontal = (props) => {
-        return (
-            <div {...props} className="track-horizontal" />
-        );
-    };
+    renderTrackHorizontal = ({ style, ...props }) => (
+        <div {...props} className="track-horizontal" style={{ ...style, display: 'none' }} />
+    );
 
-    renderTrackVertical = (props) => {
-        return (
-            <div {...props} className="track-vertical" />
-        );
-    };
+    renderTrackVertical = ({ style, ...props }) => (
+        <div {...props} className="track-vertical" style={{ ...style }} />
+    );
 
-    renderThumbHorizontal = (props) => {
-        return (
-            <div {...props} className="thumb-horizontal" />
-        );
-    };
+    renderThumbHorizontal = ({ style, ...props }) => (
+        <div {...props} className="thumb-horizontal" style={{ ...style, display: 'none' }} />
+    );
 
-    renderThumbVertical = (props) => {
-        return (
-            <div {...props} className="thumb-vertical" />
-        );
-    };
+    renderThumbVertical = ({ style, ...props }) => (
+        <div {...props} className="thumb-vertical" style={{ ...style }} />
+    );
 
-    renderNone = (props) => {
-        return (
-            <div />
-        );
-    };
+    renderNone = () => <div />;
 
     render() {
-        const { className, disableVerticalScroll, disableHorizontalScroll, children, ...otherProps } = this.props;
+        const { className, disableVerticalScroll, disableHorizontalScroll, children, style, ...otherProps } = this.props;
         return (
             <Scrollbars
                 ref={this.ref}
-                autoHide={true}
+                autoHide
                 autoHideTimeout={200}
-                hideTracksWhenNotNeeded={true}
-                className={className ? className + ' custom-scrollbar' : 'custom-scrollbar'}
+                hideTracksWhenNotNeeded
+                className={className ? `${className} custom-scrollbar` : 'custom-scrollbar'}
+                style={{ ...style, touchAction: 'pan-y' }}
                 {...otherProps}
                 renderTrackHorizontal={disableHorizontalScroll ? this.renderNone : this.renderTrackHorizontal}
                 renderTrackVertical={disableVerticalScroll ? this.renderNone : this.renderTrackVertical}

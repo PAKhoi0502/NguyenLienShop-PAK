@@ -42,7 +42,6 @@ const handleLogin = async (req, res) => {
       data: user
    });
 };
-
 const handleRegister = async (req, res) => {
    const result = await authService.registerUser(req.body);
 

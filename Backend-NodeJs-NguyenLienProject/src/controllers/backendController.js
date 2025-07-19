@@ -1,5 +1,5 @@
 import backendService from '../services/backendService';
-import { checkEmailExists, checkPhoneNumberExists, checkUserNameExists } from '../services/validators';
+import { checkEmailExists, checkPhoneNumberExists, checkUserNameExists } from '../utils/validators';
 
 let homePage = (req, res) => {
    return res.render('homePage.ejs');

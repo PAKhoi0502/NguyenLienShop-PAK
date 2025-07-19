@@ -1,3 +1,4 @@
+// src\store\actions\adminActions.js
 import actionTypes from './actionTypes';
 
 export const adminLoginSuccess = (adminInfo) => ({

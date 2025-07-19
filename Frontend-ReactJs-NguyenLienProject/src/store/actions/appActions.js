@@ -1,3 +1,4 @@
+// src\store\actions\appActions.js
 import actionTypes from './actionTypes';
 
 export const appStartUpComplete = () => ({

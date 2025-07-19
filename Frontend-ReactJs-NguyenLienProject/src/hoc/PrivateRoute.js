@@ -1,26 +1,20 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
 
-const PrivateRoute = ({ component: Component, role, render, ...rest }) => {
-   const token = localStorage.getItem('token');
-   const roleId = localStorage.getItem('roleId');
+const PrivateRoute = ({ element: Element, role }) => {
+   const { isAuthenticated, roleId } = useAuth();
+   const location = useLocation();
 
-   return (
-      <Route
-         {...rest}
-         render={(props) => {
-            if (!token) {
-               return <Redirect to={`/login?redirect=${props.location.pathname}`} />;
-            }
+   if (!isAuthenticated) {
+      return <Navigate to={`/login?redirect=${encodeURIComponent(location.pathname)}`} replace />;
+   }
 
-            if (role && roleId !== role) {
-               return <Redirect to="/" />;
-            }
+   if (role && roleId !== role) {
+      return <Navigate to="/" replace />;
+   }
 
-            return render ? render(props) : <Component {...props} />;
-         }}
-      />
-   );
+   return <Element />;
 };
 
 export default PrivateRoute;

@@ -1,37 +1,56 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { push } from "connected-react-router";
-
-import * as actions from "../../store/actions";
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
 import './Profile.scss';
 
-import { FormattedMessage } from 'react-intl';
+const Profile = () => {
+   const lang = useSelector((state) => state.app.language);
+   const { isLoggedIn, adminInfo } = useSelector((state) => state.admin);
+   const navigate = useNavigate();
 
-class Profile extends Component {
-   // constructor(props) {
-   //    super(props);
-   // }
-
-
-   render() {
-      return (
-         <div>Profile</div>
-      )
+   if (!isLoggedIn) {
+      navigate('/login');
+      return null;
    }
-}
 
-const mapStateToProps = state => {
-   return {
-      lang: state.app.language
-   };
+   return (
+      <div className="profile-page">
+         <h1>
+            <FormattedMessage id="profile.title" defaultMessage="User Profile" />
+         </h1>
+         <div className="profile-info">
+            <p>
+               <strong>
+                  <FormattedMessage id="profile.name" defaultMessage="Full Name" />
+               </strong>
+               : {adminInfo?.fullName || 'N/A'}
+            </p>
+            <p>
+               <strong>
+                  <FormattedMessage id="profile.phone" defaultMessage="Phone Number" />
+               </strong>
+               : {adminInfo?.phoneNumber || 'N/A'}
+            </p>
+            <p>
+               <strong>
+                  <FormattedMessage id="profile.role" defaultMessage="Role" />
+               </strong>
+               : {adminInfo?.roleId === 1 ? 'Admin' : adminInfo?.roleId === 2 ? 'User' : 'N/A'}
+            </p>
+            <button
+               className="btn-logout"
+               onClick={() => {
+                  localStorage.removeItem('token');
+                  localStorage.removeItem('roleId');
+                  navigate('/login');
+               }}
+            >
+               <FormattedMessage id="profile.logout" defaultMessage="Log Out" />
+            </button>
+         </div>
+      </div>
+   );
 };
 
-const mapDispatchToProps = dispatch => {
-   return {
-      navigate: (path) => dispatch(push(path)),
-      adminLoginSuccess: (adminInfo) => dispatch(actions.adminLoginSuccess(adminInfo)),
-      adminLoginFail: () => dispatch(actions.adminLoginFail()),
-   };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+export default Profile;

@@ -14,6 +14,7 @@ const sequelize = new Sequelize(
       port: process.env.DB_PORT || 3306,
       dialect: 'mysql',
       logging: false, // Có thể bật thành true khi debug query
+      timezone: '+07:00'
    }
 );
 

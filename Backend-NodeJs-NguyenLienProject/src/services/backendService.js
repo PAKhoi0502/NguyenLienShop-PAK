@@ -75,7 +75,6 @@ let createNewUser = async (data) => {
    }
 };
 
-
 let getUserInfoById = async (userId) => {
    return new Promise(async (resolve, reject) => {
       try {

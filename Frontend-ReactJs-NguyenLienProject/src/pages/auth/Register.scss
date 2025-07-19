@@ -1,10 +1,10 @@
 .register-page {
-   min-height: 80vh;
    display: flex;
    align-items: center;
    justify-content: center;
    background-color: #f1f1f1;
    font-family: 'Segoe UI', sans-serif;
+   padding: 20px 10px;
 
    .register-box {
       background: #fff;
@@ -41,6 +41,11 @@
          &:hover {
             background-color: #333;
          }
+
+         &:disabled {
+            background-color: #666;
+            cursor: not-allowed;
+         }
       }
 
       .error {
@@ -76,6 +81,38 @@
 
             &:hover {
                text-decoration: underline;
+            }
+         }
+      }
+   }
+}
+
+@media screen and (max-width: 768px) {
+   .register-page {
+      padding: 20px 10px;
+
+      .register-box {
+         padding: 30px 20px;
+         box-shadow: none;
+         border-radius: 0;
+
+         h2 {
+            font-size: 22px;
+         }
+
+         input {
+            font-size: 14px;
+            padding: 10px;
+         }
+
+         .btn-register {
+            font-size: 14px;
+            padding: 10px;
+         }
+
+         .redirect-login {
+            a {
+               font-size: 13px;
             }
          }
       }

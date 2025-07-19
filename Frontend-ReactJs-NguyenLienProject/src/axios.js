@@ -1,5 +1,5 @@
+// src/axios.js
 import axios from 'axios';
-import _ from 'lodash';
 
 const instance = axios.create({
     baseURL: process.env.REACT_APP_BACKEND_URL,
@@ -22,7 +22,7 @@ export const isSuccessStatusCode = (s) => {
 
 instance.interceptors.request.use(
     (config) => {
-        const token = localStorage.getItem('token'); // hoặc từ Redux nếu lưu ở store
+        const token = localStorage.getItem('token');
         if (token) {
             config.headers['Authorization'] = `Bearer ${token}`;
         }
@@ -34,35 +34,23 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
     (response) => {
         const { data } = response;
-
-        if (data.hasOwnProperty('s') && !isSuccessStatusCode(data.s) && data.hasOwnProperty('errmsg')) {
-            return Promise.reject(createError(response.status, data.s, data.errmsg, null, data.errcode || ""));
+        // Xử lý response từ backend
+        if (data.errCode !== undefined && data.errCode !== 0) {
+            return Promise.reject(createError(response.status, data.errCode, data.errMessage, null, data.errCode));
         }
-
-        if (data.hasOwnProperty('s') && data.hasOwnProperty('d')) return data.d;
-        if (data.hasOwnProperty('s') && _.keys(data).length === 1) return null;
-
-        return data;
+        return data; // Trả về toàn bộ data nếu thành công
     },
     (error) => {
         const { response } = error;
         if (!response) return Promise.reject(error);
 
         const { data } = response;
-
-        if (data?.s && data?.errmsg) {
-            error.errorMessage = data.errmsg;
+        if (data?.errCode && data?.errMessage) {
+            error.errorMessage = data.errMessage;
             return Promise.reject(error);
         }
-
-        if (data?.code && data?.message) {
-            error.errorMessage = data.message;
-            return Promise.reject(error);
-        }
-
         return Promise.reject(error);
     }
-
 );
 
 export default instance;

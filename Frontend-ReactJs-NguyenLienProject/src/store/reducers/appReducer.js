@@ -1,39 +1,42 @@
-import actionTypes from '../actions/actionTypes';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initContentOfConfirmModal = {
     isOpen: false,
-    messageId: "",
-    handleFunc: null,
-    dataFunc: null
-}
+    messageId: '',
+};
 
 const initialState = {
     started: true,
-    language: 'vi',
+    language: localStorage.getItem('lang') || 'vi',
     systemMenuPath: '/system/user-manage',
     contentOfConfirmModal: {
-        ...initContentOfConfirmModal
-    }
-}
+        isOpen: false,
+        messageId: '',
+    },
+};
 
-const appReducer = (state = initialState, action) => {
-    switch (action.type) {
-        case actionTypes.APP_START_UP_COMPLETE: 
-            return {
-                ...state,
-                started: true
-            }
-        case actionTypes.SET_CONTENT_OF_CONFIRM_MODAL: 
-            return {
-                ...state,
-                contentOfConfirmModal: {
-                    ...state.contentOfConfirmModal,
-                    ...action.contentOfConfirmModal
-                }
-            }
-        default:
-            return state;
-    }
-}
+const appSlice = createSlice({
+    name: 'app',
+    initialState,
+    reducers: {
+        appStartUpComplete(state) {
+            state.started = true;
+        },
+        setContentOfConfirmModal(state, action) {
+            const { handleFunc, dataFunc, ...rest } = action.payload;
+            state.contentOfConfirmModal = {
+                ...state.contentOfConfirmModal,
+                ...rest,
+            };
+        },
+        // --- BỔ SUNG MỚI ---
+        setLanguage(state, action) {
+            state.language = action.payload;
+            localStorage.setItem('lang', action.payload);  // Lưu vào localStorage
+        },
+    },
+});
 
-export default appReducer;
+export const { appStartUpComplete, setContentOfConfirmModal, setLanguage } = appSlice.actions;
+export default appSlice.reducer;
+

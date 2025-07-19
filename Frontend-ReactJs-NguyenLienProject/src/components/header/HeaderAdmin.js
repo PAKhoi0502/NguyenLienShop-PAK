@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import * as actions from "../../store/actions";
-import Navigator from '../Navigator';
-import { adminMenu } from './menuApp';
-import './Header.scss';
+// import Navigator from '../Navigator';
+// import { adminMenu } from './menuApp';
+import './HeaderAdmin.scss';
 
 class Header extends Component {
 
@@ -14,9 +14,9 @@ class Header extends Component {
         return (
             <div className="header-container">
                 {/* thanh navigator */}
-                <div className="header-tabs-container">
+                {/* <div className="header-tabs-container">
                     <Navigator menus={adminMenu} />
-                </div>
+                </div> */}
 
                 {/* nút logout */}
                 <div className="btn btn-logout" onClick={processLogout}>

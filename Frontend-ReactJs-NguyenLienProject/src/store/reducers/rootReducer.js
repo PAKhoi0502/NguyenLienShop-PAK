@@ -1,30 +1,28 @@
-import { combineReducers } from 'redux';
-import { connectRouter } from 'connected-react-router';
-
-import appReducer from "./appReducer";
-import adminReducer from "./adminReducer";
-import userReducer from "./userReducer";
-
-import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
-import storage from 'redux-persist/lib/storage';
+//src\store\reducers\rootReducer.js
+import { combineReducers } from '@reduxjs/toolkit';
 import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
+
+import appReducer from './appReducer';
+import adminReducer from './adminReducer';
+// import userReducer from './userReducer'; // Xóa nếu không dùng
 
 const persistCommonConfig = {
-    storage: storage,
+    storage,
     stateReconciler: autoMergeLevel2,
 };
 
 const adminPersistConfig = {
     ...persistCommonConfig,
     key: 'admin',
-    whitelist: ['isLoggedIn', 'adminInfo']
+    whitelist: ['isLoggedIn', 'adminInfo'],
 };
 
-const createRootReducer = (history) => combineReducers({
-    router: connectRouter(history),
+const rootReducer = combineReducers({
     admin: persistReducer(adminPersistConfig, adminReducer),
-    user: userReducer,
-    app: appReducer
+    app: appReducer,
+    // user: userReducer, // Xóa nếu không dùng
 });
 
-export default createRootReducer;
+export default rootReducer;
