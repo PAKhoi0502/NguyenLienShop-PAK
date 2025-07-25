@@ -1,33 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/autoplay';
 import { Autoplay } from 'swiper/modules';
-
 import './Banner.scss';
 
-const bannerImages = [
-   {
-      id: 1,
-      url: '/images/banner1.jpg',
-      title: 'Sản phẩm chất lượng từ nông dân',
-      subtitle: 'Hàng nội địa chính tay cô chú làm nên',
-   },
-   {
-      id: 2,
-      url: '/images/banner2.jpg',
-      title: 'Bao trái cây đa dạng kích thước',
-      subtitle: 'Phù hợp cho mọi loại trái',
-   },
-   {
-      id: 3,
-      url: '/images/banner3.jpg',
-      title: 'Giao hàng nhanh toàn quốc',
-      subtitle: 'Thanh toán linh hoạt, tiện lợi',
-   },
-];
+import { getActiveBanners } from '../../../services/hompageService';
 
 const Banner = () => {
+   const [bannerList, setBannerList] = useState([]);
+
+   useEffect(() => {
+      const fetchBanners = async () => {
+         try {
+            const res = await getActiveBanners();
+            if (res && res.length > 0) {
+               setBannerList(res);
+            }
+         } catch (error) {
+            console.error('Lỗi khi tải banner:', error);
+         }
+      };
+
+      fetchBanners();
+   }, []);
+
    return (
       <div className="banner-container">
          <Swiper
@@ -37,12 +34,12 @@ const Banner = () => {
             spaceBetween={0}
             slidesPerView={1}
          >
-            {bannerImages.map((item) => (
+            {bannerList.map((item) => (
                <SwiperSlide key={item.id}>
                   <div
                      className="banner-slide"
                      style={{
-                        backgroundImage: `url(${item.url})`,
+                        backgroundImage: `url(http://localhost:8080${item.imageUrl})`, // nối đúng path ảnh
                      }}
                   >
                      <div className="banner-overlay">

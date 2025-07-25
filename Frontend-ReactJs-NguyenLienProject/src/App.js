@@ -17,7 +17,7 @@ function App() {
                         <Toaster />
                         <AppRoutes />
                     </CustomScrollbars>
-                    <ToastContainer position="bottom-right" autoClose={2000} />
+                    <ToastContainer position="bottom-right" autoClose={3000} />
 
                 </React.StrictMode>
             </BrowserRouter>

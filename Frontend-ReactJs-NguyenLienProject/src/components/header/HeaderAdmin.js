@@ -1,43 +1,48 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-
-import * as actions from "../../store/actions";
-// import Navigator from '../Navigator';
-// import { adminMenu } from './menuApp';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { setLanguage } from '../../store/reducers/appReducer';
+import { toast } from 'react-toastify';
+import CustomToast from '../../components/CustomToast';
 import './HeaderAdmin.scss';
 
-class Header extends Component {
+const HeaderAdmin = () => {
+    const language = useSelector((state) => state.app.language);
+    const dispatch = useDispatch();
 
-    render() {
-        const { processLogout } = this.props;
+    const handleChangeLanguage = (e) => {
+        const lang = e.target.value;
+        dispatch(setLanguage(lang));
 
-        return (
-            <div className="header-container">
-                {/* thanh navigator */}
-                {/* <div className="header-tabs-container">
-                    <Navigator menus={adminMenu} />
-                </div> */}
-
-                {/* nút logout */}
-                <div className="btn btn-logout" onClick={processLogout}>
-                    <i className="fas fa-sign-out-alt"></i>
-                </div>
-            </div>
+        toast(
+            (props) => (
+                <CustomToast
+                    {...props}
+                    type="info"
+                    titleId="header.language_changed"
+                    messageId={`header.language_${lang}`}
+                    time={new Date()}
+                />
+            ),
+            { closeButton: false, type: "info" }
         );
-    }
-
-}
-
-const mapStateToProps = state => {
-    return {
-        isLoggedIn: state.admin.isLoggedIn
     };
+
+    return (
+        <header className="admin-header">
+            <div className="admin-header-left">
+            </div>
+            <div className="admin-header-right">
+                <select
+                    className="language-select"
+                    value={language}
+                    onChange={handleChangeLanguage}
+                >
+                    <option value="vi">VN</option>
+                    <option value="en">EN</option>
+                </select>
+            </div>
+        </header>
+    );
 };
 
-const mapDispatchToProps = dispatch => {
-    return {
-        processLogout: () => dispatch(actions.processLogout()),
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default HeaderAdmin;

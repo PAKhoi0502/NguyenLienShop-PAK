@@ -150,7 +150,8 @@ const HeaderPublic = forwardRef((props, ref) => {
                                     setShowAccountMenu(false);
                                  }}
                               >
-                                 Tài khoản
+                                 <FormattedMessage id="header.menu.profile" defaultMessage="Thông tin" />
+
                               </div>
                               <div className="dropdown-item" onClick={handleLogout}>
                                  <FormattedMessage id="header.menu.logout" defaultMessage="Đăng xuất" />
@@ -166,7 +167,7 @@ const HeaderPublic = forwardRef((props, ref) => {
                                     setShowAccountMenu(false);
                                  }}
                               >
-                                 Đăng nhập
+                                 <FormattedMessage id="header.menu.login" defaultMessage="Đăng nhập" />
                               </div>
                               <div
                                  className="dropdown-item"
@@ -175,7 +176,7 @@ const HeaderPublic = forwardRef((props, ref) => {
                                     setShowAccountMenu(false);
                                  }}
                               >
-                                 Đăng ký
+                                 <FormattedMessage id="header.menu.register" defaultMessage="Đăng ký" />
                               </div>
                            </>
                         )}

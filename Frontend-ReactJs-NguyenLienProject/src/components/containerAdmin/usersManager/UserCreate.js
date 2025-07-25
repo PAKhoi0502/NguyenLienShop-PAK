@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { createUser } from '../../../services/adminService';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import CustomToast from '../../../components/CustomToast'; // import toast + customToast
+import CustomToast from '../../../components/CustomToast';
+import { useIntl, FormattedMessage } from 'react-intl';
 import './UserCreate.scss';
 
 const initialForm = {
@@ -14,8 +15,8 @@ const initialForm = {
 const UserCreate = () => {
    const [form, setForm] = useState(initialForm);
    const [loading, setLoading] = useState(false);
-
    const navigate = useNavigate();
+   const intl = useIntl();
 
    const handleChange = (e) => {
       const { name, value } = e.target;
@@ -23,11 +24,11 @@ const UserCreate = () => {
    };
 
    const validate = () => {
-      if (!form.phoneNumber.trim()) return "Vui lòng nhập số điện thoại.";
-      if (!/^0\d{9,10}$/.test(form.phoneNumber.trim())) return "Số điện thoại không hợp lệ.";
-      if (!form.password || form.password.length < 6) return "Mật khẩu tối thiểu 6 ký tự.";
-      if (!form.confirmPassword) return "Vui lòng nhập lại mật khẩu.";
-      if (form.password !== form.confirmPassword) return "Mật khẩu xác nhận không khớp.";
+      if (!form.phoneNumber.trim()) return intl.formatMessage({ id: 'user.create.validate.phone_required' });
+      if (!/^0\d{9,10}$/.test(form.phoneNumber.trim())) return intl.formatMessage({ id: 'user.create.validate.phone_invalid' });
+      if (!form.password || form.password.length < 6) return intl.formatMessage({ id: 'user.create.validate.password_short' });
+      if (!form.confirmPassword) return intl.formatMessage({ id: 'user.create.validate.confirm_required' });
+      if (form.password !== form.confirmPassword) return intl.formatMessage({ id: 'user.create.validate.password_mismatch' });
       return '';
    };
 
@@ -58,82 +59,89 @@ const UserCreate = () => {
       const submitData = {
          phoneNumber: form.phoneNumber.trim(),
          password: form.password,
+         roleId: 2,
       };
+      try {
+         const res = await createUser(submitData);
 
-      const res = await createUser(submitData);
-
-      setLoading(false);
-
-      if (!res) {
-         showToast("error", "Không nhận được phản hồi từ server!");
-         return;
-      }
-      if (res.errCode === 0) {
-         showToast("success", "Tạo tài khoản thành công!");
-         setTimeout(() => {
-            navigate('/admin/users-manager');
-         }, 1200);
-      } else if (
-         res.errCode === 1 &&
-         res.errMessage &&
-         (
-            res.errMessage.toLowerCase().includes('tồn tại') ||
-            res.errMessage.toLowerCase().includes('exist')
-         ) &&
-         (
-            res.errMessage.toLowerCase().includes('số điện thoại') ||
-            res.errMessage.toLowerCase().includes('phone')
-         )
-      ) {
-         showToast("error", "Số điện thoại đã tồn tại!");
-      } else if (
-         res.errMessage &&
-         (
-            res.errMessage.toLowerCase().includes('missing required fields')
-            || res.errMessage.toLowerCase().includes('thiếu')
-         )
-      ) {
-         showToast("error", "Bạn chưa nhập đủ thông tin.");
-      } else {
-         showToast("error", res.errMessage || 'Tạo tài khoản thất bại.');
+         if (!res) {
+            showToast("error", intl.formatMessage({ id: 'user.create.error.no_response' }));
+            return;
+         }
+         if (res.errCode === 0) {
+            showToast("success", intl.formatMessage({ id: 'user.create.success_message' }));
+            setTimeout(() => {
+               navigate('/admin/account-management/user-management');
+            }, 1200);
+         } else if (
+            res.errCode === 1 &&
+            res.errMessage &&
+            (
+               res.errMessage.toLowerCase().includes('tồn tại') ||
+               res.errMessage.toLowerCase().includes('exist')
+            ) &&
+            (
+               res.errMessage.toLowerCase().includes('số điện thoại') ||
+               res.errMessage.toLowerCase().includes('phone')
+            )
+         ) {
+            showToast("error", intl.formatMessage({ id: 'user.create.error.phone_exists' }));
+         } else if (
+            res.errMessage &&
+            (
+               res.errMessage.toLowerCase().includes('missing required fields') ||
+               res.errMessage.toLowerCase().includes('thiếu')
+            )
+         ) {
+            showToast("error", intl.formatMessage({ id: 'user.create.error.incomplete' }));
+         } else {
+            showToast("error", res.errMessage || intl.formatMessage({ id: 'user.create.error.generic' }));
+         }
+      } catch (error) {
+         console.error('Create error:', error);
+         showToast("error", error.errMessage || intl.formatMessage({ id: 'user.create.error.generic' }));
+      } finally {
+         setLoading(false);
       }
    };
 
    return (
       <div className="user-create-container">
-         <h2 className="user-create-title">Tạo tài khoản người dùng</h2>
+         <h2 className="user-create-title">
+            <FormattedMessage id="user.create.title" defaultMessage="Tạo tài khoản người dùng" />
+         </h2>
          <form className="user-create-form" onSubmit={handleSubmit} autoComplete="off">
             <div className="form-group">
-               <label>Số điện thoại *</label>
+               <label><FormattedMessage id="user.create.phone" /></label>
                <input
                   type="text"
                   name="phoneNumber"
                   value={form.phoneNumber}
                   onChange={handleChange}
-                  placeholder="Nhập số điện thoại"
+                  placeholder={intl.formatMessage({ id: 'user.create.phone_placeholder' })}
                   disabled={loading}
                />
             </div>
             <div className="form-group">
-               <label>Mật khẩu *</label>
+               <label><FormattedMessage id="user.create.password" /></label>
                <input
                   type="password"
                   name="password"
                   value={form.password}
                   onChange={handleChange}
-                  placeholder="Nhập mật khẩu (tối thiểu 6 ký tự)"
+                  placeholder={intl.formatMessage({ id: 'user.create.password_placeholder' })}
                   autoComplete="new-password"
                   disabled={loading}
                />
             </div>
             <div className="form-group">
-               <label>Xác nhận mật khẩu *</label>
+               <label><FormattedMessage id="user.create.confirm_password" /></label>
                <input
                   type="password"
                   name="confirmPassword"
                   value={form.confirmPassword}
                   onChange={handleChange}
-                  placeholder="Nhập lại mật khẩu"
+                  placeholder={intl.formatMessage({ id: 'user.create.confirm_password_placeholder' })}
                   autoComplete="new-password"
                   disabled={loading}
                />
@@ -141,15 +149,17 @@ const UserCreate = () => {
 
             <div className="form-actions">
                <button type="submit" className="btn-submit" disabled={loading}>
-                  {loading ? 'Đang tạo...' : 'Tạo tài khoản'}
+                  {loading
+                     ? intl.formatMessage({ id: 'user.create.creating' })
+                     : intl.formatMessage({ id: 'user.create.submit' })}
                </button>
                <button
                   type="button"
                   className="btn-cancel"
-                  onClick={() => navigate('/admin/users-manager')}
+                  onClick={() => navigate('/admin/account-management/user-management')}
                   disabled={loading}
                >
-                  Hủy
+                  <FormattedMessage id="user.create.cancel" defaultMessage="Hủy" />
                </button>
             </div>
          </form>

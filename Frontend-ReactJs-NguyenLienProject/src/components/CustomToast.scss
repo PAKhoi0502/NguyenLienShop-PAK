@@ -45,16 +45,19 @@
     }
 
     .toast-title-text {
-      margin-right: auto;
       font-weight: 600;
       font-size: 16px;
       color: #222;
       line-height: 1.2;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 120px;
+
+      /* ✅ Cho phép xuống dòng */
+      white-space: normal;
+      word-break: break-word;
+
+      /* ❌ Xoá giới hạn chiều rộng cứng */
+      max-width: none;
     }
+
 
     .toast-close {
       background: transparent;

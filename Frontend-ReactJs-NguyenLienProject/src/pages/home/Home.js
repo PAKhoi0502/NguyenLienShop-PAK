@@ -3,13 +3,15 @@ import { useSelector } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import './Home.scss';
 
-import Banner from '../../components/containerPublic/Banner';
+import Banner from '../../components/containerPublic/banner/Banner';
 
 const Home = () => {
 
    return (
       <div className="home-page">
-         <Banner />
+         <main className="main-content no-padding">
+            <Banner />
+         </main>
       </div>
    );
 };

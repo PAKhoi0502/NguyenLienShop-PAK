@@ -4,18 +4,40 @@ import db from '../models';
 let getBanners = async () => {
    try {
       const banners = await db.Banner.findAll({
-         where: { isActive: true },
-         order: [['order', 'ASC']],  // Sắp xếp theo thứ tự hiển thị
+         order: [['order', 'ASC']] // hoặc tùy theo yêu cầu
       });
       return banners;
    } catch (err) {
-      throw new Error('Lỗi khi lấy dữ liệu banner');
+      throw new Error('Lỗi khi lấy danh sách banner');
    }
 };
-
 // Tạo mới banner
 let createBanner = async (imageUrl, title, subtitle, link, isActive, order) => {
    try {
+      if (!isActive) {
+         // Nếu banner không active, order mặc định = 0
+         order = 0;
+      } else {
+         // Nếu banner active, xử lý dồn order
+         const existingBanners = await db.Banner.findAll({
+            where: { isActive: true },
+            order: [['order', 'ASC']],
+         });
+
+         // Nếu không truyền order, thêm vào cuối
+         if (!order || order <= 0 || order > existingBanners.length + 1) {
+            order = existingBanners.length + 1;
+         }
+
+         // Dồn các banner phía sau (>= order) lên +1
+         for (const b of existingBanners) {
+            if (b.order >= order) {
+               b.order += 1;
+               await b.save(); // cập nhật vào DB
+            }
+         }
+      }
+
       const banner = await db.Banner.create({
          imageUrl,
          title,
@@ -24,6 +46,7 @@ let createBanner = async (imageUrl, title, subtitle, link, isActive, order) => {
          isActive,
          order,
       });
+
       return banner;
    } catch (err) {
       throw new Error('Lỗi khi tạo banner');
@@ -66,9 +89,23 @@ let deleteBanner = async (id) => {
    }
 };
 
+let getActiveBanners = async () => {
+   try {
+      const banners = await db.Banner.findAll({
+         where: { isActive: true },
+         order: [['order', 'ASC']],
+      });
+      return banners;
+   } catch (err) {
+      throw new Error('Lỗi khi lấy banner đang hoạt động');
+   }
+};
+
+
 export default {
    getBanners,
    createBanner,
    updateBanner,
    deleteBanner,
+   getActiveBanners
 };

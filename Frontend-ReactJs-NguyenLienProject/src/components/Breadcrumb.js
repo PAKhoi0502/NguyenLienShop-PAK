@@ -1,11 +1,14 @@
-import React from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useLocation, Link, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 const Breadcrumb = ({ topOffset = 100 }) => {
    const location = useLocation();
    const { isLoggedIn, roleId } = useSelector((state) => state.admin);
-   const pathnames = location.pathname.split('/').filter(x => x);
+   const pathnames = location.pathname
+      .split('/')
+      .filter(x => x && !/^\d+$/.test(x));
+
 
    if (location.pathname === '/') return null;
 
@@ -14,9 +17,37 @@ const Breadcrumb = ({ topOffset = 100 }) => {
 
       if (name === 'admin') return 'Trang quản lý';
 
-      if (name === 'users-manager') return 'Quản lý tài khoản người dùng';
+      if (name === 'user-management') return 'Quản lý tài khoản người dùng';
 
-      if (name === 'admins-manager') return 'Quản lý tài khoản quản trị viên';
+      if (name === 'admin-management') return 'Quản lý tài khoản quản trị viên';
+
+      if (name === 'user-detail') return 'Thông tin người dùng';
+
+      if (name === 'user-register') return 'Đăng ký tài khoản người dùng';
+
+      if (name === 'user-update') return 'Chỉnh sửa người dùng';
+
+      if (name === 'admin-register') return 'Đăng ký quản trị viên';
+
+      if (name === 'admin-detail') return 'Thông tin quản trị viên';
+
+      if (name === 'admin-update') return 'Chỉnh sửa quản trị viên';
+
+      if (name === 'account-management') return 'Quản lý tài khoản';
+
+      if (name === 'homepage-management') return 'Quản lý trang chủ';
+
+      if (pathnames.includes('user-detail') && index === pathnames.length - 1) {
+         return "Thông tin người dùng";
+      }
+
+      if (pathnames.includes('user-update') && index === pathnames.length - 1) {
+         return "Chỉnh sửa người dùng";
+      }
+
+      if (pathnames.includes('admin-update') && index === pathnames.length - 1) {
+         return "Chỉnh sửa quản trị viên";
+      }
 
       if (!isLoggedIn && index === 0 && pathnames.length === 1) {
          return name === 'login' ? 'Đăng nhập' : name === 'register' ? 'Đăng ký' : name;

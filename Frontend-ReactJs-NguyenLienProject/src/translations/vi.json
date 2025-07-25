@@ -46,7 +46,10 @@
         "menu.other": "Mặt hàng khác",
         "menu.news": "Tin tức",
         "menu.shopee": "Cửa hàng trên Shopee",
-        "menu.logout": "Đăng xuất"
+        "menu.logout": "Đăng xuất",
+        "menu.login": "Đăng nhập",
+        "menu.register": "Đăng ký",
+        "menu.profile": "Thông tin tài khoản"
     },
     "footer": {
         "newsletter_title": "ĐĂNG KÝ NHẬN TIN",
@@ -56,6 +59,7 @@
         "company": "Công ty TNHH Lưới Nông Sản Việt",
         "address": "Châu Thành, Tiền Giang",
         "address_title": "ĐỊA CHỈ",
+        "purchase_feedback": "MUA HÀNG - GÓP Ý",
         "info_title": "THÔNG TIN",
         "info.rules": "Quy định chung",
         "info.installment": "Mua hàng trả góp",
@@ -77,8 +81,216 @@
         "confirm_title": "UY TÍN - BẢO MẬT",
         "bottom": "© 2025 Lưới Nông Sản Việt. All rights reserved."
     },
-    "createAdmin": {
-        "success_title": "Đăng ký Quản trị viên thành công",
-        "error_title": "Lỗi khi tạo quản trị viên"
+    "admin": {
+        "create_title": "Tạo tài khoản Quản trị viên",
+        "label": {
+            "phone": "Số điện thoại",
+            "password": "Mật khẩu",
+            "confirm_password": "Xác nhận mật khẩu"
+        },
+        "placeholder": {
+            "phone": "Nhập số điện thoại",
+            "password": "Nhập mật khẩu (tối thiểu 6 ký tự)",
+            "confirm_password": "Nhập lại mật khẩu"
+        },
+        "creating": "Đang tạo...",
+        "create_button": "Tạo tài khoản",
+        "cancel": "Hủy",
+        "create_success_title": "Tạo quản trị viên thành công",
+        "create_success_message": "Tài khoản quản trị viên đã được tạo thành công.",
+        "create_error_title": "Lỗi tạo quản trị viên",
+        "create_error_message": "Đã xảy ra lỗi khi tạo tài khoản.",
+        "error": {
+            "no_response": "Không nhận được phản hồi từ server!",
+            "phone_exists": "Số điện thoại đã tồn tại!",
+            "incomplete_info": "Bạn chưa nhập đủ thông tin."
+        },
+        "validation": {
+            "phone_required": "Vui lòng nhập số điện thoại.",
+            "phone_invalid": "Số điện thoại không hợp lệ.",
+            "password_short": "Mật khẩu tối thiểu 6 ký tự.",
+            "confirm_required": "Vui lòng nhập lại mật khẩu.",
+            "password_mismatch": "Mật khẩu xác nhận không khớp."
+        },
+        "detail": {
+            "title": "Thông tin quản trị viên",
+            "loading": "Đang tải dữ liệu...",
+            "not_found": "Không tìm thấy quản trị viên",
+            "nickname": "Biệt danh",
+            "fullname": "Họ tên",
+            "email": "Email",
+            "phone": "Số điện thoại",
+            "birthday": "Ngày sinh",
+            "gender": "Giới tính",
+            "role": "Vai trò",
+            "hidden_field": "(Ẩn - cập nhật ở trang khác)",
+            "empty": "Chưa có",
+            "edit_button": "Cập nhật thông tin",
+            "back_button": "Quay lại"
+        },
+        "update": {
+            "title": "Chỉnh sửa quản trị viên",
+            "not_found": "Không tìm thấy quản trị viên.",
+            "missing_id": "Thiếu ID quản trị viên.",
+            "no_response": "Không nhận được phản hồi từ server!",
+            "success_message": "Cập nhật quản trị viên thành công!",
+            "failed": "Đã xảy ra lỗi khi cập nhật quản trị viên.",
+            "username": "Biệt danh",
+            "username_placeholder": "Nhập biệt danh",
+            "fullname": "Họ tên đầy đủ",
+            "fullname_placeholder": "Nhập họ tên đầy đủ",
+            "birthday": "Ngày sinh",
+            "gender": "Giới tính",
+            "select_gender": "-- Chọn giới tính --",
+            "role": "Vai trò",
+            "updating": "Đang cập nhật...",
+            "submit": "Lưu thay đổi",
+            "cancel": "Hủy"
+        },
+        "update_success_title": "Cập nhật thành công",
+        "update_error_title": "Lỗi cập nhật",
+        "delete": {
+            "button": "Xóa",
+            "not_found": "Không tìm thấy quản trị viên để xóa!",
+            "no_name": "Không có tên",
+            "confirm_title_1": "Bạn chắc chắn muốn xóa quản trị viên này?",
+            "confirm_button_1": "Xác nhận",
+            "cancel_button": "Hủy",
+            "confirm_title_2": "Bạn thực sự muốn xóa?",
+            "confirm_text_2": "Hành động này sẽ không thể hoàn tác!",
+            "confirm_button_2": "Xóa ngay",
+            "success": "Xóa quản trị viên thành công!",
+            "failed": "Không thể xóa quản trị viên này!",
+            "error": "Đã xảy ra lỗi khi xóa quản trị viên này."
+        },
+        "manager": {
+            "title": "Quản lý quản trị viên",
+            "create_button": "Tạo quản trị viên",
+            "search_placeholder": "Tìm kiếm theo tên, email hoặc họ tên...",
+            "loading": "Đang tải...",
+            "load_error": "Không thể tải danh sách quản trị viên.",
+            "username": "Tên người dùng",
+            "fullname": "Họ và tên",
+            "phone": "Số điện thoại",
+            "gender": "Giới tính",
+            "birthday": "Ngày sinh",
+            "role": "Vai trò",
+            "actions": "Hành động",
+            "detail": "Chi tiết",
+            "update": "Cập nhật",
+            "empty": "Không có người dùng nào phù hợp."
+        }
+    },
+    "gender": {
+        "male": "Nam",
+        "female": "Nữ",
+        "other": "Khác",
+        "unselected": "Chưa chọn"
+    },
+    "role": {
+        "admin": "Quản trị viên",
+        "user": "Người dùng"
+    },
+    "user": {
+        "update_success_title": "Cập nhật thành công",
+        "update_error_title": "Lỗi cập nhật",
+        "create": {
+            "title": "Tạo tài khoản người dùng",
+            "phone": "Số điện thoại *",
+            "phone_placeholder": "Nhập số điện thoại",
+            "password": "Mật khẩu *",
+            "password_placeholder": "Nhập mật khẩu (tối thiểu 6 ký tự)",
+            "confirm_password": "Xác nhận mật khẩu *",
+            "confirm_password_placeholder": "Nhập lại mật khẩu",
+            "submit": "Tạo tài khoản",
+            "creating": "Đang tạo...",
+            "cancel": "Hủy",
+            "success_message": "Tạo tài khoản thành công!",
+            "error": {
+                "no_response": "Không nhận được phản hồi từ server!",
+                "phone_exists": "Số điện thoại đã tồn tại!",
+                "incomplete": "Bạn chưa nhập đủ thông tin.",
+                "generic": "Tạo tài khoản thất bại."
+            },
+            "validate": {
+                "phone_required": "Vui lòng nhập số điện thoại.",
+                "phone_invalid": "Số điện thoại không hợp lệ.",
+                "password_short": "Mật khẩu tối thiểu 6 ký tự.",
+                "confirm_required": "Vui lòng nhập lại mật khẩu.",
+                "password_mismatch": "Mật khẩu xác nhận không khớp."
+            }
+        },
+        "create_success_title": "Tạo thành công",
+        "create_error_title": "Lỗi tạo tài khoản",
+        "manager": {
+            "title": "Quản lý người dùng",
+            "create_button": "Tạo người dùng",
+            "search_placeholder": "Tìm kiếm theo tên, email hoặc họ tên...",
+            "loading": "Đang tải...",
+            "load_error": "Không thể tải danh sách người dùng.",
+            "username": "Tên người dùng",
+            "fullname": "Họ và tên",
+            "phone": "Số điện thoại",
+            "gender": "Giới tính",
+            "birthday": "Ngày sinh",
+            "role": "Vai trò",
+            "actions": "Hành động",
+            "detail": "Chi tiết",
+            "update": "Cập nhật",
+            "empty": "Không có người dùng nào phù hợp."
+        },
+        "detail": {
+            "title": "Thông tin người dùng",
+            "loading": "Đang tải dữ liệu...",
+            "not_found": "Không tìm thấy người dùng",
+            "username": "Biệt danh",
+            "fullname": "Họ tên",
+            "email": "Email",
+            "phone": "Số điện thoại",
+            "birthday": "Ngày sinh",
+            "gender": "Giới tính",
+            "role": "Vai trò",
+            "missing": "Chưa có",
+            "hidden": "(Ẩn - cập nhật ở trang khác)",
+            "edit_button": "Cập nhật thông tin",
+            "back_button": "Quay lại"
+        },
+        "update": {
+            "title": "Chỉnh sửa người dùng",
+            "username": "Biệt danh",
+            "fullname": "Họ tên đầy đủ",
+            "birthday": "Ngày sinh",
+            "gender": "Giới tính",
+            "select_gender": "-- Chọn giới tính --",
+            "save": "Lưu thay đổi",
+            "cancel": "Hủy",
+            "saving": "Đang cập nhật...",
+            "success": "Cập nhật thông tin thành công!",
+            "error": {
+                "not_found": "Không tìm thấy người dùng.",
+                "missing_id": "Thiếu ID người dùng.",
+                "no_response": "Không nhận được phản hồi từ server!",
+                "default": "Đã xảy ra lỗi khi cập nhật người dùng."
+            }
+        },
+        "delete": {
+            "error": {
+                "not_found": "Không tìm thấy người dùng để xóa!",
+                "cannot_delete": "Không thể xóa người dùng!",
+                "server": "Đã xảy ra lỗi khi xóa người dùng."
+            },
+            "confirm_title": "Bạn chắc chắn muốn xóa người dùng này?",
+            "confirm_title_final": "Bạn thực sự muốn xóa?",
+            "confirm_text_final": "Hành động này sẽ không thể hoàn tác!",
+            "confirm_delete_now": "Xóa ngay",
+            "no_name": "Không có tên",
+            "success": "Xóa người dùng thành công!"
+        },
+        "common": {
+            "confirm": "Xác nhận",
+            "cancel": "Hủy",
+            "delete": "Xóa",
+            "no": "Không"
+        }
     }
 }

@@ -4,11 +4,15 @@ import { verifyToken, isRole } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
 
-router.post('/user-register', verifyToken, isRole(1), adminController.handleCreateUserForAdmin);
+// Admin routes
 router.post('/admin-register', verifyToken, isRole(1), adminController.handleCreateAdminForAdmin);
-router.get('/users-manager', verifyToken, isRole(1), adminController.handleGetAllUsers);
-router.get('/admins-manager', verifyToken, isRole(1), adminController.handleGetAllAdmins);
+router.get('/admin-management', verifyToken, isRole(1), adminController.handleGetAllAdmins);
+router.put('/admin-update', verifyToken, isRole(1), adminController.handleUpdateAdmin);
+
+// User routes
+router.post('/user-register', verifyToken, isRole(1), adminController.handleCreateUserForAdmin);
+router.get('/user-management', verifyToken, isRole(1), adminController.handleGetAllUsers);
 router.delete('/user-delete', verifyToken, isRole(1), adminController.handleDeleteUser);
-router.put('/user-edit', verifyToken, isRole(1), adminController.handleEditUser);
+router.put('/user-update', verifyToken, isRole(1), adminController.handleUpdateUser);
 
 export default router;

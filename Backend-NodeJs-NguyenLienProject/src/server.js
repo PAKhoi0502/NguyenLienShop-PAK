@@ -28,6 +28,7 @@ app.use((req, res, next) => {
    next();
 });
 
+app.use('/uploads', express.static('uploads'));
 
 // ✅ Parse body của request
 app.use(bodyParser.json());

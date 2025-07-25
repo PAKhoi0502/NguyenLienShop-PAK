@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { getAdmins } from '../../../services/adminService';
 import { useNavigate } from 'react-router-dom';
+import { useIntl, FormattedMessage } from 'react-intl';
 import './AdminManager.scss';
+import AdminDelete from './AdminDelete';
 
 const AdminManager = () => {
    const [users, setUsers] = useState([]);
@@ -10,6 +12,7 @@ const AdminManager = () => {
    const [search, setSearch] = useState('');
    const [filteredUsers, setFilteredUsers] = useState([]);
    const navigate = useNavigate();
+   const intl = useIntl();
 
    useEffect(() => {
       getAdmins()
@@ -19,19 +22,17 @@ const AdminManager = () => {
                setUsers(onlyAdmins);
                setLoading(false);
             } else {
-               setError(response?.errMessage || 'Không thể tải danh sách quản trị viên.');
+               setError(response?.errMessage || intl.formatMessage({ id: 'admin.manager.load_error' }));
                setLoading(false);
             }
          })
          .catch(() => {
-            setError('Không thể tải danh sách quản trị viên.');
+            setError(intl.formatMessage({ id: 'admin.manager.load_error' }));
             setLoading(false);
          });
    }, []);
 
-
    useEffect(() => {
-      // Lọc danh sách theo từ khóa tìm kiếm (theo tên người dùng, email, fullName)
       const lower = search.trim().toLowerCase();
       if (!lower) {
          setFilteredUsers(users);
@@ -45,38 +46,44 @@ const AdminManager = () => {
       }
    }, [search, users]);
 
-   const handleUpdate = (user) => {
-      // Thực hiện logic cập nhật user (show modal, chuyển trang, ...)
+   const handleGetAdminProfile = (user) => {
+      if (!user?.id) return;
+      navigate(`/admin/account-management/admin-management/admin-detail/${user.id}`);
    };
 
-   const handleDelete = (user) => {
-      // Thực hiện logic xóa user (show xác nhận, ...)
+   const handleUpdate = (user) => {
+      if (!user?.id) return;
+      navigate(`/admin/account-management/admin-management/admin-update/${user.id}`);
    };
 
    return (
       <div className="user-manager-container">
          <div className="user-manager-top">
-            <h1 className="user-title">Quản lý quản trị viên</h1>
+            <h1 className="user-title">
+               <FormattedMessage id="admin.manager.title" defaultMessage="Quản lý quản trị viên" />
+            </h1>
             <div style={{ display: 'flex', gap: 10 }}>
                <button
                   className="btn-create btn-create-admin"
                   style={{ background: "#e74c3c" }}
-                  onClick={() => navigate('/admin/admin-register')}
+                  onClick={() => navigate('/admin/account-management/admin-management/admin-register')}
                >
-                  + Tạo quản trị viên
+                  + <FormattedMessage id="admin.manager.create_button" defaultMessage="Tạo quản trị viên" />
                </button>
             </div>
          </div>
          <div className="user-search-bar">
             <input
                type="text"
-               placeholder="Tìm kiếm theo tên, email hoặc họ tên..."
+               placeholder={intl.formatMessage({ id: 'admin.manager.search_placeholder' })}
                value={search}
                onChange={e => setSearch(e.target.value)}
             />
          </div>
          {loading ? (
-            <div className="user-loading">Loading...</div>
+            <div className="user-loading">
+               <FormattedMessage id="admin.manager.loading" defaultMessage="Đang tải..." />
+            </div>
          ) : error ? (
             <div className="user-error">{error}</div>
          ) : (
@@ -85,21 +92,21 @@ const AdminManager = () => {
                   <thead>
                      <tr>
                         <th>ID</th>
-                        <th>Tên người dùng</th>
-                        <th>Họ và tên</th>
+                        <th><FormattedMessage id="admin.manager.username" defaultMessage="Tên người dùng" /></th>
+                        <th><FormattedMessage id="admin.manager.fullname" defaultMessage="Họ và tên" /></th>
                         <th>Email</th>
-                        <th className="hide-mobile">Số điện thoại</th>
-                        <th className="hide-mobile">Giới tính</th>
-                        <th className="hide-mobile">Ngày sinh</th>
-                        <th>Vai trò</th>
-                        <th>Hành động</th>
+                        <th className="hide-mobile"><FormattedMessage id="admin.manager.phone" defaultMessage="Số điện thoại" /></th>
+                        <th className="hide-mobile"><FormattedMessage id="admin.manager.gender" defaultMessage="Giới tính" /></th>
+                        <th className="hide-mobile"><FormattedMessage id="admin.manager.birthday" defaultMessage="Ngày sinh" /></th>
+                        <th><FormattedMessage id="admin.manager.role" defaultMessage="Vai trò" /></th>
+                        <th><FormattedMessage id="admin.manager.actions" defaultMessage="Hành động" /></th>
                      </tr>
                   </thead>
                   <tbody>
                      {filteredUsers.length === 0 ? (
                         <tr>
                            <td colSpan={9} style={{ textAlign: 'center', color: '#888' }}>
-                              Không có người dùng nào phù hợp.
+                              <FormattedMessage id="admin.manager.empty" defaultMessage="Không có người dùng nào phù hợp." />
                            </td>
                         </tr>
                      ) : (
@@ -114,17 +121,22 @@ const AdminManager = () => {
                               <td className={user.birthday ? "hide-mobile" : "hide-mobile cell-na"}>{user.birthday || "N/A"}</td>
                               <td>
                                  <span className={user.roleId === 1 ? "role-admin" : "role-user"}>
-                                    {user.roleId === 1 ? "Quản trị" : "Người dùng"}
+                                    {user.roleId === 1
+                                       ? intl.formatMessage({ id: 'role.admin' })
+                                       : intl.formatMessage({ id: 'role.user' })}
                                  </span>
                               </td>
                               <td>
                                  <div className="action-buttons">
+                                    <button className="btn-action btn-user-detail" onClick={() => handleGetAdminProfile(user)}>
+                                       <FormattedMessage id="admin.manager.detail" defaultMessage="Chi tiết" />
+                                    </button>
                                     <button className="btn-action btn-update" onClick={() => handleUpdate(user)}>
-                                       Cập nhật
+                                       <FormattedMessage id="admin.manager.update" defaultMessage="Cập nhật" />
                                     </button>
-                                    <button className="btn-action btn-delete" onClick={() => handleDelete(user)}>
-                                       Xóa
-                                    </button>
+                                    <AdminDelete user={user} onSuccess={(deletedId) => {
+                                       setUsers(prev => prev.filter(u => u.id !== deletedId));
+                                    }} />
                                  </div>
                               </td>
                            </tr>
