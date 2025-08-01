@@ -18,7 +18,6 @@ function App() {
                         <AppRoutes />
                     </CustomScrollbars>
                     <ToastContainer position="bottom-right" autoClose={3000} />
-
                 </React.StrictMode>
             </BrowserRouter>
         </Provider>

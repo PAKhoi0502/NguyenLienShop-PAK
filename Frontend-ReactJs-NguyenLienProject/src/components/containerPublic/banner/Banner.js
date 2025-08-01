@@ -3,54 +3,86 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/autoplay';
 import { Autoplay } from 'swiper/modules';
+import { useIntl } from 'react-intl';
+import { toast } from 'react-toastify';
+import { publicBanner } from '../../../services/hompageService';
+import CustomToast from '../../../components/CustomToast';
 import './Banner.scss';
-
-import { getActiveBanners } from '../../../services/hompageService';
 
 const Banner = () => {
    const [bannerList, setBannerList] = useState([]);
+   const [loading, setLoading] = useState(true);
+   const [error, setError] = useState(null);
+   const intl = useIntl();
+
+   const fetchActiveBanners = async () => {
+      try {
+         setLoading(true);
+         const res = await publicBanner();
+         if (res && res.length > 0) {
+            setBannerList(res);
+         } else {
+            setBannerList([]);
+            setError(intl.formatMessage({ id: 'banner.no_active_banners', defaultMessage: 'Không có banner đang kích hoạt' }));
+         }
+      } catch (error) {
+         console.error('Lỗi khi tải banner:', error);
+         const errorMessage = error?.response?.status === 403
+            ? intl.formatMessage({ id: 'banner.access_denied', defaultMessage: 'Không có quyền truy cập banner' })
+            : intl.formatMessage({ id: 'banner.load_error', defaultMessage: 'Không thể tải danh sách banner' });
+         setError(errorMessage);
+         toast.error(
+            <CustomToast
+               type="error"
+               titleId="banner.load_error_title"
+               message={errorMessage}
+               time={new Date()}
+            />,
+            { closeButton: false }
+         );
+      } finally {
+         setLoading(false);
+      }
+   };
 
    useEffect(() => {
-      const fetchBanners = async () => {
-         try {
-            const res = await getActiveBanners();
-            if (res && res.length > 0) {
-               setBannerList(res);
-            }
-         } catch (error) {
-            console.error('Lỗi khi tải banner:', error);
-         }
-      };
-
-      fetchBanners();
+      fetchActiveBanners();
    }, []);
+
+   if (loading) {
+      return <div className="banner-container">{intl.formatMessage({ id: 'banner.loading', defaultMessage: 'Đang tải banner...' })}</div>;
+   }
+
+   if (error) {
+      return <div className="banner-container">{error}</div>;
+   }
 
    return (
       <div className="banner-container">
-         <Swiper
-            modules={[Autoplay]}
-            autoplay={{ delay: 4000 }}
-            loop={true}
-            spaceBetween={0}
-            slidesPerView={1}
-         >
-            {bannerList.map((item) => (
-               <SwiperSlide key={item.id}>
-                  <div
-                     className="banner-slide"
-                     style={{
-                        backgroundImage: `url(http://localhost:8080${item.imageUrl})`, // nối đúng path ảnh
-                     }}
-                  >
-                     <div className="banner-overlay">
-                        <h2 className="banner-title">{item.title}</h2>
-                        <p className="banner-subtitle">{item.subtitle}</p>
-                        <button className="banner-btn">Xem ngay</button>
+         {bannerList.length === 0 ? (
+            <p>{intl.formatMessage({ id: 'banner.no_active_banners', defaultMessage: 'Không có banner đang kích hoạt' })}</p>
+         ) : (
+            <Swiper
+               modules={[Autoplay]}
+               autoplay={{ delay: 4000 }}
+               loop={true}
+               spaceBetween={0}
+               slidesPerView={1}
+            >
+               {bannerList.map((item) => (
+                  <SwiperSlide key={item.id}>
+                     <div
+                        className="banner-slide"
+                        style={{
+                           backgroundImage: `url(http://localhost:8080${item.imageUrl})`
+                        }}
+
+                     >
                      </div>
-                  </div>
-               </SwiperSlide>
-            ))}
-         </Swiper>
+                  </SwiperSlide>
+               ))}
+            </Swiper>
+         )}
       </div>
    );
 };

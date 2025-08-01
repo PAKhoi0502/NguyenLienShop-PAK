@@ -1,0 +1,124 @@
+.basic-info {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   padding: 2.5rem;
+
+   .section-title {
+      font-family: 'Be Vietnam Pro', sans-serif;
+      font-weight: 450;
+      font-style: normal;
+      font-size: 2rem;
+      color: #111;
+      margin-bottom: 1rem;
+      text-align: center;
+      letter-spacing: 0.05rem;
+   }
+
+   .info-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      max-width: 1200px;
+   }
+
+   .info-item {
+      display: flex;
+      align-items: center;
+      background-color: transparent;
+      padding: 0.25rem 0.5rem;
+      border-radius: 1rem;
+      max-width: 320px;
+      min-width: 280px;
+      transition: all 0.3s ease;
+      gap: 1rem;
+
+      &:hover {
+         transform: translateY(-2px);
+         background-color: transparent;
+      }
+
+      .icon {
+         width: 40px;
+         height: 40px;
+         border-radius: 50%;
+         background-color: #d1d1d1;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         font-size: 1.4rem;
+         flex-shrink: 0;
+         color: #222;
+         box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .content {
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+
+         .title {
+            font-weight: 520;
+            font-size: 1.15rem;
+            color: #1c1c1c;
+         }
+
+         .highlight {
+            font-style: italic;
+            font-size: 0.9rem;
+            color: #444;
+            line-height: 1.3;
+         }
+      }
+   }
+
+   // ----------------------
+   // ✅ Responsive Breakpoints
+   // ----------------------
+
+   @media (max-width: 1024px) {
+      .info-item {
+         max-width: 45%;
+         min-width: 45%;
+      }
+   }
+
+   @media (max-width: 768px) {
+      .info-list {
+         flex-direction: column;
+         align-items: center;
+      }
+
+      .info-item {
+         width: 100%;
+         max-width: 90%;
+         justify-content: flex-start;
+      }
+   }
+
+   @media (max-width: 480px) {
+      .section-title {
+         font-size: 1.5rem;
+      }
+
+      .info-item {
+         flex-direction: row;
+         gap: 0.75rem;
+
+         .icon {
+            width: 36px;
+            height: 36px;
+            font-size: 1.2rem;
+         }
+
+         .title {
+            font-size: 1rem;
+         }
+
+         .highlight {
+            font-size: 0.85rem;
+         }
+      }
+   }
+}

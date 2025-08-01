@@ -1,27 +1,41 @@
-// @use "../../styles/common";
-// @use "../../styles/variables";
+.admin-header {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 12px 24px;
+   background-color: #ffffff;
+   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+   position: sticky;
+   top: 0;
+   z-index: 1000;
 
-// .header-container {
-//     z-index: 99;
-//     display: flex;
-//     justify-content: space-between;
-//     background-color: variables.$colormain;
-//     color: variables.$common-text-color;
-//     height: 40px;
-//     position: relative;
+   .admin-header-left {
+      flex: 1;
+      // Để trống cho nội dung sau này
+   }
 
-//     .btn-logout {
-//         color: variables.$common-text-color;
-//         line-height: 40px;
-//         height: 40px;
-//         padding: 0 10px;
+   .admin-header-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
 
-//         &:hover {
-//             background-color: darken(variables.$colormain, 5);
-//         }
+      .language-select {
+         padding: 8px 12px;
+         border: 1px solid #e2e8f0;
+         border-radius: 6px;
+         background-color: #f7fafc;
+         font-size: 14px;
+         color: #2d3748;
+         cursor: pointer;
+         transition: border-color 0.2s ease;
 
-//         i {
-//             font-size: variables.$base-size + 1px;
-//         }
-//     }
-// }
+         &:hover,
+         &:focus {
+            border-color: #2b6cb0;
+            outline: none;
+         }
+      }
+   }
+
+
+}

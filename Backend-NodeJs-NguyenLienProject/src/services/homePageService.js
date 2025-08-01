@@ -1,89 +1,75 @@
 import db from '../models';
 
-// Lấy tất cả banner
 let getBanners = async () => {
    try {
       const banners = await db.Banner.findAll({
-         order: [['order', 'ASC']] // hoặc tùy theo yêu cầu
+         order: [['order', 'ASC']]
       });
       return banners;
    } catch (err) {
       throw new Error('Lỗi khi lấy danh sách banner');
    }
 };
-// Tạo mới banner
-let createBanner = async (imageUrl, title, subtitle, link, isActive, order) => {
+
+let createBanner = async (imageUrl, title, subtitle, link) => {
    try {
-      if (!isActive) {
-         // Nếu banner không active, order mặc định = 0
-         order = 0;
-      } else {
-         // Nếu banner active, xử lý dồn order
-         const existingBanners = await db.Banner.findAll({
-            where: { isActive: true },
-            order: [['order', 'ASC']],
-         });
-
-         // Nếu không truyền order, thêm vào cuối
-         if (!order || order <= 0 || order > existingBanners.length + 1) {
-            order = existingBanners.length + 1;
-         }
-
-         // Dồn các banner phía sau (>= order) lên +1
-         for (const b of existingBanners) {
-            if (b.order >= order) {
-               b.order += 1;
-               await b.save(); // cập nhật vào DB
-            }
-         }
-      }
-
+      console.log("Creating banner with data:", { imageUrl, title, subtitle, link });
       const banner = await db.Banner.create({
          imageUrl,
-         title,
-         subtitle,
-         link,
-         isActive,
-         order,
+         title: title || null,
+         subtitle: subtitle || null,
+         link: link || null,
+         isActive: false,
+         order: 0,
       });
-
       return banner;
    } catch (err) {
+      console.error('Error creating banner:', err);
       throw new Error('Lỗi khi tạo banner');
    }
 };
 
-// Cập nhật banner
-let updateBanner = async (id, imageUrl, title, subtitle, link, isActive, order) => {
-   try {
-      const banner = await db.Banner.findByPk(id);
-      if (!banner) {
-         return null;  // Không tìm thấy banner
-      }
-
-      banner.imageUrl = imageUrl || banner.imageUrl;
-      banner.title = title || banner.title;
-      banner.subtitle = subtitle || banner.subtitle;
-      banner.link = link || banner.link;
-      banner.isActive = isActive !== undefined ? isActive : banner.isActive;
-      banner.order = order || banner.order;
-
-      await banner.save();  // Lưu thông tin đã cập nhật
-      return banner;
-   } catch (err) {
-      throw new Error('Lỗi khi cập nhật banner');
+let updateBanner = async (id, title, subtitle, link, isActive, order) => {
+   const banner = await db.Banner.findByPk(id);
+   if (!banner) {
+      return { errCode: 1, errMessage: 'Banner không tồn tại' };
    }
+
+   const hasChangedContent =
+      (title !== undefined && title !== banner.title) ||
+      (subtitle !== undefined && subtitle !== banner.subtitle) ||
+      (link !== undefined && link !== banner.link);
+
+   if (banner.isActive && hasChangedContent) {
+      return {
+         errCode: 2,
+         errMessage: 'Không thể cập nhật nội dung banner đang hiển thị. Vui lòng ẩn trước.'
+      };
+   }
+
+   const updateData = {};
+   if (title !== undefined) updateData.title = title;
+   if (subtitle !== undefined) updateData.subtitle = subtitle;
+   if (link !== undefined) updateData.link = link;
+   if (isActive !== undefined) updateData.isActive = isActive;
+   if (order !== undefined) updateData.order = order;
+
+   await banner.update(updateData);
+
+   return { errCode: 0, errMessage: 'Cập nhật banner thành công', banner };
 };
 
-// Xóa banner
+
+
 let deleteBanner = async (id) => {
    try {
       const banner = await db.Banner.findByPk(id);
       if (!banner) {
-         return null;  // Không tìm thấy banner
+         return { errCode: 1, errMessage: 'Banner không tồn tại' };
       }
-      await banner.destroy();  // Xóa banner
-      return true;
+
+      await banner.destroy();
+      return { errCode: 0, errMessage: 'Xóa banner thành công' };
    } catch (err) {
       throw new Error('Lỗi khi xóa banner');
    }
@@ -100,7 +86,6 @@ let getActiveBanners = async () => {
       throw new Error('Lỗi khi lấy banner đang hoạt động');
    }
 };
-
 
 export default {
    getBanners,

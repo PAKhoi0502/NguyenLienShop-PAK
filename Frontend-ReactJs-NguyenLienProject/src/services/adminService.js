@@ -24,7 +24,6 @@ export const getUsers = async (id = 'ALL') => {
 export const deleteUser = async (userId) => {
     try {
         const res = await axios.delete(`/api/admin/user-delete?id=${userId}`);
-        console.log('Raw API response:', res.data); // Log để kiểm tra
         const data = res.data || res; // Đảm bảo lấy dữ liệu từ interceptor
         if (!data) {
             return { errCode: -1, errMessage: 'Không nhận được dữ liệu từ server.' };

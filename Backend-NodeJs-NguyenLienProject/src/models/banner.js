@@ -17,15 +17,12 @@ module.exports = (sequelize, DataTypes) => {
       },
       title: {
          type: DataTypes.STRING,
-         allowNull: false,
       },
       subtitle: {
          type: DataTypes.STRING,
-         allowNull: false,
       },
       link: {
          type: DataTypes.STRING,
-         allowNull: true,  // Tuỳ chọn, nếu có đường link dẫn đến trang khác
       },
       isActive: {
          type: DataTypes.BOOLEAN,

@@ -117,7 +117,15 @@ const AdminManager = () => {
                               <td className={user.fullName ? "" : "cell-na"}>{user.fullName || "N/A"}</td>
                               <td className={user.email ? "" : "cell-na"}>{user.email || "N/A"}</td>
                               <td className={user.phoneNumber ? "hide-mobile" : "hide-mobile cell-na"}>{user.phoneNumber || "N/A"}</td>
-                              <td className={user.gender ? "hide-mobile" : "hide-mobile cell-na"}>{user.gender || "N/A"}</td>
+                              <td className={user.gender ? "hide-mobile" : "hide-mobile cell-na"}>
+                                 {user.gender === 'M' && (
+                                    <FormattedMessage id="gender.male" defaultMessage="Nam" />
+                                 )}
+                                 {user.gender === 'F' && (
+                                    <FormattedMessage id="gender.female" defaultMessage="Nữ" />
+                                 )}
+                                 {!['M', 'F'].includes(user.gender) && "N/A"}
+                              </td>
                               <td className={user.birthday ? "hide-mobile" : "hide-mobile cell-na"}>{user.birthday || "N/A"}</td>
                               <td>
                                  <span className={user.roleId === 1 ? "role-admin" : "role-user"}>

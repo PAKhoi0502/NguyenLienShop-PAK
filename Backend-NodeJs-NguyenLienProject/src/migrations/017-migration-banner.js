@@ -15,15 +15,12 @@ module.exports = {
          },
          title: {
             type: Sequelize.STRING,
-            allowNull: false,
          },
          subtitle: {
             type: Sequelize.STRING,
-            allowNull: false,
          },
          link: {
             type: Sequelize.STRING,
-            allowNull: true,  // Đường link cho banner (nếu có)
          },
          isActive: {
             type: Sequelize.BOOLEAN,

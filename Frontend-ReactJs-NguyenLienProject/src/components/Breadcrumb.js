@@ -37,6 +37,10 @@ const Breadcrumb = ({ topOffset = 100 }) => {
 
       if (name === 'homepage-management') return 'Quản lý trang chủ';
 
+      if (name === 'banner-management') return 'Quản lý banner';
+      if (name === 'banner-create') return 'Tạo banner';
+      if (name === 'banner-update') return 'Chỉnh sửa banner';
+
       if (pathnames.includes('user-detail') && index === pathnames.length - 1) {
          return "Thông tin người dùng";
       }

@@ -34,8 +34,9 @@ import AdminUpdate from '../components/containerAdmin/adminsManager/AdminUpdate'
 import AdminDetail from '../components/containerAdmin/adminsManager/AdminDetail';
 
 // Admin - Quản lý banner
-import BannerManagement from '../components/containerAdmin/homePageManager/banner/BannerManagement';
+import BannerManager from '../components/containerAdmin/homePageManager/banner/BannerManager';
 import BannerCreate from '../components/containerAdmin/homePageManager/banner/BannerCreate';
+import BannerUpdate from '../components/containerAdmin/homePageManager/banner/BannerUpdate';
 
 // Wrapper
 import ErrorBoundary from '../components/ErrorBoundary';
@@ -71,8 +72,9 @@ const AppRoutes = () => (
          <Route path="/admin/account-management/admin-management/admin-detail" element={<PrivateRoute role="1" element={() => <AdminLayout><AdminManager /></AdminLayout>} />} />
 
          {/* --- Admin - Quản lý banner --- */}
-         <Route path="/admin/homepage-management/banner-management" element={<PrivateRoute role="1" element={() => <AdminLayout><BannerManagement /></AdminLayout>} />} />
+         <Route path="/admin/homepage-management/banner-management" element={<PrivateRoute role="1" element={() => <AdminLayout><BannerManager /></AdminLayout>} />} />
          <Route path="/admin/homepage-management/banner-management/banner-create" element={<PrivateRoute role="1" element={() => <AdminLayout><BannerCreate /></AdminLayout>} />} />
+         <Route path="/admin/homepage-management/banner-management/banner-update/:id" element={<PrivateRoute role="1" element={() => <AdminLayout><BannerUpdate /></AdminLayout>} />} />
          {/* --- Not Found --- */}
          <Route path="*" element={<NotFoundPage />} />
       </Routes>

@@ -1,138 +1,142 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { getAllBanners, updateBanner } from '../../../../services/hompageService';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import './BannerUpdate.scss';
+import { getAllBanners, updateBanner } from '../../../../services/hompageService';
+import './BannerCreate.scss';
 
 const BannerUpdate = () => {
    const { id } = useParams();
    const navigate = useNavigate();
-   const [form, setForm] = useState({
-      title: '',
-      subtitle: '',
-      link: '',
-      order: 0,
-      isActive: false,
-   });
+
+   const [banner, setBanner] = useState(null);
    const [loading, setLoading] = useState(false);
-   const [originalBanner, setOriginalBanner] = useState(null);
-   const [error, setError] = useState('');
-   const validateOrder = () => {
-      const parsedOrder = parseInt(form.order);
-      if (form.isActive && (!parsedOrder || parsedOrder < 1)) {
-         setError('Thứ tự hiển thị phải từ 1 trở lên nếu đang bật banner');
-         return false;
-      }
-      setError('');
-      return true;
-   };
 
    useEffect(() => {
       const fetchBanner = async () => {
          try {
-            const res = await getAllBanners(); // lấy danh sách để tìm đúng banner
-            const banner = res.find(b => String(b.id) === String(id));
-            if (banner) {
-               setForm({
-                  title: banner.title || '',
-                  subtitle: banner.subtitle || '',
-                  link: banner.link || '',
-                  order: banner.order || 0,
-                  isActive: banner.isActive === 1 || banner.isActive === true
-               });
-               setOriginalBanner(banner);
-            } else {
+            const res = await getAllBanners();
+            const found = res.find(item => String(item.id) === String(id));
+            if (!found) {
                toast.error('Không tìm thấy banner');
-               navigate('/admin/homepage-management/banner-management');
+               return navigate('/admin/homepage-management/banner-management');
             }
-         } catch {
+            setBanner(found);
+         } catch (err) {
+            console.error(err);
             toast.error('Lỗi khi tải banner');
          }
       };
-
       fetchBanner();
    }, [id, navigate]);
 
-   const handleChange = (e) => {
-      const { name, value, type, checked } = e.target;
-      setForm(prev => ({
-         ...prev,
-         [name]: type === 'checkbox' ? checked : value
-      }));
+   const handleChange = (field, value) => {
+      setBanner({ ...banner, [field]: value });
    };
 
    const handleSubmit = async (e) => {
       e.preventDefault();
 
-      if (originalBanner?.isActive === true) {
-         toast.warning('Vui lòng tắt hiển thị trước khi cập nhật');
-         return;
-      }
-
-      if (!validateOrder()) return;
+      setLoading(true);
 
       try {
-         setLoading(true);
-         const res = await updateBanner(id, {
-            ...form,
-            isActive: form.isActive ? 1 : 0,
-         });
+         const dataToSend = {
+            id: banner.id,
+            isActive: banner.isActive,
+            order: banner.order,
+         };
 
-         if (res?.id) {
-            toast.success('Cập nhật thành công!');
+         if (!banner.isActive) {
+            dataToSend.title = banner.title;
+            dataToSend.subtitle = banner.subtitle;
+            dataToSend.link = banner.link;
+         }
+
+         const res = await updateBanner(dataToSend);
+
+         if (res && res.errCode === 0) {
+            toast.success('Cập nhật banner thành công');
             navigate('/admin/homepage-management/banner-management');
          } else {
-            toast.error('Cập nhật thất bại!');
+            toast.error(res?.errMessage || 'Không thể cập nhật banner');
          }
       } catch (err) {
-         toast.error('Lỗi khi cập nhật banner');
+         console.error(err);
+         toast.error('Lỗi server khi cập nhật banner');
       } finally {
          setLoading(false);
       }
    };
 
 
+   if (!banner) return <p>Đang tải dữ liệu...</p>;
+
    return (
-      <div className="banner-update-container">
-         <h2>Cập nhật banner</h2>
-         <form onSubmit={handleSubmit}>
-            <div>
-               <label>Tiêu đề</label>
-               <input name="title" value={form.title} onChange={handleChange} required />
-            </div>
-            <div>
-               <label>Mô tả</label>
-               <input name="subtitle" value={form.subtitle} onChange={handleChange} required />
-            </div>
-            <div>
-               <label>Link chuyển (nếu có)</label>
-               <input name="link" value={form.link} onChange={handleChange} />
-            </div>
-            <div>
-               <label>Thứ tự hiển thị</label>
-               <input name="order" type="number" value={form.order} onChange={handleChange} min="0" />
-            </div>
-            <div>
-               <label>
-                  <input type="checkbox" name="isActive" checked={form.isActive} onChange={handleChange} />
-                  Hiển thị banner
-               </label>
-            </div>
-            <div>
-               <label>Thứ tự hiển thị</label>
-               <input
-                  name="order"
-                  type="number"
-                  value={form.order}
-                  onChange={handleChange}
-                  min="0"
+      <div className="banner-create-container">
+         <h1>Cập Nhật Banner</h1>
+         <form onSubmit={handleSubmit} className="banner-create-form">
+            <div className="form-group">
+               <label>Hình ảnh hiện tại:</label>
+               <img
+                  src={`http://localhost:8080${banner.imageUrl}`}
+                  alt="banner"
+                  style={{ maxWidth: '300px' }}
                />
-               {error && <p style={{ color: 'red', fontSize: '0.9rem' }}>{error}</p>}
             </div>
 
-            <button type="submit" disabled={loading}>
-               {loading ? 'Đang cập nhật...' : 'Cập nhật'}
-            </button>
+            <div className="form-group">
+               <label>Tiêu đề:</label>
+               <input
+                  type="text"
+                  value={banner.title}
+                  onChange={(e) => handleChange('title', e.target.value)}
+                  required
+               />
+            </div>
+
+            <div className="form-group">
+               <label>Phụ đề:</label>
+               <input
+                  type="text"
+                  value={banner.subtitle}
+                  onChange={(e) => handleChange('subtitle', e.target.value)}
+               />
+            </div>
+
+            <div className="form-group">
+               <label>Link:</label>
+               <input
+                  type="text"
+                  value={banner.link}
+                  onChange={(e) => handleChange('link', e.target.value)}
+               />
+            </div>
+
+            <div className="form-group">
+               <label>Trạng thái: {banner.isActive ? 'Đang hiển thị' : 'Đã ẩn'}</label>
+               {banner.isActive && (
+                  <small style={{ color: 'red' }}>
+                     * Vui lòng tắt “Hiển thị” để cập nhật nội dung
+                  </small>
+               )}
+            </div>
+
+            <div className="form-actions">
+               <button
+                  className='btn-submit'
+                  type="submit"
+                  disabled={loading}
+               >
+                  {loading ? 'Đang cập nhật...' : 'Cập Nhật'}
+               </button>
+               <button
+                  type="button"
+                  className="btn-cancel"
+                  onClick={() => navigate('/admin/homepage-management/banner-management')}
+                  disabled={loading}
+               >
+                  Hủy
+               </button>
+            </div>
          </form>
       </div>
    );

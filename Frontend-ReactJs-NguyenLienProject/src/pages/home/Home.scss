@@ -1,3 +1,11 @@
-.main-content.no-padding {
-   padding: 0 !important;
+.home-page {
+   max-width: 1200px; // hoặc 1100px, 1000px tùy ý
+   margin: 0 auto;
+   padding: 0 16px; // khoảng cách nhỏ hai bên
+   box-sizing: border-box;
+
+   .main-content.no-padding {
+      padding: 0 !important;
+
+   }
 }

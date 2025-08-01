@@ -24,10 +24,10 @@
         "loading": "Registering...",
         "login_redirect": "Already have an account?",
         "login_link": "Login",
-        "success_title": "Registration Successful",
+        "success_title": "Successful",
         "success_message": "You will be redirected to the login page!",
         "redirecting": "Redirecting to login page in {seconds} seconds...",
-        "error_title": "Registration Error",
+        "error_title": "Error",
         "error_missing_info": "Please fill in all information!",
         "error_invalid_phone": "Invalid phone number!",
         "error_invalid_password": "Password must be at least 6 characters long, including at least 1 lowercase letter and 1 number!",
@@ -96,9 +96,9 @@
         "creating": "Creating...",
         "create_button": "Create Account",
         "cancel": "Cancel",
-        "create_success_title": "Admin Created Successfully",
+        "create_success_title": "Successfully",
         "create_success_message": "The admin account has been created successfully.",
-        "create_error_title": "Admin Creation Error",
+        "create_error_title": "Error",
         "create_error_message": "An error occurred while creating the account.",
         "error": {
             "no_response": "No response received from the server!",
@@ -147,8 +147,8 @@
             "submit": "Save changes",
             "cancel": "Cancel"
         },
-        "update_success_title": "Update Successful",
-        "update_error_title": "Update Error",
+        "update_success_title": "Successful",
+        "update_error_title": "Error",
         "delete": {
             "button": "Delete",
             "not_found": "Administrator not found to delete!",
@@ -178,7 +178,9 @@
             "actions": "Actions",
             "detail": "Details",
             "update": "Update",
-            "empty": "No matching users found."
+            "empty": "No matching users found.",
+            "male": "Male",
+            "female": "Female"
         }
     },
     "gender": {
@@ -192,8 +194,8 @@
         "user": "User"
     },
     "user": {
-        "update_success_title": "Update Successful",
-        "update_error_title": "Update Error",
+        "update_success_title": "Successful",
+        "update_error_title": "Error",
         "create": {
             "title": "Create User Account",
             "phone": "Phone Number *",
@@ -220,8 +222,8 @@
                 "password_mismatch": "Password confirmation does not match."
             }
         },
-        "create_success_title": "Creation Successful",
-        "create_error_title": "Account Creation Error",
+        "create_success_title": "Successful",
+        "create_error_title": "Creation Error",
         "manager": {
             "title": "User Management",
             "create_button": "Create User",
@@ -291,6 +293,112 @@
             "cancel": "Cancel",
             "delete": "Delete",
             "no": "No"
+        }
+    },
+    "banner": {
+        "hint": {
+            "title": "Optimal banner size (in pixels)",
+            "desktop1": "1920 x 720 (clear display, best optimization)",
+            "desktop2": "1600 x 600",
+            "mobile": "900 x 500 or 720 x 400 (for mobile only)",
+            "empty_title": "Title can be left blank.",
+            "empty_subtitle": "Subtitle can be left blank.",
+            "empty_link": "Link can be left blank."
+        },
+        "manager": {
+            "hint_title": "To update or delete a banner: you must first disable (showing X) it.",
+            "title_head": "Banner Management",
+            "create_button": "Create Banner",
+            "search_placeholder": "Search by title, subtitle, ID...",
+            "loading": "Loading banners...",
+            "empty_body": "No banners match your criteria.",
+            "filter_status": "Filter by status:",
+            "filter_all": "All",
+            "filter_active": "Active",
+            "filter_inactive": "Inactive",
+            "image": "Image",
+            "title": "Title",
+            "subtitle": "Subtitle",
+            "order": "Order",
+            "status": "Display",
+            "actions": "Actions",
+            "update": "Update",
+            "empty": "No matching banners found.",
+            "error_title": "Error",
+            "load_error": "Failed to load banner list."
+        },
+        "activate": {
+            "title": "Activate Banner",
+            "loading": "Activating...",
+            "success": "Banner activated successfully!",
+            "error": "Failed to activate banner.",
+            "server_error": "Server error while activating banner",
+            "activate_success_title": "Successful",
+            "activate_error_title": "Error",
+            "button": "Activate",
+            "no_title": "No title available",
+            "confirm_title_1": "Are you sure you want to activate this banner?",
+            "confirm_button_1": "Yes, activate it",
+            "confirm_title_2": "Confirm Activation",
+            "confirm_text_2": "This action will make the banner visible on the homepage.",
+            "confirm_button_2": "Yes, activate it",
+            "activate_success_message": "Banner activated successfully!",
+            "activate_error_message": "An error occurred while activating the banner.",
+            "order_input": "Order (optional)",
+            "order_label": "Order:",
+            "order_placeholder": "Enter order number (optional)",
+            "order_duplicate": "Order number already exists. Please choose a different one.",
+            "order_error": "Order number must be a number."
+        },
+        "deactivate": {
+            "title": "Deactivate Banner",
+            "loading": "Deactivating...",
+            "success": "Banner deactivated successfully!",
+            "error": "Failed to deactivate banner.",
+            "server_error": "Server error while deactivating banner",
+            "deactivate_success_title": "Successful",
+            "deactivate_error_title": "Error",
+            "button": "Deactivate",
+            "no_title": "No title available",
+            "confirm_title_1": "Are you sure you want to deactivate this banner?",
+            "confirm_button_1": "Yes, deactivate it",
+            "confirm_title_2": "Confirm Deactivation",
+            "confirm_text_2": "This action will hide the banner from the homepage.",
+            "confirm_button_2": "Yes, deactivate it",
+            "deactivate_success_message": "Banner deactivated successfully!",
+            "deactivate_error_message": "An error occurred while deactivating the banner."
+        },
+        "create": {
+            "title": "Create New Banner",
+            "image": "Image:",
+            "title_label": "Title:",
+            "subtitle": "Subtitle:",
+            "link": "Link:",
+            "order": "Order:",
+            "display": "Display",
+            "loading": "Creating...",
+            "submit": "Create Banner",
+            "cancel": "Cancel",
+            "success": "Banner created successfully!",
+            "error": "Failed to create banner",
+            "server_error": "Server error while creating banner",
+            "create_success_title": "Successfully",
+            "create_error_title": "Error"
+        },
+        "delete": {
+            "confirm_title_1": "Are you sure you want to delete this banner?",
+            "confirm_button_1": "Yes, delete it",
+            "confirm_title_2": "Confirm Deletion",
+            "confirm_text_2": "Are you sure you want to delete this banner?",
+            "confirm_button_2": "Yes, I sure!",
+            "success": "Banner deleted successfully.",
+            "failed": "Failed to delete banner.",
+            "error": "Error occurred while deleting banner.",
+            "button": "Delete",
+            "no_title": "No title available",
+            "delete_success_title": "Successfully",
+            "delete_error_title": "Error",
+            "blocked_active": "Cannot delete an active banner. Please deactivate it first."
         }
     }
 }

@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import './Home.scss';
 
 import Banner from '../../components/containerPublic/banner/Banner';
+import BasicInfo from '../../components/containerPublic/banner/BasicInfo';
 
 const Home = () => {
 
@@ -11,6 +12,7 @@ const Home = () => {
       <div className="home-page">
          <main className="main-content no-padding">
             <Banner />
+            <BasicInfo />
          </main>
       </div>
    );
