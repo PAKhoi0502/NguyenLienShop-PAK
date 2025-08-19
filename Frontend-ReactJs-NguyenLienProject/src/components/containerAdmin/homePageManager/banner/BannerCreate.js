@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import CustomToast from '../../../../components/CustomToast';
-import { createBanner } from '../../../../services/hompageService';
+import { createBanner } from '../../../../services/bannerService';
 import { useIntl, FormattedMessage } from 'react-intl';
 import HintBox from '../../../../components/HintBox';
-import './BannerCreate.scss';
 
 
 const BannerCreate = () => {

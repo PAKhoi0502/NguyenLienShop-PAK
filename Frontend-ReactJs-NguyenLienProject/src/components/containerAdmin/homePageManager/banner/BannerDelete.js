@@ -3,7 +3,7 @@ import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
 import { useIntl } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
-import { deleteBanner } from '../../../../services/hompageService';
+import { deleteBanner } from '../../../../services/bannerService';
 import CustomToast from '../../../../components/CustomToast';
 
 const BannerDelete = ({ banner }) => {

@@ -1,0 +1,9 @@
+export { default as ProductManager } from './ProductManager';
+export { default as ProductCreate } from './ProductCreate';
+export { default as ProductUpdate } from './ProductUpdate';
+export { default as ProductDetail } from './ProductDetail';
+export { default as AddCategory } from './AddCategory';
+export { default as InfoCategory } from './InfoCategory';
+export { default as DeleteCategory } from './DeleteCategory';
+export { default as ProductActive } from './ProductActive';
+export { default as ProductDelete } from './ProductDelete'; 

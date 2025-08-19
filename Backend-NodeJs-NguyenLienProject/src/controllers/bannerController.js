@@ -1,4 +1,4 @@
-import homePageService from '../services/homePageService';
+import homePageService from '../services/bannerService';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -14,8 +14,6 @@ let handleGetBanners = async (req, res) => {
 
 let handleCreateBanner = async (req, res) => {
    try {
-      console.log('Request body:', req.body);
-      console.log('Uploaded file:', req.file);
       const { title, subtitle, link } = req.body;
       const imageUrl = req.file ? `/Uploads/${req.file.filename}` : null;
 
@@ -25,7 +23,6 @@ let handleCreateBanner = async (req, res) => {
 
       const newBanner = await homePageService.createBanner(imageUrl, title || null, subtitle || null, link || null);
 
-      console.log('Banner created:', newBanner);
       res.status(201).json({
          errCode: 0,
          errMessage: 'Banner created',

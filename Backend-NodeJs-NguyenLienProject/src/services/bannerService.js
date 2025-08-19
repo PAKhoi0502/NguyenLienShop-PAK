@@ -13,7 +13,6 @@ let getBanners = async () => {
 
 let createBanner = async (imageUrl, title, subtitle, link) => {
    try {
-      console.log("Creating banner with data:", { imageUrl, title, subtitle, link });
       const banner = await db.Banner.create({
          imageUrl,
          title: title || null,
@@ -58,8 +57,6 @@ let updateBanner = async (id, title, subtitle, link, isActive, order) => {
 
    return { errCode: 0, errMessage: 'Cập nhật banner thành công', banner };
 };
-
-
 
 let deleteBanner = async (id) => {
    try {

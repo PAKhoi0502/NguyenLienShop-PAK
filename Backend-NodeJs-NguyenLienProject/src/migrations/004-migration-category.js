@@ -23,7 +23,7 @@ module.exports = {
          },
          isActive: {
             type: Sequelize.BOOLEAN,
-            defaultValue: true
+            defaultValue: false
          },
          createdAt: {
             allowNull: false,
@@ -37,7 +37,6 @@ module.exports = {
          }
       });
    },
-
    async down(queryInterface, Sequelize) {
       await queryInterface.dropTable('Categories');
    }

@@ -41,6 +41,11 @@ const Breadcrumb = ({ topOffset = 100 }) => {
       if (name === 'banner-create') return 'Tạo banner';
       if (name === 'banner-update') return 'Chỉnh sửa banner';
 
+      if (name === 'product-category-management') return 'Quản lý sản phẩm và danh mục sản phẩm';
+      if (name === 'product-management') return 'Quản lý Sản phẩm';
+      if (name === 'product-update') return 'Chỉnh sửa sản phẩm';
+      if (name === 'product-detail') return 'Chi tiết thông tin sản phẩm';
+
       if (pathnames.includes('user-detail') && index === pathnames.length - 1) {
          return "Thông tin người dùng";
       }

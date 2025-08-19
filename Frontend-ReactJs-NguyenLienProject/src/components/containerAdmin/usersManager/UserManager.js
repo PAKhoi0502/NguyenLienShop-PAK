@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { getUsers } from '../../../services/adminService';
 import { useNavigate } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
-import './UserManager.scss';
 import UserDelete from './UserDelete';
 
 const UserManager = () => {

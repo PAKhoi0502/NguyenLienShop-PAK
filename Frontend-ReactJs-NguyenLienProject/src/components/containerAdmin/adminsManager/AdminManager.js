@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { getAdmins } from '../../../services/adminService';
 import { useNavigate } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
-import './AdminManager.scss';
 import AdminDelete from './AdminDelete';
 
 const AdminManager = () => {

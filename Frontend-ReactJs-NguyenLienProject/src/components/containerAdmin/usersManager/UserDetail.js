@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getUsers } from '../../../services/adminService';
 import { FormattedMessage, useIntl } from 'react-intl';
-import './UserDetail.scss';
 
 const UserDetail = () => {
    const { id } = useParams();

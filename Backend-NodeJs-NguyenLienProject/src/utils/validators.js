@@ -8,7 +8,6 @@ export const checkEmailExists = async (userEmail) => {
       });
       return user ? true : false;
    } catch (error) {
-      console.log("Error checking email:", error);
       return false;
    }
 };
@@ -19,19 +18,17 @@ export const checkPhoneNumberExists = async (phoneNumber) => {
       });
       return user ? true : false;
    } catch (error) {
-      console.log("Error checking phoneNumber:", error);
       return false;
    }
 };
 export const checkUserNameExists = async (userName) => {
-   if (!userName || userName.trim() === "") return false; // Không kiểm tra nếu không có
+   if (!userName || userName.trim() === "") return false;
    try {
       let user = await db.User.findOne({
          where: { userName: userName.trim() }
       });
       return user ? true : false;
    } catch (error) {
-      console.log("Error checking userName:", error);
       return false;
    }
 };

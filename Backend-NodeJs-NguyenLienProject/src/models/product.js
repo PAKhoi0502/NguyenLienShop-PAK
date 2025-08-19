@@ -3,37 +3,18 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
    class Product extends Model {
       static associate(models) {
-         // 1 Product thuộc 1 Category
-         Product.belongsTo(models.Category, {
-            foreignKey: 'categoryId',
-            as: 'category'
-         });
-
-         // 1 Product có nhiều hình ảnh
-         Product.hasMany(models.ProductImage, {
+         Product.belongsToMany(models.Category, {
+            through: 'ProductCategory',
             foreignKey: 'productId',
-            as: 'images'
+            otherKey: 'categoryId',
+            as: 'categories'
          });
 
-         // 1 Product có nhiều review
-         Product.hasMany(models.Review, {
-            foreignKey: 'productId',
-            as: 'reviews'
-         });
+         Product.hasMany(models.ProductImage, { foreignKey: 'productId', as: 'images' });
+         Product.hasMany(models.Review, { foreignKey: 'productId', as: 'reviews' });
+         Product.hasMany(models.OrderItem, { foreignKey: 'productId', as: 'orderItems' });
+         Product.hasMany(models.CartItem, { foreignKey: 'productId', as: 'cartItems' });
 
-         // 1 Product xuất hiện trong nhiều OrderItem
-         Product.hasMany(models.OrderItem, {
-            foreignKey: 'productId',
-            as: 'orderItems'
-         });
-
-         // 1 Product có thể được thêm vào nhiều CartItem
-         Product.hasMany(models.CartItem, {
-            foreignKey: 'productId',
-            as: 'cartItems'
-         });
-
-         // Wishlist: many-to-many giữa Product và User
          Product.belongsToMany(models.User, {
             through: 'Wishlist',
             foreignKey: 'productId',
@@ -41,7 +22,6 @@ module.exports = (sequelize, DataTypes) => {
             as: 'wishlistedBy'
          });
 
-         // Voucher (DiscountCode): nếu 1 voucher áp dụng cho nhiều sản phẩm
          Product.belongsToMany(models.DiscountCode, {
             through: 'ProductDiscount',
             foreignKey: 'productId',
@@ -50,6 +30,7 @@ module.exports = (sequelize, DataTypes) => {
          });
       }
    }
+
    Product.init({
       nameProduct: DataTypes.STRING,
       description: DataTypes.TEXT,
@@ -58,12 +39,22 @@ module.exports = (sequelize, DataTypes) => {
       dimensions: DataTypes.STRING,
       slug: DataTypes.STRING,
       stock: DataTypes.INTEGER,
-      categoryId: DataTypes.INTEGER,
-      isNew: DataTypes.BOOLEAN,
-      isBestSeller: DataTypes.BOOLEAN
+      isNew: {
+         type: DataTypes.BOOLEAN,
+         defaultValue: false
+      },
+      isBestSeller: {
+         type: DataTypes.BOOLEAN,
+         defaultValue: false
+      },
+      isActive: {
+         type: DataTypes.BOOLEAN,
+         defaultValue: false
+      }
    }, {
       sequelize,
       modelName: 'Product',
    });
+
    return Product;
 };

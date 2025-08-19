@@ -4,7 +4,6 @@ import { createAdmin } from '../../../services/adminService';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import CustomToast from '../../../components/CustomToast';
-import './AdminCreate.scss';
 
 const initialForm = {
    phoneNumber: '',

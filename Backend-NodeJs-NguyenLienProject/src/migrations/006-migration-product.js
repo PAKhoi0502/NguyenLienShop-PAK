@@ -9,49 +9,35 @@ module.exports = {
             type: Sequelize.INTEGER
          },
          nameProduct: {
-            type: Sequelize.STRING,
-            allowNull: false
+            type: Sequelize.STRING
          },
          description: {
-            type: Sequelize.TEXT,
-            allowNull: true
+            type: Sequelize.TEXT
          },
          price: {
-            type: Sequelize.FLOAT,
-            allowNull: false
+            type: Sequelize.FLOAT
          },
          discountPrice: {
-            type: Sequelize.FLOAT,
-            allowNull: true
+            type: Sequelize.FLOAT
          },
          dimensions: {
-            type: Sequelize.STRING,
-            allowNull: true
+            type: Sequelize.STRING
          },
          slug: {
-            type: Sequelize.STRING,
-            allowNull: true
+            type: Sequelize.STRING
          },
          stock: {
-            type: Sequelize.INTEGER,
-            allowNull: false,
-            defaultValue: 0
-         },
-         categoryId: {
-            type: Sequelize.INTEGER,
-            allowNull: true,
-            references: {
-               model: 'Categories',
-               key: 'id'
-            },
-            onUpdate: 'CASCADE',
-            onDelete: 'SET NULL'
+            type: Sequelize.INTEGER
          },
          isNew: {
             type: Sequelize.BOOLEAN,
             defaultValue: false
          },
          isBestSeller: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: false
+         },
+         isActive: {
             type: Sequelize.BOOLEAN,
             defaultValue: false
          },
@@ -67,7 +53,6 @@ module.exports = {
          }
       });
    },
-
    async down(queryInterface, Sequelize) {
       await queryInterface.dropTable('Products');
    }

@@ -4,7 +4,6 @@ dotenv.config();
 
 // admin controller
 let handleCreateAdminForAdmin = async (req, res) => {
-   console.log('=== BODY NHẬN TỪ FE ===', req.body);
    const data = req.body;
 
    if (!data.phoneNumber || !data.password) {
@@ -33,7 +32,6 @@ let handleCreateAdminForAdmin = async (req, res) => {
    }
 };
 let handleGetAllAdmins = async (req, res) => {
-   console.log('Request received:', req.query.id, 'Token:', req.headers.authorization, 'User:', req.user);
    try {
       const id = req.query.id;
       if (!id) {
@@ -44,11 +42,9 @@ let handleGetAllAdmins = async (req, res) => {
          });
       }
       const users = await adminService.getAllAdmins(id === 'ALL' ? 'ALL' : id);
-      console.log('Users fetched:', users);
       const plainUsers = Array.isArray(users)
          ? users.map(user => user.get({ plain: true }))
          : users ? [users.get({ plain: true })] : [];
-      console.log('Response being sent:', { errCode: 0, errMessage: "Ok", users: plainUsers });
       return res.status(200).json({
          errCode: 0,
          errMessage: "Ok",
@@ -88,7 +84,6 @@ let handleUpdateAdmin = async (req, res) => {
 
 //users management
 let handleCreateUserForAdmin = async (req, res) => {
-   console.log('=== BODY NHẬN TỪ FE ===', req.body);
    const data = req.body;
 
    if (!data.phoneNumber || !data.password) {
@@ -101,7 +96,6 @@ let handleCreateUserForAdmin = async (req, res) => {
    try {
       const newData = { ...data, roleId: 2 };
       const result = await adminService.createUserForAdmin(newData);
-      console.log('Create response:', result); // Log phản hồi từ service
       return res.status(result.errCode === 0 ? 200 : 400).json({
          errCode: result.errCode,
          errMessage: result.errMessage || result.message
@@ -115,7 +109,6 @@ let handleCreateUserForAdmin = async (req, res) => {
    }
 };
 let handleGetAllUsers = async (req, res) => {
-   console.log('Request received:', req.query.id, 'Token:', req.headers.authorization, 'User:', req.user);
    try {
       const id = req.query.id;
       if (!id) {
@@ -126,11 +119,9 @@ let handleGetAllUsers = async (req, res) => {
          });
       }
       const users = await adminService.getAllUsers(id === 'ALL' ? 'ALL' : id);
-      console.log('Users fetched:', users);
       const plainUsers = Array.isArray(users)
          ? users.map(user => user.get({ plain: true }))
          : users ? [users.get({ plain: true })] : [];
-      console.log('Response being sent:', { errCode: 0, errMessage: "Ok", users: plainUsers });
       return res.status(200).json({
          errCode: 0,
          errMessage: "Ok",
@@ -167,7 +158,6 @@ let handleDeleteUser = async (req, res) => {
    }
 };
 let handleUpdateUser = async (req, res) => {
-   console.log('Request body:', req.body); // Log để kiểm tra
    const data = req.body;
 
    if (!data || !data.id) {
@@ -179,7 +169,6 @@ let handleUpdateUser = async (req, res) => {
 
    try {
       const message = await adminService.updateUser(data);
-      console.log('Edit response:', message); // Log phản hồi từ service
       return res.status(200).json(message);
    } catch (error) {
       console.error("Edit User Error:", error);

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { getAllBanners, updateBanner } from '../../../../services/hompageService';
-import './BannerCreate.scss';
+import { getAllBanners, updateBanner } from '../../../../services/bannerService';
 
 const BannerUpdate = () => {
    const { id } = useParams();

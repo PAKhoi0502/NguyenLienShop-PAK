@@ -20,6 +20,7 @@ import NotFoundPage from '../pages/auth/NotFoundPage';
 import Dashboard from '../pages/admin/Dashboard';
 import AccountDashboard from '../pages/admin/AccountDashboard';
 import HomepageDashboard from '../pages/admin/HomepageDashboard';
+import ProductCategoryDashboard from '../pages/admin/ProductCategoryDashboard';
 
 // Admin - Quản lý người dùng
 import UserManager from '../components/containerAdmin/usersManager/UserManager';
@@ -38,8 +39,17 @@ import BannerManager from '../components/containerAdmin/homePageManager/banner/B
 import BannerCreate from '../components/containerAdmin/homePageManager/banner/BannerCreate';
 import BannerUpdate from '../components/containerAdmin/homePageManager/banner/BannerUpdate';
 
+// //Admin - Quản lý product
+import { AddCategory, DeleteCategory, InfoCategory, ProductCreate, ProductDetail, ProductManager, ProductUpdate } from '../components/containerAdmin/homePageManager/product/index.js';
+
+// //Admin - Quản lý category
+import { CategoryManager, CategoryCreate, CategoryUpdate, CategoryDetail, InfoProduct } from '../components/containerAdmin/homePageManager/category/index.js';
+
+
 // Wrapper
 import ErrorBoundary from '../components/ErrorBoundary';
+
+
 
 const AppRoutes = () => (
    <ErrorBoundary>
@@ -54,6 +64,7 @@ const AppRoutes = () => (
          <Route path="/admin" element={<PrivateRoute role="1" element={() => <AdminLayout><Dashboard /></AdminLayout>} />} />
          <Route path="/admin/account-management" element={<PrivateRoute role="1" element={() => <AdminLayout><AccountDashboard /></AdminLayout>} />} />
          <Route path="/admin/homepage-management" element={<PrivateRoute role="1" element={() => <AdminLayout><HomepageDashboard /></AdminLayout>} />} />
+         <Route path="/admin/product-category-management" element={<PrivateRoute role="1" element={() => <AdminLayout><ProductCategoryDashboard /></AdminLayout>} />} />
 
          {/* --- Admin - Quản lý người dùng --- */}
          <Route path="/admin/account-management/user-management" element={<PrivateRoute role="1" element={() => <AdminLayout><UserManager /></AdminLayout>} />} />
@@ -75,6 +86,23 @@ const AppRoutes = () => (
          <Route path="/admin/homepage-management/banner-management" element={<PrivateRoute role="1" element={() => <AdminLayout><BannerManager /></AdminLayout>} />} />
          <Route path="/admin/homepage-management/banner-management/banner-create" element={<PrivateRoute role="1" element={() => <AdminLayout><BannerCreate /></AdminLayout>} />} />
          <Route path="/admin/homepage-management/banner-management/banner-update/:id" element={<PrivateRoute role="1" element={() => <AdminLayout><BannerUpdate /></AdminLayout>} />} />
+
+         {/* --- Admin - Quản lý sản phẩm --- */}
+         <Route path="/admin/product-category-management/product-management" element={<PrivateRoute role="1" element={() => <AdminLayout><ProductManager /></AdminLayout>} />} />
+         <Route path="/admin/product-category-management/product-management/product-create" element={<PrivateRoute role="1" element={() => <AdminLayout><ProductCreate /></AdminLayout>} />} />
+         <Route path="/admin/product-category-management/product-management/product-update/:id" element={<PrivateRoute role="1" element={() => <AdminLayout><ProductUpdate /></AdminLayout>} />} />
+         <Route path="/admin/product-category-management/product-management/product-detail/:id" element={<PrivateRoute role="1" element={() => <AdminLayout><ProductDetail /></AdminLayout>} />} />
+         <Route path="/admin/product-category-management/product-management/add-category" element={<PrivateRoute role="1" element={() => <AdminLayout><AddCategory /></AdminLayout>} />} />
+         <Route path="/admin/product-category-management/product-management/delete-category" element={<PrivateRoute role="1" element={() => <AdminLayout><DeleteCategory /></AdminLayout>} />} />
+         <Route path="/admin/product-category-management/product-management/info-category" element={<PrivateRoute role="1" element={() => <AdminLayout><InfoCategory /></AdminLayout>} />} />
+
+
+         {/* --- Admin - Quản lý danh mục sản phẩm --- */}
+         <Route path="/admin/product-category-management/category-management" element={<PrivateRoute role="1" element={() => <AdminLayout><CategoryManager /></AdminLayout>} />} />
+         <Route path="/admin/product-category-management/category-management/category-create" element={<PrivateRoute role="1" element={() => <AdminLayout><CategoryCreate /></AdminLayout>} />} />
+         <Route path="/admin/product-category-management/category-management/category-update/:id" element={<PrivateRoute role="1" element={() => <AdminLayout><CategoryUpdate /></AdminLayout>} />} />
+         <Route path="/admin/product-category-management/category-management/category-detail/:id" element={<PrivateRoute role="1" element={() => <AdminLayout><CategoryDetail /></AdminLayout>} />} />
+         <Route path="/admin/product-category-management/category-management/info-product" element={<PrivateRoute role="1" element={() => <AdminLayout><InfoProduct /></AdminLayout>} />} />
          {/* --- Not Found --- */}
          <Route path="*" element={<NotFoundPage />} />
       </Routes>

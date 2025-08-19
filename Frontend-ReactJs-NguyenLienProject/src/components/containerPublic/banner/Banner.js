@@ -5,7 +5,7 @@ import 'swiper/css/autoplay';
 import { Autoplay } from 'swiper/modules';
 import { useIntl } from 'react-intl';
 import { toast } from 'react-toastify';
-import { publicBanner } from '../../../services/hompageService';
+import { publicBanner } from '../../../services/bannerService.js';
 import CustomToast from '../../../components/CustomToast';
 import './Banner.scss';
 

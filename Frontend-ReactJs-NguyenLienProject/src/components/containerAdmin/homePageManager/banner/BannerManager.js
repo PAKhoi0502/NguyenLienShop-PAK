@@ -2,12 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
-import { getAllBanners } from '../../../../services/hompageService';
+import { getAllBanners } from '../../../../services/bannerService';
 import BannerActive from './BannerActive';
 import BannerDelete from './BannerDelete';
 import CustomToast from '../../../../components/CustomToast';
 import HintBox from '../../../../components/HintBox';
-import './BannerManager.scss';
 
 const BannerManager = () => {
    const [banners, setBanners] = useState([]);

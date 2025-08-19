@@ -3,13 +3,15 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
    class Category extends Model {
       static associate(models) {
-         // 1 Category có nhiều Product
-         Category.hasMany(models.Product, {
+         Category.belongsToMany(models.Product, {
+            through: 'ProductCategory',
             foreignKey: 'categoryId',
+            otherKey: 'productId',
             as: 'products'
          });
       }
    }
+
    Category.init({
       nameCategory: {
          type: DataTypes.STRING,
@@ -26,11 +28,12 @@ module.exports = (sequelize, DataTypes) => {
       },
       isActive: {
          type: DataTypes.BOOLEAN,
-         defaultValue: true
+         defaultValue: false
       }
    }, {
       sequelize,
       modelName: 'Category',
    });
+
    return Category;
 };

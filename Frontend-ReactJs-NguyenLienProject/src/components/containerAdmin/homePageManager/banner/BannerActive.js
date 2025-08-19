@@ -2,7 +2,7 @@ import React from 'react';
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
 import { useIntl } from 'react-intl';
-import { getActiveBanners, updateBanner } from '../../../../services/hompageService';
+import { getActiveBanners, updateBanner } from '../../../../services/bannerService.js';
 import CustomToast from '../../../../components/CustomToast';
 
 const BannerActive = ({ banner, onSuccess }) => {

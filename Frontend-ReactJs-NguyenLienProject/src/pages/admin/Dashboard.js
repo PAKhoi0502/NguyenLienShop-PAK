@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './Dashboard.scss';
 
 const Dashboard = () => {
    return (
@@ -11,6 +10,9 @@ const Dashboard = () => {
          <div className="dashboard-actions">
             <Link to="/admin/account-management">
                <button className="dashboard-btn">Quản lý tài khoản</button>
+            </Link>
+            <Link to="/admin/product-category-management">
+               <button className="dashboard-btn">Quản lý sản phẩm và danh mục sản phẩm</button>
             </Link>
             <Link to="/admin/homepage-management">
                <button className="dashboard-btn">Quản lý trang chủ</button>

@@ -4,7 +4,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { FormattedMessage, useIntl } from 'react-intl';
 import CustomToast from '../../../components/CustomToast';
-import './UserCreate.scss';
 
 const UserUpdate = () => {
    const { id } = useParams();

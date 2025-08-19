@@ -1,0 +1,199 @@
+import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import { useIntl, FormattedMessage } from 'react-intl';
+import { getAllProducts } from '../../../../services/productService.js';
+import ProductActive from './ProductActive';
+import ProductDelete from './ProductDelete';
+import CustomToast from '../../../CustomToast';
+import HintBox from '../../../HintBox';
+
+
+const ProductManager = () => {
+   const [products, setProducts] = useState([]);
+   const [filteredProducts, setFilteredProducts] = useState([]);
+   const [search, setSearch] = useState('');
+   const [loading, setLoading] = useState(true);
+   const [filterStatus, setFilterStatus] = useState('all');
+   const navigate = useNavigate();
+   const intl = useIntl();
+
+   const showToast = (type, message) => {
+      toast(
+         (props) => (
+            <CustomToast
+               {...props}
+               type={type}
+               titleId={type === 'error' ? 'product.manager.error_title' : 'product.manager.success_title'}
+               message={message}
+               time={new Date()}
+            />
+         ),
+         { closeButton: false, type }
+      );
+   };
+
+   const fetchProducts = async () => {
+      try {
+         const res = await getAllProducts();
+         setProducts(Array.isArray(res) ? res : []);
+      } catch (err) {
+         console.error('Fetch products error:', err);
+         toast.error(intl.formatMessage({ id: 'product.manager.load_error', defaultMessage: 'Không thể tải danh sách sản phẩm' }));
+      } finally {
+         setLoading(false);
+      }
+   };
+
+   useEffect(() => {
+      fetchProducts();
+   }, []);
+
+   useEffect(() => {
+      const keyword = search.trim().toLowerCase();
+      const filtered = products.filter((product) => {
+         const matchSearch =
+            (product.nameProduct || '').toLowerCase().includes(keyword) ||
+            String(product.id).includes(keyword);
+
+         const matchStatus =
+            filterStatus === 'all' ||
+            (filterStatus === 'active' && product.isActive) ||
+            (filterStatus === 'inactive' && !product.isActive);
+
+         return matchSearch && matchStatus;
+      });
+
+      setFilteredProducts(filtered);
+   }, [search, products, filterStatus]);
+
+   const handleUpdateClick = (clickedProduct) => {
+      const realProduct = products.find((p) => p.id === clickedProduct.id);
+      if (realProduct?.isActive) {
+         showToast('error', intl.formatMessage({
+            id: 'product.manager.update_blocked',
+            defaultMessage: 'Vui lòng ẩn sản phẩm trước khi cập nhật',
+         }));
+         return;
+      }
+      navigate(`/admin/product-category-management/product-management/product-update/${clickedProduct.id}`);
+   };
+
+   const handleDetailClick = (product) => {
+      navigate(`/admin/product-category-management/product-management/product-detail/${product.id}`);
+   };
+
+   return (
+      <div className="product-manager-container">
+         <div className="product-manager-top">
+            <h1 className="product-title">
+               <FormattedMessage id="product.manager.title_head" defaultMessage="Quản lý sản phẩm" />
+            </h1>
+            <button
+               className="btn-create-product"
+               onClick={() => navigate('/admin/product-category-management/product-management/product-create')}
+            >
+               + <FormattedMessage id="product.manager.create_button" defaultMessage="Tạo sản phẩm" />
+            </button>
+         </div>
+
+         <div className="product-filters">
+            <label><FormattedMessage id="product.manager.filter_status" defaultMessage="Lọc trạng thái:" /></label>
+            <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
+               <option value="all"><FormattedMessage id="product.manager.filter_all" defaultMessage="Tất cả" /></option>
+               <option value="active"><FormattedMessage id="product.manager.filter_active" defaultMessage="Đang hiển thị" /></option>
+               <option value="inactive"><FormattedMessage id="product.manager.filter_inactive" defaultMessage="Đã ẩn" /></option>
+            </select>
+         </div>
+         <HintBox
+            content={
+               <div>
+                  <p><FormattedMessage id="product.manager.hint_title" defaultMessage="Hướng dẫn: Quản lý danh sách sản phẩm, bao gồm tạo, cập nhật, xóa và thay đổi trạng thái hiển thị." /></p>
+               </div>
+            }
+         />
+         <div className="product-search-bar">
+            <input
+               type="text"
+               placeholder={intl.formatMessage({ id: 'product.manager.search_placeholder', defaultMessage: 'Tìm theo tên sản phẩm, ID...' })}
+               value={search}
+               onChange={(e) => setSearch(e.target.value)}
+            />
+         </div>
+
+         {loading ? (
+            <p className="product-loading"><FormattedMessage id="product.manager.loading" defaultMessage="Đang tải sản phẩm..." /></p>
+         ) : (
+            <div className="product-table-wrapper">
+               <table className="product-table">
+                  <thead>
+                     <tr>
+                        <th>ID</th>
+                        <th><FormattedMessage id="product.manager.name" defaultMessage="Tên sản phẩm" /></th>
+                        <th><FormattedMessage id="product.manager.stock" defaultMessage="Tồn kho" /></th>
+                        <th><FormattedMessage id="product.manager.status" defaultMessage="Hiển thị" /></th>
+                        <th><FormattedMessage id="product.manager.actions" defaultMessage="Hành động" /></th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     {filteredProducts.length === 0 ? (
+                        <tr>
+                           <td colSpan={5} style={{ textAlign: 'center', color: '#888' }}>
+                              <FormattedMessage id="product.manager.empty_body" defaultMessage="Không có sản phẩm nào phù hợp." />
+                           </td>
+                        </tr>
+                     ) : (
+                        filteredProducts.map((product) => (
+                           <tr key={product.id}>
+                              <td>{product.id}</td>
+                              <td>{product.nameProduct || ''}</td>
+                              <td>{product.stock || 0}</td>
+                              <td>{product.isActive ? '✅' : '❌'}</td>
+                              <td>
+                                 <div className="action-buttons">
+                                    <button
+                                       className="btn-action btn-detail"
+                                       onClick={() => handleDetailClick(product)}
+                                    >
+                                       <FormattedMessage id="product.manager.detail" defaultMessage="Chi tiết" />
+                                    </button>
+                                    <button
+                                       className="btn-action btn-update"
+                                       onClick={() => handleUpdateClick(product)}
+                                    >
+                                       <FormattedMessage id="product.manager.update" defaultMessage="Cập nhật" />
+                                    </button>
+                                    <ProductActive
+                                       product={product}
+                                       onSuccess={(productId, updatedProduct) => {
+                                          setProducts((prev) =>
+                                             prev.map((p) => (p.id === productId ? updatedProduct : p))
+                                          );
+                                       }}
+                                    />
+                                    <button
+                                       className="btn-action btn-add-category"
+                                       onClick={() => navigate('/admin/product-category-management/product-management/info-category', { state: { productId: product.id } })}
+                                    >
+                                       <FormattedMessage id="product.manager.info_category" defaultMessage="Danh mục" />
+                                    </button>
+                                    <ProductDelete
+                                       product={product}
+                                       onSuccess={(deletedProductId) => {
+                                          setProducts((prev) => prev.filter((p) => p.id !== deletedProductId));
+                                       }}
+                                    />
+                                 </div>
+                              </td>
+                           </tr>
+                        ))
+                     )}
+                  </tbody>
+               </table>
+            </div>
+         )}
+      </div>
+   );
+};
+
+export default ProductManager;
