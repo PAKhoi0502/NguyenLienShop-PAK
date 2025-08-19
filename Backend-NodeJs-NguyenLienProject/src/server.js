@@ -3,6 +3,7 @@ import { config } from 'dotenv';
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import viewEngine from "./config/viewEngine";
 import initRoutes from './routes/web';
 import connectDB from './config/connectDB';
@@ -29,6 +30,9 @@ app.use((req, res, next) => {
 });
 
 app.use('/uploads', express.static('uploads'));
+
+// ✅ Parse cookies for HttpOnly cookie authentication
+app.use(cookieParser());
 
 // ✅ Parse body của request
 app.use(bodyParser.json());

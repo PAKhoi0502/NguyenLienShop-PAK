@@ -3,8 +3,13 @@ import { Navigate, useLocation } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 
 const PrivateRoute = ({ element: Element, role }) => {
-   const { isAuthenticated, roleId } = useAuth();
+   const { isAuthenticated, roleId, isLoading } = useAuth();
    const location = useLocation();
+
+   // Show loading while checking authentication
+   if (isLoading) {
+      return <div>Loading...</div>;
+   }
 
    if (!isAuthenticated) {
       return <Navigate to={`/login?redirect=${encodeURIComponent(location.pathname)}`} replace />;

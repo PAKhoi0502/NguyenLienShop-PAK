@@ -8,9 +8,9 @@ dotenv.config();
 const tokenBlacklist = new Set();
 
 /**
- * Generate access token
+ * Generate access token with dynamic expiration
  */
-const generateAccessToken = (user) => {
+const generateAccessToken = (user, expiresIn = '1h') => {
    return jwt.sign(
       {
          id: user.id,
@@ -18,12 +18,12 @@ const generateAccessToken = (user) => {
          type: 'access'
       },
       process.env.JWT_SECRET,
-      { expiresIn: '1h' }
+      { expiresIn }
    );
 };
 
 /**
- * Generate refresh token
+ * Generate refresh token with longer expiration
  */
 const generateRefreshToken = (user) => {
    return jwt.sign(
@@ -32,7 +32,7 @@ const generateRefreshToken = (user) => {
          type: 'refresh'
       },
       process.env.JWT_REFRESH_SECRET || process.env.JWT_SECRET,
-      { expiresIn: '7d' }
+      { expiresIn: '30d' } // 30 days for refresh token
    );
 };
 
@@ -84,6 +84,50 @@ const getBlacklistStats = () => {
    };
 };
 
+/**
+ * Generate pair of access and refresh tokens
+ */
+const generateTokenPair = (user, accessTokenExpiry = '30m') => {
+   const accessToken = generateAccessToken(user, accessTokenExpiry);
+   const refreshToken = generateRefreshToken(user);
+
+   return {
+      accessToken,
+      refreshToken,
+      accessTokenExpiry: accessTokenExpiry,
+      refreshTokenExpiry: '30d'
+   };
+};
+
+/**
+ * Create refresh token expiration date
+ */
+const createRefreshTokenExpiry = (days = 30) => {
+   const expiry = new Date();
+   expiry.setDate(expiry.getDate() + days);
+   return expiry;
+};
+
+/**
+ * Extract device info from request headers
+ */
+const extractDeviceInfo = (req) => {
+   const userAgent = req.get('User-Agent') || 'Unknown';
+   const platform = req.get('sec-ch-ua-platform') || '';
+   return `${userAgent} ${platform}`.trim();
+};
+
+/**
+ * Extract IP address from request
+ */
+const extractIpAddress = (req) => {
+   return req.ip ||
+      req.connection.remoteAddress ||
+      req.socket.remoteAddress ||
+      (req.connection.socket ? req.connection.socket.remoteAddress : null) ||
+      '127.0.0.1';
+};
+
 module.exports = {
    generateAccessToken,
    generateRefreshToken,
@@ -92,5 +136,9 @@ module.exports = {
    blacklistToken,
    isTokenBlacklisted,
    cleanupBlacklist,
-   getBlacklistStats
+   getBlacklistStats,
+   generateTokenPair,
+   createRefreshTokenExpiry,
+   extractDeviceInfo,
+   extractIpAddress
 };

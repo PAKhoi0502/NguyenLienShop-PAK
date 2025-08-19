@@ -9,7 +9,6 @@ import logo from '../../assets/icon/footer/logo.png';
 import { toast } from 'react-toastify';
 import CustomToast from '../../components/CustomToast';
 import { FormattedMessage } from 'react-intl';
-import { logout as logoutService } from '../../services/authService';
 
 const HeaderPublic = forwardRef((props, ref) => {
    const [hideBanner, setHideBanner] = useState(false);
@@ -26,20 +25,11 @@ const HeaderPublic = forwardRef((props, ref) => {
       setTimeout(() => setShowBanner(false), 400);
    }
 
-   const handleLogout = async () => {
-      try {
-         // Gọi API logout để blacklist token
-         await logoutService();
-      } catch (error) {
-         console.error('Logout API error:', error);
-         // Vẫn tiếp tục logout local ngay cả khi API thất bại
-      }
-      
-      // Clear localStorage
-      localStorage.removeItem('token');
-      localStorage.removeItem('roleId');
+   const handleLogout = () => {
+      // 🍪 HttpOnly cookies are cleared by server during logout API call
+      // No need to manually remove localStorage tokens
+
       dispatch(processLogout());
-      
       toast(
          (props) => (
             <CustomToast

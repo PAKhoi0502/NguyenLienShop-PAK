@@ -27,9 +27,10 @@ const Logout = () => {
             console.error('❌ Logout API call failed:', error);
             // Vẫn logout ở frontend ngay cả khi API failed
          } finally {
-            // Luôn luôn cleanup frontend state
-            localStorage.removeItem('token');
-            localStorage.removeItem('roleId');
+            // 🍪 HttpOnly cookies are cleared by server
+            // 🔧 Keep rememberMe and savedIdentifier for better UX
+            // Don't clear these on logout - user might want to login again quickly
+
             dispatch(actions.processLogout());
             history.push('/login');
          }

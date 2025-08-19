@@ -6,14 +6,27 @@ import useAuth from '../hooks/useAuth';
 import Breadcrumb from '../components/Breadcrumb';
 
 const AdminLayout = ({ children }) => {
-   const { isAuthenticated } = useAuth();
+   const { isAuthenticated, isAdmin, isLoading } = useAuth();
 
-   // ✅ Check both token and roleId from localStorage for more reliable auth check
-   const token = localStorage.getItem('token');
-   const storedRoleId = localStorage.getItem('roleId');
+   // console.log('🔧 AdminLayout render:', { isAuthenticated, isAdmin, isLoading });
 
-   if (!isAuthenticated || !token || storedRoleId !== '1') {
-      console.log('AdminLayout: Unauthorized access', { isAuthenticated, token: !!token, roleId: storedRoleId });
+   // Show loading while checking authentication
+   if (isLoading) {
+      return (
+         <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100vh',
+            fontSize: '16px'
+         }}>
+            Loading authentication...
+         </div>
+      );
+   }
+
+   if (!isAuthenticated || !isAdmin) {
+      console.log('AdminLayout: Unauthorized access', { isAuthenticated, isAdmin });
       return <Navigate to="/" replace />;
    }
 

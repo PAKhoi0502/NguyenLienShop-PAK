@@ -56,6 +56,7 @@ const ToastUtil = {
             (t) => (
                 <CustomToast
                     t={t}
+                    type="error" // 🔧 Add error type
                     titleId={title}
                     message={message}
                     messageId={messageId}
@@ -70,23 +71,29 @@ const ToastUtil = {
     },
 
     show(type, title, message, rawMessage = false, autoCloseDelay = 3000) {
-        toast.custom(
+        // 🔧 Using CustomToast for consistent styling with proper auto-close
+        const typeMapping = {
+            [TYPE_SUCCESS]: 'success',
+            [TYPE_ERROR]: 'error',
+            [TYPE_INFO]: 'info',
+            [TYPE_WARN]: 'warning'
+        };
+
+        return toast.custom(
             (t) => (
                 <CustomToast
                     t={t}
+                    type={typeMapping[type] || 'info'}
                     titleId={title}
-                    messageId={rawMessage ? null : message}
-                    message={rawMessage ? message : null}
+                    message={message}
+                    rawMessage={rawMessage}
                     time={new Date()}
                 />
             ),
             {
                 duration: autoCloseDelay,
                 position: 'bottom-right',
-                style: {
-                    background: type === TYPE_SUCCESS ? '#28a745' : type === TYPE_INFO ? '#17a2b8' : type === TYPE_WARN ? '#ffc107' : '#dc3545',
-                    color: '#fff',
-                },
+                id: `toast-${Date.now()}`,
             }
         );
     },

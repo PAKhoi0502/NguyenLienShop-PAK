@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import CustomScrollbars from './components/CustomScrollbars';
 import AppRoutes from './routes/AppRoutes';
 import AuthDebugSafe from './components/AuthDebugSafe'; // ✅ Safe debug component
+// import CookieAuthTest from './components/CookieAuthTest'; // 🍪 Integrated into debug panel
 import { Toaster } from 'react-hot-toast';
 import './App.scss';
 import reduxStore from './redux';

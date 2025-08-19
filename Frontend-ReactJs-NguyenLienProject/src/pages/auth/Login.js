@@ -19,9 +19,7 @@ const Login = () => {
    const dispatch = useDispatch();
    const navigate = useNavigate();
    const location = useLocation();
-   const intl = useIntl();
-
-   useEffect(() => {
+   const intl = useIntl(); useEffect(() => {
       const rememberMeStored = localStorage.getItem('rememberMe') === 'true';
       const savedIdentifier = localStorage.getItem('savedIdentifier') || '';
       if (rememberMeStored && savedIdentifier) {
@@ -52,8 +50,14 @@ const Login = () => {
       }
 
       setLoading(true);
+
+      // ✅ Clear any existing auth state before new login
+      dispatch(adminLoginFail()); // Clear Redux state
+      localStorage.removeItem('token');
+      localStorage.removeItem('roleId');
+
       try {
-         const response = await login({ identifier, password });
+         const response = await login({ identifier, password, rememberMe });
          if (response.errCode !== 0) {
             toast(
                <CustomToast
@@ -81,9 +85,12 @@ const Login = () => {
             return;
          }
 
-         const { token, data: user } = response;
-         localStorage.setItem('token', token);
-         localStorage.setItem('roleId', user.roleId);
+         const { data: user } = response;
+
+         // 🍪 HttpOnly cookies are set by server, no localStorage needed
+         // Remove token and roleId from localStorage for security
+
+         // 🔧 Only save rememberMe and identifier for user convenience
          if (rememberMe) {
             localStorage.setItem('rememberMe', 'true');
             localStorage.setItem('savedIdentifier', identifier);
@@ -92,6 +99,11 @@ const Login = () => {
             localStorage.removeItem('savedIdentifier');
          }
          dispatch(adminLoginSuccess(user));
+
+         // 🔧 Debug: Check Redux state after dispatch
+         console.log('🔧 User data for Redux:', user);
+         console.log('🔧 Dispatched adminLoginSuccess');
+
          toast(
             <CustomToast
                type="success"
@@ -114,9 +126,10 @@ const Login = () => {
             targetPath = user.roleId === 1 ? '/admin' : '/';
          }
 
-         setTimeout(() => {
-            navigate(targetPath);
-         }, 800);
+         console.log('🔧 Target path for redirect:', targetPath);
+
+         // ✅ Navigate immediately after successful login
+         navigate(targetPath, { replace: true });
       } catch (err) {
          toast(
             <CustomToast
@@ -133,58 +146,69 @@ const Login = () => {
       }
    };
 
+   // 🔧 Handle form submission (Enter key support)
+   const handleSubmit = (e) => {
+      e.preventDefault(); // Prevent page reload
+      console.log('🔧 Form submitted via Enter key or button click');
+      if (!loading) {
+         handleLogin();
+      }
+   };
+
    return (
       <div className="login-page">
          <div className="login-box">
             <h2>{intl.formatMessage({ id: 'login.title' })}</h2>
             <p className="subtitle">{intl.formatMessage({ id: 'login.subtitle' })}</p>
 
-            <input
-               type="text"
-               name="identifier"
-               placeholder={intl.formatMessage({ id: 'login.identifier_placeholder' })}
-               value={identifier}
-               onChange={handleChange}
-               disabled={loading}
-            />
-
-            <div className="password-wrapper">
+            <form onSubmit={handleSubmit}>
                <input
-                  type={showPassword ? 'text' : 'password'}
-                  name="password"
-                  placeholder={intl.formatMessage({ id: 'login.password_placeholder' })}
-                  value={password}
+                  type="text"
+                  name="identifier"
+                  placeholder={intl.formatMessage({ id: 'login.identifier_placeholder' })}
+                  value={identifier}
                   onChange={handleChange}
                   disabled={loading}
                />
-               <span
-                  className="toggle-password"
-                  onClick={() => !loading && setShowPassword(!showPassword)}
-               >
-                  <i className={`fa-solid ${showPassword ? 'fa-eye' : 'fa-eye-slash'}`}></i>
-               </span>
-            </div>
 
-            <div className="remember-me">
-               <input
-                  type="checkbox"
-                  name="rememberMe"
-                  checked={rememberMe}
-                  onChange={handleChange}
-                  id="rememberMe"
-                  disabled={loading}
-               />
-               <label htmlFor="rememberMe">
-                  {intl.formatMessage({ id: 'login.remember' })}
-               </label>
-            </div>
+               <div className="password-wrapper">
+                  <input
+                     type={showPassword ? 'text' : 'password'}
+                     name="password"
+                     placeholder={intl.formatMessage({ id: 'login.password_placeholder' })}
+                     value={password}
+                     onChange={handleChange}
+                     disabled={loading}
+                  />
+                  <span
+                     className="toggle-password"
+                     onClick={() => !loading && setShowPassword(!showPassword)}
+                  >
+                     <i className={`fa-solid ${showPassword ? 'fa-eye' : 'fa-eye-slash'}`}></i>
+                  </span>
+               </div>
 
-            <button className="btn-login" onClick={handleLogin} disabled={loading}>
-               {loading
-                  ? intl.formatMessage({ id: 'login.loading' })
-                  : intl.formatMessage({ id: 'login.button' })
-               }
-            </button>
+               <div className="remember-me">
+                  <input
+                     type="checkbox"
+                     name="rememberMe"
+                     checked={rememberMe}
+                     onChange={handleChange}
+                     id="rememberMe"
+                     disabled={loading}
+                  />
+                  <label htmlFor="rememberMe">
+                     {intl.formatMessage({ id: 'login.remember' })}
+                  </label>
+               </div>
+
+               <button type="submit" className="btn-login" disabled={loading}>
+                  {loading
+                     ? intl.formatMessage({ id: 'login.loading' })
+                     : intl.formatMessage({ id: 'login.button' })
+                  }
+               </button>
+            </form>
 
             <div className="login-options">
                <a href="/forgot-password">{intl.formatMessage({ id: 'login.forgot' })}</a>

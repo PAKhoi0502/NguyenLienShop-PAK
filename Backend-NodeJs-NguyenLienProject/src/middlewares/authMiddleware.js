@@ -7,7 +7,8 @@ dotenv.config(); // để đọc biến .env
 const secret = process.env.JWT_SECRET;
 
 export const verifyToken = (req, res, next) => {
-   const token = req.headers.authorization?.split(' ')[1]; // Bearer <token>
+   // 🔧 Support both cookie and header token during transition period
+   const token = req.cookies.authToken || req.headers.authorization?.split(' ')[1];
 
    if (!token) {
       return res.status(401).json({ message: 'Token not provided!' });

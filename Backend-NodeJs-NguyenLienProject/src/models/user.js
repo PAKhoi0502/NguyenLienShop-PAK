@@ -11,6 +11,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       User.belongsTo(models.Role, { foreignKey: 'roleId', targetKey: 'id' });
+
+      // 🔗 Relationship with RefreshToken
+      User.hasMany(models.RefreshToken, {
+        foreignKey: 'userId',
+        as: 'refreshTokens'
+      });
     }
   }
   User.init({
