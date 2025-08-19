@@ -1,77 +1,102 @@
 .custom-toast {
-  padding: 16px 18px 14px 18px;
-  border-radius: 12px;
-  box-shadow: 0 4px 18px 0 rgba(40, 40, 40, 0.12);
+  padding: 16px 18px 14px 18px !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 18px 0 rgba(40, 40, 40, 0.12) !important;
   font-size: 15px;
   color: #222;
-  background: #fff;
+  background: #fff !important;
   min-width: 260px;
   max-width: 340px;
   word-break: break-word;
+  position: relative !important;
+  overflow: hidden !important; // ✅ Changed from visible to hidden
+
+  // Ensure toast is self-contained
+  box-sizing: border-box !important;
+  border: 1px solid #e0e0e0 !important;
 
   .toast-title {
-    display: flex;
-    align-items: center;
+    display: grid !important; // ✅ Use grid instead of flex
+    grid-template-columns: auto 20px 1fr auto !important; // ✅ Fixed columns: date | icon | title | close
+    align-items: center !important;
     font-weight: 500;
     margin-bottom: 6px;
+    position: relative;
+    gap: 8px !important; // ✅ Consistent spacing
+    width: 100% !important;
+    overflow: hidden !important;
 
     .date {
       font-size: 11px;
       color: #888;
-      margin-right: 10px;
-      min-width: 58px;
       line-height: 1.2;
+      grid-column: 1 !important; // ✅ First column
+      justify-self: start !important;
     }
 
     .fa {
-      margin: 0 8px 0 0;
-      font-size: 16px;
-    }
-
-    .error {
-      color: #e74c3c;
-    }
-
-    .success {
-      color: #27ae60;
-    }
-
-    .info {
-      color: #2980b9;
-    }
-
-    .warning {
-      color: #f39c12;
+      font-size: 14px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 16px !important;
+      height: 16px !important;
+      grid-column: 2 !important; // ✅ Second column - fixed position
+      justify-self: center !important;
+      text-align: center;
+      position: relative !important;
+      z-index: 1 !important;
+      margin: 0 !important; // ✅ Remove all margins
     }
 
     .toast-title-text {
+      grid-column: 3 !important; // ✅ Third column - flexible
+      justify-self: start !important;
       font-weight: 600;
       font-size: 16px;
       color: #222;
       line-height: 1.2;
-
-      /* ✅ Cho phép xuống dòng */
-      white-space: normal;
-      word-break: break-word;
-
-      /* ❌ Xoá giới hạn chiều rộng cứng */
-      max-width: none;
+      min-width: 0 !important; // ✅ Allow text to shrink
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      white-space: nowrap !important; // ✅ Prevent text wrapping
     }
 
-
     .toast-close {
+      grid-column: 4 !important; // ✅ Fourth column
+      justify-self: end !important;
       background: transparent;
       border: none;
-      margin-left: 8px;
       cursor: pointer;
       padding: 0;
       color: #999;
       font-size: 18px;
       transition: color 0.15s;
+      width: 18px !important;
+      height: 18px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
 
       &:hover {
         color: #333;
       }
+    }
+
+    .error {
+      color: #e74c3c !important;
+    }
+
+    .success {
+      color: #27ae60 !important;
+    }
+
+    .info {
+      color: #2980b9 !important;
+    }
+
+    .warning {
+      color: #f39c12 !important;
     }
   }
 
@@ -81,6 +106,8 @@
     margin-top: 2px;
     word-break: break-word;
     line-height: 1.4;
+    overflow: hidden !important; // ✅ Prevent content overflow
+    text-overflow: ellipsis !important;
   }
 }
 
@@ -93,15 +120,17 @@
 
     .toast-title {
       font-size: 13px;
+      grid-template-columns: auto 16px 1fr auto !important; // ✅ Smaller grid for mobile
 
       .fa,
       .toast-close {
-        font-size: 16px;
+        font-size: 14px !important;
+        width: 14px !important;
+        height: 14px !important;
       }
 
       .toast-title-text {
         font-size: 14px;
-        max-width: 80px;
       }
 
       .date {

@@ -1,0 +1,204 @@
+// ==============================================
+// 🔥 TOAST BACKGROUND REMOVAL & CONTAINMENT
+// ==============================================
+// Completely remove all toastify wrapper backgrounds and fix overflow
+
+// Target ALL toastify elements to remove background
+.Toastify__toast-container * {
+   background: transparent !important;
+   border: none !important;
+   box-shadow: none !important;
+}
+
+// Ensure toastify container doesn't interfere
+.Toastify__toast-container {
+   z-index: 10001 !important;
+   padding: 0 !important;
+   margin: 0 !important;
+}
+
+// Individual toast element fixes
+.Toastify__toast {
+   z-index: 10001 !important;
+   background: transparent !important;
+   box-shadow: none !important;
+   border: none !important;
+   padding: 0 !important;
+   margin: 4px 0 !important;
+   min-height: auto !important;
+   overflow: hidden !important; // ✅ Prevent content overflow
+}
+
+.Toastify__toast-body {
+   padding: 0 !important;
+   margin: 0 !important;
+   background: transparent !important;
+   overflow: hidden !important; // ✅ Contain all content
+}
+
+// All toast type overrides
+.Toastify__toast--success,
+.Toastify__toast--error,
+.Toastify__toast--info,
+.Toastify__toast--warning {
+   background: transparent !important;
+   padding: 0 !important;
+   overflow: hidden !important; // ✅ Critical for icon containment
+}
+
+// Restore background only for our custom toast
+.custom-toast {
+   background: #fff !important;
+   border: 1px solid #e0e0e0 !important;
+   box-shadow: 0 4px 18px 0 rgba(40, 40, 40, 0.12) !important;
+   overflow: hidden !important; // ✅ Ensure everything stays inside
+   position: relative !important;
+
+   // Force all children to stay inside
+   * {
+      max-width: 100% !important;
+      overflow: hidden !important;
+   }
+}
+
+// React Hot Toast (modern system)
+.react-hot-toast {
+   z-index: 10000 !important;
+}
+
+// React Hot Toast container
+div[id^="react-hot-toast"] {
+   z-index: 10000 !important;
+}
+
+// Fix React Hot Toast wrapper background
+div[data-hot-toast] {
+   background: transparent !important;
+   box-shadow: none !important;
+   border: none !important;
+   padding: 0 !important;
+   margin: 0 !important;
+}
+
+// React Hot Toast individual toast container
+div[data-hot-toast]>div {
+   background: transparent !important;
+   box-shadow: none !important;
+   border: none !important;
+   padding: 0 !important;
+   margin: 0 !important;
+}
+
+// React Toastify (legacy system)
+.Toastify__toast-container {
+   z-index: 10001 !important;
+}
+
+.Toastify__toast {
+   z-index: 10001 !important;
+   background: transparent !important;
+   box-shadow: none !important;
+   border: none !important;
+   padding: 0 !important;
+   margin: 4px 0 !important;
+}
+
+.Toastify__toast--success {
+   background: transparent !important;
+}
+
+.Toastify__toast--error {
+   background: transparent !important;
+}
+
+.Toastify__toast--info {
+   background: transparent !important;
+}
+
+.Toastify__toast--warning {
+   background: transparent !important;
+}
+
+.Toastify__toast-body {
+   padding: 0 !important;
+   margin: 0 !important;
+   background: transparent !important;
+}
+
+// Custom Toast component
+.custom-toast {
+   z-index: 10002 !important;
+   position: relative;
+
+   // Ensure proper containment
+   overflow: visible !important;
+
+   // Fix icon positioning
+   .toast-title {
+      position: relative;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: flex-start !important;
+
+      .fa {
+         flex-shrink: 0;
+         margin-right: 8px !important;
+         z-index: 1;
+         position: relative;
+      }
+
+      .date {
+         flex-shrink: 0;
+         margin-right: 10px !important;
+      }
+
+      .toast-title-text {
+         flex: 1;
+         z-index: 1;
+         position: relative;
+      }
+
+      .toast-close {
+         flex-shrink: 0;
+         margin-left: auto !important;
+         z-index: 1;
+         position: relative;
+      }
+   }
+}
+
+// ==============================================
+// 🎯 COMPONENT LAYERING HIERARCHY
+// ==============================================
+// Level 1: Normal content (z-index: 1-999)
+// Level 2: Headers/Navigation (z-index: 1000-1999) 
+// Level 3: Modals/Overlays (z-index: 2000-8999)
+// Level 4: Debug Tools (z-index: 9000-9999)
+// Level 5: Toast Notifications (z-index: 10000+)
+// Level 6: Critical System Messages (z-index: 11000+)
+
+// Debug panel should be below toasts
+.auth-debug-panel {
+   z-index: 9998 !important;
+}
+
+// Ensure header dropdowns don't conflict
+.account-dropdown {
+   z-index: 1100 !important;
+}
+
+// ==============================================
+// 📱 MOBILE TOAST ADJUSTMENTS
+// ==============================================
+@media (max-width: 768px) {
+   .Toastify__toast-container {
+      left: 1rem !important;
+      right: 1rem !important;
+      width: auto !important;
+   }
+
+   .custom-toast {
+      max-width: calc(100vw - 2rem) !important;
+      min-width: 200px !important;
+   }
+}

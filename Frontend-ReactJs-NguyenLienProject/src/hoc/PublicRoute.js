@@ -7,13 +7,14 @@ const PublicRoute = ({ element: Element }) => {
    const location = useLocation();
 
    if (isAuthenticated) {
-      if (roleId === '1' && location.pathname !== '/admin') {
-         return <Navigate to="/admin" replace />;
-      }
-      if (roleId === '2' && location.pathname !== '/profile') {
-         return <Navigate to="/profile" replace />;
-      }
-      if (location.pathname !== '/') {
+      // ✅ Chỉ redirect khi user truy cập login/register pages
+      if (location.pathname === '/login' || location.pathname === '/register') {
+         if (roleId === '1') {
+            return <Navigate to="/admin" replace />;
+         }
+         if (roleId === '2') {
+            return <Navigate to="/profile" replace />;
+         }
          return <Navigate to="/" replace />;
       }
    }

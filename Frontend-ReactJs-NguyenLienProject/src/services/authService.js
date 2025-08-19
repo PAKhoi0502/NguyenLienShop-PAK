@@ -43,3 +43,18 @@ export const register = async ({ phoneNumber, password, roleId }) => {
       };
    }
 };
+
+export const logout = async () => {
+   try {
+      const res = await axios.post('/api/auth/logout');
+      return res;
+   } catch (err) {
+      const errorMessage = err?.response?.data?.message || 'Lỗi server khi đăng xuất!';
+      console.error('Logout error:', err);
+
+      return {
+         errCode: -1,
+         errMessage: errorMessage,
+      };
+   }
+};

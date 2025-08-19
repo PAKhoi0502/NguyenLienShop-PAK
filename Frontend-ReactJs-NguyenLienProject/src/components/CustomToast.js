@@ -22,7 +22,7 @@ const CustomToast = ({ closeToast, titleId, message, messageId, time, type = "er
         : '';
 
     return (
-        <div className={`custom-toast ${type}`}>
+        <div className={`custom-toast toast-${type}`}>
             <div className="toast-title">
                 {time && <span className="date">{formattedTime}</span>}
                 {iconByType[type]}

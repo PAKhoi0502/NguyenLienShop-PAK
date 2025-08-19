@@ -1,8 +1,9 @@
 
-import authService from "../services/authService.js";
+import authService from "../services/authService";
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import sendResponse from '../utils/sendResponse.js';
+import sendResponse from '../utils/sendResponse';
+const { blacklistToken, generateAccessToken } = require('../utils/tokenUtils');
 
 dotenv.config();
 
@@ -29,11 +30,8 @@ const handleLogin = async (req, res) => {
 
    const user = userData.user;
 
-   const token = jwt.sign(
-      { id: user.id, roleId: user.roleId },
-      process.env.JWT_SECRET,
-      { expiresIn: '1h' }
-   );
+   // ✅ Sử dụng tokenUtils thay vì tạo token trực tiếp
+   const token = generateAccessToken(user);
 
    return sendResponse(res, {
       message: 'Đăng nhập thành công',
@@ -52,7 +50,39 @@ const handleRegister = async (req, res) => {
    });
 };
 
+const handleLogout = async (req, res) => {
+   try {
+      const token = req.headers.authorization?.split(' ')[1]; // Bearer <token>
+
+      if (!token) {
+         return sendResponse(res, {
+            status: 400,
+            errCode: 1,
+            message: 'Token not provided!',
+         });
+      }
+
+      // ✅ Thêm token vào blacklist
+      blacklistToken(token);
+
+      return sendResponse(res, {
+         status: 200,
+         errCode: 0,
+         message: 'Đăng xuất thành công',
+      });
+
+   } catch (error) {
+      console.error('Logout error:', error);
+      return sendResponse(res, {
+         status: 500,
+         errCode: -1,
+         message: 'Lỗi server khi đăng xuất',
+      });
+   }
+};
+
 export default {
    handleLogin,
    handleRegister,
+   handleLogout,
 };

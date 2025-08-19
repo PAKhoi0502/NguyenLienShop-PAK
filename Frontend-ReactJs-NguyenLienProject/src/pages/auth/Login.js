@@ -101,10 +101,21 @@ const Login = () => {
             />,
             { closeButton: false, type: "success" }
          );
+
+         // ✅ Redirect based on user role
          const params = new URLSearchParams(location.search);
-         const redirectPath = params.get('redirect') || '/';
+         const redirectPath = params.get('redirect');
+
+         let targetPath;
+         if (redirectPath) {
+            targetPath = redirectPath;
+         } else {
+            // Default redirect based on role
+            targetPath = user.roleId === 1 ? '/admin' : '/';
+         }
+
          setTimeout(() => {
-            navigate(redirectPath);
+            navigate(targetPath);
          }, 800);
       } catch (err) {
          toast(

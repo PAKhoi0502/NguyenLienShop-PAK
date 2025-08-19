@@ -1,4 +1,4 @@
-import db from "../models/index"
+import db from "../models/index.js"
 
 export const checkEmailExists = async (userEmail) => {
    if (!userEmail || userEmail.trim() === "") return false;

@@ -1,3 +1,7 @@
+// ==============================================
+// 🎯 GLOBAL APP STYLES
+// ==============================================
+
 html,
 body,
 #root {
@@ -5,3 +9,9 @@ body,
    margin: 0;
    padding: 0;
 }
+
+// ==============================================
+// 📢 TOAST NOTIFICATION FIXES
+// ==============================================
+@import './styles/toast-fixes.scss';
+@import './styles/toast-nuclear-fix.scss';

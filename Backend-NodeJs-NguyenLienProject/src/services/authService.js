@@ -5,7 +5,7 @@ import { where } from "sequelize";
 import { checkPhoneNumberExists, checkUserNameExists } from "../utils/validators";
 import { Op } from 'sequelize';
 import validator from 'validator';
-import jwt from 'jsonwebtoken';
+const { generateAccessToken } = require('../utils/tokenUtils');
 
 let loginUser = async (identifier, password) => {
    try {
@@ -25,11 +25,8 @@ let loginUser = async (identifier, password) => {
          return { errCode: 3, errMessage: "Sai mật khẩu!" };
       }
 
-      const token = jwt.sign(
-         { id: user.id, roleId: user.roleId },
-         process.env.JWT_SECRET,
-         { expiresIn: '1h' }
-      );
+      // ✅ Sử dụng tokenUtils thay vì tạo token trực tiếp
+      const token = generateAccessToken(user);
 
       const userPlain = user.get({ plain: true });
       delete userPlain.password;
