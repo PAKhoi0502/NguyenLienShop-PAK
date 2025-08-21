@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, Link, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import './Breadcrumb.scss';
 
 const Breadcrumb = ({ topOffset = 100 }) => {
    const location = useLocation();
@@ -9,6 +10,9 @@ const Breadcrumb = ({ topOffset = 100 }) => {
       .split('/')
       .filter(x => x && !/^\d+$/.test(x));
 
+   // Auto-detect if we're in admin area to adjust topOffset
+   const isAdminArea = location.pathname.startsWith('/admin');
+   const dynamicTopOffset = isAdminArea ? 0 : topOffset;
 
    if (location.pathname === '/') return null;
 
@@ -71,7 +75,7 @@ const Breadcrumb = ({ topOffset = 100 }) => {
    };
 
    return (
-      <nav className="breadcrumb" style={{ top: `${topOffset}px`, position: 'sticky', zIndex: 999 }}>
+      <nav className="breadcrumb" style={{ top: `${dynamicTopOffset}px`, position: 'sticky', zIndex: 999 }}>
          <Link to="/">Trang chủ</Link>
          {pathnames.map((name, index) => {
             const routeTo = `/${pathnames.slice(0, index + 1).join('/')}`;

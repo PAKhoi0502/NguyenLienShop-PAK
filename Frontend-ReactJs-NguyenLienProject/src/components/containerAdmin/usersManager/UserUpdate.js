@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { FormattedMessage, useIntl } from 'react-intl';
 import CustomToast from '../../../components/CustomToast';
+import './UserUpdate.scss';
 
 const UserUpdate = () => {
    const { id } = useParams();
@@ -35,7 +36,7 @@ const UserUpdate = () => {
          }
       };
       fetchUser();
-   }, [id]);
+   }, [id, intl, navigate]);
 
    const handleChange = (e) => {
       const { name, value } = e.target;

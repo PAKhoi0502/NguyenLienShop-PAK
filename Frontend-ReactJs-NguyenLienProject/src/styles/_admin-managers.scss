@@ -1,0 +1,345 @@
+// ==============================================
+// 👥 ADMIN MANAGERS SHARED STYLES
+// ==============================================
+
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+// ==============================================
+// 📋 MANAGER CONTAINER
+// ==============================================
+.user-manager-container,
+.admin-manager-container,
+.product-manager-container {
+   padding: spacing(6);
+   background-color: color(gray-50);
+   min-height: 100vh;
+
+   @include mobile-only {
+      padding: spacing(4);
+   }
+}
+
+// ==============================================
+// 🎯 MANAGER HEADER
+// ==============================================
+.user-manager-top,
+.admin-manager-top,
+.product-manager-top {
+   @include flex-between;
+   margin-bottom: spacing(6);
+   gap: spacing(4);
+
+   @include mobile-only {
+      flex-direction: column;
+      align-items: stretch;
+   }
+}
+
+.user-title,
+.admin-title,
+.product-title {
+   font-size: font-size(2xl);
+   font-weight: font-weight(bold);
+   color: color(gray-900);
+   margin: 0;
+
+   @include mobile-only {
+      font-size: font-size(xl);
+      margin-bottom: spacing(4);
+   }
+}
+
+// ==============================================
+// 🔍 SEARCH BAR
+// ==============================================
+.user-search-bar,
+.admin-search-bar,
+.product-search-bar {
+   margin-bottom: spacing(6);
+
+   input {
+      @include input-base;
+      max-width: 400px;
+      background-color: color(white);
+
+      @include mobile-only {
+         max-width: 100%;
+      }
+   }
+}
+
+// ==============================================
+// ✨ ACTION BUTTONS
+// ==============================================
+.btn-create {
+   @include button-base;
+   @include button-size(md);
+   @include button-variant(primary);
+   gap: spacing(2);
+
+   &.btn-create-admin {
+      @include button-variant(danger);
+   }
+}
+
+.btn-action {
+   @include button-base;
+   @include button-size(sm);
+   font-size: font-size(xs);
+
+   &.btn-user-detail,
+   &.btn-admin-detail {
+      @include button-variant(secondary);
+   }
+
+   &.btn-update {
+      @include button-variant(primary);
+   }
+
+   &.btn-delete {
+      @include button-variant(danger);
+   }
+
+   &.btn-activate,
+   &.btn-deactivate {
+      @include button-variant(success);
+   }
+}
+
+.action-buttons {
+   display: flex;
+   gap: spacing(2);
+   flex-wrap: wrap;
+
+   @include mobile-only {
+      flex-direction: column;
+      gap: spacing(1);
+   }
+}
+
+// ==============================================
+// 📊 DATA TABLE
+// ==============================================
+.user-table-wrapper,
+.admin-table-wrapper,
+.product-table-wrapper {
+   @include card-base;
+   overflow: hidden;
+
+   @include mobile-only {
+      overflow-x: auto;
+   }
+}
+
+.user-table,
+.admin-table,
+.product-table {
+   @include table-base;
+   box-shadow: none;
+   border-radius: 0;
+
+   thead {
+      @include table-header;
+   }
+
+   tbody {
+      tr {
+         @include table-row;
+
+         &:hover {
+            background-color: color(primary-50);
+         }
+      }
+   }
+
+   // Responsive table
+   .hide-mobile {
+      @include mobile-only {
+         display: none;
+      }
+   }
+
+   // Cell styling
+   .cell-na {
+      color: color(gray-400);
+      font-style: italic;
+   }
+}
+
+// ==============================================
+// 🏷️ STATUS & ROLE BADGES
+// ==============================================
+.role-admin {
+   @include status-badge(error);
+   text-transform: uppercase;
+   font-weight: font-weight(semibold);
+}
+
+.role-user {
+   @include status-badge(info);
+   text-transform: uppercase;
+   font-weight: font-weight(semibold);
+}
+
+.status-active {
+   @include status-badge(success);
+}
+
+.status-inactive {
+   @include status-badge(warning);
+}
+
+.status-blocked {
+   @include status-badge(error);
+}
+
+// ==============================================
+// 📱 LOADING & ERROR STATES
+// ==============================================
+.user-loading,
+.admin-loading,
+.product-loading {
+   @include flex-center;
+   padding: spacing(8);
+   color: color(gray-600);
+   font-size: font-size(lg);
+
+   &::before {
+      content: '';
+      width: 20px;
+      height: 20px;
+      border: 2px solid color(gray-300);
+      border-top-color: color(primary-500);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-right: spacing(3);
+   }
+}
+
+.user-error,
+.admin-error,
+.product-error {
+   @include card-base;
+   @include card-padding(md);
+   background-color: color(error-50);
+   border-color: color(error-200);
+   color: color(error-700);
+   text-align: center;
+   margin-bottom: spacing(6);
+}
+
+.user-empty,
+.admin-empty,
+.product-empty {
+   text-align: center;
+   padding: spacing(8);
+   color: color(gray-500);
+   font-style: italic;
+}
+
+// ==============================================
+// 🎭 ANIMATIONS
+// ==============================================
+@keyframes spin {
+   to {
+      transform: rotate(360deg);
+   }
+}
+
+.manager-fade-in {
+   @include fade-in;
+}
+
+// ==============================================
+// 🔧 FILTER CONTROLS
+// ==============================================
+.filter-controls {
+   @include flex-between;
+   margin-bottom: spacing(4);
+   gap: spacing(4);
+
+   @include mobile-only {
+      flex-direction: column;
+      align-items: stretch;
+   }
+}
+
+.filter-select {
+   @include input-base;
+   max-width: 200px;
+
+   @include mobile-only {
+      max-width: 100%;
+   }
+}
+
+// ==============================================
+// 📱 RESPONSIVE ADJUSTMENTS
+// ==============================================
+@include mobile-only {
+
+   .user-table,
+   .admin-table,
+   .product-table {
+      font-size: font-size(xs);
+
+      th,
+      td {
+         padding: spacing(2);
+      }
+   }
+
+   .action-buttons {
+      .btn-action {
+         font-size: font-size(xs);
+         padding: spacing(1) spacing(2);
+      }
+   }
+}
+
+// ==============================================
+// 🌙 DARK MODE SUPPORT
+// ==============================================
+@media (prefers-color-scheme: dark) {
+
+   .user-manager-container,
+   .admin-manager-container,
+   .product-manager-container {
+      background-color: color(gray-900);
+   }
+
+   .user-title,
+   .admin-title,
+   .product-title {
+      color: color(white);
+   }
+
+   .user-table,
+   .admin-table,
+   .product-table {
+      background-color: color(gray-800);
+
+      thead {
+         background-color: color(gray-700);
+
+         th {
+            color: color(gray-100);
+            border-color: color(gray-600);
+         }
+      }
+
+      tbody {
+         tr {
+            td {
+               color: color(gray-300);
+               border-color: color(gray-700);
+            }
+
+            &:hover {
+               background-color: color(gray-700);
+            }
+         }
+      }
+   }
+}

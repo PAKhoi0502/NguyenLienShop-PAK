@@ -7,6 +7,7 @@ import ProductActive from './ProductActive';
 import ProductDelete from './ProductDelete';
 import CustomToast from '../../../CustomToast';
 import HintBox from '../../../HintBox';
+import './ProductManager.scss';
 
 
 const ProductManager = () => {
@@ -98,6 +99,21 @@ const ProductManager = () => {
          </div>
 
          <div className="product-filters">
+            <HintBox
+               theme="product"
+               content={
+                  <div>
+                     <p><FormattedMessage id="product.manager.hint_title" defaultMessage="Hướng dẫn: Quản lý danh sách sản phẩm, bao gồm tạo, cập nhật, xóa và thay đổi trạng thái hiển thị." /></p>
+                     <ul>
+                        <li><FormattedMessage id="product.manager.hint_1" defaultMessage="Sử dụng nút 'Tạo sản phẩm' để thêm sản phẩm mới vào hệ thống." /></li>
+                        <li><FormattedMessage id="product.manager.hint_2" defaultMessage="Chỉ có thể cập nhật sản phẩm khi đã ẩn khỏi trang chủ." /></li>
+                        <li><FormattedMessage id="product.manager.hint_3" defaultMessage="Sử dụng bộ lọc để tìm sản phẩm theo trạng thái hiển thị." /></li>
+                        <li><FormattedMessage id="product.manager.hint_4" defaultMessage="Chức năng tìm kiếm hỗ trợ tìm theo tên sản phẩm hoặc ID." /></li>
+                        <li><FormattedMessage id="product.manager.hint_5" defaultMessage="Quản lý danh mục sản phẩm thông qua nút 'Danh mục'." /></li>
+                     </ul>
+                  </div>
+               }
+            />
             <label><FormattedMessage id="product.manager.filter_status" defaultMessage="Lọc trạng thái:" /></label>
             <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
                <option value="all"><FormattedMessage id="product.manager.filter_all" defaultMessage="Tất cả" /></option>
@@ -105,13 +121,6 @@ const ProductManager = () => {
                <option value="inactive"><FormattedMessage id="product.manager.filter_inactive" defaultMessage="Đã ẩn" /></option>
             </select>
          </div>
-         <HintBox
-            content={
-               <div>
-                  <p><FormattedMessage id="product.manager.hint_title" defaultMessage="Hướng dẫn: Quản lý danh sách sản phẩm, bao gồm tạo, cập nhật, xóa và thay đổi trạng thái hiển thị." /></p>
-               </div>
-            }
-         />
          <div className="product-search-bar">
             <input
                type="text"

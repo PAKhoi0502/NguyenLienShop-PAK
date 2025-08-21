@@ -1,0 +1,436 @@
+// ==============================================
+// 👥 USER DETAIL VIEW STYLES
+// ==============================================
+
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
+.user-detail-container {
+   width: 100%;
+   padding: spacing(6);
+   background: linear-gradient(135deg, #eff6ff 0%, color(white) 50%, #dbeafe 100%);
+   min-height: 100vh;
+
+   @include mobile-only {
+      padding: spacing(4);
+   }
+}
+
+// ==============================================
+// 🎯 USER DETAIL HEADER (Blue theme)
+// ==============================================
+.user-detail-title {
+   font-size: font-size(2xl);
+   font-weight: font-weight(bold);
+   color: #1e3a8a;
+   text-align: center;
+   margin-bottom: spacing(8);
+   position: relative;
+
+   // User detail icon effect
+   &::before {
+      content: '👥👤';
+      display: block;
+      font-size: font-size(3xl);
+      margin-bottom: spacing(2);
+   }
+
+   // Decorative underline
+   &::after {
+      content: '';
+      position: absolute;
+      bottom: -spacing(2);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 3px;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      border-radius: border-radius(full);
+   }
+
+   @include mobile-only {
+      font-size: font-size(xl);
+      margin-bottom: spacing(6);
+   }
+}
+
+// ==============================================
+// 📋 USER DETAIL CONTENT (Blue theme)
+// ==============================================
+.user-detail-content {
+   @include card-base;
+   @include card-padding(lg);
+   background: color(white);
+   border: 1px solid #93c5fd;
+   border-radius: border-radius(xl);
+   box-shadow: shadow(lg);
+   max-width: 700px;
+   margin: 0 auto spacing(8);
+   position: relative;
+
+   // Decorative border effect
+   &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 50%, #1e40af 100%);
+      border-radius: border-radius(xl) border-radius(xl) 0 0;
+   }
+
+   // User profile watermark
+   &::after {
+      content: '👤';
+      position: absolute;
+      top: spacing(4);
+      right: spacing(4);
+      font-size: font-size(3xl);
+      opacity: 0.1;
+      z-index: 0;
+   }
+
+   @include mobile-only {
+      padding: spacing(4);
+      border-radius: border-radius(lg);
+      margin-bottom: spacing(6);
+   }
+
+   >div {
+      display: flex;
+      align-items: center;
+      margin-bottom: spacing(4);
+      padding: spacing(3);
+      background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+      border-radius: border-radius(md);
+      border-left: 3px solid #2563eb;
+      position: relative;
+      z-index: 1;
+      transition: all 0.3s ease;
+
+      &:hover {
+         background: linear-gradient(135deg, #eff6ff, #dbeafe);
+         transform: translateX(2px);
+         box-shadow: shadow(sm);
+      }
+
+      &:last-child {
+         margin-bottom: 0;
+      }
+
+      strong {
+         color: #1e3a8a;
+         font-weight: font-weight(semibold);
+         min-width: 140px;
+         margin-right: spacing(3);
+         position: relative;
+
+         &::after {
+            content: '';
+            position: absolute;
+            right: -spacing(2);
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1px;
+            height: 20px;
+            background-color: #cbd5e1;
+         }
+
+         @include mobile-only {
+            min-width: 100px;
+            font-size: font-size(sm);
+         }
+      }
+
+      // Value styling
+      span:not(strong) {
+         color: #475569;
+         flex: 1;
+         font-weight: font-weight(medium);
+
+         &.missing-data {
+            color: #94a3b8;
+            font-style: italic;
+         }
+
+         &.hidden-data {
+            color: #64748b;
+            font-style: italic;
+         }
+      }
+
+      // Special styling for different data types
+      &[data-field="id"] {
+         background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+         border-left-color: #3b82f6;
+
+         strong::before {
+            content: '🆔';
+            margin-right: spacing(1);
+         }
+      }
+
+      &[data-field="role"] {
+         background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+         border-left-color: #0ea5e9;
+
+         strong::before {
+            content: '👤';
+            margin-right: spacing(1);
+         }
+      }
+
+      &[data-field="gender"] {
+         strong::before {
+            content: '⚥';
+            margin-right: spacing(1);
+         }
+      }
+
+      &[data-field="birthday"] {
+         strong::before {
+            content: '🎂';
+            margin-right: spacing(1);
+         }
+      }
+   }
+}
+
+// ==============================================
+// 🎛️ USER DETAIL ACTIONS (Blue theme)
+// ==============================================
+.user-detail-actions {
+   display: flex;
+   gap: spacing(4);
+   justify-content: center;
+   max-width: 700px;
+   margin: 0 auto;
+
+   @include mobile-only {
+      flex-direction: column;
+      gap: spacing(3);
+   }
+
+   .btn-edit {
+      @include button-base;
+      @include button-size(lg);
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      color: color(white);
+      border: none;
+      font-weight: font-weight(semibold);
+      min-width: 160px;
+      position: relative;
+
+      &::before {
+         content: '✏️';
+         margin-right: spacing(2);
+      }
+
+      &:hover {
+         background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+         transform: translateY(-2px);
+         box-shadow: shadow(lg);
+      }
+
+      &:active {
+         transform: translateY(0);
+      }
+   }
+
+   .btn-back {
+      @include button-base;
+      @include button-size(lg);
+      background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+      color: #475569;
+      border: 1px solid #cbd5e1;
+      min-width: 120px;
+      position: relative;
+
+      &::before {
+         content: '←';
+         margin-right: spacing(2);
+         font-weight: font-weight(bold);
+      }
+
+      &:hover {
+         background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+         border-color: #94a3b8;
+         transform: translateY(-2px);
+         box-shadow: shadow(md);
+      }
+
+      &:active {
+         transform: translateY(0);
+      }
+   }
+}
+
+// ==============================================
+// 📱 USER DETAIL LOADING & ERROR
+// ==============================================
+.user-detail-loading {
+   @include flex-center;
+   padding: spacing(8);
+   color: #1e3a8a;
+   font-size: font-size(lg);
+   background: linear-gradient(135deg, #eff6ff, color(white));
+   border-radius: border-radius(lg);
+   margin: spacing(4) 0;
+   min-height: 200px;
+
+   &::before {
+      content: '';
+      width: 24px;
+      height: 24px;
+      border: 3px solid #93c5fd;
+      border-top-color: #2563eb;
+      border-radius: 50%;
+      animation: user-detail-spin 1s linear infinite;
+      margin-right: spacing(3);
+   }
+}
+
+.user-detail-error {
+   @include card-base;
+   @include card-padding(md);
+   background: linear-gradient(135deg, #fef2f2, #fee2e2);
+   border: 1px solid #fca5a5;
+   color: #7f1d1d;
+   text-align: center;
+   margin-bottom: spacing(6);
+   max-width: 500px;
+   margin: 0 auto;
+
+   &::before {
+      content: '❌';
+      margin-right: spacing(2);
+      font-size: font-size(lg);
+   }
+}
+
+// ==============================================
+// 🎭 USER DETAIL ANIMATIONS
+// ==============================================
+@keyframes user-detail-spin {
+   to {
+      transform: rotate(360deg);
+   }
+}
+
+.user-detail-container {
+   animation: fade-in 0.5s ease-out;
+}
+
+@keyframes fade-in {
+   from {
+      opacity: 0;
+      transform: translateY(20px);
+   }
+
+   to {
+      opacity: 1;
+      transform: translateY(0);
+   }
+}
+
+// Stagger animation for detail items
+.user-detail-content>div {
+   animation: slide-in 0.4s ease-out forwards;
+   opacity: 0;
+   transform: translateX(-20px);
+
+   @for $i from 1 through 10 {
+      &:nth-child(#{$i}) {
+         animation-delay: #{$i * 0.1}s;
+      }
+   }
+}
+
+@keyframes slide-in {
+   to {
+      opacity: 1;
+      transform: translateX(0);
+   }
+}
+
+// ==============================================
+// 📱 RESPONSIVE ADJUSTMENTS
+// ==============================================
+@include mobile-only {
+   .user-detail-content>div {
+      flex-direction: column;
+      align-items: flex-start;
+
+      strong {
+         min-width: auto;
+         margin-bottom: spacing(1);
+         margin-right: 0;
+
+         &::after {
+            display: none;
+         }
+      }
+   }
+}
+
+// ==============================================
+// 🌙 DARK MODE SUPPORT
+// ==============================================
+@media (prefers-color-scheme: dark) {
+   .user-detail-container {
+      background: linear-gradient(135deg, #1e3a8a 0%, color(gray-900) 50%, #1e40af 100%);
+   }
+
+   .user-detail-title {
+      color: #93c5fd;
+   }
+
+   .user-detail-content {
+      background-color: color(gray-800);
+      border-color: #2563eb;
+
+      >div {
+         background: linear-gradient(135deg, color(gray-700), color(gray-600));
+         border-left-color: #3b82f6;
+
+         &:hover {
+            background: linear-gradient(135deg, #1e3a8a, #1e40af);
+         }
+
+         strong {
+            color: #93c5fd;
+
+            &::after {
+               background-color: color(gray-500);
+            }
+         }
+
+         span:not(strong) {
+            color: color(gray-200);
+
+            &.missing-data,
+            &.hidden-data {
+               color: color(gray-400);
+            }
+         }
+      }
+   }
+
+   .user-detail-actions {
+      .btn-back {
+         background: linear-gradient(135deg, color(gray-700), color(gray-600));
+         color: color(gray-200);
+         border-color: color(gray-500);
+
+         &:hover {
+            background: linear-gradient(135deg, color(gray-600), color(gray-500));
+         }
+      }
+   }
+
+   .user-detail-loading {
+      background: linear-gradient(135deg, #1e3a8a, color(gray-800));
+      color: #93c5fd;
+   }
+}

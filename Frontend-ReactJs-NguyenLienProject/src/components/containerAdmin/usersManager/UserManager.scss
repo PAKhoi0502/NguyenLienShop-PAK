@@ -1,0 +1,399 @@
+// ==============================================
+// 👥 USER MANAGER STYLES
+// ==============================================
+
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
+.user-manager-container {
+   padding: spacing(6);
+   background: linear-gradient(135deg, #eff6ff 0%, color(white) 50%, #dbeafe 100%);
+   min-height: 100vh;
+
+   @include mobile-only {
+      padding: spacing(4);
+   }
+}
+
+// ==============================================
+// 🎯 USER MANAGER HEADER (Blue theme)
+// ==============================================
+.user-manager-top {
+   @include flex-between;
+   margin-bottom: spacing(6);
+   padding: spacing(6);
+   background: linear-gradient(135deg, color(white) 0%, #eff6ff 100%);
+   border-radius: border-radius(xl);
+   box-shadow: shadow(lg);
+   border-left: 5px solid #2563eb;
+   position: relative;
+
+   // Decorative background
+   &::before {
+      content: '';
+      position: absolute;
+      top: -20%;
+      right: -10%;
+      width: 150px;
+      height: 150px;
+      background: radial-gradient(circle, rgba(37, 99, 235, 0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      z-index: 0;
+   }
+
+   @include mobile-only {
+      flex-direction: column;
+      gap: spacing(4);
+      padding: spacing(4);
+   }
+}
+
+.user-title {
+   font-size: font-size(2xl);
+   font-weight: font-weight(bold);
+   color: #1e3a8a;
+   margin: 0;
+   position: relative;
+   z-index: 1;
+
+   // User group icon effect
+   &::before {
+      content: '👥';
+      margin-right: spacing(2);
+      font-size: font-size(xl);
+   }
+
+   @include mobile-only {
+      font-size: font-size(xl);
+      text-align: center;
+   }
+}
+
+.user-actions {
+   display: flex;
+   gap: spacing(3);
+   position: relative;
+   z-index: 1;
+
+   @include mobile-only {
+      width: 100%;
+      justify-content: center;
+   }
+}
+
+// ==============================================
+// 🔍 USER SEARCH BAR (Blue theme)
+// ==============================================
+.user-search-bar {
+   margin-bottom: spacing(6);
+
+   input {
+      @include input-base;
+      max-width: 400px;
+      background-color: color(white);
+      border-color: #93c5fd;
+
+      &:focus {
+         border-color: #2563eb;
+         box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+      }
+
+      &::placeholder {
+         color: #9ca3af;
+      }
+
+      @include mobile-only {
+         max-width: 100%;
+      }
+   }
+}
+
+// ==============================================
+// ✨ USER ACTION BUTTONS (Blue theme)
+// ==============================================
+.btn-create {
+   @include button-base;
+   @include button-size(md);
+   background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+   color: color(white);
+   gap: spacing(2);
+   border: none;
+   box-shadow: shadow(sm);
+
+   &:hover:not(:disabled) {
+      background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+      transform: translateY(-1px);
+      box-shadow: shadow(md);
+   }
+
+   &:active {
+      transform: translateY(0);
+   }
+
+   // Add user icon effect
+   &::before {
+      content: '👤';
+      margin-right: spacing(1);
+   }
+}
+
+// ==============================================
+// 📊 USER DATA TABLE (Blue theme)
+// ==============================================
+.user-table-wrapper {
+   @include card-base;
+   overflow: hidden;
+   border: 1px solid #93c5fd;
+
+   @include mobile-only {
+      overflow-x: auto;
+   }
+}
+
+.user-table {
+   @include table-base;
+   box-shadow: none;
+   border-radius: 0;
+
+   thead {
+      background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+
+      th {
+         padding: spacing(4);
+         text-align: left;
+         font-weight: font-weight(semibold);
+         font-size: font-size(sm);
+         color: #1e3a8a;
+         border-bottom: 2px solid #93c5fd;
+         position: relative;
+
+         &:first-child {
+            border-left: 3px solid #2563eb;
+         }
+      }
+   }
+
+   tbody {
+      tr {
+         @include table-row;
+         border-left: 3px solid transparent;
+         transition: all 0.3s ease;
+
+         &:hover {
+            background-color: #eff6ff;
+            border-left-color: #2563eb;
+            transform: translateX(2px);
+         }
+
+         td {
+            color: color(gray-700);
+            border-bottom: 1px solid #dbeafe;
+         }
+      }
+   }
+
+   // Responsive table
+   .hide-mobile {
+      @include mobile-only {
+         display: none;
+      }
+   }
+
+   // Cell styling
+   .cell-na {
+      color: #9ca3af;
+      font-style: italic;
+   }
+}
+
+// ==============================================
+// 🏷️ USER SPECIFIC BADGES
+// ==============================================
+.role-user {
+   @include status-badge(info);
+   text-transform: uppercase;
+   font-weight: font-weight(semibold);
+   background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+   color: #1e3a8a;
+   border: 1px solid #93c5fd;
+
+   &::before {
+      content: '👤';
+      margin-right: spacing(1);
+   }
+}
+
+// ==============================================
+// 🎛️ USER ACTION BUTTONS
+// ==============================================
+.user-table .action-buttons {
+   display: flex;
+   gap: spacing(2);
+   flex-wrap: wrap;
+
+   @include mobile-only {
+      flex-direction: column;
+      gap: spacing(1);
+   }
+
+   .btn-action {
+      @include button-base;
+      @include button-size(sm);
+      font-size: font-size(xs);
+
+      &.btn-user-detail {
+         background: linear-gradient(135deg, #eff6ff, #dbeafe);
+         color: #1e3a8a;
+         border: 1px solid #93c5fd;
+
+         &:hover {
+            background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+            border-color: #60a5fa;
+         }
+      }
+
+      &.btn-update {
+         background: linear-gradient(135deg, #2563eb, #1d4ed8);
+         color: color(white);
+
+         &:hover {
+            background: linear-gradient(135deg, #1d4ed8, #1e40af);
+         }
+      }
+
+      &.btn-delete {
+         background: linear-gradient(135deg, #dc2626, #b91c1c);
+         color: color(white);
+
+         &:hover {
+            background: linear-gradient(135deg, #b91c1c, #991b1b);
+         }
+      }
+   }
+}
+
+// ==============================================
+// 📱 USER LOADING & ERROR STATES
+// ==============================================
+.user-loading {
+   @include flex-center;
+   padding: spacing(8);
+   color: #1e3a8a;
+   font-size: font-size(lg);
+   background: linear-gradient(135deg, #eff6ff, color(white));
+   border-radius: border-radius(lg);
+   margin: spacing(4) 0;
+
+   &::before {
+      content: '';
+      width: 20px;
+      height: 20px;
+      border: 2px solid #93c5fd;
+      border-top-color: #2563eb;
+      border-radius: 50%;
+      animation: user-spin 1s linear infinite;
+      margin-right: spacing(3);
+   }
+}
+
+.user-error {
+   @include card-base;
+   @include card-padding(md);
+   background: linear-gradient(135deg, #fef2f2, #fee2e2);
+   border: 1px solid #fca5a5;
+   color: #7f1d1d;
+   text-align: center;
+   margin-bottom: spacing(6);
+
+   &::before {
+      content: '⚠️';
+      margin-right: spacing(2);
+      font-size: font-size(lg);
+   }
+}
+
+// ==============================================
+// 🎭 USER ANIMATIONS
+// ==============================================
+@keyframes user-spin {
+   to {
+      transform: rotate(360deg);
+   }
+}
+
+.user-manager-container {
+   .user-fade-in {
+      @include fade-in;
+   }
+}
+
+// ==============================================
+// 📱 RESPONSIVE ADJUSTMENTS
+// ==============================================
+@include mobile-only {
+   .user-table {
+      font-size: font-size(xs);
+
+      th,
+      td {
+         padding: spacing(2);
+      }
+   }
+
+   .action-buttons {
+      .btn-action {
+         font-size: font-size(xs);
+         padding: spacing(1) spacing(2);
+      }
+   }
+}
+
+// ==============================================
+// 🌙 DARK MODE SUPPORT
+// ==============================================
+@media (prefers-color-scheme: dark) {
+   .user-manager-container {
+      background: linear-gradient(135deg, #1e3a8a 0%, color(gray-900) 50%, #1e40af 100%);
+   }
+
+   .user-manager-top {
+      background: linear-gradient(135deg, color(gray-800) 0%, #1e3a8a 100%);
+      border-color: #2563eb;
+   }
+
+   .user-title {
+      color: #93c5fd;
+   }
+
+   .user-table {
+      background-color: color(gray-800);
+
+      thead {
+         background: linear-gradient(135deg, color(gray-700) 0%, #1e3a8a 100%);
+
+         th {
+            color: #93c5fd;
+            border-color: #2563eb;
+         }
+      }
+
+      tbody {
+         tr {
+            td {
+               color: color(gray-300);
+               border-color: color(gray-700);
+            }
+
+            &:hover {
+               background-color: #1e3a8a;
+            }
+         }
+      }
+   }
+
+   .role-user {
+      background: linear-gradient(135deg, #1e3a8a, #1e40af);
+      color: #93c5fd;
+      border-color: #2563eb;
+   }
+}

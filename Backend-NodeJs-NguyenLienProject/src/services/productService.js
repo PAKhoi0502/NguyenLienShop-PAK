@@ -75,12 +75,23 @@ let createProduct = async (data) => {
 
 let getProductById = async (id) => {
    try {
-      const product = await db.Product.findOne({ where: { id } });
+      const product = await db.Product.findOne({
+         where: { id },
+         include: [
+            {
+               model: db.Category,
+               as: 'categories',
+               through: { attributes: [] }, // Exclude junction table attributes
+               attributes: ['id', 'nameCategory']
+            }
+         ]
+      });
       if (!product) {
          return { errCode: 404, errMessage: 'Sản phẩm không tồn tại' };
       }
       return { errCode: 0, product };
    } catch (err) {
+      console.error('Error in getProductById:', err);
       return { errCode: -1, errMessage: 'Lỗi khi tải sản phẩm' };
    }
 };

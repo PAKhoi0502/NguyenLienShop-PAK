@@ -4,6 +4,7 @@ import { createAdmin } from '../../../services/adminService';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import CustomToast from '../../../components/CustomToast';
+import './AdminCreate.scss';
 
 const initialForm = {
    phoneNumber: '',
@@ -107,9 +108,9 @@ const AdminCreate = () => {
    };
 
    return (
-      <div className="user-create-container">
-         <h2 className="user-create-title">{intl.formatMessage({ id: 'admin.create_title' })}</h2>
-         <form className="user-create-form" onSubmit={handleSubmit} autoComplete="off">
+      <div className="admin-create-container">
+         <h2 className="admin-create-title">{intl.formatMessage({ id: 'admin.create_title' })}</h2>
+         <form className="admin-create-form" onSubmit={handleSubmit} autoComplete="off">
             <div className="form-group">
                <label>{intl.formatMessage({ id: 'admin.label.phone' })} *</label>
                <input

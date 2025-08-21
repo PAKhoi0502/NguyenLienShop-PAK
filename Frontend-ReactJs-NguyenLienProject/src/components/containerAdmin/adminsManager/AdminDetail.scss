@@ -1,0 +1,486 @@
+// ==============================================
+// 🛡️ ADMIN DETAIL VIEW STYLES
+// ==============================================
+
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
+.admin-detail-container {
+   width: 100%;
+   padding: spacing(6);
+   background: linear-gradient(135deg, #fef2f2 0%, color(white) 50%, #fee2e2 100%);
+   min-height: 100vh;
+
+   @include mobile-only {
+      padding: spacing(4);
+   }
+}
+
+// ==============================================
+// 🎯 ADMIN DETAIL HEADER (Red theme)
+// ==============================================
+.admin-detail-title {
+   font-size: font-size(2xl);
+   font-weight: font-weight(bold);
+   color: #7f1d1d;
+   text-align: center;
+   margin-bottom: spacing(8);
+   position: relative;
+
+   // Admin detail icon effect
+   &::before {
+      content: '🛡️👤';
+      display: block;
+      font-size: font-size(3xl);
+      margin-bottom: spacing(2);
+   }
+
+   // Decorative underline
+   &::after {
+      content: '';
+      position: absolute;
+      bottom: -spacing(2);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 3px;
+      background: linear-gradient(135deg, #dc2626, #b91c1c);
+      border-radius: border-radius(full);
+   }
+
+   @include mobile-only {
+      font-size: font-size(xl);
+      margin-bottom: spacing(6);
+   }
+}
+
+// ==============================================
+// 📋 ADMIN DETAIL CONTENT (Red theme)
+// ==============================================
+.admin-detail-content {
+   @include card-base;
+   @include card-padding(lg);
+   background: color(white);
+   border: 1px solid #fca5a5;
+   border-radius: border-radius(xl);
+   box-shadow: shadow(lg);
+   max-width: 700px;
+   margin: 0 auto spacing(8);
+   position: relative;
+
+   // Decorative border effect
+   &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(135deg, #dc2626 0%, #b91c1c 50%, #991b1b 100%);
+      border-radius: border-radius(xl) border-radius(xl) 0 0;
+   }
+
+   // Admin shield watermark
+   &::after {
+      content: '🛡️';
+      position: absolute;
+      top: spacing(4);
+      right: spacing(4);
+      font-size: font-size(3xl);
+      opacity: 0.1;
+      z-index: 0;
+   }
+
+   @include mobile-only {
+      padding: spacing(4);
+      border-radius: border-radius(lg);
+      margin-bottom: spacing(6);
+   }
+
+   >div {
+      display: flex;
+      padding: spacing(4);
+      border-bottom: 1px solid #fee2e2;
+      position: relative;
+      z-index: 1;
+      transition: all 0.3s ease;
+      border-radius: border-radius(md);
+
+      &:hover {
+         background-color: #fef2f2;
+         transform: translateX(spacing(1));
+      }
+
+      &:last-child {
+         border-bottom: none;
+      }
+
+      @include mobile-only {
+         flex-direction: column;
+         padding: spacing(3);
+
+         &:hover {
+            transform: none;
+         }
+      }
+
+      strong {
+         color: #7f1d1d;
+         font-weight: font-weight(semibold);
+         min-width: 140px;
+         margin-right: spacing(3);
+         font-size: font-size(sm);
+
+         @include mobile-only {
+            min-width: auto;
+            margin-right: 0;
+            margin-bottom: spacing(1);
+         }
+      }
+
+      // Data value styling (text after strong tag)
+      >*:not(strong) {
+         color: color(white);
+         font-size: font-size(base);
+         font-weight: font-weight(medium);
+      }
+
+      // Specific styling for direct text content
+      &:has(strong) {
+         color: color(white);
+      }
+
+      // Value styling fallback
+      &:not(:has(strong)) {
+         color: color(white);
+         font-size: font-size(base);
+         font-weight: font-weight(medium);
+      }
+
+      // Hidden fields styling
+      em {
+         color: #9ca3af;
+         font-style: italic;
+         background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+         padding: spacing(1) spacing(2);
+         border-radius: border-radius(sm);
+         font-size: font-size(xs);
+         border: 1px solid #d1d5db;
+      }
+   }
+}
+
+// ==============================================
+// 🎬 ADMIN DETAIL ACTIONS (Red theme)
+// ==============================================
+.admin-detail-actions {
+   display: flex;
+   gap: spacing(4);
+   justify-content: center;
+   max-width: 700px;
+   margin: 0 auto;
+
+   @include mobile-only {
+      flex-direction: column;
+      gap: spacing(3);
+   }
+}
+
+// ==============================================
+// ✨ ACTION BUTTONS (Red theme)
+// ==============================================
+.admin-detail-actions .btn-edit {
+   @include button-base;
+   @include button-size(lg);
+   background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+   color: color(white);
+   border: none;
+   min-width: 180px;
+   position: relative;
+   overflow: hidden;
+
+   // Edit icon effect
+   &::before {
+      content: '✏️';
+      margin-right: spacing(2);
+   }
+
+   // Shimmer effect
+   &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.6s ease;
+   }
+
+   &:hover:not(:disabled) {
+      background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
+      transform: translateY(-2px);
+      box-shadow: shadow(lg);
+
+      &::after {
+         left: 100%;
+      }
+   }
+
+   &:active:not(:disabled) {
+      transform: translateY(0);
+   }
+
+   @include mobile-only {
+      width: 100%;
+      min-width: auto;
+   }
+}
+
+.admin-detail-actions .btn-back {
+   @include button-base;
+   @include button-size(lg);
+   background: linear-gradient(135deg, color(white) 0%, #f9fafb 100%);
+   color: #374151;
+   border: 2px solid #d1d5db;
+   min-width: 140px;
+
+   // Back icon effect
+   &::before {
+      content: '←';
+      margin-right: spacing(2);
+      font-weight: font-weight(bold);
+   }
+
+   &:hover:not(:disabled) {
+      background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+      border-color: #9ca3af;
+      transform: translateY(-1px);
+   }
+
+   &:active:not(:disabled) {
+      transform: translateY(0);
+   }
+
+   @include mobile-only {
+      width: 100%;
+      min-width: auto;
+   }
+}
+
+// ==============================================
+// 🔄 LOADING & ERROR STATES (Red theme)
+// ==============================================
+.admin-detail-loading {
+   @include flex-center;
+   padding: spacing(8);
+   color: #7f1d1d;
+   font-size: font-size(lg);
+   background: linear-gradient(135deg, #fef2f2, color(white));
+   border-radius: border-radius(lg);
+   margin: spacing(4) auto;
+   max-width: 400px;
+   box-shadow: shadow(md);
+
+   &::before {
+      content: '';
+      width: 24px;
+      height: 24px;
+      border: 3px solid #fca5a5;
+      border-top-color: #dc2626;
+      border-radius: 50%;
+      animation: admin-detail-spin 1s linear infinite;
+      margin-right: spacing(3);
+   }
+}
+
+.admin-detail-error {
+   @include card-base;
+   @include card-padding(md);
+   background: linear-gradient(135deg, #fef2f2, #fee2e2);
+   border: 1px solid #fca5a5;
+   color: #7f1d1d;
+   text-align: center;
+   margin: spacing(4) auto;
+   max-width: 400px;
+
+   &::before {
+      content: '⚠️';
+      margin-right: spacing(2);
+      font-size: font-size(lg);
+   }
+}
+
+// ==============================================
+// 🎭 ADMIN DETAIL ANIMATIONS
+// ==============================================
+@keyframes admin-detail-spin {
+   to {
+      transform: rotate(360deg);
+   }
+}
+
+.admin-detail-container {
+   .admin-fade-in {
+      @include fade-in;
+   }
+}
+
+// ==============================================
+// 🏷️ SPECIAL FIELD STYLING
+// ==============================================
+.admin-detail-content {
+
+   // ID field special styling
+   >div:first-child {
+      background: linear-gradient(135deg, #fef2f2, #fee2e2);
+      border: 1px solid #fca5a5;
+      border-radius: border-radius(md);
+      font-weight: font-weight(medium);
+
+      strong {
+         color: #991b1b;
+      }
+   }
+
+   // Role field special styling
+   >div:last-child {
+      background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+      border: 1px solid #86efac;
+      border-radius: border-radius(md);
+      font-weight: font-weight(medium);
+
+      strong {
+         color: #166534;
+      }
+
+      &:hover {
+         background: linear-gradient(135deg, #bbf7d0, #86efac);
+      }
+   }
+}
+
+// ==============================================
+// 📱 RESPONSIVE ADJUSTMENTS
+// ==============================================
+@include mobile-only {
+   .admin-detail-content {
+      >div {
+         strong {
+            font-size: font-size(xs);
+         }
+      }
+   }
+
+   .admin-detail-actions {
+
+      .btn-edit,
+      .btn-back {
+         font-size: font-size(base);
+         padding: spacing(3) spacing(4);
+      }
+   }
+}
+
+// ==============================================
+// 🌙 DARK MODE SUPPORT
+// ==============================================
+@media (prefers-color-scheme: dark) {
+   .admin-detail-container {
+      background: linear-gradient(135deg, #7f1d1d 0%, color(gray-900) 50%, #991b1b 100%);
+   }
+
+   .admin-detail-title {
+      color: #fca5a5;
+   }
+
+   .admin-detail-content {
+      background-color: color(gray-800);
+      border-color: #dc2626;
+
+      >div {
+         border-color: color(gray-700);
+
+         &:hover {
+            background-color: #7f1d1d;
+         }
+
+         strong {
+            color: #fca5a5;
+         }
+
+         em {
+            background: linear-gradient(135deg, color(gray-700), color(gray-600));
+            border-color: color(gray-500);
+            color: color(gray-300);
+         }
+      }
+
+      // ID field dark mode
+      >div:first-child {
+         background: linear-gradient(135deg, #7f1d1d, #991b1b);
+         border-color: #dc2626;
+
+         strong {
+            color: #fca5a5;
+         }
+      }
+
+      // Role field dark mode
+      >div:last-child {
+         background: linear-gradient(135deg, color(gray-700), color(gray-600));
+         border-color: color(gray-500);
+
+         strong {
+            color: #10b981;
+         }
+
+         &:hover {
+            background: linear-gradient(135deg, color(gray-600), color(gray-500));
+         }
+      }
+   }
+
+   .admin-detail-loading {
+      background: linear-gradient(135deg, #7f1d1d, color(gray-800));
+      color: #fca5a5;
+   }
+
+   .admin-detail-error {
+      background: linear-gradient(135deg, #7f1d1d, #991b1b);
+      border-color: #dc2626;
+      color: #fca5a5;
+   }
+
+   .btn-back {
+      background: linear-gradient(135deg, color(gray-700) 0%, color(gray-600) 100%);
+      color: color(gray-300);
+      border-color: color(gray-500);
+
+      &:hover:not(:disabled) {
+         background: linear-gradient(135deg, color(gray-600) 0%, color(gray-500) 100%);
+         border-color: color(gray-400);
+      }
+   }
+}
+
+// ==============================================
+// 🎨 FOCUS INDICATORS (Accessibility)
+// ==============================================
+.admin-detail-actions {
+   button:focus-visible {
+      outline: 2px solid #dc2626;
+      outline-offset: 2px;
+   }
+}
+
+// ==============================================
+// 💎 PREMIUM DETAILS
+// ==============================================
+.admin-detail-content {
+   // Premium shadow effect with subtle red accent
+   box-shadow:
+      shadow(lg),
+      0 0 0 1px rgba(220, 38, 38, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import CustomToast from '../../../components/CustomToast';
 import { useIntl, FormattedMessage } from 'react-intl';
+import './UserCreate.scss';
 
 const initialForm = {
    phoneNumber: '',

@@ -3,6 +3,7 @@ import { getAdmins } from '../../../services/adminService';
 import { useNavigate } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import AdminDelete from './AdminDelete';
+import './AdminManager.scss';
 
 const AdminManager = () => {
    const [users, setUsers] = useState([]);
@@ -29,7 +30,7 @@ const AdminManager = () => {
             setError(intl.formatMessage({ id: 'admin.manager.load_error' }));
             setLoading(false);
          });
-   }, []);
+   }, [intl]);
 
    useEffect(() => {
       const lower = search.trim().toLowerCase();
@@ -56,22 +57,21 @@ const AdminManager = () => {
    };
 
    return (
-      <div className="user-manager-container">
-         <div className="user-manager-top">
-            <h1 className="user-title">
+      <div className="admin-manager-container">
+         <div className="admin-manager-top">
+            <h1 className="admin-title">
                <FormattedMessage id="admin.manager.title" defaultMessage="Quản lý quản trị viên" />
             </h1>
-            <div style={{ display: 'flex', gap: 10 }}>
+            <div className="admin-actions">
                <button
                   className="btn-create btn-create-admin"
-                  style={{ background: "#e74c3c" }}
                   onClick={() => navigate('/admin/account-management/admin-management/admin-register')}
                >
                   + <FormattedMessage id="admin.manager.create_button" defaultMessage="Tạo quản trị viên" />
                </button>
             </div>
          </div>
-         <div className="user-search-bar">
+         <div className="admin-search-bar">
             <input
                type="text"
                placeholder={intl.formatMessage({ id: 'admin.manager.search_placeholder' })}
@@ -80,14 +80,14 @@ const AdminManager = () => {
             />
          </div>
          {loading ? (
-            <div className="user-loading">
+            <div className="admin-loading">
                <FormattedMessage id="admin.manager.loading" defaultMessage="Đang tải..." />
             </div>
          ) : error ? (
-            <div className="user-error">{error}</div>
+            <div className="admin-error">{error}</div>
          ) : (
-            <div className="user-table-wrapper">
-               <table className="user-table">
+            <div className="admin-table-wrapper">
+               <table className="admin-table">
                   <thead>
                      <tr>
                         <th>ID</th>

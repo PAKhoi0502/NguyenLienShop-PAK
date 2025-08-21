@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getUsers } from '../../../services/adminService';
 import { FormattedMessage, useIntl } from 'react-intl';
+import './UserDetail.scss';
 
 const UserDetail = () => {
    const { id } = useParams();
@@ -24,7 +25,7 @@ const UserDetail = () => {
          setLoading(false);
       };
       fetchUser();
-   }, [id]);
+   }, [id, navigate]);
 
    const handleEdit = () => {
       navigate(`/admin/account-management/user-management/user-update/${id}`);

@@ -1,40 +1,137 @@
+// ==============================================
+// 🎯 ADMIN HEADER STYLES
+// ==============================================
+
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
 .admin-header {
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
-   padding: 12px 24px;
-   background-color: #ffffff;
-   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+   @include flex-between;
+   padding: spacing(4) spacing(6);
+   background-color: color(white);
+   box-shadow: shadow(sm);
    position: sticky;
    top: 0;
-   z-index: 1000;
+   z-index: z-index(sticky);
+   border-bottom: 1px solid color(gray-200);
 
-   .admin-header-left {
-      flex: 1;
+   @include mobile-only {
+      padding: spacing(3) spacing(4);
    }
 
-   .admin-header-right {
+   &-left {
+      flex: 1;
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: spacing(4);
+   }
+
+   &-right {
+      display: flex;
+      align-items: center;
+      gap: spacing(4);
 
       .language-select {
-         padding: 8px 12px;
-         border: 1px solid #e2e8f0;
-         border-radius: 6px;
-         background-color: #f7fafc;
-         font-size: 14px;
-         color: #2d3748;
+         @include input-base;
+         padding: spacing(2) spacing(3);
+         font-size: font-size(sm);
+         min-width: 80px;
          cursor: pointer;
-         transition: border-color 0.2s ease;
+         background-color: color(gray-50);
+         border-color: color(gray-300);
 
-         &:hover,
+         &:hover {
+            border-color: color(primary-400);
+            background-color: color(white);
+         }
+
          &:focus {
-            border-color: #2b6cb0;
-            outline: none;
+            border-color: color(primary-500);
+            background-color: color(white);
+         }
+
+         @include mobile-only {
+            font-size: font-size(xs);
+            padding: spacing(1) spacing(2);
          }
       }
    }
 
+   // Logo/Brand area (if needed)
+   &__logo {
+      font-size: font-size(lg);
+      font-weight: font-weight(bold);
+      color: color(primary-600);
+      text-decoration: none;
 
+      &:hover {
+         color: color(primary-700);
+      }
+   }
+
+   // User info area (if needed)
+   &__user-info {
+      display: flex;
+      align-items: center;
+      gap: spacing(3);
+
+      .user-avatar {
+         width: 32px;
+         height: 32px;
+         border-radius: border-radius(full);
+         background-color: color(primary-100);
+         @include flex-center;
+         color: color(primary-600);
+         font-weight: font-weight(medium);
+         font-size: font-size(sm);
+      }
+
+      .user-name {
+         font-size: font-size(sm);
+         font-weight: font-weight(medium);
+         color: color(gray-700);
+
+         @include mobile-only {
+            display: none;
+         }
+      }
+   }
+}
+
+// ==============================================
+// 🌙 DARK MODE SUPPORT
+// ==============================================
+@media (prefers-color-scheme: dark) {
+   .admin-header {
+      background-color: color(gray-800);
+      border-color: color(gray-700);
+
+      &__logo {
+         color: color(primary-400);
+
+         &:hover {
+            color: color(primary-300);
+         }
+      }
+
+      &-right {
+         .language-select {
+            background-color: color(gray-700);
+            border-color: color(gray-600);
+            color: color(gray-100);
+
+            &:hover,
+            &:focus {
+               background-color: color(gray-600);
+               border-color: color(primary-500);
+            }
+         }
+      }
+
+      &__user-info {
+         .user-name {
+            color: color(gray-300);
+         }
+      }
+   }
 }

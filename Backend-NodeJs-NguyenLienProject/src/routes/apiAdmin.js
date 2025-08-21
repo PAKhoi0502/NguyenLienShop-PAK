@@ -1,6 +1,8 @@
 import express from 'express';
 import adminController from '../controllers/adminController.js';
+import authController from '../controllers/authController.js';
 import { verifyToken, isRole } from '../middlewares/authMiddleware.js';
+import validateBodyFields from '../middlewares/validateBodyFields.js';
 
 const router = express.Router();
 
@@ -14,5 +16,8 @@ router.post('/user-register', verifyToken, isRole(1), adminController.handleCrea
 router.get('/user-management', verifyToken, isRole(1), adminController.handleGetAllUsers);
 router.delete('/user-delete', verifyToken, isRole(1), adminController.handleDeleteUser);
 router.put('/user-update', verifyToken, isRole(1), adminController.handleUpdateUser);
+
+// 🔒 Verify admin password for sensitive operations
+router.post('/verify-password', verifyToken, isRole(1), validateBodyFields(['password']), authController.handleVerifyPassword);
 
 export default router;

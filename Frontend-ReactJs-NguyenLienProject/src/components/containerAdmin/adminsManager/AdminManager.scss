@@ -1,0 +1,390 @@
+// ==============================================
+// 🛡️ ADMIN MANAGER STYLES
+// ==============================================
+
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
+.admin-manager-container {
+   padding: spacing(6);
+   background: linear-gradient(135deg, #fef2f2 0%, color(white) 50%, #fee2e2 100%);
+   min-height: 100vh;
+
+   @include mobile-only {
+      padding: spacing(4);
+   }
+}
+
+// ==============================================
+// 🎯 ADMIN MANAGER HEADER (Red theme)
+// ==============================================
+.admin-manager-top {
+   @include flex-between;
+   margin-bottom: spacing(6);
+   padding: spacing(6);
+   background: linear-gradient(135deg, color(white) 0%, #fef2f2 100%);
+   border-radius: border-radius(xl);
+   box-shadow: shadow(lg);
+   border-left: 5px solid #dc2626;
+   position: relative;
+
+   // Decorative background
+   &::before {
+      content: '';
+      position: absolute;
+      top: -20%;
+      right: -10%;
+      width: 150px;
+      height: 150px;
+      background: radial-gradient(circle, rgba(220, 38, 38, 0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      z-index: 0;
+   }
+
+   @include mobile-only {
+      flex-direction: column;
+      gap: spacing(4);
+      padding: spacing(4);
+   }
+}
+
+.admin-title {
+   font-size: font-size(2xl);
+   font-weight: font-weight(bold);
+   color: #7f1d1d;
+   margin: 0;
+   position: relative;
+   z-index: 1;
+
+   // Admin shield icon effect
+   &::before {
+      content: '🛡️';
+      margin-right: spacing(2);
+      font-size: font-size(xl);
+   }
+
+   @include mobile-only {
+      font-size: font-size(xl);
+      text-align: center;
+   }
+}
+
+.admin-actions {
+   display: flex;
+   gap: spacing(3);
+   position: relative;
+   z-index: 1;
+
+   @include mobile-only {
+      width: 100%;
+      justify-content: center;
+   }
+}
+
+// ==============================================
+// 🔍 ADMIN SEARCH BAR (Red theme)
+// ==============================================
+.admin-search-bar {
+   margin-bottom: spacing(6);
+
+   input {
+      @include input-base;
+      max-width: 400px;
+      background-color: color(white);
+      border-color: #fca5a5;
+
+      &:focus {
+         border-color: #dc2626;
+         box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+      }
+
+      &::placeholder {
+         color: #9ca3af;
+      }
+
+      @include mobile-only {
+         max-width: 100%;
+      }
+   }
+}
+
+// ==============================================
+// ✨ ADMIN ACTION BUTTONS (Red theme)
+// ==============================================
+.btn-create-admin {
+   @include button-base;
+   @include button-size(md);
+   background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+   color: color(white);
+   gap: spacing(2);
+   border: none;
+   box-shadow: shadow(sm);
+
+   &:hover:not(:disabled) {
+      background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
+      transform: translateY(-1px);
+      box-shadow: shadow(md);
+   }
+
+   &:active {
+      transform: translateY(0);
+   }
+
+   // Add shield icon effect
+   &::before {
+      content: '⚡';
+      margin-right: spacing(1);
+   }
+}
+
+// ==============================================
+// 📊 ADMIN DATA TABLE (Red theme)
+// ==============================================
+.admin-table-wrapper {
+   @include card-base;
+   overflow: hidden;
+   border: 1px solid #fca5a5;
+
+   @include mobile-only {
+      overflow-x: auto;
+   }
+}
+
+.admin-table {
+   @include table-base;
+   box-shadow: none;
+   border-radius: 0;
+
+   thead {
+      background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+
+      th {
+         padding: spacing(4);
+         text-align: left;
+         font-weight: font-weight(semibold);
+         font-size: font-size(sm);
+         color: #7f1d1d;
+         border-bottom: 2px solid #fca5a5;
+         position: relative;
+
+         &:first-child {
+            border-left: 3px solid #dc2626;
+         }
+      }
+   }
+
+   tbody {
+      tr {
+         @include table-row;
+         border-left: 3px solid transparent;
+         transition: all 0.3s ease;
+
+         &:hover {
+            background-color: #fef2f2;
+            border-left-color: #dc2626;
+            transform: translateX(2px);
+         }
+
+         td {
+            color: color(gray-700);
+            border-bottom: 1px solid #fee2e2;
+         }
+      }
+   }
+
+   // Responsive table
+   .hide-mobile {
+      @include mobile-only {
+         display: none;
+      }
+   }
+
+   // Cell styling
+   .cell-na {
+      color: #9ca3af;
+      font-style: italic;
+   }
+}
+
+// ==============================================
+// 🏷️ ADMIN SPECIFIC BADGES
+// ==============================================
+.role-admin {
+   @include status-badge(error);
+   text-transform: uppercase;
+   font-weight: font-weight(semibold);
+   background: linear-gradient(135deg, #fee2e2, #fecaca);
+   color: #7f1d1d;
+   border: 1px solid #fca5a5;
+
+   &::before {
+      content: '👑';
+      margin-right: spacing(1);
+   }
+}
+
+// ==============================================
+// 🎛️ ADMIN ACTION BUTTONS
+// ==============================================
+.admin-table .action-buttons {
+   display: flex;
+   gap: spacing(2);
+   flex-wrap: wrap;
+
+   @include mobile-only {
+      flex-direction: column;
+      gap: spacing(1);
+   }
+
+   .btn-action {
+      @include button-base;
+      @include button-size(sm);
+      font-size: font-size(xs);
+
+      &.btn-user-detail {
+         background: linear-gradient(135deg, #fef2f2, #fee2e2);
+         color: #7f1d1d;
+         border: 1px solid #fca5a5;
+
+         &:hover {
+            background: linear-gradient(135deg, #fee2e2, #fecaca);
+            border-color: #f87171;
+         }
+      }
+
+      &.btn-update {
+         background: linear-gradient(135deg, #dc2626, #b91c1c);
+         color: color(white);
+
+         &:hover {
+            background: linear-gradient(135deg, #b91c1c, #991b1b);
+         }
+      }
+   }
+}
+
+// ==============================================
+// 📱 ADMIN LOADING & ERROR STATES
+// ==============================================
+.admin-loading {
+   @include flex-center;
+   padding: spacing(8);
+   color: #7f1d1d;
+   font-size: font-size(lg);
+   background: linear-gradient(135deg, #fef2f2, color(white));
+   border-radius: border-radius(lg);
+   margin: spacing(4) 0;
+
+   &::before {
+      content: '';
+      width: 20px;
+      height: 20px;
+      border: 2px solid #fca5a5;
+      border-top-color: #dc2626;
+      border-radius: 50%;
+      animation: admin-spin 1s linear infinite;
+      margin-right: spacing(3);
+   }
+}
+
+.admin-error {
+   @include card-base;
+   @include card-padding(md);
+   background: linear-gradient(135deg, #fef2f2, #fee2e2);
+   border: 1px solid #fca5a5;
+   color: #7f1d1d;
+   text-align: center;
+   margin-bottom: spacing(6);
+
+   &::before {
+      content: '⚠️';
+      margin-right: spacing(2);
+      font-size: font-size(lg);
+   }
+}
+
+// ==============================================
+// 🎭 ADMIN ANIMATIONS
+// ==============================================
+@keyframes admin-spin {
+   to {
+      transform: rotate(360deg);
+   }
+}
+
+.admin-manager-container {
+   .admin-fade-in {
+      @include fade-in;
+   }
+}
+
+// ==============================================
+// 📱 RESPONSIVE ADJUSTMENTS
+// ==============================================
+@include mobile-only {
+   .admin-table {
+      font-size: font-size(xs);
+
+      th,
+      td {
+         padding: spacing(2);
+      }
+   }
+
+   .action-buttons {
+      .btn-action {
+         font-size: font-size(xs);
+         padding: spacing(1) spacing(2);
+      }
+   }
+}
+
+// ==============================================
+// 🌙 DARK MODE SUPPORT
+// ==============================================
+@media (prefers-color-scheme: dark) {
+   .admin-manager-container {
+      background: linear-gradient(135deg, #7f1d1d 0%, color(gray-900) 50%, #991b1b 100%);
+   }
+
+   .admin-manager-top {
+      background: linear-gradient(135deg, color(gray-800) 0%, #7f1d1d 100%);
+      border-color: #dc2626;
+   }
+
+   .admin-title {
+      color: #fca5a5;
+   }
+
+   .admin-table {
+      background-color: color(gray-800);
+
+      thead {
+         background: linear-gradient(135deg, color(gray-700) 0%, #7f1d1d 100%);
+
+         th {
+            color: #fca5a5;
+            border-color: #dc2626;
+         }
+      }
+
+      tbody {
+         tr {
+            td {
+               color: color(gray-300);
+               border-color: color(gray-700);
+            }
+
+            &:hover {
+               background-color: #7f1d1d;
+            }
+         }
+      }
+   }
+
+   .role-admin {
+      background: linear-gradient(135deg, #7f1d1d, #991b1b);
+      color: #fca5a5;
+      border-color: #dc2626;
+   }
+}

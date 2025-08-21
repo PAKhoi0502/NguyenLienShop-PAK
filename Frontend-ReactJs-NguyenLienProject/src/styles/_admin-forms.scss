@@ -1,0 +1,294 @@
+// ==============================================
+// 📝 ADMIN FORMS STYLES
+// ==============================================
+
+@import 'variables';
+@import 'mixins';
+
+// ==============================================
+// 📋 FORM CONTAINER
+// ==============================================
+.admin-form-container {
+   max-width: 600px;
+   margin: 0 auto;
+   padding: spacing(6);
+
+   @include mobile-only {
+      padding: spacing(4);
+   }
+}
+
+.admin-form {
+   @include card-base;
+   @include card-padding(lg);
+
+   &__header {
+      margin-bottom: spacing(6);
+      text-align: center;
+
+      h1,
+      h2 {
+         font-size: font-size(2xl);
+         font-weight: font-weight(bold);
+         color: color(gray-900);
+         margin-bottom: spacing(2);
+      }
+
+      p {
+         color: color(gray-600);
+         font-size: font-size(sm);
+      }
+   }
+}
+
+// ==============================================
+// 📝 FORM FIELDS
+// ==============================================
+.form-group {
+   margin-bottom: spacing(5);
+
+   label {
+      display: block;
+      font-size: font-size(sm);
+      font-weight: font-weight(medium);
+      color: color(gray-700);
+      margin-bottom: spacing(2);
+
+      .required {
+         color: color(error-500);
+         margin-left: spacing(1);
+      }
+   }
+
+   input,
+   select,
+   textarea {
+      @include input-base;
+   }
+
+   textarea {
+      min-height: 100px;
+      resize: vertical;
+   }
+
+   .form-error {
+      font-size: font-size(xs);
+      color: color(error-600);
+      margin-top: spacing(1);
+      display: flex;
+      align-items: center;
+      gap: spacing(1);
+   }
+
+   .form-help {
+      font-size: font-size(xs);
+      color: color(gray-500);
+      margin-top: spacing(1);
+   }
+}
+
+// ==============================================
+// 🎛️ FORM ACTIONS
+// ==============================================
+.form-actions {
+   display: flex;
+   gap: spacing(3);
+   justify-content: flex-end;
+   margin-top: spacing(8);
+   padding-top: spacing(6);
+   border-top: 1px solid color(gray-200);
+
+   @include mobile-only {
+      flex-direction: column;
+      gap: spacing(2);
+   }
+
+   .btn-submit {
+      @include button-base;
+      @include button-size(lg);
+      @include button-variant(primary);
+   }
+
+   .btn-cancel {
+      @include button-base;
+      @include button-size(lg);
+      @include button-variant(secondary);
+   }
+
+   .btn-delete {
+      @include button-base;
+      @include button-size(lg);
+      @include button-variant(danger);
+   }
+}
+
+// ==============================================
+// 📤 FILE UPLOAD
+// ==============================================
+.file-upload-area {
+   border: 2px dashed color(gray-300);
+   border-radius: border-radius(lg);
+   padding: spacing(8);
+   text-align: center;
+   transition: transition(colors);
+   cursor: pointer;
+
+   &:hover,
+   &.dragover {
+      border-color: color(primary-400);
+      background-color: color(primary-50);
+   }
+
+   &__icon {
+      width: 48px;
+      height: 48px;
+      color: color(gray-400);
+      margin: 0 auto spacing(4);
+   }
+
+   &__text {
+      font-size: font-size(sm);
+      color: color(gray-600);
+
+      .highlight {
+         color: color(primary-600);
+         font-weight: font-weight(medium);
+      }
+   }
+
+   input[type="file"] {
+      display: none;
+   }
+}
+
+// ==============================================
+// 🖼️ IMAGE PREVIEW
+// ==============================================
+.image-preview {
+   display: grid;
+   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+   gap: spacing(4);
+   margin-top: spacing(4);
+
+   &__item {
+      position: relative;
+      aspect-ratio: 1;
+      border-radius: border-radius(lg);
+      overflow: hidden;
+      border: 1px solid color(gray-200);
+
+      img {
+         width: 100%;
+         height: 100%;
+         object-fit: cover;
+      }
+
+      &__remove {
+         position: absolute;
+         top: spacing(1);
+         right: spacing(1);
+         width: 24px;
+         height: 24px;
+         @include flex-center;
+         background-color: color(error-600);
+         color: color(white);
+         border-radius: border-radius(full);
+         cursor: pointer;
+         font-size: font-size(xs);
+
+         &:hover {
+            background-color: color(error-700);
+         }
+      }
+   }
+}
+
+// ==============================================
+// ✅ FORM VALIDATION STATES
+// ==============================================
+.form-group {
+   &.has-error {
+
+      input,
+      select,
+      textarea {
+         border-color: color(error-500);
+
+         &:focus {
+            border-color: color(error-500);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+         }
+      }
+   }
+
+   &.has-success {
+
+      input,
+      select,
+      textarea {
+         border-color: color(success-500);
+
+         &:focus {
+            border-color: color(success-500);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+         }
+      }
+   }
+}
+
+// ==============================================
+// 🌙 DARK MODE SUPPORT
+// ==============================================
+@media (prefers-color-scheme: dark) {
+   .admin-form {
+      background-color: color(gray-800);
+      border-color: color(gray-700);
+
+      &__header {
+
+         h1,
+         h2 {
+            color: color(white);
+         }
+
+         p {
+            color: color(gray-300);
+         }
+      }
+   }
+
+   .form-group {
+      label {
+         color: color(gray-200);
+      }
+
+      input,
+      select,
+      textarea {
+         background-color: color(gray-700);
+         border-color: color(gray-600);
+         color: color(gray-100);
+
+         &::placeholder {
+            color: color(gray-400);
+         }
+      }
+   }
+
+   .form-actions {
+      border-color: color(gray-700);
+   }
+
+   .file-upload-area {
+      border-color: color(gray-600);
+
+      &:hover,
+      &.dragover {
+         background-color: color(gray-700);
+      }
+
+      &__text {
+         color: color(gray-300);
+      }
+   }
+}

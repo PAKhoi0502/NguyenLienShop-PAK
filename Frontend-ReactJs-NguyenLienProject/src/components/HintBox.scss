@@ -1,14 +1,71 @@
+// ==============================================
+// 💡 HINT BOX STYLES (Modern Theme)
+// ==============================================
+
+@import '../styles/variables';
+@import '../styles/mixins';
+
 .hint-icon-wrapper {
-   margin: 10px;
+   display: inline-flex;
+   align-items: center;
+   margin: spacing(3) 0;
 
    .hint-icon {
-      font-size: 20px;
-      color: #4a5568;
+      font-size: font-size(2xl);
+      color: #f59e0b;
       cursor: pointer;
-      transition: color 0.2s ease;
+      transition: all 0.3s ease;
+      padding: spacing(3);
+      border-radius: border-radius(full);
+      background: rgba(245, 158, 11, 0.1);
+      border: 2px solid rgba(245, 158, 11, 0.3);
+      min-width: 48px;
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      @include mobile-only {
+         font-size: font-size(xl);
+         min-width: 42px;
+         min-height: 42px;
+         padding: spacing(2);
+      }
 
       &:hover {
-         color: yellow;
+         color: #d97706;
+         background: rgba(245, 158, 11, 0.2);
+         transform: scale(1.15);
+         box-shadow: 0 6px 16px rgba(245, 158, 11, 0.4);
+         border-color: rgba(245, 158, 11, 0.5);
+      }
+
+      &:active {
+         transform: scale(1.05);
+      }
+   }
+
+   // Smaller variant when inside filters
+   .product-filters &,
+   .filters-container & {
+      margin: 0;
+
+      .hint-icon {
+         font-size: font-size(xl);
+         min-width: 40px;
+         min-height: 40px;
+         padding: spacing(2);
+
+         @include mobile-only {
+            font-size: font-size(lg);
+            min-width: 36px;
+            min-height: 36px;
+            padding: spacing(1);
+         }
+
+         &:hover {
+            transform: scale(1.1);
+         }
       }
    }
 }
@@ -19,44 +76,307 @@
    left: 0;
    width: 100vw;
    height: 100vh;
-   background: rgba(0, 0, 0, 0.3);
+   background: rgba(0, 0, 0, 0.6);
    display: flex;
    align-items: center;
    justify-content: center;
-   z-index: 999;
+   z-index: 9999;
+   backdrop-filter: blur(4px);
+   animation: fade-in 0.3s ease-out;
+
+   @include mobile-only {
+      padding: spacing(4);
+   }
 }
 
 .hint-box {
-   background: #ffffff;
-   padding: 24px;
-   border-radius: 8px;
-   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-   max-width: 580px;
+   background: color(white);
+   padding: spacing(8);
+   border-radius: border-radius(xl);
+   box-shadow: shadow(2xl);
+   max-width: 600px;
    width: 90%;
+   border: 2px solid #f59e0b;
+   position: relative;
+   animation: slide-up 0.4s ease-out;
+
+   @include mobile-only {
+      padding: spacing(6);
+      max-width: 100%;
+   }
+
+   // Header with icon
+   &::before {
+      content: '💡';
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: color(white);
+      padding: spacing(2);
+      border-radius: border-radius(full);
+      border: 2px solid #f59e0b;
+      font-size: font-size(xl);
+   }
+
+   // Close button
+   .hint-close {
+      position: absolute;
+      top: spacing(3);
+      right: spacing(4);
+      font-size: font-size(xl);
+      color: #6b7280;
+      cursor: pointer;
+      width: 32px;
+      height: 32px;
+      border-radius: border-radius(full);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      font-weight: font-weight(bold);
+      line-height: 1;
+
+      &:hover {
+         background: #f3f4f6;
+         color: #374151;
+         transform: scale(1.1);
+      }
+
+      &:active {
+         transform: scale(0.95);
+      }
+   }
 
    p {
-      font-size: 18px;
-      font-weight: 600;
-      margin-bottom: 1rem;
-      color: #2c3e50;
+      font-size: font-size(lg);
+      font-weight: font-weight(bold);
+      margin: spacing(4) 0 spacing(6) 0;
+      color: #1f2937;
+      text-align: center;
+      line-height: line-height(relaxed);
+
+      @include mobile-only {
+         font-size: font-size(base);
+         margin: spacing(3) 0 spacing(4) 0;
+      }
    }
 
    ul {
       list-style: none;
       padding-left: 0;
+      margin: 0;
 
       li {
-         padding-left: 1.5rem;
-         margin-bottom: 0.65rem;
-         font-size: 16px;
-         color: #344767;
-         line-height: 1.5;
+         padding: spacing(3) 0 spacing(3) spacing(8);
+         font-size: font-size(base);
+         color: #374151;
+         line-height: line-height(relaxed);
          position: relative;
+         border-left: 3px solid transparent;
+         transition: all 0.3s ease;
+
+         @include mobile-only {
+            padding: spacing(2) 0 spacing(2) spacing(6);
+            font-size: font-size(sm);
+         }
 
          &::before {
-            content: "🔹";
+            content: '✅';
             position: absolute;
-            left: 0;
+            left: spacing(2);
+            top: spacing(3);
+            font-size: font-size(sm);
+
+            @include mobile-only {
+               top: spacing(2);
+            }
+         }
+
+         &:hover {
+            background: #f9fafb;
+            border-left-color: #f59e0b;
+            padding-left: spacing(10);
+
+            @include mobile-only {
+               padding-left: spacing(8);
+            }
+         }
+
+         // Alternate styling for each item
+         &:nth-child(even) {
+            &::before {
+               content: '💡';
+            }
+         }
+
+         &:nth-child(3n) {
+            &::before {
+               content: '⚡';
+            }
+         }
+      }
+   }
+
+   // Product theme variation
+   &.product-theme {
+      border-color: #22c55e;
+
+      &::before {
+         border-color: #22c55e;
+      }
+
+      ul li {
+         &:hover {
+            border-left-color: #22c55e;
+         }
+
+         &::before {
+            content: '📦';
+         }
+
+         &:nth-child(even)::before {
+            content: '🔧';
+         }
+
+         &:nth-child(3n)::before {
+            content: '📊';
+         }
+      }
+   }
+
+   // User theme variation
+   &.user-theme {
+      border-color: #3b82f6;
+
+      &::before {
+         border-color: #3b82f6;
+      }
+
+      ul li {
+         &:hover {
+            border-left-color: #3b82f6;
+         }
+
+         &::before {
+            content: '👤';
+         }
+
+         &:nth-child(even)::before {
+            content: '🔐';
+         }
+
+         &:nth-child(3n)::before {
+            content: '📋';
+         }
+      }
+   }
+}
+
+// ==============================================
+// 🎭 ANIMATIONS
+// ==============================================
+@keyframes fade-in {
+   from {
+      opacity: 0;
+   }
+
+   to {
+      opacity: 1;
+   }
+}
+
+@keyframes slide-up {
+   from {
+      opacity: 0;
+      transform: translateY(30px) scale(0.95);
+   }
+
+   to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+   }
+}
+
+// ==============================================
+// 🌙 DARK MODE SUPPORT
+// ==============================================
+@media (prefers-color-scheme: dark) {
+   .hint-icon-wrapper {
+      .hint-icon {
+         color: #fbbf24;
+         background: rgba(251, 191, 36, 0.15);
+         border-color: rgba(251, 191, 36, 0.4);
+
+         &:hover {
+            color: #f59e0b;
+            background: rgba(251, 191, 36, 0.25);
+            border-color: rgba(251, 191, 36, 0.6);
+            box-shadow: 0 6px 16px rgba(251, 191, 36, 0.3);
+         }
+      }
+   }
+
+   .hint-overlay {
+      background: rgba(0, 0, 0, 0.8);
+   }
+
+   .hint-box {
+      background: color(gray-800);
+      border-color: #fbbf24;
+
+      &::before {
+         background: color(gray-800);
+         border-color: #fbbf24;
+      }
+
+      &::after {
+         background: color(gray-800);
+         border-color: #fbbf24;
+      }
+
+      .hint-close {
+         color: color(gray-400);
+
+         &:hover {
+            background: color(gray-700);
+            color: color(gray-200);
+         }
+      }
+
+      p {
+         color: color(gray-100);
+      }
+
+      ul li {
+         color: color(gray-300);
+
+         &:hover {
+            background: color(gray-700);
+         }
+      }
+
+      &.product-theme {
+         border-color: #22c55e;
+
+         &::before {
+            border-color: #22c55e;
+         }
+
+         ul li:hover {
+            border-left-color: #22c55e;
+         }
+      }
+
+      &.user-theme {
+         border-color: #60a5fa;
+
+         &::before {
+            border-color: #60a5fa;
+         }
+
+         ul li:hover {
+            border-left-color: #60a5fa;
          }
       }
    }

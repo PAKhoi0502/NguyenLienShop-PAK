@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import AddCategory from './AddCategory';
 import DeleteCategory from './DeleteCategory';
+import './InfoCategory.scss';
 
 const InfoCategory = ({ productId: propProductId }) => {
    const location = useLocation();

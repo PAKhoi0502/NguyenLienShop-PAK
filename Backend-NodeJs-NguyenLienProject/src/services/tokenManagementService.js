@@ -41,7 +41,7 @@ const refreshAuthSession = async (oldRefreshToken, userId, req, res) => {
    try {
       // 1. Validate refresh token
       const validation = await refreshTokenService.validateRefreshToken(oldRefreshToken);
-      
+
       if (!validation.valid) {
          throw new Error(validation.error || 'Invalid refresh token');
       }

@@ -1,0 +1,543 @@
+// ==============================================
+// 🛡️ ADMIN UPDATE FORM STYLES
+// ==============================================
+
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
+.admin-update-container {
+   width: 100%;
+   padding: spacing(6);
+   background: linear-gradient(135deg, #fef2f2 0%, color(white) 50%, #fee2e2 100%);
+   min-height: 100vh;
+
+   @include mobile-only {
+      padding: spacing(4);
+   }
+}
+
+// ==============================================
+// 🎯 ADMIN UPDATE HEADER (Red theme)
+// ==============================================
+.admin-update-title {
+   font-size: font-size(2xl);
+   font-weight: font-weight(bold);
+   color: #7f1d1d;
+   text-align: center;
+   margin-bottom: spacing(8);
+   position: relative;
+
+   // Admin update icon effect
+   &::before {
+      content: '🛡️✏️';
+      display: block;
+      font-size: font-size(3xl);
+      margin-bottom: spacing(2);
+   }
+
+   // Decorative underline
+   &::after {
+      content: '';
+      position: absolute;
+      bottom: -spacing(2);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90px;
+      height: 3px;
+      background: linear-gradient(135deg, #dc2626, #b91c1c);
+      border-radius: border-radius(full);
+   }
+
+   @include mobile-only {
+      font-size: font-size(xl);
+      margin-bottom: spacing(6);
+   }
+}
+
+// ==============================================
+// 📝 ADMIN UPDATE FORM (Red theme)
+// ==============================================
+.admin-update-form {
+   @include card-base;
+   @include card-padding(lg);
+   background: color(white);
+   border: 1px solid #fca5a5;
+   border-radius: border-radius(xl);
+   box-shadow: shadow(lg);
+   max-width: 700px;
+   margin: 0 auto;
+   position: relative;
+
+   // Decorative border effect
+   &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(135deg, #dc2626 0%, #b91c1c 50%, #991b1b 100%);
+      border-radius: border-radius(xl) border-radius(xl) 0 0;
+   }
+
+   // Edit watermark
+   &::after {
+      content: '✏️';
+      position: absolute;
+      top: spacing(4);
+      right: spacing(4);
+      font-size: font-size(2xl);
+      opacity: 0.1;
+      z-index: 0;
+   }
+
+   @include mobile-only {
+      padding: spacing(4);
+      border-radius: border-radius(lg);
+   }
+}
+
+// ==============================================
+// 🏷️ FORM GROUPS (Red theme)
+// ==============================================
+.admin-update-form .form-group {
+   margin-bottom: spacing(6);
+   position: relative;
+   z-index: 1;
+
+   label {
+      display: block;
+      font-weight: font-weight(semibold);
+      font-size: font-size(sm);
+      color: #7f1d1d;
+      margin-bottom: spacing(2);
+      position: relative;
+
+      // Required asterisk styling
+      &::after {
+         content: '';
+         position: absolute;
+         top: 0;
+         right: -spacing(1);
+      }
+   }
+
+   input,
+   select {
+      @include input-base;
+      width: 100%;
+      background-color: #fef2f2;
+      border: 2px solid #fca5a5;
+      color: color(gray-800);
+      transition: all 0.3s ease;
+
+      &:focus {
+         border-color: #dc2626;
+         background-color: color(white);
+         box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.1);
+         transform: translateY(-1px);
+      }
+
+      &::placeholder {
+         color: #9ca3af;
+         font-style: italic;
+      }
+
+      &:disabled {
+         background-color: #f3f4f6;
+         border-color: #d1d5db;
+         color: #6b7280;
+         cursor: not-allowed;
+         opacity: 0.7;
+      }
+
+      // Input states when has value (Pink theme)
+      &:not(:placeholder-shown):not(:focus) {
+         background-color: #fdf2f8;
+         border-color: #f472b6;
+         color: #1f2937;
+         font-weight: font-weight(medium);
+      }
+
+      // Input validation states
+      &:valid:not(:placeholder-shown) {
+         border-color: #f472b6;
+         background-color: #fdf2f8;
+         color: #1f2937;
+      }
+
+      &:invalid:not(:placeholder-shown) {
+         border-color: #ef4444;
+         background-color: #fef2f2;
+         color: #1f2937;
+      }
+   }
+
+   // Select specific styling
+   select {
+      cursor: pointer;
+
+      &:focus {
+         cursor: pointer;
+      }
+
+      option {
+         background-color: color(white);
+         color: color(gray-800);
+         padding: spacing(2);
+      }
+   }
+
+   // Date input styling
+   input[type="date"] {
+      font-family: inherit;
+
+      &::-webkit-calendar-picker-indicator {
+         background-color: #dc2626;
+         border-radius: border-radius(sm);
+         padding: spacing(1);
+         cursor: pointer;
+      }
+   }
+
+   // Last form group spacing
+   &:last-of-type {
+      margin-bottom: spacing(8);
+   }
+
+   @include mobile-only {
+      margin-bottom: spacing(4);
+
+      &:last-of-type {
+         margin-bottom: spacing(6);
+      }
+   }
+}
+
+// ==============================================
+// 🎬 FORM ACTIONS (Red theme)
+// ==============================================
+.admin-update-form .form-actions {
+   display: flex;
+   gap: spacing(4);
+   justify-content: center;
+   padding-top: spacing(4);
+   border-top: 1px solid #fee2e2;
+   position: relative;
+   z-index: 1;
+
+   @include mobile-only {
+      flex-direction: column;
+      gap: spacing(3);
+   }
+}
+
+// ==============================================
+// ✨ ACTION BUTTONS (Red theme)
+// ==============================================
+.admin-update-form .btn-submit {
+   @include button-base;
+   @include button-size(lg);
+   background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+   color: color(white);
+   border: none;
+   min-width: 160px;
+   position: relative;
+   overflow: hidden;
+
+   // Update icon effect
+   &::before {
+      content: '💾';
+      margin-right: spacing(2);
+   }
+
+   // Loading animation overlay
+   &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.6s ease;
+   }
+
+   &:hover:not(:disabled) {
+      background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
+      transform: translateY(-2px);
+      box-shadow: shadow(lg);
+
+      &::after {
+         left: 100%;
+      }
+   }
+
+   &:active:not(:disabled) {
+      transform: translateY(0);
+   }
+
+   &:disabled {
+      background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
+      cursor: not-allowed;
+      transform: none;
+
+      &::before {
+         content: '⏳';
+      }
+
+      &::after {
+         content: '';
+         position: absolute;
+         top: 50%;
+         right: spacing(3);
+         transform: translateY(-50%);
+         width: 16px;
+         height: 16px;
+         border: 2px solid color(white);
+         border-top-color: transparent;
+         border-radius: 50%;
+         animation: admin-update-spin 1s linear infinite;
+      }
+   }
+
+   @include mobile-only {
+      width: 100%;
+      min-width: auto;
+   }
+}
+
+.admin-update-form .btn-cancel {
+   @include button-base;
+   @include button-size(lg);
+   background: linear-gradient(135deg, color(white) 0%, #f9fafb 100%);
+   color: #374151;
+   border: 2px solid #d1d5db;
+   min-width: 140px;
+
+   // Cancel icon effect
+   &::before {
+      content: '✖️';
+      margin-right: spacing(2);
+   }
+
+   &:hover:not(:disabled) {
+      background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+      border-color: #9ca3af;
+      transform: translateY(-1px);
+   }
+
+   &:active:not(:disabled) {
+      transform: translateY(0);
+   }
+
+   &:disabled {
+      background: #f3f4f6;
+      color: #9ca3af;
+      border-color: #e5e7eb;
+      cursor: not-allowed;
+   }
+
+   @include mobile-only {
+      width: 100%;
+      min-width: auto;
+   }
+}
+
+// ==============================================
+// 🎭 ADMIN UPDATE ANIMATIONS
+// ==============================================
+@keyframes admin-update-spin {
+   to {
+      transform: translateY(-50%) rotate(360deg);
+   }
+}
+
+.admin-update-container {
+   .admin-fade-in {
+      @include fade-in;
+   }
+}
+
+// ==============================================
+// 🔄 FORM VALIDATION STATES
+// ==============================================
+.form-group {
+
+   // Success state
+   &.success {
+      input {
+         border-color: #10b981 !important;
+         background-color: #f9fafb !important;
+         color: #374151 !important;
+
+         &:focus {
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1) !important;
+         }
+      }
+
+      label::after {
+         content: ' ✓';
+         color: #10b981;
+         font-weight: font-weight(bold);
+      }
+   }
+
+   // Error state
+   &.error {
+      input {
+         border-color: #ef4444 !important;
+         background-color: #f9fafb !important;
+         color: #374151 !important;
+
+         &:focus {
+            box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1) !important;
+         }
+      }
+
+      label::after {
+         content: ' ✗';
+         color: #ef4444;
+         font-weight: font-weight(bold);
+      }
+   }
+}
+
+// ==============================================
+// 📱 RESPONSIVE ADJUSTMENTS
+// ==============================================
+@include mobile-only {
+   .admin-update-form .form-group {
+
+      input,
+      select {
+         font-size: font-size(base);
+         padding: spacing(3);
+      }
+   }
+
+   .form-actions {
+
+      .btn-submit,
+      .btn-cancel {
+         font-size: font-size(base);
+         padding: spacing(3) spacing(4);
+      }
+   }
+}
+
+// ==============================================
+// 🌙 DARK MODE SUPPORT
+// ==============================================
+@media (prefers-color-scheme: dark) {
+   .admin-update-container {
+      background: linear-gradient(135deg, #7f1d1d 0%, color(gray-900) 50%, #991b1b 100%);
+   }
+
+   .admin-update-title {
+      color: #fca5a5;
+   }
+
+   .admin-update-form {
+      background-color: color(gray-800);
+      border-color: #dc2626;
+
+      .form-group {
+         label {
+            color: #fca5a5;
+         }
+
+         input {
+            background-color: color(gray-700);
+            border-color: #dc2626;
+            color: color(white);
+
+            &:focus {
+               background-color: color(gray-800);
+               border-color: #f87171;
+            }
+
+            &::placeholder {
+               color: #9ca3af;
+            }
+         }
+      }
+
+      .form-actions {
+         border-color: color(gray-700);
+      }
+
+      .btn-cancel {
+         background: linear-gradient(135deg, color(gray-700) 0%, color(gray-600) 100%);
+         color: color(gray-300);
+         border-color: color(gray-500);
+
+         &:hover:not(:disabled) {
+            background: linear-gradient(135deg, color(gray-600) 0%, color(gray-500) 100%);
+            border-color: color(gray-400);
+         }
+      }
+   }
+}
+
+// ==============================================
+// 🎨 FOCUS INDICATORS (Accessibility)
+// ==============================================
+.admin-update-form {
+
+   input:focus-visible,
+   button:focus-visible {
+      outline: 2px solid #dc2626;
+      outline-offset: 2px;
+   }
+}
+
+// ==============================================
+// 💡 FORM HINTS & HELPERS
+// ==============================================
+.form-group {
+   .form-hint {
+      font-size: font-size(xs);
+      color: #6b7280;
+      margin-top: spacing(1);
+      font-style: italic;
+   }
+
+   .form-error {
+      font-size: font-size(xs);
+      color: #ef4444;
+      margin-top: spacing(1);
+      font-weight: font-weight(medium);
+
+      &::before {
+         content: '⚠️ ';
+         margin-right: spacing(1);
+      }
+   }
+}
+
+// ==============================================
+// 🎯 UPDATE-SPECIFIC FEATURES
+// ==============================================
+.admin-update-form {
+
+   // Modified field indicator
+   .form-group.modified {
+
+      input,
+      select {
+         background-color: #fef3c7;
+         border-color: #f59e0b;
+
+         &:focus {
+            background-color: #fffbeb;
+            border-color: #d97706;
+         }
+      }
+
+      label::before {
+         content: '📝 ';
+         color: #f59e0b;
+      }
+   }
+}

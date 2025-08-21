@@ -1,0 +1,709 @@
+// ==============================================
+// ➕🗑️ ADD/DELETE CATEGORY STYLES (Orange Theme)
+// ==============================================
+
+@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
+
+.add-product-category.admin-page {
+   min-height: 100vh;
+   padding: spacing(8) spacing(6);
+   background: linear-gradient(135deg, #fff7ed 0%, color(white) 50%, #ffedd5 100%);
+
+   // ==============================================
+   // 🎨 CSS CUSTOM PROPERTIES FOR RELIABLE STYLING
+   // ==============================================
+   --category-list-bg: #fff7ed;
+   --category-list-border: #fed7aa;
+   --category-item-bg: #{color(white)};
+   --category-item-border: #fed7aa;
+
+   // ==============================================
+   // ✅ CHECKBOX UNIVERSAL STYLING
+   // ==============================================
+   input[type="checkbox"] {
+      width: 18px !important;
+      height: 18px !important;
+      margin-right: spacing(3) !important;
+      accent-color: #ea580c !important;
+      cursor: pointer !important;
+   }
+
+   @include mobile-only {
+      padding: spacing(6) spacing(4);
+   }
+
+   // ==============================================
+   // 🎭 MODAL VERSION - When used inside InfoCategory modal
+   // ==============================================
+   .modal-content & {
+      min-height: auto !important;
+      padding: 0 !important;
+      background: transparent !important;
+   }
+
+   // ==============================================
+   // 🚨 HIGHEST PRIORITY STYLING - Override everything
+   // ==============================================
+   * {
+      &.category-list {
+         background: var(--category-list-bg) !important;
+         border: 1px solid var(--category-list-border) !important;
+         border-radius: border-radius(lg) !important;
+         padding: spacing(2) !important;
+      }
+
+      &.category-item {
+         background: var(--category-item-bg) !important;
+         border: 1px solid var(--category-item-border) !important;
+         border-radius: border-radius(lg) !important;
+         display: flex !important;
+         align-items: center !important;
+         padding: spacing(4) !important;
+         margin-bottom: spacing(2) !important;
+
+         input[type="checkbox"] {
+            width: 18px !important;
+            height: 18px !important;
+            margin-right: spacing(3) !important;
+            accent-color: #ea580c !important;
+            cursor: pointer !important;
+         }
+
+         span {
+            color: #ea580c !important;
+            font-weight: 500 !important;
+            font-size: font-size(sm) !important;
+         }
+      }
+   }
+
+   // ==============================================
+   // 🔧 FORCE STYLING FOR DYNAMIC CONTENT
+   // ==============================================
+   // Ensure styles apply even after React re-renders
+   .category-list,
+   div[class*="category-list"],
+   .form-container .category-list {
+      background: #fff7ed !important;
+      border: 1px solid #fed7aa !important;
+      border-radius: border-radius(lg) !important;
+      padding: spacing(2) !important;
+   }
+
+   .category-item,
+   label[class*="category-item"],
+   [class*="category-item"],
+   .category-list .category-item,
+   .category-list label {
+      background: color(white) !important;
+      border: 1px solid #fed7aa !important;
+      border-radius: border-radius(lg) !important;
+      display: flex !important;
+      align-items: center !important;
+      padding: spacing(4) !important;
+      margin-bottom: spacing(2) !important;
+
+      input[type="checkbox"] {
+         width: 18px !important;
+         height: 18px !important;
+         margin-right: spacing(3) !important;
+         accent-color: #ea580c !important;
+         cursor: pointer !important;
+      }
+
+      span {
+         color: #ea580c !important;
+         font-weight: 500 !important;
+         font-size: font-size(sm) !important;
+      }
+   }
+
+   // Modal specific overrides  
+   .modal-content & {
+
+      .category-list,
+      div[class*="category-list"],
+      .form-container .category-list {
+         background: #fff7ed !important;
+         border: 1px solid #fed7aa !important;
+         border-radius: border-radius(lg) !important;
+         max-height: 300px !important;
+      }
+
+      .category-item,
+      label[class*="category-item"],
+      [class*="category-item"],
+      .category-list .category-item,
+      .category-list label {
+         background: color(white) !important;
+         border: 1px solid #fed7aa !important;
+         border-radius: border-radius(lg) !important;
+         padding: spacing(3) !important;
+
+         input[type="checkbox"] {
+            width: 18px !important;
+            height: 18px !important;
+            margin-right: spacing(3) !important;
+            accent-color: #ea580c !important;
+            cursor: pointer !important;
+         }
+
+         span {
+            color: #ea580c !important;
+            font-weight: 500 !important;
+            font-size: font-size(sm) !important;
+         }
+      }
+   }
+
+   // ==============================================
+   // 📦 FORM CONTAINER
+   // ==============================================
+   .form-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: color(white);
+      border-radius: border-radius(xl);
+      padding: spacing(8);
+      box-shadow: 0 10px 40px rgba(251, 146, 60, 0.1);
+      border: 1px solid #fed7aa;
+      position: relative;
+      overflow: hidden;
+
+      @include mobile-only {
+         padding: spacing(6) spacing(4);
+         margin: spacing(4);
+      }
+
+      // Modal version adjustments
+      .modal-content &,
+      .info-category .modal-content & {
+         margin: 0 !important;
+         box-shadow: none !important;
+         border: none !important;
+         border-radius: 0 !important;
+         padding: spacing(4) 0 !important;
+         background: transparent !important;
+         max-width: none !important;
+
+         &::before {
+            display: none !important;
+         }
+
+         @include mobile-only {
+            margin: 0 !important;
+            padding: spacing(3) 0 !important;
+         }
+      }
+
+      // Gradient border effect
+      &::before {
+         content: '';
+         position: absolute;
+         top: 0;
+         left: 0;
+         right: 0;
+         height: 4px;
+         background: linear-gradient(90deg, #fb923c, #f97316, #ea580c);
+         border-radius: border-radius(xl) border-radius(xl) 0 0;
+      }
+
+      // ==============================================
+      // 📋 HEADER & TITLE
+      // ==============================================
+      h2 {
+         font-size: font-size(2xl);
+         font-weight: font-weight(bold);
+         color: #9a3412;
+         margin: 0 0 spacing(8) 0;
+         text-align: center;
+         position: relative;
+         padding-top: spacing(2);
+
+         // Modal version adjustments
+         .modal-content & {
+            font-size: font-size(xl);
+            margin: 0 0 spacing(6) 0;
+            padding-top: 0;
+
+            &::after {
+               width: 80px;
+               height: 2px;
+            }
+
+            @include mobile-only {
+               font-size: font-size(lg);
+               margin: 0 0 spacing(4) 0;
+            }
+         }
+
+         &::before {
+            font-size: font-size(xl);
+            margin-right: spacing(2);
+         }
+
+         // Detect if it's Add or Delete based on text content
+         &:contains("Thêm")::before {
+            content: '➕';
+         }
+
+         &:contains("Xóa")::before {
+            content: '🗑️';
+         }
+
+         // Fallback icons
+         &::before {
+            content: '🏷️';
+         }
+
+         &::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, #fb923c, #f97316);
+            border-radius: border-radius(full);
+         }
+
+         @include mobile-only {
+            font-size: font-size(xl);
+         }
+      }
+
+      // ==============================================
+      // 📋 CATEGORY LIST
+      // ==============================================
+      .category-list {
+         margin-bottom: spacing(8);
+         max-height: 400px;
+         overflow-y: auto;
+         padding: spacing(2);
+         border: 1px solid #fed7aa;
+         border-radius: border-radius(lg);
+         background: #fff7ed;
+
+         // Force background even when data is loaded
+         &,
+         &:not(:empty) {
+            background: #fff7ed !important;
+            border: 1px solid #fed7aa !important;
+            border-radius: border-radius(lg) !important;
+         }
+
+         @include mobile-only {
+            max-height: 300px;
+         }
+
+         // Modal version adjustments
+         .modal-content & {
+            background: #fff7ed !important;
+            border: 1px solid #fed7aa !important;
+            border-radius: border-radius(lg) !important;
+            max-height: 300px !important;
+            margin-bottom: spacing(6) !important;
+
+            // Ensure background stays even with data
+            &,
+            &:not(:empty) {
+               background: #fff7ed !important;
+               border: 1px solid #fed7aa !important;
+            }
+
+            @include mobile-only {
+               max-height: 250px !important;
+               margin-bottom: spacing(4) !important;
+            }
+         }
+
+         // Custom scrollbar
+         &::-webkit-scrollbar {
+            width: 8px;
+         }
+
+         &::-webkit-scrollbar-track {
+            background: #ffedd5;
+            border-radius: border-radius(full);
+         }
+
+         &::-webkit-scrollbar-thumb {
+            background: #fb923c;
+            border-radius: border-radius(full);
+
+            &:hover {
+               background: #f97316;
+            }
+         }
+
+         .category-item {
+            display: flex;
+            align-items: center;
+            padding: spacing(4);
+            margin-bottom: spacing(2);
+            background: color(white);
+            border-radius: border-radius(lg);
+            border: 1px solid #fed7aa;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+
+            // Force styling even when dynamically rendered
+            &,
+            &.category-item {
+               background: color(white) !important;
+               border: 1px solid #fed7aa !important;
+               border-radius: border-radius(lg) !important;
+            }
+
+            &:last-child {
+               margin-bottom: 0;
+            }
+
+            &:hover {
+               background: #fff7ed;
+               border-color: #fb923c;
+               transform: translateX(4px);
+               box-shadow: 0 4px 16px rgba(251, 146, 60, 0.15);
+            }
+
+            // Modal version adjustments
+            .modal-content & {
+               background: color(white) !important;
+               border: 1px solid #fed7aa !important;
+               border-radius: border-radius(lg) !important;
+               padding: spacing(3) !important;
+
+               // Ensure styling when label element
+               &,
+               &.category-item {
+                  background: color(white) !important;
+                  border: 1px solid #fed7aa !important;
+                  border-radius: border-radius(lg) !important;
+               }
+
+               &:hover {
+                  background: #fff7ed !important;
+                  border-color: #fb923c !important;
+               }
+
+               @include mobile-only {
+                  padding: spacing(2) !important;
+               }
+            }
+
+            // Checkbox styling
+            input[type="checkbox"] {
+               width: 20px;
+               height: 20px;
+               margin-right: spacing(3);
+               cursor: pointer;
+               appearance: none;
+               border: 2px solid #d97706;
+               border-radius: border-radius(sm);
+               background: color(white);
+               position: relative;
+               transition: all 0.2s ease;
+
+               &:checked {
+                  background: linear-gradient(135deg, #fb923c, #f97316);
+                  border-color: #ea580c;
+
+                  &::after {
+                     content: '✓';
+                     position: absolute;
+                     top: 50%;
+                     left: 50%;
+                     transform: translate(-50%, -50%);
+                     color: color(white);
+                     font-size: font-size(sm);
+                     font-weight: font-weight(bold);
+                  }
+               }
+
+               &:hover {
+                  border-color: #fb923c;
+                  box-shadow: 0 0 0 3px rgba(251, 146, 60, 0.1);
+               }
+            }
+
+            // Label text
+            font-size: font-size(base);
+            font-weight: font-weight(medium);
+            color: #9a3412;
+            user-select: none;
+
+            // Icon before text
+            &::before {
+               content: '🏷️';
+               margin-right: spacing(2);
+               font-size: font-size(sm);
+            }
+
+            // Hover ripple effect
+            &::after {
+               content: '';
+               position: absolute;
+               top: 50%;
+               left: 50%;
+               width: 0;
+               height: 0;
+               border-radius: 50%;
+               background: rgba(251, 146, 60, 0.1);
+               transform: translate(-50%, -50%);
+               transition: width 0.3s ease, height 0.3s ease;
+            }
+
+            &:active::after {
+               width: 100%;
+               height: 100%;
+            }
+         }
+
+         // Empty state message
+         p {
+            text-align: center;
+            color: #78716c;
+            font-style: italic;
+            padding: spacing(8);
+            margin: 0;
+
+            &::before {
+               content: '📭';
+               display: block;
+               font-size: font-size(3xl);
+               margin-bottom: spacing(4);
+            }
+         }
+      }
+
+      // ==============================================
+      // 🎯 FORM ACTIONS
+      // ==============================================
+      .form-actions {
+         display: flex;
+         gap: spacing(4);
+         justify-content: center;
+
+         @include mobile-only {
+            flex-direction: column;
+         }
+
+         .btn {
+            padding: spacing(4) spacing(8);
+            border-radius: border-radius(full);
+            font-weight: font-weight(bold);
+            font-size: font-size(base);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            min-width: 140px;
+
+            @include mobile-only {
+               padding: spacing(4) spacing(6);
+               min-width: auto;
+            }
+
+            // Shimmer effect
+            &::before {
+               content: '';
+               position: absolute;
+               top: 0;
+               left: -100%;
+               width: 100%;
+               height: 100%;
+               background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+               transition: left 0.5s;
+            }
+
+            &:hover::before {
+               left: 100%;
+            }
+
+            &.btn-primary {
+               background: linear-gradient(135deg, #fb923c, #f97316);
+               color: color(white);
+               box-shadow: 0 6px 20px rgba(251, 146, 60, 0.3);
+
+               &:hover {
+                  background: linear-gradient(135deg, #f97316, #ea580c);
+                  transform: translateY(-2px);
+                  box-shadow: 0 8px 25px rgba(251, 146, 60, 0.4);
+               }
+
+               &:active {
+                  transform: translateY(0);
+                  box-shadow: 0 4px 15px rgba(251, 146, 60, 0.3);
+               }
+
+               &::after {
+                  content: ' ➕';
+                  margin-left: spacing(2);
+               }
+            }
+
+            &.btn-danger {
+               background: linear-gradient(135deg, #ef4444, #dc2626);
+               color: color(white);
+               box-shadow: 0 6px 20px rgba(239, 68, 68, 0.3);
+
+               &:hover {
+                  background: linear-gradient(135deg, #dc2626, #b91c1c);
+                  transform: translateY(-2px);
+                  box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
+               }
+
+               &:active {
+                  transform: translateY(0);
+                  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+               }
+
+               &::after {
+                  content: ' 🗑️';
+                  margin-left: spacing(2);
+               }
+            }
+
+            &:disabled {
+               opacity: 0.6;
+               cursor: not-allowed;
+               transform: none !important;
+               box-shadow: none !important;
+
+               &::before {
+                  display: none;
+               }
+            }
+         }
+      }
+   }
+
+   // ==============================================
+   // 📱 RESPONSIVE DESIGN
+   // ==============================================
+   @include tablet-only {
+      .form-container {
+         margin: spacing(4);
+         padding: spacing(6);
+
+         .category-list {
+            max-height: 350px;
+         }
+      }
+   }
+
+   @include mobile-only {
+      .form-container {
+         border-radius: border-radius(lg);
+
+         .category-list {
+            padding: spacing(2);
+
+            .category-item {
+               padding: spacing(3);
+
+               input[type="checkbox"] {
+                  width: 18px;
+                  height: 18px;
+               }
+
+               font-size: font-size(sm);
+            }
+         }
+
+         .form-actions {
+            .btn {
+               font-size: font-size(sm);
+               letter-spacing: 0.5px;
+            }
+         }
+      }
+   }
+}
+
+// ==============================================
+// 🌟 LOADING STATES
+// ==============================================
+.add-product-category.admin-page {
+   .category-list {
+      &.loading {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         min-height: 200px;
+
+         &::before {
+            content: '';
+            width: 40px;
+            height: 40px;
+            border: 4px solid #fed7aa;
+            border-top: 4px solid #fb923c;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+         }
+      }
+   }
+}
+
+@keyframes spin {
+   0% {
+      transform: rotate(0deg);
+   }
+
+   100% {
+      transform: rotate(360deg);
+   }
+}
+
+// ==============================================
+// 🌙 DARK MODE SUPPORT
+// ==============================================
+@media (prefers-color-scheme: dark) {
+   .add-product-category.admin-page {
+      background: linear-gradient(135deg, #1c1917 0%, #292524 50%, #1c1917 100%);
+
+      .form-container {
+         background: #292524;
+         border-color: #78716c;
+
+         h2 {
+            color: #fb923c;
+         }
+
+         .category-list {
+            background: #1c1917;
+            border-color: #78716c;
+
+            &::-webkit-scrollbar-track {
+               background: #44403c;
+            }
+
+            .category-item {
+               background: #292524;
+               border-color: #78716c;
+               color: #fb923c;
+
+               &:hover {
+                  background: #1c1917;
+                  border-color: #fb923c;
+               }
+
+               input[type="checkbox"] {
+                  border-color: #fb923c;
+               }
+            }
+
+            p {
+               color: #a8a29e;
+            }
+         }
+      }
+   }
+}

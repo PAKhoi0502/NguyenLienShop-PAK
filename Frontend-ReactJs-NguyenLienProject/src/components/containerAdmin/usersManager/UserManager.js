@@ -3,6 +3,7 @@ import { getUsers } from '../../../services/adminService';
 import { useNavigate } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import UserDelete from './UserDelete';
+import './UserManager.scss';
 
 const UserManager = () => {
    const [users, setUsers] = useState([]);
@@ -29,7 +30,7 @@ const UserManager = () => {
             setError(intl.formatMessage({ id: 'user.manager.load_error' }));
             setLoading(false);
          });
-   }, []);
+   }, [intl]);
 
    useEffect(() => {
       const lower = search.trim().toLowerCase();

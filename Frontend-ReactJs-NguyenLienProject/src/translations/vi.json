@@ -158,7 +158,7 @@
             "cancel_button": "Hủy",
             "confirm_title_2": "Bạn thực sự muốn xóa?",
             "confirm_text_2": "Hành động này sẽ không thể hoàn tác!",
-            "confirm_button_2": "Xóa ngay",
+            "confirm_button_2": "Vẫn Xóa",
             "success": "Xóa quản trị viên thành công!",
             "failed": "Không thể xóa quản trị viên này!",
             "error": "Đã xảy ra lỗi khi xóa quản trị viên này."

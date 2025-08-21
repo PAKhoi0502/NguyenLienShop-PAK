@@ -16,7 +16,7 @@ const getBaseCookieOptions = () => ({
  */
 const setAccessTokenCookie = (res, token, rememberMe = false) => {
    const maxAge = rememberMe ? 2 * 60 * 60 * 1000 : 30 * 60 * 1000; // 2h or 30min
-   
+
    res.cookie('authToken', token, {
       ...getBaseCookieOptions(),
       maxAge
@@ -81,7 +81,7 @@ const clearAuthCookies = (res) => {
 const getTokenExpirationInfo = (rememberMe = false) => {
    const accessTokenExpiry = rememberMe ? '2h' : '30m';
    const accessTokenSeconds = rememberMe ? 7200 : 1800;
-   
+
    return {
       accessTokenExpiry,
       accessTokenSeconds,

@@ -102,7 +102,38 @@ let hashUserPassword = async (password) => {
    }
 };
 
+let verifyUserPassword = async (userId, password) => {
+   try {
+      // Find user by ID with password
+      const user = await db.User.findOne({
+         where: { id: userId },
+         attributes: ['id', 'password', 'roleId'],
+         include: [{ model: db.Role, attributes: ['name'] }]
+      });
+
+      if (!user) {
+         return { errCode: 1, errMessage: "Người dùng không tồn tại!" };
+      }
+
+      // Verify password
+      const match = bcrypt.compareSync(password, user.password);
+      if (!match) {
+         return { errCode: 3, errMessage: "Mật khẩu không chính xác!" };
+      }
+
+      return {
+         errCode: 0,
+         errMessage: "Xác thực mật khẩu thành công!"
+      };
+
+   } catch (err) {
+      console.error('VerifyUserPassword service error:', err);
+      return { errCode: -1, errMessage: "Lỗi server khi xác thực mật khẩu!" };
+   }
+};
+
 export default {
    loginUser,
    registerUser,
+   verifyUserPassword
 }

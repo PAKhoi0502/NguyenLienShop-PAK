@@ -1,0 +1,364 @@
+// ==============================================
+// 📦 PRODUCT CREATE STYLES (Green Theme)
+// ==============================================
+
+@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
+
+.product-create-container {
+   min-height: 100vh;
+   padding: spacing(8) spacing(6);
+   background: linear-gradient(135deg, #f0fdf4 0%, color(white) 50%, #ecfdf5 100%);
+
+   @include mobile-only {
+      padding: spacing(6) spacing(4);
+   }
+
+   // ==============================================
+   // 📋 HEADER & TITLE
+   // ==============================================
+   h1 {
+      font-size: font-size(3xl);
+      font-weight: font-weight(bold);
+      color: #14532d;
+      margin: 0 0 spacing(6) 0;
+      text-align: center;
+      position: relative;
+
+      &::before {
+         content: '➕';
+         margin-right: spacing(2);
+         font-size: font-size(2xl);
+      }
+
+      &::after {
+         content: '';
+         position: absolute;
+         bottom: -8px;
+         left: 50%;
+         transform: translateX(-50%);
+         width: 120px;
+         height: 3px;
+         background: linear-gradient(90deg, #22c55e, #16a34a);
+         border-radius: border-radius(full);
+      }
+
+      @include mobile-only {
+         font-size: font-size(2xl);
+      }
+   }
+
+   // ==============================================
+   // 📝 FORM STYLING
+   // ==============================================
+   .product-create-form {
+      max-width: 800px;
+      margin: 0 auto;
+      background: color(white);
+      padding: spacing(8);
+      border-radius: border-radius(xl);
+      box-shadow: shadow(lg);
+      border: 1px solid #bbf7d0;
+
+      @include mobile-only {
+         padding: spacing(6) spacing(4);
+         margin: 0 spacing(2);
+      }
+
+      .form-group {
+         margin-bottom: spacing(6);
+
+         label {
+            display: block;
+            margin-bottom: spacing(2);
+            font-weight: font-weight(semibold);
+            color: #14532d;
+            font-size: font-size(sm);
+
+            span {
+               color: #ef4444;
+               font-weight: font-weight(bold);
+            }
+         }
+
+         input,
+         textarea {
+            width: 100%;
+            padding: spacing(4);
+            border: 2px solid #d1fae5;
+            border-radius: border-radius(lg);
+            font-size: font-size(base);
+            background: color(white);
+            color: #374151;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+
+            &::placeholder {
+               color: #9ca3af;
+            }
+
+            &:focus {
+               outline: none;
+               border-color: #22c55e;
+               box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+               background: #f9fafb;
+            }
+
+            // Pink background when filled
+            &:not(:placeholder-shown) {
+               background-color: #fdf2f8;
+               border-color: #f9a8d4;
+            }
+
+            &:invalid {
+               border-color: #ef4444;
+
+               &:focus {
+                  border-color: #ef4444;
+                  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+               }
+            }
+         }
+
+         textarea {
+            min-height: 120px;
+            resize: vertical;
+            font-family: inherit;
+         }
+
+         input[type="number"] {
+            appearance: textfield;
+            -moz-appearance: textfield;
+
+            &::-webkit-outer-spin-button,
+            &::-webkit-inner-spin-button {
+               -webkit-appearance: none;
+               appearance: none;
+               margin: 0;
+            }
+         }
+      }
+
+      // ==============================================
+      // 🎯 FORM ACTIONS
+      // ==============================================
+      .form-actions {
+         display: flex;
+         gap: spacing(4);
+         justify-content: center;
+         margin-top: spacing(8);
+
+         @include mobile-only {
+            flex-direction: column;
+         }
+
+         button {
+            @include button-base;
+            padding: spacing(4) spacing(8);
+            font-size: font-size(base);
+            font-weight: font-weight(semibold);
+            border-radius: border-radius(lg);
+            transition: all 0.3s ease;
+            min-width: 150px;
+
+            @include mobile-only {
+               min-width: auto;
+               padding: spacing(4) spacing(6);
+            }
+
+            &:hover:not(:disabled) {
+               transform: translateY(-2px);
+               box-shadow: shadow(lg);
+            }
+
+            &:active:not(:disabled) {
+               transform: translateY(0);
+            }
+
+            &:disabled {
+               opacity: 0.6;
+               cursor: not-allowed;
+               transform: none;
+            }
+         }
+
+         .btn-submit {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: color(white);
+            border: 1px solid #16a34a;
+
+            &:hover:not(:disabled) {
+               background: linear-gradient(135deg, #16a34a, #15803d);
+               box-shadow: 0 8px 24px rgba(34, 197, 94, 0.3);
+            }
+
+            &:disabled {
+               background: linear-gradient(135deg, #9ca3af, #6b7280);
+               border-color: #9ca3af;
+
+               &::before {
+                  content: '⏳';
+                  margin-right: spacing(2);
+                  animation: spin 1s linear infinite;
+               }
+            }
+         }
+
+         .btn-cancel {
+            background: linear-gradient(135deg, #6b7280, #4b5563);
+            color: color(white);
+            border: 1px solid #4b5563;
+
+            &:hover:not(:disabled) {
+               background: linear-gradient(135deg, #4b5563, #374151);
+               box-shadow: 0 8px 24px rgba(107, 114, 128, 0.3);
+            }
+         }
+      }
+   }
+
+   // ==============================================
+   // 🎭 ANIMATIONS
+   // ==============================================
+   .product-create-form {
+      animation: fade-in 0.6s ease-out;
+   }
+
+   @keyframes fade-in {
+      from {
+         opacity: 0;
+         transform: translateY(20px);
+      }
+
+      to {
+         opacity: 1;
+         transform: translateY(0);
+      }
+   }
+
+   @keyframes spin {
+      from {
+         transform: rotate(0deg);
+      }
+
+      to {
+         transform: rotate(360deg);
+      }
+   }
+
+   // ==============================================
+   // 🎨 FIELD FOCUS EFFECTS
+   // ==============================================
+   .form-group {
+      position: relative;
+
+      &:focus-within {
+         label {
+            color: #16a34a;
+         }
+      }
+
+      // Required field indicator
+      input:required+label::after,
+      textarea:required+label::after {
+         content: '';
+         position: absolute;
+         right: -8px;
+         top: 50%;
+         transform: translateY(-50%);
+         width: 4px;
+         height: 4px;
+         background: #ef4444;
+         border-radius: 50%;
+      }
+   }
+
+   // ==============================================
+   // 📱 RESPONSIVE DESIGN
+   // ==============================================
+   @include mobile-only {
+      .product-create-form {
+         .form-group {
+            margin-bottom: spacing(4);
+
+            input,
+            textarea {
+               padding: spacing(3);
+               font-size: font-size(sm);
+            }
+         }
+
+         .form-actions {
+            margin-top: spacing(6);
+
+            button {
+               font-size: font-size(sm);
+            }
+         }
+      }
+   }
+
+   // ==============================================
+   // 🌙 DARK MODE SUPPORT
+   // ==============================================
+   @media (prefers-color-scheme: dark) {
+      background: linear-gradient(135deg, #14532d 0%, color(gray-900) 50%, #166534 100%);
+
+      h1 {
+         color: #bbf7d0;
+      }
+
+      .product-create-form {
+         background: color(gray-800);
+         border-color: #22c55e;
+
+         .form-group {
+            label {
+               color: #bbf7d0;
+
+               span {
+                  color: #f87171;
+               }
+            }
+
+            input,
+            textarea {
+               background: color(gray-700);
+               color: color(gray-200);
+               border-color: #22c55e;
+
+               &::placeholder {
+                  color: color(gray-400);
+               }
+
+               &:focus {
+                  background: color(gray-600);
+                  border-color: #16a34a;
+                  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
+               }
+
+               &:not(:placeholder-shown) {
+                  background-color: color(gray-600);
+                  border-color: #22c55e;
+               }
+
+               &:invalid {
+                  border-color: #f87171;
+
+                  &:focus {
+                     border-color: #f87171;
+                     box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.2);
+                  }
+               }
+            }
+         }
+
+         .form-actions {
+            .btn-submit:disabled {
+               background: linear-gradient(135deg, color(gray-600), color(gray-700));
+               border-color: color(gray-600);
+            }
+         }
+      }
+   }
+}

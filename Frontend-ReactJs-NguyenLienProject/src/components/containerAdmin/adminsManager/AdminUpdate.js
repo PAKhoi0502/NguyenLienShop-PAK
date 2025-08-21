@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { toast } from 'react-toastify';
 import CustomToast from '../../../components/CustomToast';
+import './AdminUpdate.scss';
 
 const AdminUpdate = () => {
    const { id } = useParams();
@@ -38,7 +39,7 @@ const AdminUpdate = () => {
          }
       };
       fetchAdmin();
-   }, [id]);
+   }, [id, intl, navigate]);
 
    const handleChange = (e) => {
       const { name, value } = e.target;
@@ -107,11 +108,11 @@ const AdminUpdate = () => {
    };
 
    return (
-      <div className="user-create-container">
-         <h2 className="user-create-title">
+      <div className="admin-update-container">
+         <h2 className="admin-update-title">
             <FormattedMessage id="admin.update.title" defaultMessage="Chỉnh sửa quản trị viên" />
          </h2>
-         <form className="user-create-form" onSubmit={handleSubmit} autoComplete="off">
+         <form className="admin-update-form" onSubmit={handleSubmit} autoComplete="off">
             <div className="form-group">
                <label><FormattedMessage id="admin.update.username" defaultMessage="Biệt danh" /></label>
                <input

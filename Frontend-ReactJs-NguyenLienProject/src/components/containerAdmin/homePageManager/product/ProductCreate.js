@@ -5,6 +5,7 @@ import { useIntl, FormattedMessage } from 'react-intl';
 import { createProduct } from '../../../../services/productService.js';
 import CustomToast from '../../../../components/CustomToast';
 import HintBox from '../../../../components/HintBox';
+import './ProductCreate.scss';
 
 const ProductCreate = () => {
    const [nameProduct, setNameProduct] = useState('');

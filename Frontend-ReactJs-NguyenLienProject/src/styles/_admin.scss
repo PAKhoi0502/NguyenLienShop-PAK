@@ -1,0 +1,10 @@
+// ==============================================
+// 🎨 ADMIN STYLES MAIN IMPORT
+// ==============================================
+// Import this file in components that need admin styling
+
+@import 'variables';
+@import 'mixins';
+@import 'admin-managers';
+
+// Additional admin-specific utilities can be added here

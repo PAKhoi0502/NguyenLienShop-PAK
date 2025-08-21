@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import CustomToast from '../../../../components/CustomToast';
 import { toast } from 'react-toastify';
 import { getCategoriesByProductId, deleteCategoryForProduct } from '../../../../services/productService';
+import './DeleteCategory.scss';
 
 const DeleteCategory = () => {
    const navigate = useNavigate();

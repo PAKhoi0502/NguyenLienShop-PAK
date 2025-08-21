@@ -1,0 +1,349 @@
+// ==============================================
+// 📦 PRODUCT ACTIONS STYLES (Green Theme)
+// ==============================================
+// Shared styles for ProductActive, ProductDelete components
+
+@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
+
+// ==============================================
+// 🎯 ACTION BUTTONS (Used in ProductActive, ProductDelete)
+// ==============================================
+.btn-action {
+   @include button-base;
+   padding: spacing(2) spacing(3);
+   font-size: font-size(xs);
+   font-weight: font-weight(medium);
+   border-radius: border-radius(md);
+   transition: all 0.3s ease;
+   min-width: 80px;
+   text-align: center;
+   cursor: pointer;
+
+   @include mobile-only {
+      padding: spacing(2);
+      font-size: font-size(2xs);
+      min-width: auto;
+   }
+
+   &:hover {
+      transform: translateY(-2px);
+      box-shadow: shadow(md);
+   }
+
+   &:active {
+      transform: translateY(0);
+   }
+
+   &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+
+      &:hover {
+         transform: none;
+         box-shadow: none;
+      }
+   }
+
+   // Toggle Active button (Purple/Green based on state)
+   &.btn-toggle {
+      &.active {
+         background: linear-gradient(135deg, #22c55e, #16a34a);
+         color: color(white);
+         border: 1px solid #16a34a;
+
+         &:hover {
+            background: linear-gradient(135deg, #16a34a, #15803d);
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+         }
+      }
+
+      &.inactive {
+         background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+         color: color(white);
+         border: 1px solid #7c3aed;
+
+         &:hover {
+            background: linear-gradient(135deg, #7c3aed, #6d28d9);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+         }
+      }
+   }
+
+   // Delete button (Red)
+   &.btn-delete {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: color(white);
+      border: 1px solid #dc2626;
+
+      &:hover {
+         background: linear-gradient(135deg, #dc2626, #b91c1c);
+         box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+      }
+
+      &:disabled {
+         background: linear-gradient(135deg, #9ca3af, #6b7280);
+         border-color: #9ca3af;
+      }
+   }
+}
+
+// ==============================================
+// 🍭 SWEETALERT2 CUSTOM STYLING
+// ==============================================
+.swal2-container {
+   &.product-theme {
+      .swal2-popup {
+         border-radius: border-radius(xl);
+         padding: spacing(8);
+         box-shadow: shadow(2xl);
+         border: 2px solid #bbf7d0;
+
+         .swal2-title {
+            color: #14532d;
+            font-weight: font-weight(bold);
+         }
+
+         .swal2-html-container {
+            color: #374151;
+            line-height: line-height(relaxed);
+         }
+
+         .swal2-confirm {
+            background: linear-gradient(135deg, #22c55e, #16a34a) !important;
+            border: 1px solid #16a34a !important;
+            border-radius: border-radius(lg) !important;
+            padding: spacing(3) spacing(6) !important;
+            font-weight: font-weight(semibold) !important;
+            transition: all 0.3s ease !important;
+
+            &:hover {
+               background: linear-gradient(135deg, #16a34a, #15803d) !important;
+               transform: translateY(-2px) !important;
+               box-shadow: 0 8px 24px rgba(34, 197, 94, 0.3) !important;
+            }
+         }
+
+         .swal2-cancel {
+            background: linear-gradient(135deg, #6b7280, #4b5563) !important;
+            border: 1px solid #4b5563 !important;
+            border-radius: border-radius(lg) !important;
+            padding: spacing(3) spacing(6) !important;
+            font-weight: font-weight(semibold) !important;
+            transition: all 0.3s ease !important;
+
+            &:hover {
+               background: linear-gradient(135deg, #4b5563, #374151) !important;
+               transform: translateY(-2px) !important;
+               box-shadow: 0 8px 24px rgba(107, 114, 128, 0.3) !important;
+            }
+         }
+
+         .swal2-deny {
+            background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+            border: 1px solid #dc2626 !important;
+            border-radius: border-radius(lg) !important;
+            padding: spacing(3) spacing(6) !important;
+            font-weight: font-weight(semibold) !important;
+            transition: all 0.3s ease !important;
+
+            &:hover {
+               background: linear-gradient(135deg, #dc2626, #b91c1c) !important;
+               transform: translateY(-2px) !important;
+               box-shadow: 0 8px 24px rgba(239, 68, 68, 0.3) !important;
+            }
+         }
+
+         .swal2-icon {
+            &.swal2-question {
+               border-color: #22c55e !important;
+               color: #22c55e !important;
+            }
+
+            &.swal2-warning {
+               border-color: #f59e0b !important;
+               color: #f59e0b !important;
+            }
+
+            &.swal2-error {
+               border-color: #ef4444 !important;
+               color: #ef4444 !important;
+            }
+
+            &.swal2-success {
+               border-color: #22c55e !important;
+               color: #22c55e !important;
+            }
+         }
+
+         .swal2-input {
+            border: 2px solid #d1fae5 !important;
+            border-radius: border-radius(lg) !important;
+            padding: spacing(3) !important;
+            font-size: font-size(base) !important;
+            transition: all 0.3s ease !important;
+
+            &:focus {
+               border-color: #22c55e !important;
+               box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1) !important;
+               outline: none !important;
+            }
+         }
+      }
+
+      // Dark mode for SweetAlert2
+      @media (prefers-color-scheme: dark) {
+         .swal2-popup {
+            background: color(gray-800) !important;
+            border-color: #22c55e !important;
+
+            .swal2-title {
+               color: #bbf7d0 !important;
+            }
+
+            .swal2-html-container {
+               color: color(gray-300) !important;
+            }
+
+            .swal2-input {
+               background: color(gray-700) !important;
+               color: color(gray-200) !important;
+               border-color: #22c55e !important;
+
+               &:focus {
+                  background: color(gray-600) !important;
+                  border-color: #16a34a !important;
+               }
+            }
+         }
+      }
+   }
+}
+
+// ==============================================
+// 🎯 LOADING STATES
+// ==============================================
+.btn-action {
+   &.loading {
+      position: relative;
+      color: transparent !important;
+
+      &::after {
+         content: '';
+         position: absolute;
+         top: 50%;
+         left: 50%;
+         transform: translate(-50%, -50%);
+         width: 16px;
+         height: 16px;
+         border: 2px solid transparent;
+         border-top: 2px solid currentColor;
+         border-radius: 50%;
+         animation: spin 1s linear infinite;
+      }
+   }
+}
+
+@keyframes spin {
+   from {
+      transform: translate(-50%, -50%) rotate(0deg);
+   }
+
+   to {
+      transform: translate(-50%, -50%) rotate(360deg);
+   }
+}
+
+// ==============================================
+// 📱 RESPONSIVE DESIGN
+// ==============================================
+@include mobile-only {
+   .swal2-container.product-theme {
+      .swal2-popup {
+         padding: spacing(6);
+         margin: spacing(4);
+
+         .swal2-confirm,
+         .swal2-cancel,
+         .swal2-deny {
+            padding: spacing(2) spacing(4) !important;
+            font-size: font-size(sm) !important;
+         }
+
+         .swal2-input {
+            padding: spacing(2) !important;
+            font-size: font-size(sm) !important;
+         }
+      }
+   }
+}
+
+// ==============================================
+// 🎭 ANIMATION ENHANCEMENTS
+// ==============================================
+.btn-action {
+
+   // Ripple effect on click
+   &:active::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      transform: translate(-50%, -50%);
+      animation: ripple 0.6s ease-out;
+   }
+}
+
+@keyframes ripple {
+   to {
+      width: 100px;
+      height: 100px;
+      opacity: 0;
+   }
+}
+
+// ==============================================
+// 🌙 DARK MODE BUTTON ADJUSTMENTS
+// ==============================================
+@media (prefers-color-scheme: dark) {
+   .btn-action {
+      &.btn-toggle {
+         &.active {
+            background: linear-gradient(135deg, #16a34a, #15803d);
+            border-color: #15803d;
+
+            &:hover {
+               background: linear-gradient(135deg, #15803d, #14532d);
+            }
+         }
+
+         &.inactive {
+            background: linear-gradient(135deg, #7c3aed, #6d28d9);
+            border-color: #6d28d9;
+
+            &:hover {
+               background: linear-gradient(135deg, #6d28d9, #5b21b6);
+            }
+         }
+      }
+
+      &.btn-delete {
+         background: linear-gradient(135deg, #dc2626, #b91c1c);
+         border-color: #b91c1c;
+
+         &:hover {
+            background: linear-gradient(135deg, #b91c1c, #991b1b);
+         }
+
+         &:disabled {
+            background: linear-gradient(135deg, color(gray-600), color(gray-700));
+            border-color: color(gray-600);
+         }
+      }
+   }
+}

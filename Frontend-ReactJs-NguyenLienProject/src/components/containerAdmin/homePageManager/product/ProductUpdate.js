@@ -5,6 +5,7 @@ import { useIntl, FormattedMessage } from 'react-intl';
 import { getProductById, updateProduct } from '../../../../services/productService.js';
 import CustomToast from '../../../../components/CustomToast';
 import HintBox from '../../../../components/HintBox';
+import './ProductUpdate.scss';
 
 const ProductUpdate = () => {
    const [nameProduct, setNameProduct] = useState('');

@@ -73,7 +73,7 @@ export const createUser = async (userData) => {
 };
 export const createAdmin = async (adminData) => {
     try {
-        const res = await axios.post('/api/admin/user-register', adminData);
+        const res = await axios.post('/api/admin/admin-register', adminData);
         const data = res.data || res; // Đảm bảo lấy dữ liệu từ interceptor
         if (!data) {
             return { errCode: -1, errMessage: 'Không nhận được dữ liệu từ server.' };
@@ -152,6 +152,32 @@ export const getAdmins = async (id = 'ALL') => {
         return res;
     } catch (err) {
         const errorMessage = err?.response?.data?.errMessage || 'Lỗi máy chủ!';
+        return { errCode: -1, errMessage: errorMessage };
+    }
+};
+
+export const verifyPassword = async (passwordData) => {
+    try {
+        const res = await axios.post('/api/admin/verify-password', passwordData);
+        const data = res.data || res;
+        if (!data) {
+            return { errCode: -1, errMessage: 'Không nhận được dữ liệu từ server.' };
+        }
+        return {
+            errCode: data.errCode !== undefined ? data.errCode : -1,
+            errMessage: data.errMessage || 'Lỗi không xác định từ server.'
+        };
+    } catch (err) {
+        console.error('VerifyPassword API error:', err);
+        const errorMessage = err?.response?.data?.errMessage || 'Lỗi máy chủ! Không thể xác thực mật khẩu.';
+        const errorStatus = err?.response?.status || 500;
+
+        if (errorStatus === 401) {
+            return { errCode: 401, errMessage: 'Mật khẩu không chính xác.' };
+        }
+        if (errorStatus === 403) {
+            return { errCode: 403, errMessage: 'Bạn không có quyền thực hiện thao tác này.' };
+        }
         return { errCode: -1, errMessage: errorMessage };
     }
 };

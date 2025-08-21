@@ -3,7 +3,7 @@ import refreshTokenService from "../services/refreshTokenService";
 import tokenManagementService from "../services/tokenManagementService";
 import authResponseHelper from "../utils/authResponseHelper";
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';dotenv.config();
+import dotenv from 'dotenv'; dotenv.config();
 
 const handleLogin = async (req, res) => {
    const { identifier, password, rememberMe } = req.body;
@@ -31,9 +31,9 @@ const handleLogin = async (req, res) => {
    try {
       // 🔧 Create complete auth session using centralized service
       const sessionResult = await tokenManagementService.createAuthSession(
-         user, 
-         req, 
-         res, 
+         user,
+         req,
+         res,
          rememberMe
       );
 
@@ -176,6 +176,43 @@ const handleLogoutAllDevices = async (req, res) => {
    }
 };
 
+// 🔒 Verify admin password for sensitive operations
+const handleVerifyPassword = async (req, res) => {
+   try {
+      const { password } = req.body;
+      const userId = req.user.id; // From verifyToken middleware
+
+      if (!password) {
+         return res.status(400).json({
+            errCode: 1,
+            errMessage: 'Mật khẩu không được để trống!'
+         });
+      }
+
+      // Verify password using auth service
+      const verificationResult = await authService.verifyUserPassword(userId, password);
+
+      if (verificationResult.errCode !== 0) {
+         return res.status(401).json({
+            errCode: verificationResult.errCode,
+            errMessage: verificationResult.errMessage || 'Mật khẩu không chính xác!'
+         });
+      }
+
+      return res.status(200).json({
+         errCode: 0,
+         errMessage: 'Xác thực mật khẩu thành công!'
+      });
+
+   } catch (error) {
+      console.error('VerifyPassword error:', error);
+      return res.status(500).json({
+         errCode: -1,
+         errMessage: 'Lỗi server khi xác thực mật khẩu!'
+      });
+   }
+};
+
 export default {
    handleLogin,
    handleRegister,
@@ -183,5 +220,6 @@ export default {
    handleAuthCheck,
    handleRefreshToken,
    handleGetUserSessions,
-   handleLogoutAllDevices
+   handleLogoutAllDevices,
+   handleVerifyPassword
 };

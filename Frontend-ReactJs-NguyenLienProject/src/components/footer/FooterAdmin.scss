@@ -1,0 +1,227 @@
+// ==============================================
+// 🦶 ADMIN FOOTER STYLES
+// ==============================================
+
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.footer-container {
+   background-color: color(white);
+   border-top: 1px solid color(gray-200);
+   margin-top: auto;
+
+   // ==============================================
+   // 📊 FOOTER STATS SECTION
+   // ==============================================
+   .footer-stats {
+      padding: spacing(8) spacing(6);
+      background: linear-gradient(135deg, color(gray-50) 0%, color(white) 100%);
+      border-bottom: 1px solid color(gray-100);
+
+      @include mobile-only {
+         padding: spacing(6) spacing(4);
+      }
+   }
+
+   .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: spacing(4);
+      max-width: 1200px;
+      margin: 0 auto;
+
+      @include mobile-first(sm) {
+         grid-template-columns: repeat(2, 1fr);
+      }
+
+      @include mobile-first(lg) {
+         grid-template-columns: repeat(4, 1fr);
+      }
+   }
+
+   .stat-card {
+      @include card-base;
+      @include card-padding(md);
+      text-align: center;
+      transition: transition(transform);
+      background: linear-gradient(145deg, color(white) 0%, color(gray-50) 100%);
+      position: relative;
+      overflow: hidden;
+
+      &:hover {
+         transform: translateY(-2px);
+         box-shadow: shadow(lg);
+      }
+
+      // Add subtle gradient overlay
+      &::before {
+         content: '';
+         position: absolute;
+         top: 0;
+         left: 0;
+         right: 0;
+         height: 3px;
+         background: linear-gradient(90deg, color(primary-500), color(primary-600), color(primary-700));
+      }
+
+      &:nth-child(1)::before {
+         background: linear-gradient(90deg, color(primary-500), color(primary-600));
+      }
+
+      &:nth-child(2)::before {
+         background: linear-gradient(90deg, color(success-500), color(success-600));
+      }
+
+      &:nth-child(3)::before {
+         background: linear-gradient(90deg, #8b5cf6, #7c3aed);
+      }
+
+      &:nth-child(4)::before {
+         background: linear-gradient(90deg, color(warning-500), color(warning-600));
+      }
+
+      &__value {
+         font-size: font-size(3xl);
+         font-weight: font-weight(bold);
+         color: color(gray-800);
+         margin-bottom: spacing(1);
+         line-height: line-height(none);
+
+         @include mobile-only {
+            font-size: font-size(2xl);
+         }
+      }
+
+      &__label {
+         font-size: font-size(sm);
+         color: color(gray-600);
+         font-weight: font-weight(medium);
+         text-transform: uppercase;
+         letter-spacing: 0.05em;
+
+         @include mobile-only {
+            font-size: font-size(xs);
+         }
+      }
+   }
+
+   // ==============================================
+   // ℹ️ FOOTER INFO SECTION
+   // ==============================================
+   .footer-info {
+      padding: spacing(8) spacing(6) spacing(4);
+
+      @include mobile-only {
+         padding: spacing(6) spacing(4) spacing(4);
+      }
+   }
+
+   .footer-content {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: spacing(6);
+      max-width: 1200px;
+      margin: 0 auto spacing(6);
+
+      @include mobile-first(md) {
+         grid-template-columns: repeat(3, 1fr);
+      }
+   }
+
+   .footer-section {
+      h4 {
+         font-size: font-size(lg);
+         font-weight: font-weight(semibold);
+         color: color(gray-900);
+         margin-bottom: spacing(3);
+      }
+
+      p {
+         font-size: font-size(sm);
+         color: color(gray-600);
+         line-height: line-height(relaxed);
+         margin-bottom: spacing(1);
+
+         &:last-child {
+            margin-bottom: 0;
+         }
+      }
+   }
+
+   .footer-bottom {
+      border-top: 1px solid color(gray-200);
+      padding-top: spacing(4);
+      text-align: center;
+      max-width: 1200px;
+      margin: 0 auto;
+
+      p {
+         font-size: font-size(sm);
+         color: color(gray-500);
+         margin: 0;
+      }
+   }
+}
+
+// ==============================================
+// 📱 RESPONSIVE ADJUSTMENTS
+// ==============================================
+@include mobile-only {
+   .footer-container {
+      .stat-card {
+         &__value {
+            font-size: font-size(xl);
+         }
+      }
+
+      .footer-content {
+         text-align: center;
+      }
+   }
+}
+
+// ==============================================
+// 🌙 DARK MODE SUPPORT
+// ==============================================
+@media (prefers-color-scheme: dark) {
+   .footer-container {
+      background-color: color(gray-800);
+      border-color: color(gray-700);
+
+      .footer-stats {
+         background: linear-gradient(135deg, color(gray-700) 0%, color(gray-800) 100%);
+         border-color: color(gray-700);
+      }
+
+      .stat-card {
+         background: linear-gradient(145deg, color(gray-700) 0%, color(gray-800) 100%);
+         border-color: color(gray-600);
+
+         &__value {
+            color: color(white);
+         }
+
+         &__label {
+            color: color(gray-300);
+         }
+      }
+
+      .footer-section {
+         h4 {
+            color: color(white);
+         }
+
+         p {
+            color: color(gray-300);
+         }
+      }
+
+      .footer-bottom {
+         border-color: color(gray-700);
+
+         p {
+            color: color(gray-400);
+         }
+      }
+   }
+}

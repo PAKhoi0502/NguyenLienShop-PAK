@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import CustomToast from '../../../../components/CustomToast';
 import { toast } from 'react-toastify';
 import { getAllCategories, addCategoryForProduct, getCategoriesByProductId } from '../../../../services/productService';
+import './AddCategory.scss';
 
 const AddCategory = () => {
    const navigate = useNavigate();
@@ -112,16 +113,50 @@ const AddCategory = () => {
          <div className="form-container">
             <h2>Thêm danh mục vào sản phẩm</h2>
 
-            <div className="category-list">
+            <div
+               className="category-list"
+               style={{
+                  background: '#fff7ed',
+                  border: '1px solid #fed7aa',
+                  borderRadius: '12px',
+                  padding: '8px'
+               }}
+            >
                {availableCategories.length > 0 ? (
                   availableCategories.map((cat) => (
-                     <label key={cat.id} className="category-item">
+                     <label
+                        key={cat.id}
+                        className="category-item"
+                        style={{
+                           background: '#ffffff',
+                           border: '1px solid #fed7aa',
+                           borderRadius: '12px',
+                           display: 'flex',
+                           alignItems: 'center',
+                           padding: '16px',
+                           marginBottom: '8px',
+                           cursor: 'pointer'
+                        }}
+                     >
                         <input
                            type="checkbox"
                            checked={selectedCategories.includes(cat.id)}
                            onChange={() => handleCheckboxChange(cat.id)}
+                           style={{
+                              width: '18px',
+                              height: '18px',
+                              marginRight: '12px',
+                              accentColor: '#ea580c',
+                              cursor: 'pointer'
+                           }}
                         />
-                        {cat.nameCategory}
+                        <span style={{
+                           color: '#ea580c',
+                           fontWeight: '500',
+                           fontSize: '14px'
+                        }}>
+                           {cat.nameCategory}
+                        </span>
                      </label>
                   ))
                ) : (
