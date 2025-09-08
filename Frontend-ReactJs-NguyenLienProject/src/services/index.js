@@ -1,5 +1,6 @@
-export { default as adminService } from './adminService';
-export { default as userService } from './userService';
-export { default as productService } from './productService';
-export { default as categoryService } from './categoryService';
-export { default as bannerService } from './bannerService';
+export * as adminService from './adminService';
+export * as userService from './userService';
+export * as productService from './productService';
+export * as categoryService from './categoryService';
+export * as bannerService from './bannerService';
+export { default as dashboardService } from './dashboardService';

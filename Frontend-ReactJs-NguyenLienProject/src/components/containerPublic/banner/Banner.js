@@ -23,18 +23,18 @@ const Banner = () => {
             setBannerList(res);
          } else {
             setBannerList([]);
-            setError(intl.formatMessage({ id: 'banner.no_active_banners', defaultMessage: 'Không có banner đang kích hoạt' }));
+            setError(intl.formatMessage({ id: 'body_public.banner.no_active_banners', defaultMessage: 'Không có banner đang kích hoạt' }));
          }
       } catch (error) {
          console.error('Lỗi khi tải banner:', error);
          const errorMessage = error?.response?.status === 403
-            ? intl.formatMessage({ id: 'banner.access_denied', defaultMessage: 'Không có quyền truy cập banner' })
-            : intl.formatMessage({ id: 'banner.load_error', defaultMessage: 'Không thể tải danh sách banner' });
+            ? intl.formatMessage({ id: 'body_public.banner.access_denied', defaultMessage: 'Không có quyền truy cập banner' })
+            : intl.formatMessage({ id: 'body_public.banner.load_error', defaultMessage: 'Không thể tải danh sách banner' });
          setError(errorMessage);
          toast.error(
             <CustomToast
                type="error"
-               titleId="banner.load_error_title"
+               titleId="body_public.banner.load_error_title"
                message={errorMessage}
                time={new Date()}
             />,
@@ -50,7 +50,7 @@ const Banner = () => {
    }, []);
 
    if (loading) {
-      return <div className="banner-container">{intl.formatMessage({ id: 'banner.loading', defaultMessage: 'Đang tải banner...' })}</div>;
+      return <div className="banner-container">{intl.formatMessage({ id: 'body_public.banner.loading', defaultMessage: 'Đang tải banner...' })}</div>;
    }
 
    if (error) {
@@ -60,7 +60,7 @@ const Banner = () => {
    return (
       <div className="banner-container">
          {bannerList.length === 0 ? (
-            <p>{intl.formatMessage({ id: 'banner.no_active_banners', defaultMessage: 'Không có banner đang kích hoạt' })}</p>
+            <p>{intl.formatMessage({ id: 'body_public.banner.no_active_banners', defaultMessage: 'Không có banner đang kích hoạt' })}</p>
          ) : (
             <Swiper
                modules={[Autoplay]}

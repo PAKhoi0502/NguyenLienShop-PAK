@@ -12,6 +12,12 @@ This is a full-stack e-commerce platform with clear separation between frontend 
 - **Database**: MySQL with Sequelize ORM
 - **File Uploads**: Handled via `uploads/` directory with timestamped filenames
 
+### Technology Stack
+- **Backend**: Node.js + Express + Sequelize + JWT + Multer + Babel
+- **Frontend**: React 18 + Redux Toolkit + React Router + Axios + Bootstrap + React Hot Toast
+- **Database**: MySQL with timezone `+07:00` (Vietnam)
+- **Build Tools**: Babel transpilation, nodemon for development
+
 ### Key Architectural Patterns
 
 #### Backend Structure (Node.js + Express + Sequelize)
@@ -52,10 +58,12 @@ All API responses follow this standard error code pattern:
 ```
 
 ### Authentication Flow
-- JWT tokens stored in localStorage on frontend
-- Backend middleware: `verifyToken` for protected routes
-- Frontend interceptors automatically attach `Bearer ${token}` headers
-- Admin routes require `/api/admin/` prefix for token validation
+- **Backend**: JWT tokens with blacklist system for secure logout
+- **Middleware**: `authMiddleware.js` with `verifyToken` checking blacklisted tokens
+- **Frontend**: Dual token support (localStorage + HttpOnly cookies transitioning)
+- **Token Management**: Automatic refresh and attachment via axios interceptors
+- **Admin Protection**: `/api/admin/` prefix routes require valid JWT tokens
+- **Security**: Token blacklisting implemented in `src/utils/tokenUtils.js` (see `LOGOUT_IMPLEMENTATION.md`)
 
 ### Database Associations (Sequelize)
 Key relationships to understand:
@@ -90,7 +98,8 @@ cd server && npm start  # Serves built React app
 - Models use CommonJS exports (`module.exports`)
 - Migrations in `src/migrations/` for schema changes
 - Environment variables in `.env` for DB configuration
-- Connection: MySQL on localhost:3306 (default)
+- Connection: MySQL on localhost:3306 (default) with timezone `+07:00`
+- **Critical**: Always use `connectDB()` from `src/config/connectDB.js` for connections
 
 ### CORS Configuration
 Backend explicitly allows `localhost:3000` with credentials. When modifying CORS:

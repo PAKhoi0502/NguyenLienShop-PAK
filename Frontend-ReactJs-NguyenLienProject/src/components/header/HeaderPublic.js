@@ -54,7 +54,7 @@ const HeaderPublic = forwardRef((props, ref) => {
             <CustomToast
                {...props}
                type="info"
-               titleId="header.language_changed"
+               titleId="header_public.language_changed"
                messageId={`header.language_${lang}`}
                time={new Date()}
             />
@@ -110,22 +110,22 @@ const HeaderPublic = forwardRef((props, ref) => {
             <div className="navbar-center">
                <ul className="nav-menu">
                   <li>
-                     <FormattedMessage id="header.menu.new" defaultMessage="Hàng mới" />
+                     <FormattedMessage id="header_public.menu.new" defaultMessage="Hàng mới" />
                   </li>
                   <li>
-                     <FormattedMessage id="header.menu.promotion" defaultMessage="Khuyến mãi" />
+                     <FormattedMessage id="header_public.menu.promotion" defaultMessage="Khuyến mãi" />
                   </li>
                   <li className="has-dropdown">
-                     <FormattedMessage id="header.menu.bagType" defaultMessage="Loại túi" />
+                     <FormattedMessage id="header_public.menu.bagType" defaultMessage="Loại túi" />
                   </li>
                   <li>
-                     <FormattedMessage id="header.menu.other" defaultMessage="Mặt hàng khác" />
+                     <FormattedMessage id="header_public.menu.other" defaultMessage="Mặt hàng khác" />
                   </li>
                   <li>
-                     <FormattedMessage id="header.menu.news" defaultMessage="Tin tức" />
+                     <FormattedMessage id="header_public.menu.news" defaultMessage="Tin tức" />
                   </li>
                   <li>
-                     <FormattedMessage id="header.menu.shopee" defaultMessage="Cửa hàng trên Shopee" />
+                     <FormattedMessage id="header_public.menu.shopee" defaultMessage="Cửa hàng trên Shopee" />
                   </li>
                </ul>
 
@@ -151,11 +151,11 @@ const HeaderPublic = forwardRef((props, ref) => {
                                     setShowAccountMenu(false);
                                  }}
                               >
-                                 <FormattedMessage id="header.menu.profile" defaultMessage="Thông tin" />
+                                 <FormattedMessage id="header_public.menu.profile" defaultMessage="Thông tin" />
 
                               </div>
                               <div className="dropdown-item" onClick={handleLogout}>
-                                 <FormattedMessage id="header.menu.logout" defaultMessage="Đăng xuất" />
+                                 <FormattedMessage id="header_public.menu.logout" defaultMessage="Đăng xuất" />
                               </div>
 
                            </>
@@ -168,7 +168,7 @@ const HeaderPublic = forwardRef((props, ref) => {
                                     setShowAccountMenu(false);
                                  }}
                               >
-                                 <FormattedMessage id="header.menu.login" defaultMessage="Đăng nhập" />
+                                 <FormattedMessage id="header_public.menu.login" defaultMessage="Đăng nhập" />
                               </div>
                               <div
                                  className="dropdown-item"
@@ -177,7 +177,7 @@ const HeaderPublic = forwardRef((props, ref) => {
                                     setShowAccountMenu(false);
                                  }}
                               >
-                                 <FormattedMessage id="header.menu.register" defaultMessage="Đăng ký" />
+                                 <FormattedMessage id="header_public.menu.register" defaultMessage="Đăng ký" />
                               </div>
                            </>
                         )}

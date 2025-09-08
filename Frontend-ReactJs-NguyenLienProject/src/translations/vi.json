@@ -34,7 +34,7 @@
         "error_password_mismatch": "Mật khẩu không khớp!",
         "error_failed": "Đăng ký thất bại!"
     },
-    "header": {
+    "header_public": {
         "language_changed": "Đổi ngôn ngữ",
         "language_vi": "Ngôn ngữ: Tiếng Việt",
         "language_en": "Ngôn ngữ: Tiếng Anh",
@@ -51,7 +51,39 @@
         "menu.register": "Đăng ký",
         "menu.profile": "Thông tin tài khoản"
     },
-    "footer": {
+    "body_public": {
+        "banner": {
+            "no_active_banners": "Không có banner hoạt động",
+            "access_denied": "Truy cập bị từ chối",
+            "load_error": "Không thể tải danh sách banner",
+            "load_error_title": "Lỗi",
+            "loading": "Đang tải banner..."
+        },
+        "basic_info": {
+            "title": "Yên tâm mua sắm với",
+            "free_shipping": {
+                "title": "Miễn phí vận chuyển",
+                "highlight": "*Đơn từ 300K"
+            },
+            "home_exchange": {
+                "title": "Đổi hàng tận nhà",
+                "highlight": "*Trong vòng 15 ngày"
+            },
+            "direct_product": {
+                "title": "Sản phẩm không qua trung gian",
+                "highlight": "*Do cô chú nông dân chính tay làm nên sản phẩm"
+            },
+            "payment": {
+                "title": "Thanh toán đa dạng",
+                "highlight": "*Tiền mặt - Ví điện tử - Quét mã QR"
+            },
+            "contact": {
+                "title": "Zalo: Tên - xxx.xxx.xxx",
+                "highlight": "*Được tư vấn trực tiếp bởi chủ cửa hàng và chủ xưởng sản xuất"
+            }
+        }
+    },
+    "footer_public": {
         "newsletter_title": "ĐĂNG KÝ NHẬN TIN",
         "email_placeholder": "Nhập email của bạn",
         "newsletter_button": "Đăng ký",
@@ -295,110 +327,136 @@
             "no": "Không"
         }
     },
-    "banner": {
-        "hint": {
-            "title": "Kích thước banner chuẩn và tối ưu nhất (đơn vị px)",
-            "desktop1": "1920 x 720 (hiển thị rõ, không mờ - tối ưu nhất)",
-            "desktop2": "1600 x 600",
-            "mobile": "900 x 500 hoặc 720 x 400 (dành riêng cho mobile)",
-            "empty_title": "Tiêu đề có thể để trống.",
-            "empty_subtitle": "Phụ đề có thể để trống.",
-            "empty_link": "Link có thể để trống."
-        },
-        "manager": {
-            "hint_title": "Khi muốn cập nhật hoặc xóa banner: phải ẩn (đang hiển thị X) banner đi.",
-            "title_head": "Quản lý banner",
-            "create_button": "Tạo banner",
-            "search_placeholder": "Tìm theo tiêu đề, phụ đề, ID...",
-            "loading": "Đang tải banner...",
-            "empty_body": "Không có banner nào phù hợp.",
-            "filter_status": "Lọc trạng thái:",
-            "filter_all": "Tất cả",
-            "filter_active": "Đang hiển thị",
-            "filter_inactive": "Đã ẩn",
-            "image": "Hình ảnh",
-            "title": "Tiêu đề",
-            "subtitle": "Phụ đề",
-            "order": "Thứ tự",
-            "status": "Hiển thị",
-            "actions": "Hành động",
-            "update": "Cập nhật",
-            "empty": "Không có banner nào phù hợp.",
-            "error_title": "Lỗi",
-            "load_error": "Không thể tải danh sách banner."
-        },
-        "activate": {
-            "title": "Kích hoạt Banner",
-            "loading": "Đang kích hoạt...",
-            "success": "Kích hoạt banner thành công!",
-            "error": "Không thể kích hoạt banner.",
-            "server_error": "Lỗi server khi kích hoạt banner",
-            "activate_success_title": "Thành công",
-            "activate_error_title": "Lỗi",
-            "button": "Kích hoạt",
-            "no_title": "Không có tiêu đề",
-            "confirm_title_1": "Bạn có chắc muốn kích hoạt banner này?",
-            "confirm_button_1": "Có, kích hoạt nó",
-            "confirm_title_2": "Xác nhận kích hoạt",
-            "confirm_text_2": "Bạn có chắc muốn kích hoạt banner này?",
-            "confirm_button_2": "Tôi chắc chắn kích hoạt!",
-            "activate_success_message": "Banner đã được kích hoạt thành công.",
-            "activate_error_message": "Không thể kích hoạt banner.",
-            "order_input": "Thứ tự hiển thị banner",
-            "order_label": "Thứ tự:",
-            "order_placeholder": "Nhập thứ tự hiển thị (số)",
-            "order_duplicate": "Số thứ tự đã tồn tại. Vui lòng chọn số khác",
-            "order_error": "Số thứ tự không hợp lệ. Vui lòng nhập số nguyên dương."
-        },
-        "deactivate": {
-            "title": "Ẩn Banner",
-            "loading": "Đang ẩn...",
-            "success": "Ẩn banner thành công!",
-            "error": "Không thể ẩn banner.",
-            "server_error": "Lỗi server khi ẩn banner",
-            "deactivate_success_title": "Thành công",
-            "deactivate_error_title": "Lỗi",
-            "button": "Ẩn",
-            "no_title": "Không có tiêu đề",
-            "confirm_title_1": "Bạn có chắc muốn ẩn banner này?",
-            "confirm_button_1": "Có, ẩn nó",
-            "confirm_title_2": "Xác nhận ẩn",
-            "confirm_text_2": "Bạn có chắc muốn ẩn banner này?",
-            "confirm_button_2": "Tôi chắc chắn ẩn!",
-            "deactivate_success_message": "Banner đã được ẩn thành công.",
-            "deactivate_error_message": "Không thể ẩn banner."
-        },
-        "create": {
-            "title": "Tạo Banner Mới",
-            "image": "Hình ảnh:",
-            "title_label": "Tiêu đề:",
-            "subtitle": "Phụ đề:",
-            "link": "Link:",
-            "order": "Thứ tự:",
-            "display": "Hiển thị",
-            "loading": "Đang tạo...",
-            "submit": "Tạo Banner",
-            "cancel": "Hủy",
-            "success": "Tạo banner thành công!",
-            "error": "Không thể tạo banner",
-            "server_error": "Lỗi server khi tạo banner",
-            "create_success_title": "Thành công",
-            "create_error_title": "Lỗi"
-        },
-        "delete": {
-            "confirm_title_1": "Bạn có chắc muốn xóa banner này?",
-            "confirm_button_1": "Có, xóa nó",
-            "confirm_title_2": "Xác nhận xóa",
-            "confirm_text_2": "Bạn có chắc muốn xóa banner này?",
-            "confirm_button_2": "Tôi chắc chắn xoá!",
-            "success": "Banner đã được xóa thành công.",
-            "failed": "Không thể xóa banner.",
-            "error": "Lỗi khi xóa banner.",
-            "button": "Xóa",
-            "no_title": "Không có tiêu đề",
-            "delete_success_title": "Thành công",
-            "delete_error_title": "Lỗi",
-            "blocked_active": "Không thể xóa banner đang hiển thị. Vui lòng ẩn nó trước."
+    "header_admin": {
+        "language_changed": "Đổi ngôn ngữ",
+        "language_vi": "Ngôn ngữ: Tiếng Việt",
+        "language_en": "Ngôn ngữ: Tiếng Anh"
+    },
+    "body_admin": {
+        "banner": {
+            "hint": {
+                "title": "Kích thước banner chuẩn và tối ưu nhất (đơn vị px)",
+                "desktop1": "1920 x 720 (hiển thị rõ, không mờ - tối ưu nhất)",
+                "desktop2": "1600 x 600",
+                "mobile": "900 x 500 hoặc 720 x 400 (dành riêng cho mobile)",
+                "empty_title": "Tiêu đề có thể để trống.",
+                "empty_subtitle": "Phụ đề có thể để trống.",
+                "empty_link": "Link có thể để trống."
+            },
+            "manager": {
+                "hint_title": "Khi muốn cập nhật hoặc xóa banner: phải ẩn (đang hiển thị X) banner đi.",
+                "title_head": "Quản lý banner",
+                "create_button": "Tạo banner",
+                "search_placeholder": "Tìm theo tiêu đề, phụ đề, ID...",
+                "loading": "Đang tải banner...",
+                "empty_body": "Không có banner nào phù hợp.",
+                "filter_status": "Lọc trạng thái:",
+                "filter_all": "Tất cả",
+                "filter_active": "Đang hiển thị",
+                "filter_inactive": "Đã ẩn",
+                "image": "Hình ảnh",
+                "title": "Tiêu đề",
+                "subtitle": "Phụ đề",
+                "order": "Thứ tự",
+                "status": "Hiển thị",
+                "actions": "Hành động",
+                "update": "Cập nhật",
+                "empty": "Không có banner nào phù hợp.",
+                "error_title": "Lỗi",
+                "load_error": "Không thể tải danh sách banner."
+            },
+            "activate": {
+                "title": "Kích hoạt Banner",
+                "loading": "Đang kích hoạt...",
+                "success": "Kích hoạt banner thành công!",
+                "error": "Không thể kích hoạt banner.",
+                "server_error": "Lỗi server khi kích hoạt banner",
+                "activate_success_title": "Thành công",
+                "activate_error_title": "Lỗi",
+                "button": "Kích hoạt",
+                "no_title": "Không có tiêu đề",
+                "confirm_title_1": "Bạn có chắc muốn kích hoạt banner này?",
+                "confirm_button_1": "Có, kích hoạt nó",
+                "confirm_title_2": "Xác nhận kích hoạt",
+                "confirm_text_2": "Bạn có chắc muốn kích hoạt banner này?",
+                "confirm_button_2": "Tôi chắc chắn kích hoạt!",
+                "activate_success_message": "Banner đã được kích hoạt thành công.",
+                "activate_error_message": "Không thể kích hoạt banner.",
+                "order_input": "Thứ tự hiển thị banner",
+                "order_label": "Thứ tự:",
+                "order_placeholder": "Nhập thứ tự hiển thị (số)",
+                "order_duplicate": "Số thứ tự đã tồn tại. Vui lòng chọn số khác",
+                "order_error": "Số thứ tự không hợp lệ. Vui lòng nhập số nguyên dương."
+            },
+            "deactivate": {
+                "title": "Ẩn Banner",
+                "loading": "Đang ẩn...",
+                "success": "Ẩn banner thành công!",
+                "error": "Không thể ẩn banner.",
+                "server_error": "Lỗi server khi ẩn banner",
+                "deactivate_success_title": "Thành công",
+                "deactivate_error_title": "Lỗi",
+                "button": "Ẩn",
+                "no_title": "Không có tiêu đề",
+                "confirm_title_1": "Bạn có chắc muốn ẩn banner này?",
+                "confirm_button_1": "Có, ẩn nó",
+                "confirm_title_2": "Xác nhận ẩn",
+                "confirm_text_2": "Bạn có chắc muốn ẩn banner này?",
+                "confirm_button_2": "Tôi chắc chắn ẩn!",
+                "deactivate_success_message": "Banner đã được ẩn thành công.",
+                "deactivate_error_message": "Không thể ẩn banner."
+            },
+            "create": {
+                "title": "Tạo Banner Mới",
+                "image": "Hình ảnh:",
+                "title_label": "Tiêu đề:",
+                "subtitle": "Phụ đề:",
+                "link": "Link:",
+                "order": "Thứ tự:",
+                "display": "Hiển thị",
+                "loading": "Đang tạo...",
+                "submit": "Tạo Banner",
+                "cancel": "Hủy",
+                "success": "Tạo banner thành công!",
+                "error": "Không thể tạo banner",
+                "server_error": "Lỗi server khi tạo banner",
+                "create_success_title": "Thành công",
+                "create_error_title": "Lỗi"
+            },
+            "delete": {
+                "confirm_title_1": "Bạn có chắc muốn xóa banner này?",
+                "confirm_button_1": "Có, xóa nó",
+                "confirm_title_2": "Xác nhận xóa",
+                "confirm_text_2": "Bạn có chắc muốn xóa banner này?",
+                "confirm_button_2": "Tôi chắc chắn xoá!",
+                "success": "Banner đã được xóa thành công.",
+                "failed": "Không thể xóa banner.",
+                "error": "Lỗi khi xóa banner.",
+                "button": "Xóa",
+                "no_title": "Không có tiêu đề",
+                "delete_success_title": "Thành công",
+                "delete_error_title": "Lỗi",
+                "blocked_active": "Không thể xóa banner đang hiển thị. Vui lòng ẩn nó trước."
+            }
         }
+    },
+    "footer_admin": {
+        "dashboard": {
+            "total_users": "Tổng người dùng",
+            "total_products": "Tổng sản phẩm",
+            "total_banners": "Tổng banner",
+            "total_orders": "Tổng đơn hàng"
+        }
+    },
+    "dashboard": {
+        "title": "Bảng điều khiển",
+        "subtitle": "Chào mừng bạn đến với bảng điều khiển quản trị",
+        "account_management": "Quản lý tài khoản",
+        "account_description": "Quản lý người dùng và quản trị viên",
+        "product_management": "Quản lý sản phẩm",
+        "product_description": "Quản lý sản phẩm và danh mục",
+        "homepage_management": "Quản lý trang chủ",
+        "homepage_description": "Quản lý banner và nội dung trang chủ",
+        "account_dashboard": {}
     }
 }

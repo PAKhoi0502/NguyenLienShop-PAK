@@ -1,4 +1,4 @@
-import { getCategoriesByProductId } from '../../../../services/productService';
+import { getCategoriesByProductId, getProductById } from '../../../../services/productService';
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import AddCategory from './AddCategory';
@@ -10,13 +10,14 @@ const InfoCategory = ({ productId: propProductId }) => {
    const navigate = useNavigate();
    const productId = propProductId || location.state?.productId;
    const [categories, setCategories] = useState([]);
+   const [product, setProduct] = useState(null);
    const [loading, setLoading] = useState(true);
    const [error, setError] = useState(null);
    const [showAdd, setShowAdd] = useState(false);
    const [showDelete, setShowDelete] = useState(false);
 
    useEffect(() => {
-      const fetchCategories = async () => {
+      const fetchData = async () => {
          if (!productId) {
             setLoading(false);
             setError('Không có ID sản phẩm');
@@ -27,26 +28,38 @@ const InfoCategory = ({ productId: propProductId }) => {
          setError(null);
 
          try {
-            const res = await getCategoriesByProductId(productId);
-            if (res && res.errCode === 0) {
-               setCategories(res.categories || []);
+            // Fetch product info
+            const productRes = await getProductById(productId);
+            if (productRes && productRes.errCode === 0) {
+               setProduct(productRes.product);
+            }
+
+            // Fetch categories
+            const categoriesRes = await getCategoriesByProductId(productId);
+            if (categoriesRes && categoriesRes.errCode === 0) {
+               setCategories(categoriesRes.categories || []);
             } else {
-               setError(res?.errMessage || 'Không thể tải danh mục');
+               setError(categoriesRes?.errMessage || 'Không thể tải danh mục');
                setCategories([]);
             }
          } catch (err) {
-            setError('Lỗi khi tải danh mục');
+            setError('Lỗi khi tải dữ liệu');
             setCategories([]);
          } finally {
             setLoading(false);
          }
       };
-      fetchCategories();
+      fetchData();
    }, [productId, showAdd, showDelete]); // reload khi thêm/xóa
 
    return (
       <div className="info-category">
-         <h3>Danh mục của sản phẩm</h3>
+         <h3 className="info-category__title">
+            Danh mục của{' '}
+            <span className="product-name-highlight">
+               {product?.nameProduct || 'sản phẩm'}
+            </span>
+         </h3>
 
          {loading ? (
             <p>Đang tải danh mục...</p>

@@ -1,39 +1,40 @@
 import React from 'react';
 import './BasicInfo.scss';
 import { FaTruck, FaExchangeAlt, FaHandsHelping, FaMoneyCheckAlt, FaCommentDots } from 'react-icons/fa';
+import { FormattedMessage } from 'react-intl';
 
 const infoList = [
    {
       icon: <FaTruck />,
-      title: 'Miễn phí vận chuyển',
-      highlight: '*Đơn từ 300K',
+      title: <FormattedMessage id="body_public.basic_info.free_shipping.title" defaultMessage="Miễn phí vận chuyển" />,
+      highlight: <FormattedMessage id="body_public.basic_info.free_shipping.highlight" defaultMessage="*Đơn từ 300K" />,
    },
    {
       icon: <FaExchangeAlt />,
-      title: 'Đổi hàng tận nhà',
-      highlight: '*Trong vòng 15 ngày',
+      title: <FormattedMessage id="body_public.basic_info.home_exchange.title" defaultMessage="Đổi hàng tận nhà" />,
+      highlight: <FormattedMessage id="body_public.basic_info.home_exchange.highlight" defaultMessage="*Trong vòng 15 ngày" />,
    },
    {
       icon: <FaHandsHelping />,
-      title: 'Sản phẩm không qua trung gian',
-      highlight: '*Do cô chú nông dân chính tay làm nên sản phẩm',
+      title: <FormattedMessage id="body_public.basic_info.direct_product.title" defaultMessage="Sản phẩm không qua trung gian" />,
+      highlight: <FormattedMessage id="body_public.basic_info.direct_product.highlight" defaultMessage="*Do cô chú nông dân chính tay làm nên sản phẩm" />,
    },
    {
       icon: <FaMoneyCheckAlt />,
-      title: 'Thanh toán đa dạng',
-      highlight: '*Tiền mặt - Ví điện tử - Quét mã QR',
+      title: <FormattedMessage id="body_public.basic_info.payment.title" defaultMessage="Thanh toán đa dạng" />,
+      highlight: <FormattedMessage id="body_public.basic_info.payment.highlight" defaultMessage="*Tiền mặt - Ví điện tử - Quét mã QR" />,
    },
    {
       icon: <FaCommentDots />,
-      title: 'Zalo: Tên - xxx.xxx.xxx',
-      highlight: '*Được tư vấn trực tiếp bởi chủ cửa hàng và chủ xưởng sản xuất',
+      title: <FormattedMessage id="body_public.basic_info.contact.title" defaultMessage="Zalo: Tên - xxx.xxx.xxx" />,
+      highlight: <FormattedMessage id="body_public.basic_info.contact.highlight" defaultMessage="*Được tư vấn trực tiếp bởi chủ cửa hàng và chủ xưởng sản xuất" />,
    },
 ];
 
 const BasicInfo = () => {
    return (
       <div className="basic-info">
-         <div className="section-title">Yên tâm mua sắm với</div>
+         <div className="section-title"><FormattedMessage id="body_public.basic_info.title" defaultMessage="Yên tâm mua sắm với" /></div>
          <div className="info-list">
             {infoList.map((item, index) => (
                <div className="info-item" key={index}>

@@ -21,7 +21,8 @@
    // ==============================================
    // 📋 HEADER & TITLE
    // ==============================================
-   h3 {
+   h3,
+   &__title {
       font-size: font-size(2xl);
       font-weight: font-weight(bold);
       color: #9a3412;
@@ -45,6 +46,31 @@
          height: 3px;
          background: linear-gradient(90deg, #fb923c, #f97316);
          border-radius: border-radius(full);
+      }
+
+      .product-name-highlight {
+         color: #dc2626;
+         background: linear-gradient(135deg, #fef3c7, #fed7aa);
+         padding: spacing(1) spacing(2);
+         border-radius: border-radius(md);
+         border: 2px solid #f97316;
+         font-weight: font-weight(extrabold);
+         text-shadow: 0 1px 2px rgba(220, 38, 38, 0.1);
+         display: inline-block;
+         position: relative;
+         animation: pulse-highlight 2s ease-in-out infinite;
+
+         &::before {
+            content: '"';
+            color: #f97316;
+            font-size: font-size(lg);
+         }
+
+         &::after {
+            content: '"';
+            color: #f97316;
+            font-size: font-size(lg);
+         }
       }
 
       @include mobile-only {
@@ -501,5 +527,22 @@
             }
          }
       }
+   }
+}
+
+// ==============================================
+// 🎭 ANIMATIONS
+// ==============================================
+@keyframes pulse-highlight {
+
+   0%,
+   100% {
+      transform: scale(1);
+      box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.4);
+   }
+
+   50% {
+      transform: scale(1.02);
+      box-shadow: 0 0 0 8px rgba(249, 115, 22, 0);
    }
 }

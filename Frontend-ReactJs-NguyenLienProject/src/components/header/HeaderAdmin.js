@@ -22,8 +22,8 @@ const HeaderAdmin = () => {
                 <CustomToast
                     {...props}
                     type="info"
-                    titleId="header.language_changed"
-                    messageId={`header.language_${lang}`}
+                    titleId="header_admin.language_changed"
+                    messageId={`header_admin.language_${lang}`}
                     time={new Date()}
                 />
             ),
