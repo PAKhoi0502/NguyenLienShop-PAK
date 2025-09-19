@@ -18,16 +18,43 @@ const createRefreshToken = async (userId, refreshToken, req) => {
       const ipAddress = extractIpAddress(req);
       const expiresAt = createRefreshTokenExpiry(30); // 30 days
 
-      const tokenRecord = await RefreshToken.create({
-         token: refreshToken,
-         userId: userId,
-         deviceInfo: deviceInfo,
-         ipAddress: ipAddress,
-         expiresAt: expiresAt,
-         isActive: true
-      });
+      // 🔄 Try to create token, handle duplicates gracefully
+      let tokenRecord;
+      let retryCount = 0;
+      const maxRetries = 3;
 
-      console.log('✅ Refresh token created:', {
+      while (retryCount < maxRetries) {
+         try {
+            tokenRecord = await RefreshToken.create({
+               token: refreshToken,
+               userId: userId,
+               deviceInfo: deviceInfo,
+               ipAddress: ipAddress,
+               expiresAt: expiresAt,
+               isActive: true
+            });
+            break; // Success, exit loop
+         } catch (error) {
+            // 🚨 Handle auto-increment failure
+            if (error.code === 'ER_AUTOINC_READ_FAILED') {
+               console.error('🚨 CRITICAL: MySQL auto-increment failed!');
+               console.error('💡 Please run: ALTER TABLE refresh_tokens AUTO_INCREMENT = 1;');
+               throw new Error('Database auto-increment error. Please contact administrator.');
+            }
+
+            if (error.name === 'SequelizeUniqueConstraintError' && retryCount < maxRetries - 1) {
+               console.log(`🔄 Duplicate token detected, regenerating... (attempt ${retryCount + 1}/${maxRetries})`);
+
+               // Generate new unique token
+               const user = { id: userId };
+               const { refreshToken: newRefreshToken } = generateTokenPair(user);
+               refreshToken = newRefreshToken;
+               retryCount++;
+            } else {
+               throw error; // Re-throw if not duplicate or max retries reached
+            }
+         }
+      } console.log('✅ Refresh token created:', {
          id: tokenRecord.id,
          userId: userId,
          deviceInfo: deviceInfo,

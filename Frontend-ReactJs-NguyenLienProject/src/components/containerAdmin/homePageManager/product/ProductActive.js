@@ -75,8 +75,8 @@ const ProductActive = ({ product, onSuccess }) => {
             onClick={handleToggleActive}
          >
             {product.isActive
-               ? intl.formatMessage({ id: 'product.deactivate.button' })
-               : intl.formatMessage({ id: 'product.activate.button' })}
+               ? intl.formatMessage({ id: 'body_admin.product_management.deactivate_button' })
+               : intl.formatMessage({ id: 'body_admin.product_management.activate_button' })}
          </button>
       </div>
    );

@@ -39,8 +39,13 @@ export const refreshAccessToken = async () => {
  */
 export const shouldRefreshToken = (error) => {
    // Check if error is 401 (Unauthorized) and not a refresh token error
-   return error.response?.status === 401 &&
-      !error.config?.url?.includes('/api/auth/refresh');
+   // ✅ Also exclude login endpoints from auto-refresh
+   const isUnauthorized = error.response?.status === 401;
+   const isRefreshEndpoint = error.config?.url?.includes('/api/auth/refresh');
+   const isLoginEndpoint = error.config?.url?.includes('/api/auth/login');
+
+   // Don't refresh tokens for login or refresh endpoints
+   return isUnauthorized && !isRefreshEndpoint && !isLoginEndpoint;
 };
 
 /**
@@ -51,7 +56,10 @@ export const handleTokenRefreshAndRetry = async (originalRequest) => {
       // Prevent infinite loops
       if (originalRequest._retry) {
          console.log('⚠️ Already retried, preventing infinite loop');
-         return Promise.reject(originalRequest);
+         // Clear retry flag and reject to stop the loop
+         delete originalRequest._retry;
+         window.location.href = '/login';
+         return Promise.reject(new Error('Token refresh loop prevented'));
       }
 
       originalRequest._retry = true;
@@ -61,10 +69,14 @@ export const handleTokenRefreshAndRetry = async (originalRequest) => {
 
       if (refreshResult.success) {
          console.log('🔄 Token refreshed, retrying original request');
+         // Clean up retry flag on successful refresh
+         delete originalRequest._retry;
          // Retry the original request
          return axios(originalRequest);
       } else {
          console.log('❌ Token refresh failed, redirecting to login');
+         // Clean up retry flag
+         delete originalRequest._retry;
          // Redirect to login if refresh fails
          window.location.href = '/login';
          return Promise.reject(refreshResult.error);

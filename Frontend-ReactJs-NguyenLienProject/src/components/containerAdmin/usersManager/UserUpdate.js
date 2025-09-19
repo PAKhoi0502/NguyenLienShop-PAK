@@ -31,7 +31,7 @@ const UserUpdate = () => {
                gender: user.gender || ''
             });
          } else {
-            showToast("error", intl.formatMessage({ id: "user.update.error.not_found" }));
+            showToast("error", intl.formatMessage({ id: "body_admin.account_management.user_manager.update_user.error.not_found" }));
             navigate('/admin/account-management/user-management');
          }
       };
@@ -44,7 +44,7 @@ const UserUpdate = () => {
    };
 
    const validate = () => {
-      if (!id) return intl.formatMessage({ id: "user.update.error.missing_id" });
+      if (!id) return intl.formatMessage({ id: "body_admin.account_management.user_manager.update_user.error.missing_id" });
       return '';
    };
 
@@ -54,7 +54,7 @@ const UserUpdate = () => {
             <CustomToast
                {...props}
                type={type}
-               titleId={type === "success" ? "user.update_success_title" : "user.update_error_title"}
+               titleId={type === "success" ? "body_admin.account_management.user_manager.update_user.success_title" : "body_admin.account_management.user_manager.update_user.error_title"}
                message={message}
                time={new Date()}
             />
@@ -83,20 +83,20 @@ const UserUpdate = () => {
       try {
          const res = await updateUser(submitData);
          if (!res) {
-            showToast("error", intl.formatMessage({ id: "user.update.error.no_response" }));
+            showToast("error", intl.formatMessage({ id: "body_admin.account_management.user_manager.update_user.error.no_response" }));
             return;
          }
          if (res.errCode === 0) {
-            showToast("success", intl.formatMessage({ id: "user.update.success" }));
+            showToast("success", intl.formatMessage({ id: "body_admin.account_management.user_manager.update_user.success" }));
             setTimeout(() => {
                navigate('/admin/account-management/user-management');
             }, 1200);
          } else {
-            showToast("error", res.errMessage || intl.formatMessage({ id: "user.update.error.default" }));
+            showToast("error", res.errMessage || intl.formatMessage({ id: "body_admin.account_management.user_manager.update_user.error.default" }));
          }
       } catch (error) {
          console.error('Edit error:', error);
-         showToast("error", error.errMessage || intl.formatMessage({ id: "user.update.error.default" }));
+         showToast("error", error.errMessage || intl.formatMessage({ id: "body_admin.account_management.user_manager.update_user.error.default" }));
       } finally {
          setLoading(false);
       }
@@ -105,33 +105,33 @@ const UserUpdate = () => {
    return (
       <div className="user-create-container">
          <h2 className="user-create-title">
-            <FormattedMessage id="user.update.title" defaultMessage="Chỉnh sửa người dùng" />
+            <FormattedMessage id="body_admin.account_management.user_manager.update_user.title" defaultMessage="Chỉnh sửa người dùng" />
          </h2>
          <form className="user-create-form" onSubmit={handleSubmit} autoComplete="off">
             <div className="form-group">
-               <label><FormattedMessage id="user.update.username" defaultMessage="Biệt danh" /></label>
+               <label><FormattedMessage id="body_admin.account_management.user_manager.update_user.username" defaultMessage="Biệt danh" /></label>
                <input
                   type="text"
                   name="userName"
                   value={form.userName}
                   onChange={handleChange}
-                  placeholder={intl.formatMessage({ id: "user.update.placeholder.username", defaultMessage: "Nhập biệt danh" })}
+                  placeholder={intl.formatMessage({ id: "body_admin.account_management.user_manager.update_user.placeholder.username", defaultMessage: "Nhập biệt danh" })}
                   disabled={loading}
                />
             </div>
             <div className="form-group">
-               <label><FormattedMessage id="user.update.fullname" defaultMessage="Họ tên đầy đủ" /></label>
+               <label><FormattedMessage id="body_admin.account_management.user_manager.update_user.fullname" defaultMessage="Họ tên đầy đủ" /></label>
                <input
                   type="text"
                   name="fullName"
                   value={form.fullName}
                   onChange={handleChange}
-                  placeholder={intl.formatMessage({ id: "user.update.placeholder.fullname", defaultMessage: "Nhập họ tên đầy đủ" })}
+                  placeholder={intl.formatMessage({ id: "body_admin.account_management.user_manager.update_user.placeholder.fullname", defaultMessage: "Nhập họ tên đầy đủ" })}
                   disabled={loading}
                />
             </div>
             <div className="form-group">
-               <label><FormattedMessage id="user.update.birthday" defaultMessage="Ngày sinh" /></label>
+               <label><FormattedMessage id="body_admin.account_management.user_manager.update_user.birthday" defaultMessage="Ngày sinh" /></label>
                <input
                   type="date"
                   name="birthday"
@@ -141,20 +141,20 @@ const UserUpdate = () => {
                />
             </div>
             <div className="form-group">
-               <label><FormattedMessage id="user.update.gender" defaultMessage="Giới tính" /></label>
+               <label><FormattedMessage id="body_admin.account_management.user_manager.update_user.gender" defaultMessage="Giới tính" /></label>
                <select name="gender" value={form.gender} onChange={handleChange} disabled={loading}>
-                  <option value="">{intl.formatMessage({ id: "user.update.select_gender", defaultMessage: "-- Chọn giới tính --" })}</option>
-                  <option value="M"><FormattedMessage id="gender.male" defaultMessage="Nam" /></option>
-                  <option value="F"><FormattedMessage id="gender.female" defaultMessage="Nữ" /></option>
-                  <option value="O"><FormattedMessage id="gender.other" defaultMessage="Khác" /></option>
+                  <option value="">{intl.formatMessage({ id: "body_admin.account_management.user_manager.update_user.select_gender", defaultMessage: "-- Chọn giới tính --" })}</option>
+                  <option value="M"><FormattedMessage id="body_admin.account_management.user_manager.gender_user.male" defaultMessage="Nam" /></option>
+                  <option value="F"><FormattedMessage id="body_admin.account_management.user_manager.gender_user.female" defaultMessage="Nữ" /></option>
+                  <option value="O"><FormattedMessage id="body_admin.account_management.user_manager.gender_user.other" defaultMessage="Khác" /></option>
                </select>
             </div>
 
             <div className="form-actions">
                <button type="submit" className="btn-submit" disabled={loading}>
                   {loading
-                     ? <FormattedMessage id="user.update.saving" defaultMessage="Đang cập nhật..." />
-                     : <FormattedMessage id="user.update.save" defaultMessage="Lưu thay đổi" />}
+                     ? <FormattedMessage id="body_admin.account_management.user_manager.update_user.saving" defaultMessage="Đang cập nhật..." />
+                     : <FormattedMessage id="body_admin.account_management.user_manager.update_user.save" defaultMessage="Lưu thay đổi" />}
                </button>
                <button
                   type="button"
@@ -162,7 +162,7 @@ const UserUpdate = () => {
                   onClick={() => navigate('/admin/account-management/user-management')}
                   disabled={loading}
                >
-                  <FormattedMessage id="user.update.cancel" defaultMessage="Hủy" />
+                  <FormattedMessage id="body_admin.account_management.user_manager.update_user.cancel" defaultMessage="Hủy" />
                </button>
             </div>
          </form>

@@ -19,6 +19,32 @@ const AdminUpdate = () => {
       roleId: '1'
    });
    const [loading, setLoading] = useState(false);
+   const [age, setAge] = useState(null);
+
+   // Calculate age from birthday
+   const calculateAge = (birthday) => {
+      if (!birthday) return null;
+      const today = new Date();
+      const birthDate = new Date(birthday);
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+         age--;
+      }
+      return age;
+   };
+
+   // Format birthday for display
+   const formatBirthdayDisplay = (birthday) => {
+      if (!birthday) return '';
+      const date = new Date(birthday);
+      const day = date.getDate();
+      const month = date.getMonth() + 1;
+      const year = date.getFullYear();
+      return intl.locale === 'vi'
+         ? `${day}/${month}/${year}`
+         : `${month}/${day}/${year}`;
+   };
 
    useEffect(() => {
       const fetchAdmin = async () => {
@@ -33,8 +59,13 @@ const AdminUpdate = () => {
                gender: admin.gender || '',
                roleId: admin.roleId?.toString() || '1'
             });
+
+            // Calculate initial age if birthday exists
+            if (admin.birthday) {
+               setAge(calculateAge(admin.birthday));
+            }
          } else {
-            showToast("error", intl.formatMessage({ id: 'admin.update.not_found' }));
+            showToast("error", intl.formatMessage({ id: 'body_admin.account_management.admin_manager.update_admin.not_found' }));
             navigate('/admin/account-management/admin-management');
          }
       };
@@ -44,10 +75,15 @@ const AdminUpdate = () => {
    const handleChange = (e) => {
       const { name, value } = e.target;
       setForm({ ...form, [name]: value });
+
+      // Calculate age when birthday changes
+      if (name === 'birthday') {
+         setAge(calculateAge(value));
+      }
    };
 
    const validate = () => {
-      if (!id) return intl.formatMessage({ id: 'admin.update.missing_id' });
+      if (!id) return intl.formatMessage({ id: 'body_admin.account_management.admin_manager.update_admin.missing_id' });
       return '';
    };
 
@@ -57,7 +93,7 @@ const AdminUpdate = () => {
             <CustomToast
                {...props}
                type={type}
-               titleId={type === "success" ? "admin.update_success_title" : "admin.update_error_title"}
+               titleId={type === "success" ? "body_admin.account_management.admin_manager.update_success_title" : "body_admin.account_management.admin_manager.update_error_title"}
                message={message}
                time={new Date()}
             />
@@ -88,20 +124,20 @@ const AdminUpdate = () => {
          const res = await updateAdmin(submitData);
 
          if (!res) {
-            showToast("error", intl.formatMessage({ id: 'admin.update.no_response' }));
+            showToast("error", intl.formatMessage({ id: 'body_admin.account_management.admin_manager.update_admin.no_response' }));
             return;
          }
          if (res.errCode === 0) {
-            showToast("success", intl.formatMessage({ id: 'admin.update.success_message' }));
+            showToast("success", intl.formatMessage({ id: 'body_admin.account_management.admin_manager.update_admin.success_message' }));
             setTimeout(() => {
                navigate('/admin/account-management/admin-management');
             }, 1200);
          } else {
-            showToast("error", res.errMessage || intl.formatMessage({ id: 'admin.update.failed' }));
+            showToast("error", res.errMessage || intl.formatMessage({ id: 'body_admin.account_management.admin_manager.update_admin.failed' }));
          }
       } catch (error) {
          console.error('Edit error:', error);
-         showToast("error", error.errMessage || intl.formatMessage({ id: 'admin.update.failed' }));
+         showToast("error", error.errMessage || intl.formatMessage({ id: 'body_admin.account_management.admin_manager.update_admin.failed' }));
       } finally {
          setLoading(false);
       }
@@ -110,63 +146,91 @@ const AdminUpdate = () => {
    return (
       <div className="admin-update-container">
          <h2 className="admin-update-title">
-            <FormattedMessage id="admin.update.title" defaultMessage="Chỉnh sửa quản trị viên" />
+            <FormattedMessage id="body_admin.account_management.admin_manager.update_admin.title" defaultMessage="Chỉnh sửa quản trị viên" />
          </h2>
          <form className="admin-update-form" onSubmit={handleSubmit} autoComplete="off">
             <div className="form-group">
-               <label><FormattedMessage id="admin.update.username" defaultMessage="Biệt danh" /></label>
+               <label><FormattedMessage id="body_admin.account_management.admin_manager.update_admin.username" defaultMessage="Biệt danh" /></label>
                <input
                   type="text"
                   name="userName"
                   value={form.userName}
                   onChange={handleChange}
-                  placeholder={intl.formatMessage({ id: 'admin.update.username_placeholder' })}
+                  placeholder={intl.formatMessage({ id: 'body_admin.account_management.admin_manager.update_admin.username_placeholder' })}
                   disabled={loading}
                />
             </div>
             <div className="form-group">
-               <label><FormattedMessage id="admin.update.fullname" defaultMessage="Họ tên đầy đủ" /></label>
+               <label><FormattedMessage id="body_admin.account_management.admin_manager.update_admin.fullname" defaultMessage="Họ tên đầy đủ" /></label>
                <input
                   type="text"
                   name="fullName"
                   value={form.fullName}
                   onChange={handleChange}
-                  placeholder={intl.formatMessage({ id: 'admin.update.fullname_placeholder' })}
+                  placeholder={intl.formatMessage({ id: 'body_admin.account_management.admin_manager.update_admin.fullname_placeholder' })}
                   disabled={loading}
                />
             </div>
-            <div className="form-group">
-               <label><FormattedMessage id="admin.update.birthday" defaultMessage="Ngày sinh" /></label>
-               <input
-                  type="date"
-                  name="birthday"
-                  value={form.birthday || ''}
-                  onChange={handleChange}
-                  disabled={loading}
-               />
+            <div className="form-group birthday-group">
+               <label className="birthday-label">
+                  <span className="birthday-icon">🎂</span>
+                  <FormattedMessage id="body_admin.account_management.admin_manager.update_admin.birthday" defaultMessage="Ngày sinh" />
+               </label>
+               <div className="birthday-input-container">
+                  <input
+                     type="date"
+                     name="birthday"
+                     value={form.birthday || ''}
+                     onChange={handleChange}
+                     disabled={loading}
+                     className="birthday-input"
+                     placeholder={intl.formatMessage({
+                        id: 'body_admin.account_management.admin_manager.update_admin.birthday_placeholder',
+                        defaultMessage: 'Chọn ngày sinh của bạn'
+                     })}
+                  />
+                  {form.birthday && age !== null && (
+                     <div className="age-display">
+                        <span className="age-icon">🎉</span>
+                        <span className="age-text">
+                           {age} {intl.formatMessage({
+                              id: 'body_admin.account_management.admin_manager.update_admin.years_old',
+                              defaultMessage: 'tuổi'
+                           })}
+                        </span>
+                     </div>
+                  )}
+                  {form.birthday && (
+                     <div className="birthday-display">
+                        <span className="birthday-formatted">
+                           📅 {formatBirthdayDisplay(form.birthday)}
+                        </span>
+                     </div>
+                  )}
+               </div>
             </div>
             <div className="form-group">
-               <label><FormattedMessage id="admin.update.gender" defaultMessage="Giới tính" /></label>
+               <label><FormattedMessage id="body_admin.account_management.admin_manager.update_admin.gender" defaultMessage="Giới tính" /></label>
                <select name="gender" value={form.gender} onChange={handleChange} disabled={loading}>
-                  <option value="">{intl.formatMessage({ id: 'admin.update.select_gender' })}</option>
-                  <option value="M"><FormattedMessage id="gender.male" defaultMessage="Nam" /></option>
-                  <option value="F"><FormattedMessage id="gender.female" defaultMessage="Nữ" /></option>
-                  <option value="O"><FormattedMessage id="gender.other" defaultMessage="Khác" /></option>
+                  <option value="">{intl.formatMessage({ id: 'body_admin.account_management.admin_manager.update_admin.select_gender' })}</option>
+                  <option value="M"><FormattedMessage id="body_admin.account_management.admin_manager.gender_admin.male" defaultMessage="Nam" /></option>
+                  <option value="F"><FormattedMessage id="body_admin.account_management.admin_manager.gender_admin.female" defaultMessage="Nữ" /></option>
+                  <option value="O"><FormattedMessage id="body_admin.account_management.admin_manager.gender_admin.other" defaultMessage="Khác" /></option>
                </select>
             </div>
             <div className="form-group">
-               <label><FormattedMessage id="admin.update.role" defaultMessage="Vai trò" /></label>
+               <label><FormattedMessage id="body_admin.account_management.admin_manager.update_admin.role" defaultMessage="Vai trò" /></label>
                <select name="roleId" value={form.roleId} onChange={handleChange} disabled={loading}>
-                  <option value="1"><FormattedMessage id="role.admin" defaultMessage="Admin" /></option>
-                  <option value="2"><FormattedMessage id="role.user" defaultMessage="Người dùng" /></option>
+                  <option value="1"><FormattedMessage id="body_admin.account_management.admin_manager.role_admin.admin" defaultMessage="Admin" /></option>
+                  <option value="2"><FormattedMessage id="body_admin.account_management.admin_manager.role_admin.user" defaultMessage="Người dùng" /></option>
                </select>
             </div>
 
             <div className="form-actions">
                <button type="submit" className="btn-submit" disabled={loading}>
                   {loading
-                     ? intl.formatMessage({ id: 'admin.update.updating' })
-                     : intl.formatMessage({ id: 'admin.update.submit' })}
+                     ? intl.formatMessage({ id: 'body_admin.account_management.admin_manager.update_admin.updating' })
+                     : intl.formatMessage({ id: 'body_admin.account_management.admin_manager.update_admin.submit' })}
                </button>
                <button
                   type="button"
@@ -174,7 +238,7 @@ const AdminUpdate = () => {
                   onClick={() => navigate('/admin/account-management/admin-management')}
                   disabled={loading}
                >
-                  <FormattedMessage id="admin.update.cancel" defaultMessage="Hủy" />
+                  <FormattedMessage id="body_admin.account_management.admin_manager.update_admin.cancel" defaultMessage="Hủy" />
                </button>
             </div>
          </form>

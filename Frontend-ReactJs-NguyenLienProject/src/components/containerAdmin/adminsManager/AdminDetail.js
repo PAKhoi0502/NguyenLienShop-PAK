@@ -31,43 +31,43 @@ const AdminDetail = () => {
       navigate(`/admin/account-management/admin-management/admin-update/${id}`);
    };
 
-   if (loading) return <div className="admin-detail-loading">{intl.formatMessage({ id: 'admin.detail.loading' })}</div>;
-   if (!user) return <div className="admin-detail-error">{intl.formatMessage({ id: 'admin.detail.not_found' })}</div>;
+   if (loading) return <div className="admin-detail-loading">{intl.formatMessage({ id: 'body_admin.account_management.admin_manager.detail_admin.loading' })}</div>;
+   if (!user) return <div className="admin-detail-error">{intl.formatMessage({ id: 'body_admin.account_management.admin_manager.detail_admin.not_found' })}</div>;
 
    return (
       <div className="admin-detail-container">
          <h2 className="admin-detail-title">
-            <FormattedMessage id="admin.detail.title" defaultMessage="Thông tin quản trị viên" />
+            <FormattedMessage id="body_admin.account_management.admin_manager.detail_admin.title" defaultMessage="Thông tin quản trị viên" />
          </h2>
          <div className="admin-detail-content">
             <div><strong>ID:</strong> {user.id}</div>
-            <div><strong><FormattedMessage id="admin.detail.nickname" defaultMessage="Biệt danh" />:</strong> {user.userName || intl.formatMessage({ id: 'admin.detail.empty' })}</div>
-            <div><strong><FormattedMessage id="admin.detail.fullname" defaultMessage="Họ tên" />:</strong> {user.fullName || intl.formatMessage({ id: 'admin.detail.empty' })}</div>
-            <div><strong><FormattedMessage id="admin.detail.email" defaultMessage="Email" />:</strong> <em><FormattedMessage id="admin.detail.hidden_field" /></em></div>
-            <div><strong><FormattedMessage id="admin.detail.phone" defaultMessage="Số điện thoại" />:</strong> <em><FormattedMessage id="admin.detail.hidden_field" /></em></div>
-            <div><strong><FormattedMessage id="admin.detail.birthday" defaultMessage="Ngày sinh" />:</strong> {user.birthday || intl.formatMessage({ id: 'admin.detail.empty' })}</div>
-            <div><strong><FormattedMessage id="admin.detail.gender" defaultMessage="Giới tính" />:</strong> {
+            <div><strong><FormattedMessage id="body_admin.account_management.admin_manager.detail_admin.nickname" defaultMessage="Biệt danh" />:</strong> {user.userName || intl.formatMessage({ id: 'body_admin.account_management.admin_manager.detail_admin.empty' })}</div>
+            <div><strong><FormattedMessage id="body_admin.account_management.admin_manager.detail_admin.fullname" defaultMessage="Họ tên" />:</strong> {user.fullName || intl.formatMessage({ id: 'body_admin.account_management.admin_manager.detail_admin.empty' })}</div>
+            <div><strong><FormattedMessage id="body_admin.account_management.admin_manager.detail_admin.email" defaultMessage="Email" />:</strong> <em><FormattedMessage id="body_admin.account_management.admin_manager.detail_admin.hidden_field" /></em></div>
+            <div><strong><FormattedMessage id="body_admin.account_management.admin_manager.detail_admin.phone" defaultMessage="Số điện thoại" />:</strong> <em><FormattedMessage id="body_admin.account_management.admin_manager.detail_admin.hidden_field" /></em></div>
+            <div><strong><FormattedMessage id="body_admin.account_management.admin_manager.detail_admin.birthday" defaultMessage="Ngày sinh" />:</strong> {user.birthday || intl.formatMessage({ id: 'body_admin.account_management.admin_manager.detail_admin.empty' })}</div>
+            <div><strong><FormattedMessage id="body_admin.account_management.admin_manager.detail_admin.gender" defaultMessage="Giới tính" />:</strong> {
                user.gender === 'M'
-                  ? intl.formatMessage({ id: 'gender.male' })
+                  ? intl.formatMessage({ id: 'body_admin.account_management.admin_manager.gender_admin.male' })
                   : user.gender === 'F'
-                     ? intl.formatMessage({ id: 'gender.female' })
+                     ? intl.formatMessage({ id: 'body_admin.account_management.admin_manager.gender_admin.female' })
                      : user.gender === 'O'
-                        ? intl.formatMessage({ id: 'gender.other' })
-                        : intl.formatMessage({ id: 'gender.unselected' })
+                        ? intl.formatMessage({ id: 'body_admin.account_management.admin_manager.gender_admin.other' })
+                        : intl.formatMessage({ id: 'body_admin.account_management.admin_manager.gender_admin.unselected' })
             }</div>
-            <div><strong><FormattedMessage id="admin.detail.role" defaultMessage="Vai trò" />:</strong> {
+            <div><strong><FormattedMessage id="body_admin.account_management.admin_manager.detail_admin.role" defaultMessage="Vai trò" />:</strong> {
                user.roleId === 1
-                  ? intl.formatMessage({ id: 'role.admin' })
-                  : intl.formatMessage({ id: 'role.user' })
+                  ? intl.formatMessage({ id: 'body_admin.account_management.admin_manager.role_admin.admin' })
+                  : intl.formatMessage({ id: 'body_admin.account_management.admin_manager.role_admin.user' })
             }</div>
          </div>
 
          <div className="admin-detail-actions">
             <button className="btn-edit" onClick={handleEdit}>
-               <FormattedMessage id="admin.detail.edit_button" defaultMessage="Cập nhật thông tin" />
+               <FormattedMessage id="body_admin.account_management.admin_manager.detail_admin.edit_button" defaultMessage="Cập nhật thông tin" />
             </button>
             <button className="btn-back" onClick={() => navigate('/admin/account-management/admin-management')}>
-               <FormattedMessage id="admin.detail.back_button" defaultMessage="Quay lại" />
+               <FormattedMessage id="body_admin.account_management.admin_manager.detail_admin.back_button" defaultMessage="Quay lại" />
             </button>
          </div>
       </div>

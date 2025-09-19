@@ -542,3 +542,50 @@
       }
    }
 }
+
+// ==============================================
+// 📊 STOCK BADGE STYLES
+// ==============================================
+.stock-badge {
+   padding: 4px 8px;
+   border-radius: 6px;
+   font-weight: 600;
+   font-size: 14px;
+   display: inline-block;
+   min-width: 40px;
+   text-align: center;
+
+   &.in-stock {
+      background-color: #dcfce7;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+   }
+
+   &.out-of-stock {
+      background-color: #fef2f2;
+      color: #dc2626;
+      border: 1px solid #fecaca;
+      font-weight: 700;
+
+      &::after {
+         content: ' ❌';
+         font-size: 12px;
+         margin-left: 4px;
+      }
+   }
+
+   // Dark theme support
+   .product-manager-container.dark & {
+      &.in-stock {
+         background-color: #14532d;
+         color: #bbf7d0;
+         border-color: #22c55e;
+      }
+
+      &.out-of-stock {
+         background-color: #7f1d1d;
+         color: #fecaca;
+         border-color: #ef4444;
+      }
+   }
+}

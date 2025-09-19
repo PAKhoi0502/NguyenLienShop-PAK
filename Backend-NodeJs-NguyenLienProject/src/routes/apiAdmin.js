@@ -10,6 +10,7 @@ const router = express.Router();
 // Dashboard routes
 router.get('/dashboard-stats', verifyToken, isRole(1), dashboardController.handleGetDashboardStats);
 router.get('/account-stats', verifyToken, isRole(1), dashboardController.handleGetAccountStats);
+router.get('/account-count-stats', verifyToken, isRole(1), dashboardController.handleGetAccountCountStats);
 
 // Admin routes
 router.post('/admin-register', verifyToken, isRole(1), adminController.handleCreateAdminForAdmin);

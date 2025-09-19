@@ -45,6 +45,17 @@ const handleLogin = async (req, res) => {
          rememberMe
       });
    } catch (error) {
+      console.error('❌ Login error:', error.message);
+
+      // 🚨 Special handling for database auto-increment errors
+      if (error.message?.includes('auto-increment') || error.code === 'ER_AUTOINC_READ_FAILED') {
+         return authResponseHelper.sendAuthErrorResponse(res, {
+            status: 503,
+            errCode: -1,
+            message: 'Hệ thống đang bảo trì. Vui lòng thử lại sau.'
+         });
+      }
+
       return authResponseHelper.sendServerErrorResponse(res, 'Lỗi server khi đăng nhập', error);
    }
 };

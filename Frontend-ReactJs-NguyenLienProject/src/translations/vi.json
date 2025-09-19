@@ -1,4 +1,14 @@
 {
+    "common": {
+        "ok": "OK",
+        "error": "Lỗi",
+        "cancel": "Hủy",
+        "confirm": "Xác nhận",
+        "not_available": "N/A",
+        "phone_label": "Điện thoại:",
+        "id_label": "ID:",
+        "admin_id_prefix": "ID Quản trị:"
+    },
     "login": {
         "title": "Chào mừng bạn",
         "subtitle": "Đăng nhập để tiếp tục",
@@ -34,12 +44,16 @@
         "error_password_mismatch": "Mật khẩu không khớp!",
         "error_failed": "Đăng ký thất bại!"
     },
+    "logout": {
+        "success": "Đăng xuất thành công!",
+        "success_message": "Bạn đã đăng xuất khỏi tài khoản.",
+        "failed_title": "Lỗi đăng xuất",
+        "error": "Đăng xuất thất bại!"
+    },
     "header_public": {
         "language_changed": "Đổi ngôn ngữ",
         "language_vi": "Ngôn ngữ: Tiếng Việt",
         "language_en": "Ngôn ngữ: Tiếng Anh",
-        "logout_title": "Đăng xuất",
-        "logout_message": "Bạn đã đăng xuất thành công!",
         "menu.new": "Hàng mới",
         "menu.promotion": "Khuyến mãi",
         "menu.bagType": "Loại túi",
@@ -113,219 +127,17 @@
         "confirm_title": "UY TÍN - BẢO MẬT",
         "bottom": "© 2025 Lưới Nông Sản Việt. All rights reserved."
     },
-    "admin": {
-        "create_title": "Tạo tài khoản Quản trị viên",
-        "label": {
-            "phone": "Số điện thoại",
-            "password": "Mật khẩu",
-            "confirm_password": "Xác nhận mật khẩu"
-        },
-        "placeholder": {
-            "phone": "Nhập số điện thoại",
-            "password": "Nhập mật khẩu (tối thiểu 6 ký tự)",
-            "confirm_password": "Nhập lại mật khẩu"
-        },
-        "creating": "Đang tạo...",
-        "create_button": "Tạo tài khoản",
-        "cancel": "Hủy",
-        "create_success_title": "Thành công",
-        "create_success_message": "Tài khoản quản trị viên đã được tạo thành công.",
-        "create_error_title": "Lỗi",
-        "create_error_message": "Đã xảy ra lỗi khi tạo tài khoản.",
-        "error": {
-            "no_response": "Không nhận được phản hồi từ server!",
-            "phone_exists": "Số điện thoại đã tồn tại!",
-            "incomplete_info": "Bạn chưa nhập đủ thông tin."
-        },
-        "validation": {
-            "phone_required": "Vui lòng nhập số điện thoại.",
-            "phone_invalid": "Số điện thoại không hợp lệ.",
-            "password_short": "Mật khẩu tối thiểu 6 ký tự.",
-            "confirm_required": "Vui lòng nhập lại mật khẩu.",
-            "password_mismatch": "Mật khẩu xác nhận không khớp."
-        },
-        "detail": {
-            "title": "Thông tin quản trị viên",
-            "loading": "Đang tải dữ liệu...",
-            "not_found": "Không tìm thấy quản trị viên",
-            "nickname": "Biệt danh",
-            "fullname": "Họ tên",
-            "email": "Email",
-            "phone": "Số điện thoại",
-            "birthday": "Ngày sinh",
-            "gender": "Giới tính",
-            "role": "Vai trò",
-            "hidden_field": "(Ẩn - cập nhật ở trang khác)",
-            "empty": "Chưa có",
-            "edit_button": "Cập nhật thông tin",
-            "back_button": "Quay lại"
-        },
-        "update": {
-            "title": "Chỉnh sửa quản trị viên",
-            "not_found": "Không tìm thấy quản trị viên.",
-            "missing_id": "Thiếu ID quản trị viên.",
-            "no_response": "Không nhận được phản hồi từ server!",
-            "success_message": "Cập nhật quản trị viên thành công!",
-            "failed": "Đã xảy ra lỗi khi cập nhật quản trị viên.",
-            "username": "Biệt danh",
-            "username_placeholder": "Nhập biệt danh",
-            "fullname": "Họ tên đầy đủ",
-            "fullname_placeholder": "Nhập họ tên đầy đủ",
-            "birthday": "Ngày sinh",
-            "gender": "Giới tính",
-            "select_gender": "-- Chọn giới tính --",
-            "role": "Vai trò",
-            "updating": "Đang cập nhật...",
-            "submit": "Lưu thay đổi",
-            "cancel": "Hủy"
-        },
-        "update_success_title": "Thành công",
-        "update_error_title": "Lỗi",
-        "delete": {
-            "button": "Xóa",
-            "not_found": "Không tìm thấy quản trị viên để xóa!",
-            "no_name": "Không có tên",
-            "confirm_title_1": "Bạn chắc chắn muốn xóa quản trị viên này?",
-            "confirm_button_1": "Xác nhận",
-            "cancel_button": "Hủy",
-            "confirm_title_2": "Bạn thực sự muốn xóa?",
-            "confirm_text_2": "Hành động này sẽ không thể hoàn tác!",
-            "confirm_button_2": "Vẫn Xóa",
-            "success": "Xóa quản trị viên thành công!",
-            "failed": "Không thể xóa quản trị viên này!",
-            "error": "Đã xảy ra lỗi khi xóa quản trị viên này."
-        },
-        "manager": {
-            "title": "Quản lý quản trị viên",
-            "create_button": "Tạo quản trị viên",
-            "search_placeholder": "Tìm kiếm theo tên, email hoặc họ tên...",
-            "loading": "Đang tải...",
-            "load_error": "Không thể tải danh sách quản trị viên.",
-            "username": "Tên người dùng",
-            "fullname": "Họ và tên",
-            "phone": "Số điện thoại",
-            "gender": "Giới tính",
-            "birthday": "Ngày sinh",
-            "role": "Vai trò",
-            "actions": "Hành động",
-            "detail": "Chi tiết",
-            "update": "Cập nhật",
-            "empty": "Không có người dùng nào phù hợp.",
-            "Male": "Nam",
-            "Female": "Nữ"
-        }
-    },
     "gender": {
         "male": "Nam",
         "female": "Nữ",
         "other": "Khác",
-        "unselected": "Chưa chọn"
+        "unselected": "Chưa chọn",
+        "select": "-- Chọn giới tính --",
+        "unknown": "Không xác định"
     },
     "role": {
         "admin": "Quản trị viên",
         "user": "Người dùng"
-    },
-    "user": {
-        "update_success_title": "Thành công",
-        "update_error_title": "Lỗi",
-        "create": {
-            "title": "Tạo tài khoản người dùng",
-            "phone": "Số điện thoại *",
-            "phone_placeholder": "Nhập số điện thoại",
-            "password": "Mật khẩu *",
-            "password_placeholder": "Nhập mật khẩu (tối thiểu 6 ký tự)",
-            "confirm_password": "Xác nhận mật khẩu *",
-            "confirm_password_placeholder": "Nhập lại mật khẩu",
-            "submit": "Tạo tài khoản",
-            "creating": "Đang tạo...",
-            "cancel": "Hủy",
-            "success_message": "Tạo tài khoản thành công!",
-            "error": {
-                "no_response": "Không nhận được phản hồi từ server!",
-                "phone_exists": "Số điện thoại đã tồn tại!",
-                "incomplete": "Bạn chưa nhập đủ thông tin.",
-                "generic": "Tạo tài khoản thất bại."
-            },
-            "validate": {
-                "phone_required": "Vui lòng nhập số điện thoại.",
-                "phone_invalid": "Số điện thoại không hợp lệ.",
-                "password_short": "Mật khẩu tối thiểu 6 ký tự.",
-                "confirm_required": "Vui lòng nhập lại mật khẩu.",
-                "password_mismatch": "Mật khẩu xác nhận không khớp."
-            }
-        },
-        "create_success_title": "Thành công",
-        "create_error_title": "Lỗi",
-        "manager": {
-            "title": "Quản lý người dùng",
-            "create_button": "Tạo người dùng",
-            "search_placeholder": "Tìm kiếm theo tên, email hoặc họ tên...",
-            "loading": "Đang tải...",
-            "load_error": "Không thể tải danh sách người dùng.",
-            "username": "Tên người dùng",
-            "fullname": "Họ và tên",
-            "phone": "Số điện thoại",
-            "gender": "Giới tính",
-            "birthday": "Ngày sinh",
-            "role": "Vai trò",
-            "actions": "Hành động",
-            "detail": "Chi tiết",
-            "update": "Cập nhật",
-            "empty": "Không có người dùng nào phù hợp."
-        },
-        "detail": {
-            "title": "Thông tin người dùng",
-            "loading": "Đang tải dữ liệu...",
-            "not_found": "Không tìm thấy người dùng",
-            "username": "Biệt danh",
-            "fullname": "Họ tên",
-            "email": "Email",
-            "phone": "Số điện thoại",
-            "birthday": "Ngày sinh",
-            "gender": "Giới tính",
-            "role": "Vai trò",
-            "missing": "Chưa có",
-            "hidden": "(Ẩn - cập nhật ở trang khác)",
-            "edit_button": "Cập nhật thông tin",
-            "back_button": "Quay lại"
-        },
-        "update": {
-            "title": "Chỉnh sửa người dùng",
-            "username": "Biệt danh",
-            "fullname": "Họ tên đầy đủ",
-            "birthday": "Ngày sinh",
-            "gender": "Giới tính",
-            "select_gender": "-- Chọn giới tính --",
-            "save": "Lưu thay đổi",
-            "cancel": "Hủy",
-            "saving": "Đang cập nhật...",
-            "success": "Cập nhật thông tin thành công!",
-            "error": {
-                "not_found": "Không tìm thấy người dùng.",
-                "missing_id": "Thiếu ID người dùng.",
-                "no_response": "Không nhận được phản hồi từ server!",
-                "default": "Đã xảy ra lỗi khi cập nhật người dùng."
-            }
-        },
-        "delete": {
-            "error": {
-                "not_found": "Không tìm thấy người dùng để xóa!",
-                "cannot_delete": "Không thể xóa người dùng!",
-                "server": "Đã xảy ra lỗi khi xóa người dùng."
-            },
-            "confirm_title": "Bạn chắc chắn muốn xóa người dùng này?",
-            "confirm_title_final": "Bạn thực sự muốn xóa?",
-            "confirm_text_final": "Hành động này sẽ không thể hoàn tác!",
-            "confirm_delete_now": "Xóa ngay",
-            "no_name": "Không có tên",
-            "success": "Xóa người dùng thành công!"
-        },
-        "common": {
-            "confirm": "Xác nhận",
-            "cancel": "Hủy",
-            "delete": "Xóa",
-            "no": "Không"
-        }
     },
     "header_admin": {
         "language_changed": "Đổi ngôn ngữ",
@@ -438,6 +250,354 @@
                 "delete_error_title": "Lỗi",
                 "blocked_active": "Không thể xóa banner đang hiển thị. Vui lòng ẩn nó trước."
             }
+        },
+        "account_management": {
+            "admin_manager": {
+                "load_error": "Không thể tải danh sách quản trị viên.",
+                "detail": "Chi tiết",
+                "update": "Cập nhật",
+                "empty": "Không có quản trị viên nào phù hợp.",
+                "title": "Quản lý tài khoản quản trị viên",
+                "create_button": "Tạo quản trị viên",
+                "search_placeholder": "Tìm kiếm theo tên, email hoặc họ tên...",
+                "loading": "Đang tải...",
+                "username": "Tên người dùng",
+                "fullname": "Họ và tên",
+                "phone": "Số điện thoại",
+                "gender": "Giới tính",
+                "birthday": "Ngày sinh",
+                "role": "Vai trò",
+                "actions": "Hành động",
+                "not_found": "Không tìm thấy quản trị viên",
+                "create_title": "Tạo tài khoản Quản trị viên",
+                "label": {
+                    "phone": "Số điện thoại",
+                    "password": "Mật khẩu",
+                    "confirm_password": "Xác nhận mật khẩu"
+                },
+                "placeholder": {
+                    "phone": "Nhập số điện thoại",
+                    "password": "Nhập mật khẩu (tối thiểu 6 ký tự)",
+                    "confirm_password": "Nhập lại mật khẩu"
+                },
+                "creating": "Đang tạo...",
+                "cancel": "Hủy",
+                "create_success_title": "Thành công",
+                "create_success_message": "Tài khoản quản trị viên đã được tạo thành công.",
+                "create_error_title": "Lỗi",
+                "create_error_message": "Đã xảy ra lỗi khi tạo tài khoản.",
+                "error": {
+                    "no_response": "Không nhận được phản hồi từ server!",
+                    "phone_exists": "Số điện thoại đã tồn tại!",
+                    "incomplete_info": "Bạn chưa nhập đủ thông tin."
+                },
+                "validation": {
+                    "phone_required": "Vui lòng nhập số điện thoại.",
+                    "phone_invalid": "Số điện thoại không hợp lệ.",
+                    "password_short": "Mật khẩu tối thiểu 6 ký tự.",
+                    "confirm_required": "Vui lòng nhập lại mật khẩu.",
+                    "password_mismatch": "Mật khẩu xác nhận không khớp."
+                },
+                "detail_admin": {
+                    "title": "Thông tin quản trị viên",
+                    "loading": "Đang tải dữ liệu...",
+                    "not_found": "Không tìm thấy quản trị viên",
+                    "nickname": "Biệt danh",
+                    "fullname": "Họ tên",
+                    "email": "Email",
+                    "phone": "Số điện thoại",
+                    "birthday": "Ngày sinh",
+                    "gender": "Giới tính",
+                    "role": "Vai trò",
+                    "hidden_field": "(Ẩn - cập nhật ở trang khác)",
+                    "empty": "Chưa có",
+                    "edit_button": "Cập nhật thông tin",
+                    "back_button": "Quay lại"
+                },
+                "gender_admin": {
+                    "male": "Nam",
+                    "female": "Nữ",
+                    "other": "Khác",
+                    "unselected": "Chưa chọn",
+                    "select": "-- Chọn giới tính --",
+                    "unknown": "Không rõ"
+                },
+                "role_admin": {
+                    "admin": "Quản trị viên",
+                    "user": "Người dùng"
+                },
+                "update_admin": {
+                    "title": "Chỉnh sửa quản trị viên",
+                    "not_found": "Không tìm thấy quản trị viên.",
+                    "missing_id": "Thiếu ID quản trị viên.",
+                    "no_response": "Không nhận được phản hồi từ server!",
+                    "success_message": "Cập nhật quản trị viên thành công!",
+                    "failed": "Đã xảy ra lỗi khi cập nhật quản trị viên.",
+                    "username": "Biệt danh",
+                    "username_placeholder": "Nhập biệt danh",
+                    "fullname": "Họ tên đầy đủ",
+                    "fullname_placeholder": "Nhập họ tên đầy đủ",
+                    "birthday": "Ngày sinh",
+                    "birthday_placeholder": "Chọn ngày sinh của bạn",
+                    "years_old": "tuổi",
+                    "gender": "Giới tính",
+                    "select_gender": "-- Chọn giới tính --",
+                    "role": "Vai trò",
+                    "updating": "Đang cập nhật...",
+                    "submit": "Lưu thay đổi",
+                    "cancel": "Hủy"
+                },
+                "update_success_title": "Thành công",
+                "update_error_title": "Lỗi",
+                "delete": {
+                    "button": "Xóa",
+                    "not_found": "Không tìm thấy quản trị viên để xóa!",
+                    "no_name": "Không có tên",
+                    "confirm_title_1": "Bạn chắc chắn muốn xóa quản trị viên này?",
+                    "confirm_button_1": "Xác nhận",
+                    "cancel_button": "Hủy",
+                    "confirm_title_2": "Bạn thực sự muốn xóa?",
+                    "confirm_text_2": "Hành động này sẽ không thể hoàn tác!",
+                    "confirm_button_2": "Vẫn Xóa",
+                    "security_title": "Xác nhận bảo mật",
+                    "security_warning": "⚠️ Hành động này không thể hoàn tác!",
+                    "security_confirm_text": "Để xác nhận xóa quản trị viên",
+                    "security_type_exact": "Vui lòng nhập chính xác",
+                    "security_phrase": "TÔI MUỐN XÓA QUẢN TRỊ VIÊN NÀY",
+                    "security_placeholder": "Nhập cụm từ xác nhận...",
+                    "security_continue": "Tiếp tục",
+                    "security_error": "Vui lòng nhập chính xác cụm từ: \"TÔI MUỐN XÓA QUẢN TRỊ VIÊN NÀY\"",
+                    "password_title": "Yêu cầu mật khẩu quản trị viên",
+                    "password_security_check": "🔐 Kiểm tra bảo mật cuối cùng",
+                    "password_instruction": "Vui lòng nhập mật khẩu quản trị viên để hoàn tất việc xóa:",
+                    "password_placeholder": "Nhập mật khẩu của bạn...",
+                    "password_button": "Xóa quản trị viên",
+                    "password_required": "Mật khẩu là bắt buộc",
+                    "password_min_length": "Mật khẩu phải có ít nhất 6 ký tự",
+                    "success": "Xóa quản trị viên thành công!",
+                    "failed": "Không thể xóa quản trị viên này!",
+                    "error": "Đã xảy ra lỗi khi xóa quản trị viên này."
+                },
+                "manager": {
+                    "title": "Quản lý quản trị viên",
+                    "create_button": "Tạo quản trị viên",
+                    "search_placeholder": "Tìm kiếm theo tên, email hoặc họ tên...",
+                    "loading": "Đang tải...",
+                    "load_error": "Không thể tải danh sách quản trị viên.",
+                    "username": "Tên người dùng",
+                    "fullname": "Họ và tên",
+                    "phone": "Số điện thoại",
+                    "gender": "Giới tính",
+                    "birthday": "Ngày sinh",
+                    "role": "Vai trò",
+                    "actions": "Hành động",
+                    "detail": "Chi tiết",
+                    "update": "Cập nhật",
+                    "empty": "Không có người dùng nào phù hợp.",
+                    "Male": "Nam",
+                    "Female": "Nữ"
+                }
+            },
+            "user_manager": {
+                "load_error": "Không thể tải danh sách người dùng.",
+                "detail": "Chi tiết",
+                "update": "Cập nhật",
+                "empty": "Không có người dùng nào phù hợp.",
+                "title": "Quản lý tài khoản người dùng",
+                "create_button": "Tạo người dùng",
+                "search_placeholder": "Tìm kiếm theo tên, email hoặc họ tên...",
+                "loading": "Đang tải...",
+                "username": "Tên người dùng",
+                "fullname": "Họ và tên",
+                "phone": "Số điện thoại",
+                "gender": "Giới tính",
+                "birthday": "Ngày sinh",
+                "role": "Vai trò",
+                "actions": "Hành động",
+                "not_found": "Không tìm thấy người dùng",
+                "update_success_title": "Thành công",
+                "update_error_title": "Lỗi",
+                "create": {
+                    "title": "Tạo tài khoản người dùng",
+                    "phone": "Số điện thoại *",
+                    "phone_placeholder": "Nhập số điện thoại",
+                    "password": "Mật khẩu *",
+                    "password_placeholder": "Nhập mật khẩu (tối thiểu 6 ký tự)",
+                    "confirm_password": "Xác nhận mật khẩu *",
+                    "confirm_password_placeholder": "Nhập lại mật khẩu",
+                    "submit": "Tạo tài khoản",
+                    "creating": "Đang tạo...",
+                    "cancel": "Hủy",
+                    "success_message": "Tạo tài khoản thành công!",
+                    "error": {
+                        "no_response": "Không nhận được phản hồi từ server!",
+                        "phone_exists": "Số điện thoại đã tồn tại!",
+                        "incomplete": "Bạn chưa nhập đủ thông tin.",
+                        "generic": "Tạo tài khoản thất bại."
+                    },
+                    "validate": {
+                        "phone_required": "Vui lòng nhập số điện thoại.",
+                        "phone_invalid": "Số điện thoại không hợp lệ.",
+                        "password_short": "Mật khẩu tối thiểu 6 ký tự.",
+                        "confirm_required": "Vui lòng nhập lại mật khẩu.",
+                        "password_mismatch": "Mật khẩu xác nhận không khớp."
+                    }
+                },
+                "create_success_title": "Thành công",
+                "create_error_title": "Lỗi",
+                "delete_success_title": "Thành công",
+                "delete_error_title": "Lỗi",
+                "manager": {
+                    "title": "Quản lý người dùng",
+                    "create_button": "Tạo người dùng",
+                    "search_placeholder": "Tìm kiếm theo tên, email hoặc họ tên...",
+                    "loading": "Đang tải...",
+                    "load_error": "Không thể tải danh sách người dùng.",
+                    "username": "Tên người dùng",
+                    "fullname": "Họ và tên",
+                    "phone": "Số điện thoại",
+                    "gender": "Giới tính",
+                    "birthday": "Ngày sinh",
+                    "role": "Vai trò",
+                    "actions": "Hành động",
+                    "detail": "Chi tiết",
+                    "update": "Cập nhật",
+                    "empty": "Không có người dùng nào phù hợp."
+                },
+                "detail_user": {
+                    "title": "Thông tin người dùng",
+                    "loading": "Đang tải dữ liệu...",
+                    "not_found": "Không tìm thấy người dùng",
+                    "username": "Biệt danh",
+                    "fullname": "Họ tên",
+                    "email": "Email",
+                    "phone": "Số điện thoại",
+                    "birthday": "Ngày sinh",
+                    "gender": "Giới tính",
+                    "role": "Vai trò",
+                    "missing": "Chưa có",
+                    "hidden": "(Ẩn - cập nhật ở trang khác)",
+                    "edit_button": "Cập nhật thông tin",
+                    "back_button": "Quay lại"
+                },
+                "gender_user": {
+                    "male": "Nam",
+                    "female": "Nữ",
+                    "other": "Khác",
+                    "unselected": "Chưa chọn",
+                    "select": "-- Chọn giới tính --",
+                    "unknown": "Không rõ"
+                },
+                "role_user": {
+                    "admin": "Quản trị viên",
+                    "user": "Người dùng"
+                },
+                "update_user": {
+                    "placeholder": {
+                        "username": "Nhập biệt danh",
+                        "fullname": "Nhập họ tên đầy đủ"
+                    },
+                    "title": "Chỉnh sửa người dùng",
+                    "username": "Biệt danh",
+                    "fullname": "Họ tên đầy đủ",
+                    "birthday": "Ngày sinh",
+                    "gender": "Giới tính",
+                    "select_gender": "-- Chọn giới tính --",
+                    "save": "Lưu thay đổi",
+                    "cancel": "Hủy",
+                    "saving": "Đang cập nhật...",
+                    "success": "Cập nhật thông tin thành công!",
+                    "error": {
+                        "not_found": "Không tìm thấy người dùng.",
+                        "missing_id": "Thiếu ID người dùng.",
+                        "no_response": "Không nhận được phản hồi từ server!",
+                        "default": "Đã xảy ra lỗi khi cập nhật người dùng."
+                    }
+                },
+                "delete": {
+                    "confirm_button_1": "Xác nhận",
+                    "cancel_button": "Hủy",
+                    "confirm_title_1": "Bạn chắc chắn muốn xóa người dùng này?",
+                    "confirm_title_2": "Bạn thực sự muốn xóa?",
+                    "confirm_text_2": "Hành động này sẽ không thể hoàn tác!",
+                    "confirm_button_2": "Xóa ngay",
+                    "button": "Xóa",
+                    "security_title": "Xác nhận bảo mật",
+                    "security_warning": "⚠️ Hành động này không thể hoàn tác!",
+                    "security_confirm_text": "Để xác nhận xóa người dùng",
+                    "security_type_exact": "Vui lòng nhập chính xác",
+                    "security_phrase": "TÔI MUỐN XÓA NGƯỜI DÙNG NÀY",
+                    "security_placeholder": "Nhập cụm từ xác nhận...",
+                    "security_continue": "Tiếp tục",
+                    "security_error": "Vui lòng nhập chính xác cụm từ: \"TÔI MUỐN XÓA NGƯỜI DÙNG NÀY\"",
+                    "password_title": "Yêu cầu mật khẩu quản trị viên",
+                    "password_security_check": "🔐 Kiểm tra bảo mật cuối cùng",
+                    "password_instruction": "Vui lòng nhập mật khẩu quản trị viên để hoàn tất việc xóa:",
+                    "password_placeholder": "Nhập mật khẩu của bạn...",
+                    "password_button": "Xóa người dùng",
+                    "password_required": "Mật khẩu là bắt buộc",
+                    "password_min_length": "Mật khẩu phải có ít nhất 6 ký tự",
+                    "error": {
+                        "not_found": "Không tìm thấy người dùng để xóa!",
+                        "cannot_delete": "Không thể xóa người dùng!",
+                        "server": "Đã xảy ra lỗi khi xóa người dùng."
+                    },
+                    "confirm_title": "Bạn chắc chắn muốn xóa người dùng này?",
+                    "confirm_title_final": "Bạn thực sự muốn xóa?",
+                    "confirm_text_final": "Hành động này sẽ không thể hoàn tác!",
+                    "confirm_delete_now": "Xóa ngay",
+                    "no_name": "Không có tên",
+                    "success": "Xóa người dùng thành công!"
+                },
+                "common": {
+                    "confirm": "Xác nhận",
+                    "cancel": "Hủy",
+                    "delete": "Xóa",
+                    "no": "Không"
+                }
+            }
+        },
+        "product_management": {
+            "title": "Quản lý sản phẩm",
+            "subtitle": "Chức năng đang phát triển...",
+            "error_title": "Lỗi",
+            "error_message": "Không thể tải danh sách sản phẩm.",
+            "success_title": "Thành công",
+            "success_message": "Danh sách sản phẩm đã được tải thành công.",
+            "load_error": "Không thể tải danh sách sản phẩm.",
+            "loading": "Đang tải sản phẩm...",
+            "empty": "Không có sản phẩm nào phù hợp.",
+            "update_blocked": "Chức năng cập nhật sản phẩm đang bị khóa.",
+            "create_blocked": "Chức năng tạo sản phẩm đang bị khóa.",
+            "title_header": "Quản lý sản phẩm",
+            "create_button": "Tạo sản phẩm",
+            "hint_title": "Chức năng quản lý sản phẩm đang được phát triển. Vui lòng quay lại sau.",
+            "hint_1": "1. Sử dụng nút 'Tạo sản phẩm' để thêm sản phẩm mới vào hệ thống.",
+            "hint_2": "2. Chỉ có thể cập nhật sản phẩm khi đã ẩn sản phẩm khỏi trang chủ.",
+            "hint_3": "3. Sử dụng bộ lọc để tìm sản phẩm theo trạng thái hiển thị.",
+            "hint_4": "4. Chức năng tìm kiếm hỗ trợ tìm theo tên sản phẩm hoặc ID.",
+            "hint_5": "5. Quản lý danh mục sản phẩm thông qua nút 'Danh mục'.",
+            "filter_status": "Lọc trạng thái:",
+            "search_placeholder": "Tìm kiếm theo tên sản phẩm, ID...",
+            "filter_all": "Tất cả",
+            "filter_active": "Đang hiển thị",
+            "filter_inactive": "Đã ẩn",
+            "filter_out_of_stock": "Hết hàng",
+            "title_status": "Trạng thái",
+            "name": "Tên sản phẩm",
+            "category": "Danh mục",
+            "price": "Giá",
+            "stock": "Tồn kho",
+            "status": "Trạng thái",
+            "actions": "Hành động",
+            "empty_body": "Không có sản phẩm nào phù hợp.",
+            "detail": "Chi tiết",
+            "update": "Cập nhật",
+            "info_category": "Quản lý danh mục",
+            "deactivate_button": "Ẩn",
+            "activate_button": "Hiển thị",
+            "delete_button": "Xóa",
+            "title_head": "Quản lý sản phẩm"
         }
     },
     "footer_admin": {
@@ -445,7 +605,16 @@
             "total_users": "Tổng người dùng",
             "total_products": "Tổng sản phẩm",
             "total_banners": "Tổng banner",
-            "total_orders": "Tổng đơn hàng"
+            "active_banners": "Banner đang hoạt động",
+            "total_orders": "Tổng đơn hàng",
+            "account_dashboard": {
+                "total_admins": "Tổng quản trị viên",
+                "total_users": "Tổng người dùng",
+                "total_customers": "Tổng khách hàng",
+                "total_accounts": "Tổng tài khoản",
+                "active_users": "Người dùng hoạt động",
+                "inactive_users": "Người dùng không hoạt động"
+            }
         }
     },
     "dashboard": {
@@ -457,6 +626,17 @@
         "product_description": "Quản lý sản phẩm và danh mục",
         "homepage_management": "Quản lý trang chủ",
         "homepage_description": "Quản lý banner và nội dung trang chủ",
-        "account_dashboard": {}
+        "account_dashboard": {
+            "title": "Quản lý tài khoản",
+            "subtitle": "Quản lý tài khoản quản trị viên và người dùng hệ thống",
+            "admin_management": "Quản lý tài khoản quản trị viên",
+            "admin_description": "Tạo, chỉnh sửa và quản lý tài khoản admin",
+            "user_management": "Quản lý tài khoản người dùng",
+            "user_description": "Tạo, chỉnh sửa và quản lý tài khoản người dùng",
+            "total_accounts": "Tổng tài khoản",
+            "total": "Tổng",
+            "active": "Hoạt động",
+            "manage": "Quản lý"
+        }
     }
 }

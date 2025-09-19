@@ -78,7 +78,36 @@ let getAccountStats = async () => {
    }
 };
 
+// Lấy số lượng admin và user đơn giản
+let getAccountCountStats = async () => {
+   try {
+      // Đếm admin (roleId = 1)
+      const totalAdmins = await db.User.count({
+         where: { roleId: 1 }
+      });
+
+      // Đếm user (roleId = 2)
+      const totalUsers = await db.User.count({
+         where: { roleId: 2 }
+      });
+
+      return {
+         errCode: 0,
+         data: {
+            totalAdmins,
+            totalUsers,
+            totalAccounts: totalAdmins + totalUsers
+         },
+         message: 'Lấy số lượng tài khoản thành công'
+      };
+   } catch (err) {
+      console.error('Error in getAccountCountStats:', err);
+      throw new Error('Lỗi khi lấy số lượng tài khoản');
+   }
+};
+
 export default {
    getDashboardStats,
-   getAccountStats
+   getAccountStats,
+   getAccountCountStats
 };

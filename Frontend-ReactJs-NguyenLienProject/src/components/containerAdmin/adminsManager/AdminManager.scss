@@ -82,10 +82,25 @@
 }
 
 // ==============================================
+// 🔍 ADMIN SEARCH SECTION (Container for search bar and hint)
+// =======================================================
+.admin-search-section {
+   display: flex;
+   align-items: center;
+   gap: spacing(4);
+   margin-bottom: spacing(6);
+
+   @include mobile-only {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: spacing(2);
+   }
+}
+
 // 🔍 ADMIN SEARCH BAR (Red theme)
 // ==============================================
 .admin-search-bar {
-   margin-bottom: spacing(6);
+   flex: 1;
 
    input {
       @include input-base;

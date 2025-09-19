@@ -1,4 +1,14 @@
 {
+    "common": {
+        "ok": "OK",
+        "error": "Error",
+        "cancel": "Cancel",
+        "confirm": "Confirm",
+        "not_available": "N/A",
+        "phone_label": "Phone:",
+        "id_label": "ID:",
+        "admin_id_prefix": "Admin ID:"
+    },
     "login": {
         "title": "Welcome",
         "subtitle": "Login to continue",
@@ -34,12 +44,16 @@
         "error_password_mismatch": "Passwords do not match!",
         "error_failed": "Registration failed!"
     },
+    "logout": {
+        "success": "Logout Successful!",
+        "success_message": "You have been logged out successfully.",
+        "failed_title": "Logout Error",
+        "error": "Logout failed!"
+    },
     "header_public": {
         "language_changed": "Language changed",
         "language_vi": "Language: Vietnamese",
         "language_en": "Language: English",
-        "logout_title": "Logout",
-        "logout_message": "You have logged out successfully!",
         "menu.new": "New Items",
         "menu.promotion": "Promotion",
         "menu.bagType": "Bag Types",
@@ -113,219 +127,17 @@
         "confirm_title": "PRESTIGE - SECURITY",
         "bottom": "© 2025 Viet Agricultural Net. All rights reserved."
     },
-    "admin": {
-        "create_title": "Create Admin Account",
-        "label": {
-            "phone": "Phone Number",
-            "password": "Password",
-            "confirm_password": "Confirm Password"
-        },
-        "placeholder": {
-            "phone": "Enter phone number",
-            "password": "Enter password (at least 6 characters)",
-            "confirm_password": "Re-enter password"
-        },
-        "creating": "Creating...",
-        "create_button": "Create Account",
-        "cancel": "Cancel",
-        "create_success_title": "Successfully",
-        "create_success_message": "The admin account has been created successfully.",
-        "create_error_title": "Error",
-        "create_error_message": "An error occurred while creating the account.",
-        "error": {
-            "no_response": "No response received from the server!",
-            "phone_exists": "Phone number already exists!",
-            "incomplete_info": "You have not entered all required information."
-        },
-        "validation": {
-            "phone_required": "Please enter a phone number.",
-            "phone_invalid": "Invalid phone number.",
-            "password_short": "Password must be at least 6 characters.",
-            "confirm_required": "Please confirm your password.",
-            "password_mismatch": "Password confirmation does not match."
-        },
-        "detail": {
-            "title": "Admin Information",
-            "loading": "Loading data...",
-            "not_found": "Admin not found",
-            "nickname": "Nickname",
-            "fullname": "Full name",
-            "email": "Email",
-            "phone": "Phone number",
-            "birthday": "Birthday",
-            "gender": "Gender",
-            "role": "Role",
-            "hidden_field": "(Hidden - update in another page)",
-            "empty": "Not provided",
-            "edit_button": "Update Information",
-            "back_button": "Back"
-        },
-        "update": {
-            "title": "Edit Administrator",
-            "not_found": "Administrator not found.",
-            "missing_id": "Missing administrator ID.",
-            "no_response": "No response received from server!",
-            "success_message": "Administrator updated successfully!",
-            "failed": "An error occurred while updating the administrator.",
-            "username": "Username",
-            "username_placeholder": "Enter username",
-            "fullname": "Full name",
-            "fullname_placeholder": "Enter full name",
-            "birthday": "Birthday",
-            "gender": "Gender",
-            "select_gender": "-- Select gender --",
-            "role": "Role",
-            "updating": "Updating...",
-            "submit": "Save changes",
-            "cancel": "Cancel"
-        },
-        "update_success_title": "Successful",
-        "update_error_title": "Error",
-        "delete": {
-            "button": "Delete",
-            "not_found": "Administrator not found to delete!",
-            "no_name": "No name",
-            "confirm_title_1": "Are you sure you want to delete this administrator?",
-            "confirm_button_1": "Confirm",
-            "cancel_button": "Cancel",
-            "confirm_title_2": "Do you really want to delete?",
-            "confirm_text_2": "This action cannot be undone!",
-            "confirm_button_2": "Delete now",
-            "success": "Administrator deleted successfully!",
-            "failed": "Unable to delete this administrator!",
-            "error": "An error occurred while deleting this administrator."
-        },
-        "manager": {
-            "title": "Administrator Management",
-            "create_button": "Create Administrator",
-            "search_placeholder": "Search by username, email or full name...",
-            "loading": "Loading...",
-            "load_error": "Unable to load administrator list.",
-            "username": "Username",
-            "fullname": "Full name",
-            "phone": "Phone number",
-            "gender": "Gender",
-            "birthday": "Birthday",
-            "role": "Role",
-            "actions": "Actions",
-            "detail": "Details",
-            "update": "Update",
-            "empty": "No matching users found.",
-            "male": "Male",
-            "female": "Female"
-        }
-    },
     "gender": {
         "male": "Male",
         "female": "Female",
         "other": "Other",
-        "unselected": "Unselected"
+        "unselected": "Unselected",
+        "select": "-- Select Gender --",
+        "unknown": "Unknown"
     },
     "role": {
         "admin": "Administrator",
         "user": "User"
-    },
-    "user": {
-        "update_success_title": "Successful",
-        "update_error_title": "Error",
-        "create": {
-            "title": "Create User Account",
-            "phone": "Phone Number *",
-            "phone_placeholder": "Enter phone number",
-            "password": "Password *",
-            "password_placeholder": "Enter password (at least 6 characters)",
-            "confirm_password": "Confirm Password *",
-            "confirm_password_placeholder": "Re-enter password",
-            "submit": "Create Account",
-            "creating": "Creating...",
-            "cancel": "Cancel",
-            "success_message": "User account created successfully!",
-            "error": {
-                "no_response": "No response received from server!",
-                "phone_exists": "Phone number already exists!",
-                "incomplete": "You have not filled in all required information.",
-                "generic": "Account creation failed."
-            },
-            "validate": {
-                "phone_required": "Please enter a phone number.",
-                "phone_invalid": "Invalid phone number.",
-                "password_short": "Password must be at least 6 characters.",
-                "confirm_required": "Please confirm your password.",
-                "password_mismatch": "Password confirmation does not match."
-            }
-        },
-        "create_success_title": "Successful",
-        "create_error_title": "Creation Error",
-        "manager": {
-            "title": "User Management",
-            "create_button": "Create User",
-            "search_placeholder": "Search by username, email, or full name...",
-            "loading": "Loading...",
-            "load_error": "Failed to load user list.",
-            "username": "Username",
-            "fullname": "Full name",
-            "phone": "Phone number",
-            "gender": "Gender",
-            "birthday": "Birthday",
-            "role": "Role",
-            "actions": "Actions",
-            "detail": "Details",
-            "update": "Update",
-            "empty": "No matching users found."
-        },
-        "detail": {
-            "title": "User Information",
-            "loading": "Loading data...",
-            "not_found": "User not found",
-            "username": "Username",
-            "fullname": "Full name",
-            "email": "Email",
-            "phone": "Phone number",
-            "birthday": "Birthday",
-            "gender": "Gender",
-            "role": "Role",
-            "missing": "Not provided",
-            "hidden": "(Hidden – updated on a different page)",
-            "edit_button": "Update Information",
-            "back_button": "Go Back"
-        },
-        "update": {
-            "title": "Edit User",
-            "username": "Username",
-            "fullname": "Full Name",
-            "birthday": "Birthday",
-            "gender": "Gender",
-            "select_gender": "-- Select Gender --",
-            "save": "Save Changes",
-            "cancel": "Cancel",
-            "saving": "Saving...",
-            "success": "User information updated successfully!",
-            "error": {
-                "not_found": "User not found.",
-                "missing_id": "Missing user ID.",
-                "no_response": "No response from the server!",
-                "default": "An error occurred while updating the user."
-            }
-        },
-        "delete": {
-            "error": {
-                "not_found": "User not found for deletion!",
-                "cannot_delete": "Unable to delete this user!",
-                "server": "An error occurred while deleting the user."
-            },
-            "confirm_title": "Are you sure you want to delete this user?",
-            "confirm_title_final": "Do you really want to delete?",
-            "confirm_text_final": "This action cannot be undone!",
-            "confirm_delete_now": "Delete Now",
-            "no_name": "No Name",
-            "success": "User deleted successfully!"
-        },
-        "common": {
-            "confirm": "Confirm",
-            "cancel": "Cancel",
-            "delete": "Delete",
-            "no": "No"
-        }
     },
     "header_admin": {
         "language_changed": "Language changed",
@@ -438,13 +250,371 @@
                 "delete_error_title": "Error",
                 "blocked_active": "Cannot delete an active banner. Please deactivate it first."
             }
+        },
+        "account_management": {
+            "admin_manager": {
+                "load_error": "Unable to load admin list.",
+                "detail": "Detail",
+                "update": "Update",
+                "empty": "No matching admin found.",
+                "title": "Admin Account Management",
+                "create_button": "Create Admin",
+                "search_placeholder": "Search by name, email or full name...",
+                "loading": "Loading...",
+                "username": "Username",
+                "fullname": "Full Name",
+                "phone": "Phone Number",
+                "gender": "Gender",
+                "birthday": "Birthday",
+                "role": "Role",
+                "actions": "Actions",
+                "not_found": "No matching admin found",
+                "create_title": "Create Admin Account",
+                "label": {
+                    "phone": "Phone Number",
+                    "password": "Password",
+                    "confirm_password": "Confirm Password"
+                },
+                "placeholder": {
+                    "phone": "Enter phone number",
+                    "password": "Enter password (at least 6 characters)",
+                    "confirm_password": "Re-enter password"
+                },
+                "creating": "Creating...",
+                "cancel": "Cancel",
+                "create_success_title": "Successfully",
+                "create_success_message": "Admin account created successfully.",
+                "create_error_title": "Error",
+                "create_error_message": "An error occurred while creating the account.",
+                "error": {
+                    "no_response": "No response from server!",
+                    "phone_exists": "Phone number already exists!",
+                    "incomplete_info": "Incomplete information provided."
+                },
+                "validation": {
+                    "phone_required": "Please enter phone number.",
+                    "phone_invalid": "Invalid phone number.",
+                    "password_short": "Password must be at least 6 characters long.",
+                    "confirm_required": "Please re-enter password.",
+                    "password_mismatch": "Password confirmation does not match."
+                },
+                "detail_admin": {
+                    "title": "Admin Information",
+                    "loading": "Loading data...",
+                    "not_found": "Admin not found",
+                    "nickname": "Nickname",
+                    "fullname": "Full Name",
+                    "email": "Email",
+                    "phone": "Phone Number",
+                    "birthday": "Birthday",
+                    "gender": "Gender",
+                    "role": "Role",
+                    "hidden_field": "(Hidden - update on another page)",
+                    "empty": "No data",
+                    "edit_button": "Edit Information",
+                    "back_button": "Back"
+                },
+                "gender_admin": {
+                    "male": "Male",
+                    "female": "Female",
+                    "other": "Other",
+                    "unselected": "Unselected",
+                    "select": "-- Select Gender --",
+                    "unknown": "Unknown"
+                },
+                "role_admin": {
+                    "admin": "Administrator",
+                    "user": "User"
+                },
+                "update_admin": {
+                    "title": "Edit Administrator",
+                    "not_found": "Administrator not found.",
+                    "missing_id": "Missing administrator ID.",
+                    "no_response": "No response from server!",
+                    "success_message": "Administrator updated successfully!",
+                    "failed": "An error occurred while updating the administrator.",
+                    "username": "Nickname",
+                    "username_placeholder": "Enter nickname",
+                    "fullname": "Full Name",
+                    "fullname_placeholder": "Enter full name",
+                    "birthday": "Birthday",
+                    "birthday_placeholder": "Choose your birthday",
+                    "years_old": "years old",
+                    "gender": "Gender",
+                    "select_gender": "-- Select Gender --",
+                    "role": "Role",
+                    "updating": "Updating...",
+                    "submit": "Save Changes",
+                    "cancel": "Cancel"
+                },
+                "update_success_title": "Success",
+                "update_error_title": "Error",
+                "delete": {
+                    "button": "Delete",
+                    "not_found": "Administrator not found.",
+                    "no_name": "No name",
+                    "confirm_title_1": "Are you sure you want to delete this administrator?",
+                    "confirm_button_1": "Confirm",
+                    "cancel_button": "Cancel",
+                    "confirm_title_2": "Are you sure you want to delete?",
+                    "confirm_text_2": "This action cannot be undone!",
+                    "confirm_button_2": "Delete Anyway",
+                    "security_title": "Security Confirmation",
+                    "security_warning": "⚠️ This action cannot be undone!",
+                    "security_confirm_text": "To confirm the deletion of the administrator",
+                    "security_type_exact": "Please enter exactly",
+                    "security_phrase": "I WANT TO DELETE THIS ADMINISTRATOR",
+                    "security_placeholder": "Enter confirmation phrase...",
+                    "security_continue": "Continue",
+                    "security_error": "Please enter exactly the phrase: \"I WANT TO DELETE THIS ADMINISTRATOR\"",
+                    "password_title": "Administrator Password Required",
+                    "password_security_check": "🔐 Final Security Check",
+                    "password_instruction": "Please enter your administrator password to complete the deletion:",
+                    "password_placeholder": "Enter your password...",
+                    "password_button": "Delete Administrator",
+                    "password_required": "Password is required",
+                    "password_min_length": "Password must be at least 6 characters long",
+                    "success": "Administrator deleted successfully!",
+                    "failed": "Failed to delete this administrator!",
+                    "error": "An error occurred while deleting this administrator."
+                },
+                "manager": {
+                    "title": "Administrator Management",
+                    "create_button": "Create Administrator",
+                    "search_placeholder": "Search by name, email or full name...",
+                    "loading": "Loading...",
+                    "load_error": "Unable to load administrator list.",
+                    "username": "Username",
+                    "fullname": "Full Name",
+                    "phone": "Phone Number",
+                    "gender": "Gender",
+                    "birthday": "Birthday",
+                    "role": "Role",
+                    "actions": "Actions",
+                    "detail": "Details",
+                    "update": "Update",
+                    "empty": "No matching users found.",
+                    "Male": "Male",
+                    "Female": "Female"
+                }
+            },
+            "user_manager": {
+                "load_error": "Unable to load user list.",
+                "detail": "Details",
+                "update": "Update",
+                "empty": "No matching users found.",
+                "title": "User Account Management",
+                "create_button": "Create User",
+                "search_placeholder": "Search by name, email or full name...",
+                "loading": "Loading...",
+                "username": "Username",
+                "fullname": "Full Name",
+                "phone": "Phone Number",
+                "gender": "Gender",
+                "birthday": "Birthday",
+                "role": "Role",
+                "actions": "Actions",
+                "not_found": "User not found",
+                "update_success_title": "Success",
+                "update_error_title": "Error",
+                "create": {
+                    "title": "Create User Account",
+                    "phone": "Phone Number *",
+                    "phone_placeholder": "Enter phone number",
+                    "password": "Password *",
+                    "password_placeholder": "Enter password (minimum 6 characters)",
+                    "confirm_password": "Confirm Password *",
+                    "confirm_password_placeholder": "Re-enter password",
+                    "submit": "Create Account",
+                    "creating": "Creating...",
+                    "cancel": "Cancel",
+                    "success_message": "Account created successfully!",
+                    "error": {
+                        "no_response": "No response from server!",
+                        "phone_exists": "Phone number already exists!",
+                        "incomplete": "Please fill in all required fields.",
+                        "generic": "Failed to create account."
+                    },
+                    "validate": {
+                        "phone_required": "Please enter phone number.",
+                        "phone_invalid": "Invalid phone number.",
+                        "password_short": "Password must be at least 6 characters.",
+                        "confirm_required": "Please re-enter password.",
+                        "password_mismatch": "Password confirmation does not match."
+                    }
+                },
+                "create_success_title": "Success",
+                "create_error_title": "Error",
+                "delete_success_title": "Success",
+                "delete_error_title": "Error",
+                "manager": {
+                    "title": "User Management",
+                    "create_button": "Create User",
+                    "search_placeholder": "Search by name, email or full name...",
+                    "loading": "Loading...",
+                    "load_error": "Unable to load user list.",
+                    "username": "Username",
+                    "fullname": "Full Name",
+                    "phone": "Phone Number",
+                    "gender": "Gender",
+                    "birthday": "Birthday",
+                    "role": "Role",
+                    "actions": "Actions",
+                    "detail": "Details",
+                    "update": "Update",
+                    "empty": "No matching users found."
+                },
+                "detail_user": {
+                    "title": "User Information",
+                    "loading": "Loading data...",
+                    "not_found": "User not found",
+                    "username": "Username",
+                    "fullname": "Full Name",
+                    "email": "Email",
+                    "phone": "Phone Number",
+                    "birthday": "Birthday",
+                    "gender": "Gender",
+                    "role": "Role",
+                    "missing": "Missing",
+                    "hidden": "(Hidden - update on another page)",
+                    "edit_button": "Edit Information",
+                    "back_button": "Back"
+                },
+                "gender_user": {
+                    "male": "Male",
+                    "female": "Female",
+                    "other": "Other",
+                    "unselected": "Unselected",
+                    "select": "-- Select Gender --",
+                    "unknown": "Unknown"
+                },
+                "role_user": {
+                    "admin": "Admin",
+                    "user": "User"
+                },
+                "update_user": {
+                    "placeholder": {
+                        "username": "Enter username",
+                        "fullname": "Enter full name"
+                    },
+                    "title": "Edit User",
+                    "username": "Username",
+                    "fullname": "Full Name",
+                    "birthday": "Birthday",
+                    "gender": "Gender",
+                    "select_gender": "-- Select Gender --",
+                    "save": "Save Changes",
+                    "cancel": "Cancel",
+                    "saving": "Updating...",
+                    "success": "Update user information successfully!",
+                    "error": {
+                        "not_found": "User not found.",
+                        "missing_id": "Missing user ID.",
+                        "no_response": "No response from server!",
+                        "default": "An error occurred while updating user."
+                    }
+                },
+                "delete": {
+                    "confirm_button_1": "Confirm",
+                    "cancel_button": "Cancel",
+                    "confirm_title_1": "Are you sure you want to delete this user?",
+                    "confirm_title_2": "Do you really want to delete?",
+                    "confirm_text_2": "This action cannot be undone!",
+                    "confirm_button_2": "Delete Now",
+                    "button": "Delete",
+                    "security_title": "Security Confirmation",
+                    "security_warning": "⚠️ This action cannot be undone!",
+                    "security_confirm_text": "To confirm user deletion",
+                    "security_type_exact": "Please enter exactly",
+                    "security_phrase": "I WANT TO DELETE THIS USER",
+                    "security_placeholder": "Enter confirmation phrase...",
+                    "security_continue": "Continue",
+                    "security_error": "Please enter the exact phrase: \"I WANT TO DELETE THIS USER\"",
+                    "password_title": "Administrator Password Required",
+                    "password_security_check": "🔐 Final Security Check",
+                    "password_instruction": "Please enter your administrator password to complete the deletion:",
+                    "password_placeholder": "Enter your password...",
+                    "password_button": "Delete User",
+                    "password_required": "Password is required",
+                    "password_min_length": "Password must be at least 6 characters long",
+                    "error": {
+                        "not_found": "User not found!",
+                        "cannot_delete": "Cannot delete user!",
+                        "server": "An error occurred while deleting user."
+                    },
+                    "confirm_title": "Are you sure you want to delete this user?",
+                    "confirm_title_final": "Do you really want to delete?",
+                    "confirm_text_final": "This action cannot be undone!",
+                    "confirm_delete_now": "Delete Now",
+                    "no_name": "No Name",
+                    "success": "User deleted successfully!"
+                },
+                "common": {
+                    "confirm": "Confirm",
+                    "cancel": "Cancel",
+                    "delete": "Delete",
+                    "no": "No"
+                }
+            }
+        },
+        "product_management": {
+            "title": "Product Management",
+            "subtitle": "Feature under development...",
+            "error_title": "Error",
+            "error_message": "Unable to load product list.",
+            "success_title": "Success",
+            "success_message": "Product list loaded successfully.",
+            "load_error": "Unable to load product list.",
+            "loading": "Loading products...",
+            "empty": "No matching products found.",
+            "update_blocked": "Product update feature is blocked.",
+            "create_blocked": "Product creation feature is blocked.",
+            "title_header": "Product Management",
+            "create_button": "Create Product",
+            "hint_title": "Product management feature is under development. Please check back later.",
+            "hint_1": "1. Use the 'Create Product' button to add new products to the system.",
+            "hint_2": "2. Products can only be updated after they have been hidden from the homepage.",
+            "hint_3": "3. Use the filter to find products by display status.",
+            "hint_4": "4. The search function supports searching by product name or ID.",
+            "hint_5": "5. Manage product categories through the 'Categories' button.",
+            "filter_status": "Filter by status:",
+            "search_placeholder": "Search by product name, ID...",
+            "filter_all": "All",
+            "filter_active": "Active",
+            "filter_inactive": "Inactive",
+            "filter_out_of_stock": "Out of Stock",
+            "title_status": "Status",
+            "name": "Product Name",
+            "category": "Category",
+            "price": "Price",
+            "stock": "Stock",
+            "status": "Status",
+            "actions": "Actions",
+            "empty_body": "No matching products found.",
+            "detail": "Details",
+            "update": "Update",
+            "info_category": "Category Management",
+            "deactivate_button": "Deactivate",
+            "activate_button": "Activate",
+            "delete_button": "Delete",
+            "title_head": "Product Management"
         }
     },
     "footer_admin": {
         "dashboard": {
             "total_users": "Total Users",
             "total_banners": "Total Banners",
-            "active_banners": "Active Banners"
+            "active_banners": "Active Banners",
+            "total_products": "Total Products",
+            "total_orders": "Total Orders",
+            "account_dashboard": {
+                "total_admins": "Total Admins",
+                "total_users": "Total Users",
+                "total_customers": "Total Customers",
+                "total_accounts": "Total Accounts",
+                "active_users": "Active Users",
+                "inactive_users": "Inactive Users"
+            }
         }
     },
     "dashboard": {
@@ -455,6 +625,18 @@
         "product_management": "Product Management",
         "product_description": "Manage products and categories",
         "homepage_management": "Homepage Management",
-        "homepage_description": "Manage banners and homepage content"
+        "homepage_description": "Manage banners and homepage content",
+        "account_dashboard": {
+            "title": "Account Management",
+            "subtitle": "Manage admin and system user accounts",
+            "admin_management": "Admin Account Management",
+            "admin_description": "Create, edit, and manage admin accounts",
+            "user_management": "User Account Management",
+            "user_description": "Create, edit, and manage user accounts",
+            "total_accounts": "Total Accounts",
+            "total": "Total",
+            "active": "Active",
+            "manage": "Manage"
+        }
     }
 }

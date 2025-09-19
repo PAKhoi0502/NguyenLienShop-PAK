@@ -75,7 +75,7 @@ const ProductDelete = ({ product }) => {
 
    return (
       <button className="btn-action btn-delete" onClick={handleDelete}>
-         {intl.formatMessage({ id: 'product.delete.button', defaultMessage: 'Xóa' })}
+         {intl.formatMessage({ id: 'body_admin.product_management.delete_button', defaultMessage: 'Xóa' })}
       </button>
    );
 };

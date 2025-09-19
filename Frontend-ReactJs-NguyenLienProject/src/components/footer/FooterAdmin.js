@@ -18,7 +18,8 @@ class Footer extends Component {
          },
          accountStats: {
             totalAdmins: 0,
-            totalCustomers: 0,
+            totalUsers: 0,
+            totalAccounts: 0,
             activeUsers: 0,
             inactiveUsers: 0
          },
@@ -72,11 +73,17 @@ class Footer extends Component {
       try {
          this.setState({ isLoadingAccountStats: true });
 
-         const response = await dashboardService.getAccountStats();
+         const response = await dashboardService.getAccountCountStats();
 
          if (response.errCode === 0) {
             this.setState({
-               accountStats: response.data,
+               accountStats: {
+                  totalAdmins: response.data.totalAdmins || 0,
+                  totalUsers: response.data.totalUsers || 0,
+                  totalAccounts: response.data.totalAccounts || 0,
+                  activeUsers: 1, // Giữ số mẫu
+                  inactiveUsers: 1  // Giữ số mẫu
+               },
                isLoadingAccountStats: false
             });
          } else {
@@ -127,23 +134,23 @@ class Footer extends Component {
             stats: [
                {
                   value: accountStats.totalAdmins || 0,
-                  labelId: "footer_admin.account.total_admins",
+                  labelId: "footer_admin.dashboard.account_dashboard.total_admins",
                   defaultMessage: "Tổng Admin"
                },
                {
-                  value: accountStats.totalCustomers || 0,
-                  labelId: "footer_admin.account.total_customers",
-                  defaultMessage: "Tổng Customer"
+                  value: accountStats.totalUsers || 0,
+                  labelId: "footer_admin.dashboard.account_dashboard.total_users",
+                  defaultMessage: "Tổng User"
                },
                {
                   value: accountStats.activeUsers || 0,
-                  labelId: "footer_admin.account.active_users",
+                  labelId: "footer_admin.dashboard.account_dashboard.active_users",
                   defaultMessage: "Người dùng hoạt động"
                },
                {
-                  value: accountStats.inactiveUsers || 0,
-                  labelId: "footer_admin.account.inactive_users",
-                  defaultMessage: "Người dùng không hoạt động"
+                  value: accountStats.totalAccounts || 0,
+                  labelId: "footer_admin.dashboard.account_dashboard.total_accounts",
+                  defaultMessage: "Tổng tài khoản"
                }
             ]
          };

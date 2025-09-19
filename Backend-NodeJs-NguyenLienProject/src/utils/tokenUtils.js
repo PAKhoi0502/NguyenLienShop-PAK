@@ -29,7 +29,10 @@ const generateRefreshToken = (user) => {
    return jwt.sign(
       {
          id: user.id,
-         type: 'refresh'
+         type: 'refresh',
+         // ✅ Add timestamp and random nonce to ensure uniqueness
+         iat: Math.floor(Date.now() / 1000), // Issued at timestamp
+         jti: Math.random().toString(36).substring(2) + Date.now().toString(36) // Unique JWT ID
       },
       process.env.JWT_REFRESH_SECRET || process.env.JWT_SECRET,
       { expiresIn: '30d' } // 30 days for refresh token

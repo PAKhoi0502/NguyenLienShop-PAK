@@ -38,7 +38,7 @@ const AdminCreate = () => {
             <CustomToast
                {...props}
                type={type}
-               titleId={type === "success" ? "admin.create_success_title" : "admin.create_error_title"}
+               titleId={type === "success" ? "body_admin.account_management.admin_manager.create_success_title" : "body_admin.account_management.admin_manager.create_error_title"}
                message={message}
                time={new Date()}
             />
@@ -66,12 +66,12 @@ const AdminCreate = () => {
          const res = await createAdmin(submitData);
 
          if (!res) {
-            showToast("error", intl.formatMessage({ id: 'admin.error.no_response' }));
+            showToast("error", intl.formatMessage({ id: 'body_admin.account_management.admin_manager.error.no_response' }));
             return;
          }
 
          if (res.errCode === 0) {
-            showToast("success", intl.formatMessage({ id: 'admin.create_success_message' }));
+            showToast("success", intl.formatMessage({ id: 'body_admin.account_management.admin_manager.create_success_message' }));
             setTimeout(() => {
                navigate('/admin/account-management/admin-management');
             }, 1200);
@@ -87,7 +87,7 @@ const AdminCreate = () => {
                res.errMessage.toLowerCase().includes('phone')
             )
          ) {
-            showToast("error", intl.formatMessage({ id: 'admin.error.phone_exists' }));
+            showToast("error", intl.formatMessage({ id: 'body_admin.account_management.admin_manager.error.phone_exists' }));
          } else if (
             res.errMessage &&
             (
@@ -95,13 +95,13 @@ const AdminCreate = () => {
                res.errMessage.toLowerCase().includes('thiếu')
             )
          ) {
-            showToast("error", intl.formatMessage({ id: 'admin.error.incomplete_info' }));
+            showToast("error", intl.formatMessage({ id: 'body_admin.account_management.admin_manager.error.incomplete_info' }));
          } else {
-            showToast("error", res.errMessage || intl.formatMessage({ id: 'admin.create_error_message' }));
+            showToast("error", res.errMessage || intl.formatMessage({ id: 'body_admin.account_management.admin_manager.create_error_message' }));
          }
       } catch (error) {
          console.error('Create error:', error);
-         showToast("error", error.errMessage || intl.formatMessage({ id: 'admin.create_error_message' }));
+         showToast("error", error.errMessage || intl.formatMessage({ id: 'body_admin.account_management.admin_manager.create_error_message' }));
       } finally {
          setLoading(false);
       }
@@ -109,39 +109,39 @@ const AdminCreate = () => {
 
    return (
       <div className="admin-create-container">
-         <h2 className="admin-create-title">{intl.formatMessage({ id: 'admin.create_title' })}</h2>
+         <h2 className="admin-create-title">{intl.formatMessage({ id: 'body_admin.account_management.admin_manager.create_title' })}</h2>
          <form className="admin-create-form" onSubmit={handleSubmit} autoComplete="off">
             <div className="form-group">
-               <label>{intl.formatMessage({ id: 'admin.label.phone' })} *</label>
+               <label>{intl.formatMessage({ id: 'body_admin.account_management.admin_manager.label.phone' })} *</label>
                <input
                   type="text"
                   name="phoneNumber"
                   value={form.phoneNumber}
                   onChange={handleChange}
-                  placeholder={intl.formatMessage({ id: 'admin.placeholder.phone' })}
+                  placeholder={intl.formatMessage({ id: 'body_admin.account_management.admin_manager.placeholder.phone' })}
                   disabled={loading}
                />
             </div>
             <div className="form-group">
-               <label>{intl.formatMessage({ id: 'admin.label.password' })} *</label>
+               <label>{intl.formatMessage({ id: 'body_admin.account_management.admin_manager.label.password' })} *</label>
                <input
                   type="password"
                   name="password"
                   value={form.password}
                   onChange={handleChange}
-                  placeholder={intl.formatMessage({ id: 'admin.placeholder.password' })}
+                  placeholder={intl.formatMessage({ id: 'body_admin.account_management.admin_manager.placeholder.password' })}
                   autoComplete="new-password"
                   disabled={loading}
                />
             </div>
             <div className="form-group">
-               <label>{intl.formatMessage({ id: 'admin.label.confirm_password' })} *</label>
+               <label>{intl.formatMessage({ id: 'body_admin.account_management.admin_manager.label.confirm_password' })} *</label>
                <input
                   type="password"
                   name="confirmPassword"
                   value={form.confirmPassword}
                   onChange={handleChange}
-                  placeholder={intl.formatMessage({ id: 'admin.placeholder.confirm_password' })}
+                  placeholder={intl.formatMessage({ id: 'body_admin.account_management.admin_manager.placeholder.confirm_password' })}
                   autoComplete="new-password"
                   disabled={loading}
                />
@@ -150,8 +150,8 @@ const AdminCreate = () => {
             <div className="form-actions">
                <button type="submit" className="btn-submit" disabled={loading}>
                   {loading
-                     ? intl.formatMessage({ id: 'admin.creating' })
-                     : intl.formatMessage({ id: 'admin.create_button' })}
+                     ? intl.formatMessage({ id: 'body_admin.account_management.admin_manager.creating' })
+                     : intl.formatMessage({ id: 'body_admin.account_management.admin_manager.create_button' })}
                </button>
                <button
                   type="button"
@@ -159,7 +159,7 @@ const AdminCreate = () => {
                   onClick={() => navigate('/admin/account-management/admin-management')}
                   disabled={loading}
                >
-                  {intl.formatMessage({ id: 'admin.cancel' })}
+                  {intl.formatMessage({ id: 'body_admin.account_management.admin_manager.cancel' })}
                </button>
             </div>
          </form>

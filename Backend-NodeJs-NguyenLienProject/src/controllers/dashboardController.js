@@ -30,7 +30,22 @@ let handleGetAccountStats = async (req, res) => {
    }
 };
 
+// Lấy số lượng admin và user đơn giản 
+let handleGetAccountCountStats = async (req, res) => {
+   try {
+      const stats = await dashboardService.getAccountCountStats();
+      return res.status(200).json(stats);
+   } catch (err) {
+      console.error('Error in handleGetAccountCountStats:', err);
+      return res.status(500).json({
+         errCode: -1,
+         errMessage: 'Lỗi server khi lấy số lượng tài khoản'
+      });
+   }
+};
+
 export default {
    handleGetDashboardStats,
-   handleGetAccountStats
+   handleGetAccountStats,
+   handleGetAccountCountStats
 };

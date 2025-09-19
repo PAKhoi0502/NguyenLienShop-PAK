@@ -14,7 +14,7 @@ const AdminDelete = ({ user, onSuccess }) => {
             <CustomToast
                {...props}
                type={type}
-               titleId={type === "success" ? "admin.delete_success_title" : "admin.delete_error_title"}
+               titleId={type === "success" ? "body_admin.account_management.admin_manager.delete.success_title" : "body_admin.account_management.admin_manager.delete.error_title"}
                message={message}
                time={new Date()}
             />
@@ -25,18 +25,18 @@ const AdminDelete = ({ user, onSuccess }) => {
 
    const handleDelete = async () => {
       if (!user || !user.id) {
-         showToast("error", intl.formatMessage({ id: 'admin.delete.not_found' }));
+         showToast("error", intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.not_found' }));
          return;
       }
 
       // Step 1: First confirmation - Show user info
       const confirmFirst = await Swal.fire({
-         title: intl.formatMessage({ id: 'admin.delete.confirm_title_1' }),
-         html: `<strong>${user.fullName || intl.formatMessage({ id: 'admin.delete.no_name' })} (${user.userName || 'N/A'})</strong><br>ID: ${user.id}`,
+         title: intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.confirm_title_1' }),
+         html: `<strong>${user.fullName || intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.no_name' })} (${user.userName || intl.formatMessage({ id: 'common.not_available' })})</strong><br>${intl.formatMessage({ id: 'common.id_label' })} ${user.id}`,
          icon: 'warning',
          showCancelButton: true,
-         confirmButtonText: intl.formatMessage({ id: 'admin.delete.confirm_button_1' }),
-         cancelButtonText: intl.formatMessage({ id: 'admin.delete.cancel_button' }),
+         confirmButtonText: intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.confirm_button_1' }),
+         cancelButtonText: intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.cancel_button' }),
          customClass: {
             popup: 'swal-delete-step1'
          }
@@ -46,12 +46,12 @@ const AdminDelete = ({ user, onSuccess }) => {
 
       // Step 2: Second confirmation - Final warning
       const confirmSecond = await Swal.fire({
-         title: intl.formatMessage({ id: 'admin.delete.confirm_title_2' }),
-         text: intl.formatMessage({ id: 'admin.delete.confirm_text_2' }),
+         title: intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.confirm_title_2' }),
+         text: intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.confirm_text_2' }),
          icon: 'question',
          showCancelButton: true,
-         confirmButtonText: intl.formatMessage({ id: 'admin.delete.confirm_button_2' }),
-         cancelButtonText: intl.formatMessage({ id: 'admin.delete.cancel_button' }),
+         confirmButtonText: intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.confirm_button_2' }),
+         cancelButtonText: intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.cancel_button' }),
          customClass: {
             popup: 'swal-delete-step2'
          }
@@ -61,29 +61,30 @@ const AdminDelete = ({ user, onSuccess }) => {
 
       // Step 3: Text confirmation - Type exact phrase
       const confirmText = await Swal.fire({
-         title: 'Security Confirmation',
+         title: intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.security_title' }),
          html: `
             <div style="text-align: left; margin: 20px 0;">
                <p style="margin-bottom: 15px; color: #ef4444; font-weight: 600;">
-                  ⚠️ This action cannot be undone!
+                  ${intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.security_warning' })}
                </p>
                <p style="margin-bottom: 10px; color: #374151;">
-                  To confirm deletion of admin: <strong style="color: #dc2626;">${user.phoneNumber || user.phone || user.userName || 'Admin ID: ' + user.id}</strong>
+                  ${intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.security_confirm_text' })}: <strong style="color: #dc2626;">${user.phoneNumber || user.phone || user.userName || intl.formatMessage({ id: 'common.admin_id_prefix' }) + ' ' + user.id}</strong>
                </p>
                <p style="margin-bottom: 15px; color: #374151;">
-                  Please type exactly: <code style="background: #f3f4f6; padding: 2px 6px; border-radius: 4px; color: #dc2626; font-weight: 600;">I WANT TO DELETE THIS ADMIN</code>
+                  ${intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.security_type_exact' })}: <code style="background: #f3f4f6; padding: 2px 6px; border-radius: 4px; color: #dc2626; font-weight: 600;">${intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.security_phrase' })}</code>
                </p>
             </div>
          `,
          input: 'text',
-         inputPlaceholder: 'Type the confirmation phrase...',
+         inputPlaceholder: intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.security_placeholder' }),
          icon: 'warning',
          showCancelButton: true,
-         confirmButtonText: 'Continue',
-         cancelButtonText: 'Cancel',
+         confirmButtonText: intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.security_continue' }),
+         cancelButtonText: intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.cancel_button' }),
          inputValidator: (value) => {
-            if (value !== 'I WANT TO DELETE THIS ADMIN') {
-               return 'Please type the exact phrase: "I WANT TO DELETE THIS ADMIN"';
+            const expectedPhrase = intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.security_phrase' });
+            if (value !== expectedPhrase) {
+               return intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.security_error' });
             }
          },
          customClass: {
@@ -96,29 +97,29 @@ const AdminDelete = ({ user, onSuccess }) => {
 
       // Step 4: Password verification
       const passwordConfirm = await Swal.fire({
-         title: 'Administrator Password Required',
+         title: intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.password_title' }),
          html: `
             <div style="text-align: left; margin: 20px 0;">
                <p style="margin-bottom: 15px; color: #dc2626; font-weight: 600;">
-                  🔐 Final Security Check
+                  ${intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.password_security_check' })}
                </p>
                <p style="margin-bottom: 15px; color: #374151;">
-                  Please enter your administrator password to complete the deletion:
+                  ${intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.password_instruction' })}
                </p>
             </div>
          `,
          input: 'password',
-         inputPlaceholder: 'Enter your password...',
+         inputPlaceholder: intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.password_placeholder' }),
          icon: 'warning',
          showCancelButton: true,
-         confirmButtonText: 'Delete Admin',
-         cancelButtonText: 'Cancel',
+         confirmButtonText: intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.password_button' }),
+         cancelButtonText: intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.cancel_button' }),
          inputValidator: (value) => {
             if (!value || value.trim() === '') {
-               return 'Password is required';
+               return intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.password_required' });
             }
             if (value.length < 6) {
-               return 'Password must be at least 6 characters';
+               return intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.password_min_length' });
             }
          },
          customClass: {
@@ -137,14 +138,14 @@ const AdminDelete = ({ user, onSuccess }) => {
          const passwordVerification = await verifyPassword({ password });
 
          if (passwordVerification.errCode !== 0) {
-            showToast("error", passwordVerification.errMessage || 'Invalid password');
+            showToast("error", passwordVerification.errMessage || intl.formatMessage({ id: 'admin.delete.error_401' }));
             return;
          }
 
          // Show final loading
          Swal.fire({
-            title: 'Deleting Admin...',
-            text: 'Please wait while we process your request.',
+            title: intl.formatMessage({ id: 'admin.delete.loading_title' }),
+            text: intl.formatMessage({ id: 'admin.delete.loading_text' }),
             icon: 'info',
             allowOutsideClick: false,
             allowEscapeKey: false,
@@ -160,52 +161,58 @@ const AdminDelete = ({ user, onSuccess }) => {
          if (res.errCode === 0) {
             // Success notification
             await Swal.fire({
-               title: 'Admin Deleted Successfully!',
+               title: intl.formatMessage({ id: 'body_admin.account_management.admin_manager.success_title' }),
                html: `
                   <div style="text-align: center; margin: 20px 0;">
                      <p style="color: #059669; font-weight: 600; margin-bottom: 10px;">
-                        ✅ Admin has been permanently deleted
+                        ✅ ${intl.formatMessage({ id: 'body_admin.account_management.admin_manager.success_message' })}
                      </p>
                      <p style="color: #374151; font-size: 14px;">
-                        Phone: <strong>${user.phoneNumber || user.phone || user.userName || 'N/A'}</strong><br>
-                        ID: <strong>${user.id}</strong>
+                        ${intl.formatMessage({ id: 'common.phone_label' })} <strong>${user.phoneNumber || user.phone || user.userName || intl.formatMessage({ id: 'common.not_available' })}</strong><br>
+                        ${intl.formatMessage({ id: 'common.id_label' })} <strong>${user.id}</strong>
                      </p>
                   </div>
                `,
                icon: 'success',
-               confirmButtonText: 'OK',
+               confirmButtonText: intl.formatMessage({ id: 'common.ok' }),
                customClass: {
                   popup: 'swal-delete-success'
                }
             });
 
-            showToast("success", res.errMessage || intl.formatMessage({ id: 'admin.delete.success' }));
+            showToast("success", res.errMessage || intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.success' }));
             if (typeof onSuccess === 'function') onSuccess(user.id);
          } else {
-            showToast("error", res.errMessage || intl.formatMessage({ id: 'admin.delete.failed' }));
+            showToast("error", res.errMessage || intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.failed' }));
          }
       } catch (error) {
          Swal.close();
          console.error('Delete error:', error);
 
          // Enhanced error handling
-         let errorMessage = intl.formatMessage({ id: 'admin.delete.error' });
+         let errorMessage = intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.error' });
 
-         if (error.response?.status === 401) {
-            errorMessage = 'Invalid password or session expired';
+         if (error.response?.status === 400) {
+            errorMessage = intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.error_400' });
+         } else if (error.response?.status === 401) {
+            errorMessage = intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.error_401' });
          } else if (error.response?.status === 403) {
-            errorMessage = 'You do not have permission to delete this admin';
+            errorMessage = intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.error_403' });
          } else if (error.response?.status === 404) {
-            errorMessage = 'Admin not found or already deleted';
+            errorMessage = intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.error_404' });
+         } else if (error.response?.status === 500) {
+            errorMessage = intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.error_500' });
+         } else if (!error.response) {
+            errorMessage = intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.error_network' });
          } else if (error.errMessage) {
             errorMessage = error.errMessage;
          }
 
          await Swal.fire({
-            title: 'Deletion Failed',
+            title: intl.formatMessage({ id: 'common.error' }),
             text: errorMessage,
             icon: 'error',
-            confirmButtonText: 'OK',
+            confirmButtonText: intl.formatMessage({ id: 'common.ok' }),
             customClass: {
                popup: 'swal-delete-error'
             }
@@ -217,7 +224,7 @@ const AdminDelete = ({ user, onSuccess }) => {
 
    return (
       <button className="btn-action btn-delete" onClick={handleDelete}>
-         {intl.formatMessage({ id: 'admin.delete.button' })}
+         {intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.button' })}
       </button>
    );
 };

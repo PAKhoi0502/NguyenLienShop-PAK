@@ -25,24 +25,45 @@ const HeaderPublic = forwardRef((props, ref) => {
       setTimeout(() => setShowBanner(false), 400);
    }
 
-   const handleLogout = () => {
-      // 🍪 HttpOnly cookies are cleared by server during logout API call
-      // No need to manually remove localStorage tokens
+   const handleLogout = async () => {
+      try {
+         // 🍪 HttpOnly cookies are cleared by server during logout API call
+         // No need to manually remove localStorage tokens
 
-      dispatch(processLogout());
-      toast(
-         (props) => (
-            <CustomToast
-               {...props}
-               type="success"
-               titleId="header.logout_title"
-               messageId="header.logout_message"
-               time={new Date()}
-            />
-         ),
-         { closeButton: false, type: "success" }
-      );
-      navigate('/login');
+         dispatch(processLogout());
+
+         // 🎯 Show success toast
+         toast(
+            (props) => (
+               <CustomToast
+                  {...props}
+                  type="success"
+                  titleId="logout.success"
+                  messageId="logout.success_message"
+                  time={new Date()}
+               />
+            ),
+            { closeButton: false, type: "success" }
+         );
+
+         navigate('/login');
+      } catch (error) {
+         console.error('❌ Logout error:', error);
+
+         // 🚨 Show error toast
+         toast(
+            (props) => (
+               <CustomToast
+                  {...props}
+                  type="error"
+                  titleId="logout.failed_title"
+                  messageId="logout.error"
+                  time={new Date()}
+               />
+            ),
+            { closeButton: false, type: "error" }
+         );
+      }
    };
 
    const handleChangeLanguage = (e) => {
@@ -55,7 +76,7 @@ const HeaderPublic = forwardRef((props, ref) => {
                {...props}
                type="info"
                titleId="header_public.language_changed"
-               messageId={`header.language_${lang}`}
+               messageId={`header_public.language_${lang}`}
                time={new Date()}
             />
          ),

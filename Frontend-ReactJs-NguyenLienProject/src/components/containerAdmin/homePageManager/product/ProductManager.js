@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
@@ -25,7 +25,7 @@ const ProductManager = () => {
             <CustomToast
                {...props}
                type={type}
-               titleId={type === 'error' ? 'product.manager.error_title' : 'product.manager.success_title'}
+               titleId={type === 'error' ? 'body_admin.product_management.error_title' : 'body_admin.product_management.success_title'}
                message={message}
                time={new Date()}
             />
@@ -34,21 +34,21 @@ const ProductManager = () => {
       );
    };
 
-   const fetchProducts = async () => {
+   const fetchProducts = useCallback(async () => {
       try {
          const res = await getAllProducts();
          setProducts(Array.isArray(res) ? res : []);
       } catch (err) {
          console.error('Fetch products error:', err);
-         toast.error(intl.formatMessage({ id: 'product.manager.load_error', defaultMessage: 'Không thể tải danh sách sản phẩm' }));
+         toast.error(intl.formatMessage({ id: 'body_admin.product_management.load_error', defaultMessage: 'Không thể tải danh sách sản phẩm' }));
       } finally {
          setLoading(false);
       }
-   };
+   }, [intl]);
 
    useEffect(() => {
       fetchProducts();
-   }, []);
+   }, [fetchProducts]);
 
    useEffect(() => {
       const keyword = search.trim().toLowerCase();
@@ -60,7 +60,8 @@ const ProductManager = () => {
          const matchStatus =
             filterStatus === 'all' ||
             (filterStatus === 'active' && product.isActive) ||
-            (filterStatus === 'inactive' && !product.isActive);
+            (filterStatus === 'inactive' && !product.isActive) ||
+            (filterStatus === 'out_of_stock' && (product.stock === 0 || product.stock === null));
 
          return matchSearch && matchStatus;
       });
@@ -72,7 +73,7 @@ const ProductManager = () => {
       const realProduct = products.find((p) => p.id === clickedProduct.id);
       if (realProduct?.isActive) {
          showToast('error', intl.formatMessage({
-            id: 'product.manager.update_blocked',
+            id: 'body_admin.product_management.update_blocked',
             defaultMessage: 'Vui lòng ẩn sản phẩm trước khi cập nhật',
          }));
          return;
@@ -88,13 +89,13 @@ const ProductManager = () => {
       <div className="product-manager-container">
          <div className="product-manager-top">
             <h1 className="product-title">
-               <FormattedMessage id="product.manager.title_head" defaultMessage="Quản lý sản phẩm" />
+               <FormattedMessage id="body_admin.product_management.title_head" defaultMessage="Quản lý sản phẩm" />
             </h1>
             <button
                className="btn-create-product"
                onClick={() => navigate('/admin/product-category-management/product-management/product-create')}
             >
-               + <FormattedMessage id="product.manager.create_button" defaultMessage="Tạo sản phẩm" />
+               + <FormattedMessage id="body_admin.product_management.create_button" defaultMessage="Tạo sản phẩm" />
             </button>
          </div>
 
@@ -103,52 +104,53 @@ const ProductManager = () => {
                theme="product"
                content={
                   <div>
-                     <p><FormattedMessage id="product.manager.hint_title" defaultMessage="Hướng dẫn: Quản lý danh sách sản phẩm, bao gồm tạo, cập nhật, xóa và thay đổi trạng thái hiển thị." /></p>
+                     <p><FormattedMessage id="body_admin.product_management.hint_title" defaultMessage="Hướng dẫn: Quản lý danh sách sản phẩm, bao gồm tạo, cập nhật, xóa và thay đổi trạng thái hiển thị." /></p>
                      <ul>
-                        <li><FormattedMessage id="product.manager.hint_1" defaultMessage="Sử dụng nút 'Tạo sản phẩm' để thêm sản phẩm mới vào hệ thống." /></li>
-                        <li><FormattedMessage id="product.manager.hint_2" defaultMessage="Chỉ có thể cập nhật sản phẩm khi đã ẩn khỏi trang chủ." /></li>
-                        <li><FormattedMessage id="product.manager.hint_3" defaultMessage="Sử dụng bộ lọc để tìm sản phẩm theo trạng thái hiển thị." /></li>
-                        <li><FormattedMessage id="product.manager.hint_4" defaultMessage="Chức năng tìm kiếm hỗ trợ tìm theo tên sản phẩm hoặc ID." /></li>
-                        <li><FormattedMessage id="product.manager.hint_5" defaultMessage="Quản lý danh mục sản phẩm thông qua nút 'Danh mục'." /></li>
+                        <li><FormattedMessage id="body_admin.product_management.hint_1" defaultMessage="Sử dụng nút 'Tạo sản phẩm' để thêm sản phẩm mới vào hệ thống." /></li>
+                        <li><FormattedMessage id="body_admin.product_management.hint_2" defaultMessage="Chỉ có thể cập nhật sản phẩm khi đã ẩn khỏi trang chủ." /></li>
+                        <li><FormattedMessage id="body_admin.product_management.hint_3" defaultMessage="Sử dụng bộ lọc để tìm sản phẩm theo trạng thái hiển thị." /></li>
+                        <li><FormattedMessage id="body_admin.product_management.hint_4" defaultMessage="Chức năng tìm kiếm hỗ trợ tìm theo tên sản phẩm hoặc ID." /></li>
+                        <li><FormattedMessage id="body_admin.product_management.hint_5" defaultMessage="Quản lý danh mục sản phẩm thông qua nút 'Danh mục'." /></li>
                      </ul>
                   </div>
                }
             />
-            <label><FormattedMessage id="product.manager.filter_status" defaultMessage="Lọc trạng thái:" /></label>
+            <label><FormattedMessage id="body_admin.product_management.filter_status" defaultMessage="Lọc trạng thái:" /></label>
             <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
-               <option value="all"><FormattedMessage id="product.manager.filter_all" defaultMessage="Tất cả" /></option>
-               <option value="active"><FormattedMessage id="product.manager.filter_active" defaultMessage="Đang hiển thị" /></option>
-               <option value="inactive"><FormattedMessage id="product.manager.filter_inactive" defaultMessage="Đã ẩn" /></option>
+               <option value="all"><FormattedMessage id="body_admin.product_management.filter_all" defaultMessage="Tất cả" /></option>
+               <option value="active"><FormattedMessage id="body_admin.product_management.filter_active" defaultMessage="Đang hiển thị" /></option>
+               <option value="inactive"><FormattedMessage id="body_admin.product_management.filter_inactive" defaultMessage="Đã ẩn" /></option>
+               <option value="out_of_stock"><FormattedMessage id="body_admin.product_management.filter_out_of_stock" defaultMessage="Hết hàng" /></option>
             </select>
          </div>
          <div className="product-search-bar">
             <input
                type="text"
-               placeholder={intl.formatMessage({ id: 'product.manager.search_placeholder', defaultMessage: 'Tìm theo tên sản phẩm, ID...' })}
+               placeholder={intl.formatMessage({ id: 'body_admin.product_management.search_placeholder', defaultMessage: 'Tìm theo tên sản phẩm, ID...' })}
                value={search}
                onChange={(e) => setSearch(e.target.value)}
             />
          </div>
 
          {loading ? (
-            <p className="product-loading"><FormattedMessage id="product.manager.loading" defaultMessage="Đang tải sản phẩm..." /></p>
+            <p className="product-loading"><FormattedMessage id="body_admin.product_management.loading" defaultMessage="Đang tải sản phẩm..." /></p>
          ) : (
             <div className="product-table-wrapper">
                <table className="product-table">
                   <thead>
                      <tr>
                         <th>ID</th>
-                        <th><FormattedMessage id="product.manager.name" defaultMessage="Tên sản phẩm" /></th>
-                        <th><FormattedMessage id="product.manager.stock" defaultMessage="Tồn kho" /></th>
-                        <th><FormattedMessage id="product.manager.status" defaultMessage="Hiển thị" /></th>
-                        <th><FormattedMessage id="product.manager.actions" defaultMessage="Hành động" /></th>
+                        <th><FormattedMessage id="body_admin.product_management.name" defaultMessage="Tên sản phẩm" /></th>
+                        <th><FormattedMessage id="body_admin.product_management.stock" defaultMessage="Tồn kho" /></th>
+                        <th><FormattedMessage id="body_admin.product_management.status" defaultMessage="Hiển thị" /></th>
+                        <th><FormattedMessage id="body_admin.product_management.actions" defaultMessage="Hành động" /></th>
                      </tr>
                   </thead>
                   <tbody>
                      {filteredProducts.length === 0 ? (
                         <tr>
                            <td colSpan={5} style={{ textAlign: 'center', color: '#888' }}>
-                              <FormattedMessage id="product.manager.empty_body" defaultMessage="Không có sản phẩm nào phù hợp." />
+                              <FormattedMessage id="body_admin.product_management.empty_body" defaultMessage="Không có sản phẩm nào phù hợp." />
                            </td>
                         </tr>
                      ) : (
@@ -156,7 +158,11 @@ const ProductManager = () => {
                            <tr key={product.id}>
                               <td>{product.id}</td>
                               <td>{product.nameProduct || ''}</td>
-                              <td>{product.stock || 0}</td>
+                              <td>
+                                 <span className={`stock-badge ${(product.stock === 0 || product.stock === null) ? 'out-of-stock' : 'in-stock'}`}>
+                                    {product.stock || 0}
+                                 </span>
+                              </td>
                               <td>{product.isActive ? '✅' : '❌'}</td>
                               <td>
                                  <div className="action-buttons">
@@ -164,13 +170,13 @@ const ProductManager = () => {
                                        className="btn-action btn-detail"
                                        onClick={() => handleDetailClick(product)}
                                     >
-                                       <FormattedMessage id="product.manager.detail" defaultMessage="Chi tiết" />
+                                       <FormattedMessage id="body_admin.product_management.detail" defaultMessage="Chi tiết" />
                                     </button>
                                     <button
                                        className="btn-action btn-update"
                                        onClick={() => handleUpdateClick(product)}
                                     >
-                                       <FormattedMessage id="product.manager.update" defaultMessage="Cập nhật" />
+                                       <FormattedMessage id="body_admin.product_management.update" defaultMessage="Cập nhật" />
                                     </button>
                                     <ProductActive
                                        product={product}
@@ -184,7 +190,7 @@ const ProductManager = () => {
                                        className="btn-action btn-add-category"
                                        onClick={() => navigate('/admin/product-category-management/product-management/info-category', { state: { productId: product.id } })}
                                     >
-                                       <FormattedMessage id="product.manager.info_category" defaultMessage="Danh mục" />
+                                       <FormattedMessage id="body_admin.product_management.info_category" defaultMessage="Danh mục" />
                                     </button>
                                     <ProductDelete
                                        product={product}

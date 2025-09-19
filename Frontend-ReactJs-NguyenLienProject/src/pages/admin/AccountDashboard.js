@@ -1,31 +1,73 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
+import { getAccountCountStats } from '../../services/dashboardService';
 import './AccountDashboard.scss';
 
 const AccountDashboard = () => {
+   const [accountStats, setAccountStats] = useState({
+      totalAdmins: 0,
+      totalUsers: 0
+   });
+
+   useEffect(() => {
+      fetchAccountStats();
+   }, []);
+
+   const fetchAccountStats = async () => {
+      try {
+         // Gọi API mới để lấy số lượng admin và user
+         const response = await getAccountCountStats();
+         console.log('🔍 Account Count Response:', response);
+
+         if (response && response.errCode === 0 && response.data) {
+            const { totalAdmins, totalUsers } = response.data;
+
+            console.log('� Final Stats:', { totalAdmins, totalUsers });
+
+            setAccountStats({
+               totalAdmins: totalAdmins || 0,
+               totalUsers: totalUsers || 0
+            });
+         } else {
+            console.error('❌ API response error:', response);
+            setAccountStats({
+               totalAdmins: 0,
+               totalUsers: 0
+            });
+         }
+      } catch (error) {
+         console.error('❌ Error fetching account stats:', error);
+         // Giữ số liệu mặc định nếu có lỗi
+         setAccountStats({
+            totalAdmins: 0,
+            totalUsers: 0
+         });
+      }
+   };
+
    const accountManagementOptions = [
       {
          id: 'admin-management',
-         titleId: 'account.admin_management',
+         titleId: 'dashboard.account_dashboard.admin_management',
          title: 'Quản lý tài khoản quản trị viên',
-         descriptionId: 'account.admin_description',
+         descriptionId: 'dashboard.account_dashboard.admin_description',
          description: 'Tạo, chỉnh sửa và quản lý tài khoản admin',
          icon: 'shield',
          link: '/admin/account-management/admin-management',
          color: 'red',
-         stats: { total: 3, active: 3 }
+         stats: { total: accountStats.totalAdmins, active: 1 } // active để số mẫu
       },
       {
          id: 'user-management',
-         titleId: 'account.user_management',
+         titleId: 'dashboard.account_dashboard.user_management',
          title: 'Quản lý tài khoản người dùng',
-         descriptionId: 'account.user_description',
+         descriptionId: 'dashboard.account_dashboard.user_description',
          description: 'Tạo, chỉnh sửa và quản lý tài khoản người dùng',
          icon: 'users',
          link: '/admin/account-management/user-management',
          color: 'blue',
-         stats: { total: 24, active: 22 }
+         stats: { total: accountStats.totalUsers, active: 1 } // active để số mẫu
       }
    ];
 
@@ -50,16 +92,16 @@ const AccountDashboard = () => {
          <div className="account-dashboard__header">
             <div className="header-content">
                <h1 className="account-dashboard__title">
-                  <FormattedMessage id="account.dashboard.title" defaultMessage="Quản lý tài khoản" />
+                  <FormattedMessage id="dashboard.account_dashboard.title" defaultMessage="Quản lý tài khoản" />
                </h1>
                <p className="account-dashboard__subtitle">
-                  <FormattedMessage id="account.dashboard.subtitle" defaultMessage="Quản lý tài khoản quản trị viên và người dùng hệ thống" />
+                  <FormattedMessage id="dashboard.account_dashboard.subtitle" defaultMessage="Quản lý tài khoản quản trị viên và người dùng hệ thống" />
                </p>
             </div>
             <div className="header-stats">
                <div className="quick-stat">
-                  <span className="quick-stat__number">27</span>
-                  <span className="quick-stat__label">Tổng tài khoản</span>
+                  <span className="quick-stat__number">{accountStats.totalAdmins + accountStats.totalUsers}</span>
+                  <span className="quick-stat__label"><FormattedMessage id="dashboard.account_dashboard.total_accounts" defaultMessage="Tổng tài khoản" /></span>
                </div>
             </div>
          </div>
@@ -75,11 +117,11 @@ const AccountDashboard = () => {
                         <div className="option-card__stats">
                            <div className="stat-item">
                               <span className="stat-number">{option.stats.total}</span>
-                              <span className="stat-label">Tổng</span>
+                              <span className="stat-label"><FormattedMessage id="dashboard.account_dashboard.total" defaultMessage="Tổng" /></span>
                            </div>
                            <div className="stat-item">
                               <span className="stat-number">{option.stats.active}</span>
-                              <span className="stat-label">Hoạt động</span>
+                              <span className="stat-label"><FormattedMessage id="dashboard.account_dashboard.active" defaultMessage="Hoạt động" /></span>
                            </div>
                         </div>
                      </div>
@@ -94,7 +136,7 @@ const AccountDashboard = () => {
                      </div>
 
                      <div className="option-card__action">
-                        <span className="action-text">Quản lý</span>
+                        <span className="action-text"><FormattedMessage id="dashboard.account_dashboard.manage" defaultMessage="Quản lý" /></span>
                         <svg className="action-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>

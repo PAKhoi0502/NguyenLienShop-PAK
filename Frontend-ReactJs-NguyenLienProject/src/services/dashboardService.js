@@ -64,9 +64,33 @@ export const getAccountStats = async () => {
    }
 };
 
+// Lấy số lượng admin và user đơn giản  
+export const getAccountCountStats = async () => {
+   try {
+      const response = await instance.get('/api/admin/account-count-stats', {
+         headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+         }
+      });
+
+      if (response.data && response.data.errCode === 0) {
+         return { errCode: 0, data: response.data.data };
+      } else {
+         return { errCode: -1, errMessage: response.data?.errMessage || 'Lỗi khi lấy số lượng tài khoản' };
+      }
+   } catch (error) {
+      console.error('getAccountCountStats error:', error);
+      return {
+         errCode: -1,
+         errMessage: error.response?.data?.errMessage || 'Lỗi kết nối khi lấy số lượng tài khoản'
+      };
+   }
+};
+
 const dashboardService = {
    getDashboardStats,
-   getAccountStats
+   getAccountStats,
+   getAccountCountStats
 };
 
 export default dashboardService;
