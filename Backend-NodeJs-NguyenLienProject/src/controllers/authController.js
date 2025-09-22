@@ -2,6 +2,7 @@ import authService from "../services/authService";
 import refreshTokenService from "../services/refreshTokenService";
 import tokenManagementService from "../services/tokenManagementService";
 import authResponseHelper from "../utils/authResponseHelper";
+import sendResponse from "../utils/sendResponse"; // Add this import
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv'; dotenv.config();
 

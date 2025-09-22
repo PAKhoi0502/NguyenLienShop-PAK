@@ -1,7 +1,7 @@
 import db from "../models/index";
 import validator from "validator";
 import bcrypt from "bcryptjs";
-import { checkPhoneNumberExists } from "../utils/validators.js";
+import { checkPhoneNumberExists, generateUniqueUsername } from "../utils/validators.js";
 
 let hashUserPassword = async (password) => {
    try {
@@ -39,6 +39,9 @@ let getAllAdmins = (userId) => {
 let createAdminForAdmin = (data) => {
    return new Promise(async (resolve, reject) => {
       try {
+         console.log('🔧 [BACKEND] CreateAdminForAdmin received data:', data);
+         console.log('🔧 [BACKEND] Phone verified flag:', data.phoneVerified);
+
          // Gán roleId = 1 (Admin)
          data.roleId = 1;
 
@@ -52,9 +55,9 @@ let createAdminForAdmin = (data) => {
             return resolve({ errCode: 6, errMessage: 'Phone number and password are required' });
          }
 
-         // Kiểm tra số điện thoại đã tồn tại
+         // Kiểm tra số điện thoại đã tồn tại (skip if phone already verified via OTP)
          const errors = [];
-         if (await checkPhoneNumberExists(data.phoneNumber)) {
+         if (!data.phoneVerified && await checkPhoneNumberExists(data.phoneNumber)) {
             errors.push("Số điện thoại đã tồn tại!");
          }
 
@@ -67,11 +70,14 @@ let createAdminForAdmin = (data) => {
 
          let hashPassword = await hashUserPassword(data.password);
 
+         // Generate random username if not provided
+         const userName = data.userName?.trim() || await generateUniqueUsername();
+
          // Tạo admin mới
          await db.User.create({
             phoneNumber: data.phoneNumber,
             password: hashPassword,
-            userName: data.userName || null,
+            userName: userName,
             fullName: data.fullName || null,
             gender: data.gender || null,
             birthday: data.birthday || null,
@@ -278,9 +284,9 @@ let createUserForAdmin = (data) => {
             return resolve({ errCode: 6, errMessage: 'Phone number and password are required' });
          }
 
-         // Kiểm tra số điện thoại đã tồn tại
+         // Kiểm tra số điện thoại đã tồn tại (skip if phone already verified via OTP)
          const errors = [];
-         if (await checkPhoneNumberExists(data.phoneNumber)) {
+         if (!data.phoneVerified && await checkPhoneNumberExists(data.phoneNumber)) {
             errors.push("Số điện thoại đã tồn tại!");
          }
 
@@ -293,11 +299,14 @@ let createUserForAdmin = (data) => {
 
          let hashPassword = await hashUserPassword(data.password);
 
+         // Generate random username if not provided
+         const userName = data.userName?.trim() || await generateUniqueUsername();
+
          // Tạo người dùng mới
          await db.User.create({
             phoneNumber: data.phoneNumber,
             password: hashPassword,
-            userName: data.userName || null,  // Biệt danh
+            userName: userName,  // Biệt danh - now always generated
             fullName: data.fullName || null,  // Họ tên đầy đủ
             gender: data.gender || null,
             birthday: data.birthday || null,

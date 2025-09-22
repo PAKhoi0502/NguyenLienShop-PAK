@@ -90,7 +90,8 @@ const UserManager = () => {
                         <li><FormattedMessage id="body_admin.account_management.user_manager.hint_1" defaultMessage="Sử dụng nút 'Tạo người dùng' để thêm tài khoản người dùng mới vào hệ thống." /></li>
                         <li><FormattedMessage id="body_admin.account_management.user_manager.hint_2" defaultMessage="Click vào tên người dùng để xem thông tin chi tiết." /></li>
                         <li><FormattedMessage id="body_admin.account_management.user_manager.hint_3" defaultMessage="Sử dụng chức năng tìm kiếm để lọc theo tên, email hoặc họ tên." /></li>
-                        <li><FormattedMessage id="body_admin.account_management.user_manager.hint_4" defaultMessage="Có thể cập nhật thông tin hoặc xóa tài khoản người dùng khi cần thiết." /></li>
+                        <li><FormattedMessage id="body_admin.account_management.user_manager.hint_4" defaultMessage="Hãy thận trọng khi xóa tài khoản người dùng." /></li>
+                        <li><FormattedMessage id="body_admin.account_management.user_manager.hint_5" defaultMessage="Có thể cập nhật thông tin hoặc xóa tài khoản người dùng khi cần thiết." /></li>
                      </ul>
                   </div>
                }

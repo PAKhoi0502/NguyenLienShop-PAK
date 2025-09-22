@@ -106,8 +106,70 @@ let getAccountCountStats = async () => {
    }
 };
 
+// Lấy thống kê sản phẩm và danh mục
+let getProductCategoryStats = async () => {
+   try {
+      console.log('🔍 Starting getProductCategoryStats...');
+      console.log('📦 Product model available:', !!db.Product);
+      console.log('📁 Category model available:', !!db.Category);
+
+      // Đếm tổng số products
+      const totalProducts = await db.Product.count();
+      console.log('📊 Total products:', totalProducts);
+
+      // Đếm số products đang active (isActive = true)
+      const activeProducts = await db.Product.count({
+         where: { isActive: true }
+      });
+      console.log('✅ Active products:', activeProducts);
+
+      // Đếm tổng số categories
+      const totalCategories = await db.Category.count();
+      console.log('📊 Total categories:', totalCategories);
+
+      // Đếm số categories đang active (isActive = true)  
+      const activeCategories = await db.Category.count({
+         where: { isActive: true }
+      });
+      console.log('✅ Active categories:', activeCategories);
+
+      // Tính tổng tất cả items
+      const totalItems = totalProducts + totalCategories;
+      const activeItems = activeProducts + activeCategories;
+
+      const result = {
+         errCode: 0,
+         data: {
+            products: {
+               total: totalProducts,
+               active: activeProducts,
+               inactive: totalProducts - activeProducts
+            },
+            categories: {
+               total: totalCategories,
+               active: activeCategories,
+               inactive: totalCategories - activeCategories
+            },
+            summary: {
+               totalItems,
+               activeItems,
+               inactiveItems: totalItems - activeItems
+            }
+         },
+         message: 'Lấy thống kê sản phẩm và danh mục thành công'
+      };
+
+      console.log('🎯 Final result:', JSON.stringify(result, null, 2));
+      return result;
+   } catch (err) {
+      console.error('Error in getProductCategoryStats:', err);
+      throw new Error('Lỗi khi lấy thống kê sản phẩm và danh mục');
+   }
+};
+
 export default {
    getDashboardStats,
    getAccountStats,
-   getAccountCountStats
+   getAccountCountStats,
+   getProductCategoryStats
 };

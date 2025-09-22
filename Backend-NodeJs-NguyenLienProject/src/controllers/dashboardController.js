@@ -30,7 +30,7 @@ let handleGetAccountStats = async (req, res) => {
    }
 };
 
-// Lấy số lượng admin và user đơn giản 
+// Lấy thống kê số lượng account (count only)
 let handleGetAccountCountStats = async (req, res) => {
    try {
       const stats = await dashboardService.getAccountCountStats();
@@ -44,8 +44,23 @@ let handleGetAccountCountStats = async (req, res) => {
    }
 };
 
+// Lấy thống kê sản phẩm và danh mục
+let handleGetProductCategoryStats = async (req, res) => {
+   try {
+      const stats = await dashboardService.getProductCategoryStats();
+      return res.status(200).json(stats);
+   } catch (err) {
+      console.error('Error in handleGetProductCategoryStats:', err);
+      return res.status(500).json({
+         errCode: -1,
+         errMessage: 'Lỗi server khi lấy thống kê sản phẩm và danh mục'
+      });
+   }
+};
+
 export default {
    handleGetDashboardStats,
    handleGetAccountStats,
-   handleGetAccountCountStats
+   handleGetAccountCountStats,
+   handleGetProductCategoryStats
 };

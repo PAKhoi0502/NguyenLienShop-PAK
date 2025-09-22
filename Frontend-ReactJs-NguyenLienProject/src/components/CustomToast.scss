@@ -5,11 +5,11 @@
   font-size: 15px;
   color: #222;
   background: #fff !important;
-  min-width: 260px;
-  max-width: 340px;
+  min-width: 280px; // Increased for Vietnamese text
+  max-width: 420px; // Increased for Vietnamese text
   word-break: break-word;
   position: relative !important;
-  overflow: hidden !important; // ✅ Changed from visible to hidden
+  overflow: visible !important; // Allow content expansion
 
   // Ensure toast is self-contained
   box-sizing: border-box !important;
@@ -18,13 +18,13 @@
   .toast-title {
     display: grid !important; // ✅ Use grid instead of flex
     grid-template-columns: auto 20px 1fr auto !important; // ✅ Fixed columns: date | icon | title | close
-    align-items: center !important;
+    align-items: flex-start !important; // Allow title to expand vertically
     font-weight: 500;
     margin-bottom: 6px;
     position: relative;
     gap: 8px !important; // ✅ Consistent spacing
     width: 100% !important;
-    overflow: hidden !important;
+    overflow: visible !important; // Allow title expansion
 
     .date {
       font-size: 11px;
@@ -55,16 +55,18 @@
       font-weight: 600;
       font-size: 16px;
       color: #222;
-      line-height: 1.2;
+      line-height: 1.3;
       min-width: 0 !important; // ✅ Allow text to shrink
-      overflow: hidden !important;
-      text-overflow: ellipsis !important;
-      white-space: nowrap !important; // ✅ Prevent text wrapping
+      overflow: visible !important; // Show full text
+      word-wrap: break-word !important; // Allow text wrapping
+      white-space: normal !important; // Allow text to wrap to multiple lines
+      text-overflow: unset !important; // Don't truncate text
     }
 
     .toast-close {
       grid-column: 4 !important; // ✅ Fourth column
       justify-self: end !important;
+      align-self: flex-start !important; // Stay at top when title wraps
       background: transparent;
       border: none;
       cursor: pointer;
@@ -77,6 +79,7 @@
       display: flex !important;
       align-items: center !important;
       justify-content: center !important;
+      margin-top: -2px !important; // Slight adjustment for alignment
 
       &:hover {
         color: #333;
@@ -106,14 +109,14 @@
     margin-top: 2px;
     word-break: break-word;
     line-height: 1.4;
-    overflow: hidden !important; // ✅ Prevent content overflow
-    text-overflow: ellipsis !important;
+    overflow: visible !important; // Allow content to show fully
+    white-space: normal !important; // Allow content wrapping
   }
 }
 
 @media (max-width: 480px) {
   .custom-toast {
-    min-width: 140px;
+    min-width: 240px; // Increased for mobile Vietnamese text
     max-width: 96vw;
     font-size: 13px;
     padding: 10px 7px;

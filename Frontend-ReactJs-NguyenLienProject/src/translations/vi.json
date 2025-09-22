@@ -5,9 +5,9 @@
         "cancel": "Hủy",
         "confirm": "Xác nhận",
         "not_available": "N/A",
-        "phone_label": "Điện thoại:",
-        "id_label": "ID:",
-        "admin_id_prefix": "ID Quản trị:"
+        "phone_label": "Điện thoại",
+        "id_label": "ID",
+        "admin_id_prefix": "ID Quản trị"
     },
     "login": {
         "title": "Chào mừng bạn",
@@ -29,7 +29,7 @@
         "title": "Tạo tài khoản",
         "phone_placeholder": "Số điện thoại",
         "password_placeholder": "Mật khẩu",
-        "confirm_password_placeholder": "Nhập lại mật khẩu",
+        "confirm_password_placeholder": "Nhập lại mật khẩu xác nhận",
         "button": "Đăng ký",
         "loading": "Đang đăng ký...",
         "login_redirect": "Đã có tài khoản?",
@@ -253,6 +253,35 @@
         },
         "account_management": {
             "admin_manager": {
+                "otp": {
+                    "admin_create_title": "Xác thực số điện thoại để tạo Admin",
+                    "admin_create_description": "Vui lòng nhập mã OTP được gửi đến số điện thoại để hoàn tất tạo tài khoản Admin",
+                    "sent_title": "OTP đã được gửi",
+                    "resend_in": "Gửi lại trong {seconds} giây",
+                    "expires_in": "Hết hạn sau {seconds} giây",
+                    "attempts_remaining": "{remaining} lần thử còn lại",
+                    "verifying": "Đang xác minh...",
+                    "resend": "Gửi lại OTP",
+                    "cancel": "Hủy",
+                    "dev_info": "Mã OTP (dành cho dev): {otp}",
+                    "sending": "Đang gửi...",
+                    "verify": "Xác thực"
+                },
+                "cancel_button": "Hủy",
+                "phone_label": "Số điện thoại",
+                "id_label": "ID",
+                "user_name": "Tên người dùng",
+                "full_name": "Họ và tên",
+                "not_available": "Không có",
+                "success_title_delete": "Thành công",
+                "error_title_delete": "Lỗi",
+                "success_message_delete": "Xóa quản trị viên thành công!",
+                "hint_title": "Hướng dẫn dành cho Quản lý Quản trị viên",
+                "hint_1": "1. Sử dụng nút 'Tạo quản trị viên' để thêm tài khoản quản trị mới vào hệ thống.",
+                "hint_2": "2. Click vào tên quản trị viên để xem thông tin chi tiết.",
+                "hint_3": "3. Sử dụng chức năng tìm kiếm để lọc theo tên, email hoặc họ tên.",
+                "hint_4": "4. Tắt hiện thị của banner trước khi muốn cập nhật hoặc xóa nó.",
+                "hint_5": "5. Hãy thận trọng khi xóa tài khoản quản trị viên.",
                 "load_error": "Không thể tải danh sách quản trị viên.",
                 "detail": "Chi tiết",
                 "update": "Cập nhật",
@@ -281,6 +310,11 @@
                     "confirm_password": "Nhập lại mật khẩu"
                 },
                 "creating": "Đang tạo...",
+                "verify_phone_button": "Xác thực số điện thoại",
+                "processing": "Đang xử lý...",
+                "back_to_list": "✅ Quay về danh sách",
+                "phone_verification_required": "Vui lòng xác thực số điện thoại trước khi tạo tài khoản",
+                "create_fail_title": "Đăng ký thất bại!",
                 "cancel": "Hủy",
                 "create_success_title": "Thành công",
                 "create_success_message": "Tài khoản quản trị viên đã được tạo thành công.",
@@ -289,7 +323,10 @@
                 "error": {
                     "no_response": "Không nhận được phản hồi từ server!",
                     "phone_exists": "Số điện thoại đã tồn tại!",
-                    "incomplete_info": "Bạn chưa nhập đủ thông tin."
+                    "incomplete_info": "Bạn chưa nhập đủ thông tin.",
+                    "phone_check_failed": "Không thể kiểm tra số điện thoại. Vui lòng thử lại.",
+                    "phone_already_used": "Số điện thoại này đã được sử dụng. Vui lòng sử dụng số khác.",
+                    "backend_connection": "Không thể kết nối với server. Vui lòng thử lại."
                 },
                 "validation": {
                     "phone_required": "Vui lòng nhập số điện thoại.",
@@ -298,6 +335,7 @@
                     "confirm_required": "Vui lòng nhập lại mật khẩu.",
                     "password_mismatch": "Mật khẩu xác nhận không khớp."
                 },
+                "phone_verified_badge": "✅ Số điện thoại đã được xác thực",
                 "detail_admin": {
                     "title": "Thông tin quản trị viên",
                     "loading": "Đang tải dữ liệu...",
@@ -350,6 +388,10 @@
                 "update_success_title": "Thành công",
                 "update_error_title": "Lỗi",
                 "delete": {
+                    "delete_success_title": "Xóa thành công!",
+                    "delete_error_title": "Lỗi",
+                    "loading_title": "Đang xóa...",
+                    "loading_text": "Vui lòng chờ trong giây lát.",
                     "button": "Xóa",
                     "not_found": "Không tìm thấy quản trị viên để xóa!",
                     "no_name": "Không có tên",
@@ -399,6 +441,27 @@
                 }
             },
             "user_manager": {
+                "otp": {
+                    "user_create_title": "Xác thực số điện thoại để tạo User",
+                    "user_create_description": "Vui lòng nhập mã OTP được gửi đến số điện thoại để hoàn tất tạo tài khoản User",
+                    "sent_title": "OTP đã được gửi",
+                    "resend_in": "Gửi lại trong {seconds} giây",
+                    "expires_in": "Hết hạn sau {seconds} giây",
+                    "attempts_remaining": "{remaining} lần thử còn lại",
+                    "verifying": "Đang xác minh...",
+                    "resend": "Gửi lại OTP",
+                    "cancel": "Hủy",
+                    "dev_info": "Mã OTP (dành cho dev): {otp}",
+                    "sending": "Đang gửi...",
+                    "verify": "Xác thực"
+                },
+                "no_response": "Không nhận được phản hồi từ server!",
+                "hint_title": "Hướng dẫn dành cho Quản lý Người dùng",
+                "hint_1": "1. Sử dụng nút 'Tạo người dùng' để thêm tài khoản người dùng mới vào hệ thống.",
+                "hint_2": "2. Sử dụng chức năng tìm kiếm để nhanh chóng tìm người dùng theo tên, email hoặc số điện thoại.",
+                "hint_3": "3. Click vào tên người dùng để xem thông tin chi tiết.",
+                "hint_4": "4. Tắt hiện thị của người dùng trước khi muốn cập nhật hoặc xóa tài khoản.",
+                "hint_5": "5. Hãy thận trọng khi xóa tài khoản người dùng.",
                 "load_error": "Không thể tải danh sách người dùng.",
                 "detail": "Chi tiết",
                 "update": "Cập nhật",
@@ -424,16 +487,29 @@
                     "password": "Mật khẩu *",
                     "password_placeholder": "Nhập mật khẩu (tối thiểu 6 ký tự)",
                     "confirm_password": "Xác nhận mật khẩu *",
-                    "confirm_password_placeholder": "Nhập lại mật khẩu",
+                    "confirm_password_placeholder": "Nhập lại mật khẩu xác nhận",
                     "submit": "Tạo tài khoản",
                     "creating": "Đang tạo...",
+                    "create_button": "Tạo tài khoản",
+                    "cancel_button": "Hủy",
+                    "verify_phone_button": "Xác thực số điện thoại",
+                    "processing": "Đang xử lý...",
+                    "back_to_list": "✅ Quay về danh sách",
+                    "phone_verification_required": "Vui lòng xác thực số điện thoại trước khi tạo tài khoản",
+                    "phone_verified_badge": "✅ Số điện thoại đã được xác thực",
                     "cancel": "Hủy",
                     "success_message": "Tạo tài khoản thành công!",
+                    "create_success_title": "Thành công!",
+                    "create_error_title": "Thất bại!",
+                    "create_error_message": "Đã xảy ra lỗi khi tạo tài khoản.",
                     "error": {
                         "no_response": "Không nhận được phản hồi từ server!",
                         "phone_exists": "Số điện thoại đã tồn tại!",
                         "incomplete": "Bạn chưa nhập đủ thông tin.",
-                        "generic": "Tạo tài khoản thất bại."
+                        "generic": "Tạo tài khoản thất bại.",
+                        "phone_check_failed": "Không thể kiểm tra số điện thoại. Vui lòng thử lại.",
+                        "phone_already_used": "Số điện thoại này đã được sử dụng. Vui lòng sử dụng số khác.",
+                        "backend_connection": "Không thể kết nối với server. Vui lòng thử lại."
                     },
                     "validate": {
                         "phone_required": "Vui lòng nhập số điện thoại.",
@@ -444,9 +520,9 @@
                     }
                 },
                 "create_success_title": "Thành công",
-                "create_error_title": "Lỗi",
-                "delete_success_title": "Thành công",
-                "delete_error_title": "Lỗi",
+                "create_error_title": "Tạo tài khoản thất bại!",
+                "delete_success_title": "Xóa thành công!",
+                "delete_error_title": "Xóa tài khoản thất bại!",
                 "manager": {
                     "title": "Quản lý người dùng",
                     "create_button": "Tạo người dùng",
@@ -637,6 +713,55 @@
             "total": "Tổng",
             "active": "Hoạt động",
             "manage": "Quản lý"
+        },
+        "dashboard_product_category": {
+            "title": "Quản lý sản phẩm & danh mục",
+            "subtitle": "Quản lý toàn bộ sản phẩm và danh mục sản phẩm của hệ thống",
+            "total_items": "Tổng items",
+            "total_products": "Tổng sản phẩm",
+            "total_categories": "Tổng danh mục",
+            "product_management": {
+                "title": "Quản lý sản phẩm",
+                "description": "Tạo, chỉnh sửa và quản lý thông tin sản phẩm"
+            },
+            "category_management": {
+                "title": "Quản lý danh mục sản phẩm",
+                "description": "Tạo, chỉnh sửa và quản lý danh mục sản phẩm"
+            },
+            "stats": {
+                "total": "Tổng",
+                "active": "Hoạt động"
+            },
+            "action": {
+                "manage": "Quản lý"
+            }
+        },
+        "otp": {
+            "title": "Xác thực số điện thoại",
+            "description": "Vui lòng nhập mã OTP được gửi đến số điện thoại của bạn",
+            "admin_create_title": "Xác thực số điện thoại để tạo Admin",
+            "admin_create_description": "Vui lòng nhập mã OTP được gửi đến số điện thoại để hoàn tất tạo tài khoản Admin",
+            "user_create_title": "Xác thực số điện thoại để tạo User",
+            "user_create_description": "Vui lòng nhập mã OTP được gửi đến số điện thoại để hoàn tất tạo tài khoản User",
+            "register_title": "Xác thực số điện thoại để đăng ký",
+            "register_description": "Vui lòng nhập mã OTP được gửi đến số điện thoại của bạn để hoàn tất đăng ký",
+            "verify": "Xác thực",
+            "verifying": "Đang xác thực...",
+            "resend": "Gửi lại mã",
+            "sending": "Đang gửi...",
+            "cancel": "Hủy",
+            "attempts_remaining": "Còn {remaining} lần thử",
+            "expires_in": "Hết hạn sau {seconds} giây",
+            "resend_in": "Gửi lại sau {seconds}s",
+            "dev_info": "Development: Kiểm tra console để xem mã OTP",
+            "success": "Xác thực OTP thành công!",
+            "errors": {
+                "invalid_code": "Mã OTP không đúng",
+                "expired": "Mã OTP đã hết hạn",
+                "max_attempts": "Bạn đã nhập sai quá nhiều lần",
+                "send_failed": "Gửi OTP thất bại",
+                "verification_failed": "Xác thực OTP thất bại"
+            }
         }
     }
 }

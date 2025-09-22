@@ -541,3 +541,25 @@
       }
    }
 }
+
+.age-display {
+   font-size: font-size(sm);
+   color: #6b7280;
+   margin-top: spacing(1);
+
+   .age-text {
+      font-weight: font-weight(medium);
+      color: #ffffff;
+   }
+}
+
+.birthday-display {
+   font-size: font-size(sm);
+   color: #6b7280;
+   margin-top: spacing(1);
+
+   .birthday-formatted {
+      font-weight: font-weight(medium);
+      color: #ffffff;
+   }
+}

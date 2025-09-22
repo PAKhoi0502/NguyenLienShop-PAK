@@ -1,0 +1,323 @@
+// OTP Verification Component Styles
+.otp-verification-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.otp-verification-card {
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    max-width: 420px;
+    width: 100%;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    animation: slideUp 0.3s ease-out;
+    text-align: center;
+
+    @media (max-width: 768px) {
+        padding: 24px;
+        margin: 20px;
+    }
+}
+
+// Header Section
+.otp-header {
+    margin-bottom: 32px;
+
+    .otp-icon {
+        font-size: 48px;
+        margin-bottom: 16px;
+    }
+
+    .otp-title {
+        font-size: 24px;
+        font-weight: 700;
+        color: #2d3748;
+        margin-bottom: 8px;
+    }
+
+    .otp-description {
+        color: #718096;
+        font-size: 16px;
+        line-height: 1.5;
+        margin-bottom: 16px;
+    }
+
+    .phone-display {
+        background: #f7fafc;
+        padding: 12px 16px;
+        border-radius: 8px;
+        border: 2px solid #e2e8f0;
+        font-size: 18px;
+        font-weight: 600;
+        color: #2d3748;
+        letter-spacing: 1px;
+    }
+}
+
+// OTP Input Section
+.otp-input-section {
+    margin-bottom: 32px;
+}
+
+.otp-inputs {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 20px;
+
+    @media (max-width: 480px) {
+        gap: 6px;
+    }
+}
+
+.otp-input {
+    width: 48px;
+    height: 56px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 24px;
+    font-weight: 600;
+    text-align: center;
+    color: #2d3748;
+    background-color: white;
+    transition: all 0.2s ease-in-out;
+
+    &:focus {
+        outline: none;
+        border-color: #3182ce;
+        box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+        transform: scale(1.05);
+    }
+
+    &.filled {
+        border-color: #38a169;
+        background-color: #f0fff4;
+        color: #38a169;
+    }
+
+    &.loading {
+        background-color: #f7fafc;
+        color: #a0aec0;
+        cursor: not-allowed;
+    }
+
+    &:disabled {
+        background-color: #f7fafc;
+        color: #a0aec0;
+        cursor: not-allowed;
+    }
+
+    @media (max-width: 480px) {
+        width: 40px;
+        height: 48px;
+        font-size: 20px;
+    }
+}
+
+// Info Section
+.otp-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    color: #718096;
+
+    @media (max-width: 480px) {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .attempts-info {
+        font-weight: 500;
+    }
+
+    .countdown-info {
+        font-weight: 500;
+        color: #e53e3e;
+    }
+}
+
+// Actions Section
+.otp-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.btn-verify {
+    background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 14px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    &:hover:not(:disabled) {
+        background: linear-gradient(135deg, #3182ce 0%, #2c5aa0 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(49, 130, 206, 0.3);
+    }
+
+    &:disabled {
+        background: #cbd5e0;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
+}
+
+.resend-section {
+    display: flex;
+    justify-content: center;
+}
+
+.resend-countdown {
+    color: #718096;
+    font-size: 14px;
+}
+
+.btn-resend {
+    background: transparent;
+    color: #3182ce;
+    border: 1px solid #3182ce;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    &:hover:not(:disabled) {
+        background: #3182ce;
+        color: white;
+        transform: translateY(-1px);
+    }
+
+    &:disabled {
+        border-color: #cbd5e0;
+        color: #cbd5e0;
+        cursor: not-allowed;
+        transform: none;
+    }
+}
+
+.btn-cancel {
+    background: transparent;
+    color: #718096;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+    &:hover:not(:disabled) {
+        border-color: #cbd5e0;
+        color: #2d3748;
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+    }
+}
+
+// Development Info
+.development-info {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+
+    small {
+        color: #a0aec0;
+        font-style: italic;
+    }
+}
+
+// Spinner Animation
+.spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid transparent;
+    border-top: 2px solid currentColor;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+// Animations
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+// Responsive Design
+@media (max-width: 480px) {
+    .otp-verification-container {
+        padding: 16px;
+    }
+
+    .otp-verification-card {
+        padding: 20px;
+    }
+
+    .otp-header .otp-title {
+        font-size: 20px;
+    }
+
+    .otp-header .otp-description {
+        font-size: 14px;
+    }
+
+    .phone-display {
+        font-size: 16px;
+        padding: 10px 12px;
+    }
+}

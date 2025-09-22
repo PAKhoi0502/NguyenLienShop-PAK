@@ -100,6 +100,9 @@ const Login = () => {
          }
          dispatch(adminLoginSuccess(user));
 
+         // 🔧 Set login timestamp for useAuth grace period
+         localStorage.setItem('lastLoginTime', Date.now().toString());
+
          // 🔧 Debug: Check Redux state after dispatch
          console.log('🔧 User data for Redux:', user);
          console.log('🔧 Dispatched adminLoginSuccess');
@@ -125,8 +128,6 @@ const Login = () => {
             // Default redirect based on role
             targetPath = user.roleId === 1 ? '/admin' : '/';
          }
-
-         console.log('🔧 Target path for redirect:', targetPath);
 
          // ✅ Navigate immediately after successful login
          navigate(targetPath, { replace: true });

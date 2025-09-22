@@ -233,7 +233,7 @@
                 "error": "Failed to create banner",
                 "server_error": "Server error while creating banner",
                 "create_success_title": "Successfully",
-                "create_error_title": "Error"
+                "create_error_title": "Create Error!"
             },
             "delete": {
                 "confirm_title_1": "Are you sure you want to delete this banner?",
@@ -247,12 +247,41 @@
                 "button": "Delete",
                 "no_title": "No title available",
                 "delete_success_title": "Successfully",
-                "delete_error_title": "Error",
+                "delete_error_title": "Delete Error!",
                 "blocked_active": "Cannot delete an active banner. Please deactivate it first."
             }
         },
         "account_management": {
             "admin_manager": {
+                "otp": {
+                    "admin_create_title": "Phone Verification for Admin Creation",
+                    "admin_create_description": "Please enter the OTP sent to the phone number to complete the admin account creation",
+                    "sent_title": "OTP Sent",
+                    "resend_in": "Resend in {seconds} seconds",
+                    "expires_in": "Expires in {seconds} seconds",
+                    "attempts_remaining": "{remaining} attempts remaining",
+                    "verifying": "Verifying...",
+                    "resend": "Resend OTP",
+                    "cancel": "Cancel",
+                    "dev_info": "OTP Code (for dev): {otp}",
+                    "sending": "Sending...",
+                    "verify": "Verify"
+                },
+                "cancel_button": "Cancel",
+                "phone_label": "Phone Number",
+                "id_label": "ID",
+                "user_name": "User Name",
+                "full_name": "Full Name",
+                "not_available": "Not Available",
+                "success_title_delete": "Success",
+                "error_title_delete": "Error",
+                "success_message_delete": "Admin deleted successfully!",
+                "hint_title": "Hints for Admin Management",
+                "hint_1": "1. Use the 'Create Admin' button to add a new admin account to the system.",
+                "hint_2": "2. Click on the admin name to view detailed information.",
+                "hint_3": "3. Use the search function to filter by name, email, or full name.",
+                "hint_4": "4. Disable the banner display before updating or deleting it.",
+                "hint_5": "5. Be cautious when deleting admin accounts.",
                 "load_error": "Unable to load admin list.",
                 "detail": "Detail",
                 "update": "Update",
@@ -281,7 +310,12 @@
                     "confirm_password": "Re-enter password"
                 },
                 "creating": "Creating...",
+                "verify_phone_button": "Verify Phone Number",
+                "processing": "Processing...",
+                "back_to_list": "✅ Back to List",
+                "phone_verification_required": "Please verify phone number before creating account",
                 "cancel": "Cancel",
+                "create_fail_title": "Registration Failed!",
                 "create_success_title": "Successfully",
                 "create_success_message": "Admin account created successfully.",
                 "create_error_title": "Error",
@@ -289,7 +323,10 @@
                 "error": {
                     "no_response": "No response from server!",
                     "phone_exists": "Phone number already exists!",
-                    "incomplete_info": "Incomplete information provided."
+                    "incomplete_info": "Incomplete information provided.",
+                    "phone_check_failed": "Unable to check phone number. Please try again.",
+                    "phone_already_used": "This phone number is already in use. Please use a different one.",
+                    "backend_connection": "Unable to connect to server. Please try again."
                 },
                 "validation": {
                     "phone_required": "Please enter phone number.",
@@ -298,6 +335,7 @@
                     "confirm_required": "Please re-enter password.",
                     "password_mismatch": "Password confirmation does not match."
                 },
+                "phone_verified_badge": "✅ Phone number verified",
                 "detail_admin": {
                     "title": "Admin Information",
                     "loading": "Loading data...",
@@ -350,6 +388,10 @@
                 "update_success_title": "Success",
                 "update_error_title": "Error",
                 "delete": {
+                    "delete_success_title": "Successfully Deleted",
+                    "delete_error_title": "Error",
+                    "loading_title": "Deleting...",
+                    "loading_text": "Please wait a moment.",
                     "button": "Delete",
                     "not_found": "Administrator not found.",
                     "no_name": "No name",
@@ -399,6 +441,26 @@
                 }
             },
             "user_manager": {
+                "otp": {
+                    "user_create_title": "Phone Verification for User Creation",
+                    "user_create_description": "Please enter the OTP sent to the phone number to complete the user account creation",
+                    "sent_title": "OTP Sent",
+                    "resend_in": "Resend in {seconds} seconds",
+                    "expires_in": "Expires in {seconds} seconds",
+                    "attempts_remaining": "{remaining} attempts remaining",
+                    "verifying": "Verifying...",
+                    "resend": "Resend OTP",
+                    "cancel": "Cancel",
+                    "dev_info": "OTP Code (for dev): {otp}",
+                    "sending": "Sending...",
+                    "verify": "Verify"
+                },
+                "hint_title": "Hints for User Management",
+                "hint_1": "1. Use the 'Create User' button to add a new user account to the system.",
+                "hint_2": "2. Click on the user name to view detailed information.",
+                "hint_3": "3. Use the search function to filter by name, email, or full name.",
+                "hint_4": "4. Disable the user account before updating or deleting it.",
+                "hint_5": "5. Be cautious when deleting user accounts.",
                 "load_error": "Unable to load user list.",
                 "detail": "Details",
                 "update": "Update",
@@ -427,13 +489,26 @@
                     "confirm_password_placeholder": "Re-enter password",
                     "submit": "Create Account",
                     "creating": "Creating...",
+                    "create_button": "Create Account",
+                    "cancel_button": "Cancel",
+                    "verify_phone_button": "Verify Phone Number",
+                    "processing": "Processing...",
+                    "back_to_list": "✅ Back to List",
+                    "phone_verification_required": "Please verify phone number before creating account",
+                    "phone_verified_badge": "✅ Phone number verified",
                     "cancel": "Cancel",
                     "success_message": "Account created successfully!",
+                    "create_success_title": "Success",
+                    "create_error_title": "Error",
+                    "create_error_message": "An error occurred while creating the account.",
                     "error": {
                         "no_response": "No response from server!",
                         "phone_exists": "Phone number already exists!",
                         "incomplete": "Please fill in all required fields.",
-                        "generic": "Failed to create account."
+                        "generic": "Failed to create account.",
+                        "phone_check_failed": "Unable to check phone number. Please try again.",
+                        "phone_already_used": "This phone number is already in use. Please use a different one.",
+                        "backend_connection": "Unable to connect to server. Please try again."
                     },
                     "validate": {
                         "phone_required": "Please enter phone number.",
@@ -444,9 +519,9 @@
                     }
                 },
                 "create_success_title": "Success",
-                "create_error_title": "Error",
+                "create_error_title": "Create Error!",
                 "delete_success_title": "Success",
-                "delete_error_title": "Error",
+                "delete_error_title": "Delete Error!",
                 "manager": {
                     "title": "User Management",
                     "create_button": "Create User",
@@ -637,6 +712,55 @@
             "total": "Total",
             "active": "Active",
             "manage": "Manage"
+        },
+        "dashboard_product_category": {
+            "title": "Product & Category Management",
+            "subtitle": "Manage all products and product categories in the system",
+            "total_items": "Total Items",
+            "total_products": "Total Products",
+            "total_categories": "Total Categories",
+            "product_management": {
+                "title": "Product Management",
+                "description": "Create, edit, and manage product information"
+            },
+            "category_management": {
+                "title": "Product Category Management",
+                "description": "Create, edit, and manage product categories"
+            },
+            "stats": {
+                "total": "Total",
+                "active": "Active"
+            },
+            "action": {
+                "manage": "Manage"
+            }
+        },
+        "otp": {
+            "title": "Phone Number Verification",
+            "description": "Please enter the OTP code sent to your phone number",
+            "admin_create_title": "Verify Phone Number to Create Admin",
+            "admin_create_description": "Please enter the OTP code sent to your phone number to complete creating the Admin account",
+            "user_create_title": "Verify Phone Number to Create User",
+            "user_create_description": "Please enter the OTP code sent to your phone number to complete creating the User account",
+            "register_title": "Verify Phone Number to Register",
+            "register_description": "Please enter the OTP code sent to your phone number to complete registration",
+            "verify": "Verify",
+            "verifying": "Verifying...",
+            "resend": "Resend Code",
+            "sending": "Sending...",
+            "cancel": "Cancel",
+            "attempts_remaining": "{remaining} attempts remaining",
+            "expires_in": "Expires in {seconds} seconds",
+            "resend_in": "Resend in {seconds}s",
+            "dev_info": "Development: Check console for OTP code",
+            "success": "OTP verification successful!",
+            "errors": {
+                "invalid_code": "Invalid OTP code",
+                "expired": "OTP code has expired",
+                "max_attempts": "Too many incorrect attempts",
+                "send_failed": "Failed to send OTP",
+                "verification_failed": "OTP verification failed"
+            }
         }
     }
 }

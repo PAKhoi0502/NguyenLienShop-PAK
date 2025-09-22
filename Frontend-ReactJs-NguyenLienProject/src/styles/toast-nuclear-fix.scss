@@ -120,12 +120,12 @@ div[data-hot-toast]>div::after {
    border-radius: 12px !important;
    box-shadow: 0 4px 18px 0 rgba(40, 40, 40, 0.12) !important;
    padding: 16px 18px 14px 18px !important;
-   min-width: 260px !important;
-   max-width: 340px !important;
+   min-width: 280px !important; // Increased min-width
+   max-width: 420px !important; // Increased max-width for longer Vietnamese text
    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
    font-size: 15px !important;
    color: #222 !important;
-   overflow: hidden !important;
+   overflow: visible !important; // Allow content to expand
    box-sizing: border-box !important;
 }
 
@@ -174,10 +174,11 @@ div[data-hot-toast]>div::after {
 
 .custom-toast .toast-title {
    display: flex !important;
-   align-items: center !important;
+   align-items: flex-start !important; // Change to flex-start to accommodate wrapping text
    margin-bottom: 6px !important;
    font-weight: 500 !important;
    gap: 8px !important;
+   flex-wrap: nowrap !important; // Prevent icons from wrapping
 }
 
 .custom-toast .toast-title .date {
@@ -194,6 +195,7 @@ div[data-hot-toast]>div::after {
    flex-shrink: 0 !important;
    display: inline-block !important;
    line-height: 16px !important;
+   margin-top: 2px !important; // Small offset to align with first line of text
 }
 
 .custom-toast .toast-title .fa.error {
@@ -217,8 +219,12 @@ div[data-hot-toast]>div::after {
    font-weight: 600 !important;
    font-size: 16px !important;
    color: #222 !important;
-   line-height: 1.2 !important;
+   line-height: 1.3 !important;
    min-width: 0 !important;
+   word-wrap: break-word !important;
+   white-space: normal !important; // Allow text wrapping
+   overflow: visible !important; // Show full text
+   text-overflow: unset !important; // Don't truncate
 }
 
 .custom-toast .toast-title .toast-close {
@@ -234,6 +240,8 @@ div[data-hot-toast]>div::after {
    align-items: center !important;
    justify-content: center !important;
    flex-shrink: 0 !important;
+   margin-top: 0px !important; // Align with first line of text
+   align-self: flex-start !important; // Stay at top when text wraps
 }
 
 .custom-toast .toast-title .toast-close:hover {
@@ -250,8 +258,8 @@ div[data-hot-toast]>div::after {
 // Mobile responsive
 @media (max-width: 480px) {
    .custom-toast {
-      min-width: 200px !important;
-      max-width: calc(100vw - 32px) !important;
+      min-width: 240px !important; // Increased for mobile
+      max-width: calc(100vw - 24px) !important; // Better mobile spacing
       font-size: 13px !important;
       padding: 12px 14px 10px 14px !important;
    }

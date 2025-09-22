@@ -2,7 +2,7 @@ import { resolveInclude } from "ejs";
 import db from "../models/index"
 import bcrypt from 'bcryptjs';
 import { where } from "sequelize";
-import { checkPhoneNumberExists, checkUserNameExists } from "../utils/validators";
+import { checkPhoneNumberExists, checkUserNameExists, generateUniqueUsername } from "../utils/validators";
 import { Op } from 'sequelize';
 import validator from 'validator';
 const { generateAccessToken } = require('../utils/tokenUtils');
@@ -59,7 +59,7 @@ let registerUser = (data) => {
          }
 
          const errors = [];
-         if (await checkPhoneNumberExists(data.phoneNumber)) {
+         if (!data.phoneVerified && await checkPhoneNumberExists(data.phoneNumber)) {
             errors.push("Số điện thoại đã tồn tại!");
          }
 
@@ -72,10 +72,14 @@ let registerUser = (data) => {
 
          let hashPassword = await hashUserPassword(data.password);
 
+         // Generate random username for all users
+         const userName = await generateUniqueUsername();
+
          // Tạo người dùng mới
          await db.User.create({
             phoneNumber: data.phoneNumber,
             password: hashPassword,
+            userName: userName, // Auto-generated random username
             firstName: data.firstName || null,
             lastName: data.lastName || null,
             address: data.address || null,

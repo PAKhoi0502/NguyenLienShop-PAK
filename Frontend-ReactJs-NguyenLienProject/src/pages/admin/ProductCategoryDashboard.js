@@ -1,31 +1,65 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
+import { getProductCategoryStats } from '../../services/dashboardService';
 import './ProductCategoryDashboard.scss';
 
 const ProductCategoryDashboard = () => {
+   // State để lưu stats thực từ API
+   const [stats, setStats] = useState({
+      products: { total: 0, active: 0 },
+      categories: { total: 0, active: 0 },
+      summary: { totalItems: 0, activeItems: 0 }
+   });
+   const [loading, setLoading] = useState(true);
+   const [error, setError] = useState(null);
+
+   // Fetch stats từ API
+   useEffect(() => {
+      const fetchStats = async () => {
+         try {
+            setLoading(true);
+            const result = await getProductCategoryStats();
+
+            if (result.errCode === 0) {
+               setStats(result.data);
+               setError(null);
+            } else {
+               setError(result.errMessage || 'Không thể lấy dữ liệu thống kê');
+            }
+         } catch (err) {
+            console.error('Error fetching stats:', err);
+            setError('Lỗi kết nối server');
+         } finally {
+            setLoading(false);
+         }
+      };
+
+      fetchStats();
+   }, []);
+
    const productManagementOptions = [
       {
          id: 'product-management',
-         titleId: 'product.product_management',
+         titleId: 'dashboard.dashboard_product_category.product_management.title',
          title: 'Quản lý sản phẩm',
-         descriptionId: 'product.product_description',
+         descriptionId: 'dashboard.dashboard_product_category.product_management.description',
          description: 'Tạo, chỉnh sửa và quản lý thông tin sản phẩm',
          icon: 'package',
          link: '/admin/product-category-management/product-management',
          color: 'green',
-         stats: { total: 156, active: 142 }
+         stats: { total: stats.products.total, active: stats.products.active }
       },
       {
          id: 'category-management',
-         titleId: 'product.category_management',
+         titleId: 'dashboard.dashboard_product_category.category_management.title',
          title: 'Quản lý danh mục sản phẩm',
-         descriptionId: 'product.category_description',
+         descriptionId: 'dashboard.dashboard_product_category.category_management.description',
          description: 'Tạo, chỉnh sửa và quản lý danh mục sản phẩm',
          icon: 'folder',
          link: '/admin/product-category-management/category-management',
          color: 'orange',
-         stats: { total: 28, active: 26 }
+         stats: { total: stats.categories.total, active: stats.categories.active }
       }
    ];
 
@@ -47,19 +81,36 @@ const ProductCategoryDashboard = () => {
 
    return (
       <div className="product-dashboard">
+         {error && (
+            <div className="error-message" style={{
+               backgroundColor: '#fee',
+               color: '#c33',
+               padding: '10px',
+               marginBottom: '20px',
+               borderRadius: '4px',
+               border: '1px solid #fcc'
+            }}>
+               ⚠️ {error}
+            </div>
+         )}
+
          <div className="product-dashboard__header">
             <div className="header-content">
                <h1 className="product-dashboard__title">
-                  <FormattedMessage id="product.dashboard.title" defaultMessage="Quản lý sản phẩm & danh mục" />
+                  <FormattedMessage id="dashboard.dashboard_product_category.title" defaultMessage="Quản lý sản phẩm & danh mục" />
                </h1>
                <p className="product-dashboard__subtitle">
-                  <FormattedMessage id="product.dashboard.subtitle" defaultMessage="Quản lý toàn bộ sản phẩm và danh mục sản phẩm của hệ thống" />
+                  <FormattedMessage id="dashboard.dashboard_product_category.subtitle" defaultMessage="Quản lý toàn bộ sản phẩm và danh mục sản phẩm của hệ thống" />
                </p>
             </div>
             <div className="header-stats">
                <div className="quick-stat">
-                  <span className="quick-stat__number">184</span>
-                  <span className="quick-stat__label">Tổng items</span>
+                  <span className="quick-stat__number">
+                     {loading ? '...' : stats.summary.totalItems}
+                  </span>
+                  <span className="quick-stat__label">
+                     <FormattedMessage id="dashboard.dashboard_product_category.total_items" defaultMessage="Tổng items" />
+                  </span>
                </div>
             </div>
          </div>
@@ -75,11 +126,15 @@ const ProductCategoryDashboard = () => {
                         <div className="option-card__stats">
                            <div className="stat-item">
                               <span className="stat-number">{option.stats.total}</span>
-                              <span className="stat-label">Tổng</span>
+                              <span className="stat-label">
+                                 <FormattedMessage id="dashboard.dashboard_product_category.stats.total" defaultMessage="Tổng" />
+                              </span>
                            </div>
                            <div className="stat-item">
                               <span className="stat-number">{option.stats.active}</span>
-                              <span className="stat-label">Hoạt động</span>
+                              <span className="stat-label">
+                                 <FormattedMessage id="dashboard.dashboard_product_category.stats.active" defaultMessage="Hoạt động" />
+                              </span>
                            </div>
                         </div>
                      </div>
@@ -94,7 +149,9 @@ const ProductCategoryDashboard = () => {
                      </div>
 
                      <div className="option-card__action">
-                        <span className="action-text">Quản lý</span>
+                        <span className="action-text">
+                           <FormattedMessage id="dashboard.dashboard_product_category.action.manage" defaultMessage="Quản lý" />
+                        </span>
                         <svg className="action-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>

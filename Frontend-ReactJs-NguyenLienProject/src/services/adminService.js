@@ -59,14 +59,18 @@ export const createUser = async (userData) => {
         };
     } catch (err) {
         console.error('CreateUser API error:', err); // Log lỗi chi tiết
-        const errorMessage = err?.response?.data?.message || 'Lỗi máy chủ! Không thể tạo người dùng.';
+
+        // Get error message from multiple possible sources
+        const errorData = err?.response?.data;
+        const errorMessage = errorData?.errorMessage || errorData?.errMessage || errorData?.message || 'Lỗi máy chủ! Không thể tạo người dùng.';
         const errorStatus = err?.response?.status || 500;
 
+        // Return the actual error message from server instead of hardcoded messages
         if (errorStatus === 400) {
-            return { errCode: 400, errMessage: 'Dữ liệu không hợp lệ.' };
+            return { errCode: 400, errMessage: errorMessage };
         }
         if (errorStatus === 403) {
-            return { errCode: 403, errMessage: 'Bạn không có quyền tạo người dùng mới.' };
+            return { errCode: 403, errMessage: errorMessage };
         }
         return { errCode: -1, errMessage: errorMessage };
     }
@@ -83,15 +87,19 @@ export const createAdmin = async (adminData) => {
             errMessage: data.errMessage || 'Tạo tài khoản thành công.'
         };
     } catch (err) {
-        console.error('CreateUser API error:', err); // Log lỗi chi tiết
-        const errorMessage = err?.response?.data?.message || 'Lỗi máy chủ! Không thể tạo người dùng.';
+        console.error('CreateAdmin API error:', err); // Updated log message
+
+        // Get error message from multiple possible sources
+        const errorData = err?.response?.data;
+        const errorMessage = errorData?.errorMessage || errorData?.errMessage || errorData?.message || 'Lỗi máy chủ! Không thể tạo quản trị viên.';
         const errorStatus = err?.response?.status || 500;
 
+        // Return the actual error message from server instead of hardcoded messages
         if (errorStatus === 400) {
-            return { errCode: 400, errMessage: 'Dữ liệu không hợp lệ.' };
+            return { errCode: 400, errMessage: errorMessage };
         }
         if (errorStatus === 403) {
-            return { errCode: 403, errMessage: 'Bạn không có quyền tạo người dùng mới.' };
+            return { errCode: 403, errMessage: errorMessage };
         }
         return { errCode: -1, errMessage: errorMessage };
     }
@@ -178,6 +186,28 @@ export const verifyPassword = async (passwordData) => {
         if (errorStatus === 403) {
             return { errCode: 403, errMessage: 'Bạn không có quyền thực hiện thao tác này.' };
         }
+        return { errCode: -1, errMessage: errorMessage };
+    }
+};
+
+// Lấy thống kê sản phẩm và danh mục
+export const getProductCategoryStats = async () => {
+    try {
+        const res = await axios.get('/api/admin/product-category-stats');
+        const data = res.data || res;
+
+        if (!data) {
+            return { errCode: -1, errMessage: 'Không nhận được dữ liệu từ server.' };
+        }
+
+        return {
+            errCode: data.errCode !== undefined ? data.errCode : 0,
+            errMessage: data.errMessage || data.message || 'Thành công',
+            data: data.data || data
+        };
+    } catch (err) {
+        console.error('GetProductCategoryStats API error:', err);
+        const errorMessage = err?.response?.data?.errMessage || 'Lỗi máy chủ khi lấy thống kê!';
         return { errCode: -1, errMessage: errorMessage };
     }
 };

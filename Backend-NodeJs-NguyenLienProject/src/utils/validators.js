@@ -32,6 +32,28 @@ export const checkUserNameExists = async (userName) => {
       return false;
    }
 };
+
+// Generate random username with format: user + 7 random digits
+export const generateRandomUsername = () => {
+   const randomNumbers = Math.floor(1000000 + Math.random() * 9000000); // 7 digits
+   return `user${randomNumbers}`;
+};
+
+// Generate unique random username (check database for duplicates)
+export const generateUniqueUsername = async () => {
+   let username;
+   let exists = true;
+   let attempts = 0;
+   const maxAttempts = 10; // Prevent infinite loop
+
+   while (exists && attempts < maxAttempts) {
+      username = generateRandomUsername();
+      exists = await checkUserNameExists(username);
+      attempts++;
+   }
+
+   return username;
+};
 export const formatDateString = (input) => {
    const regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
    const match = input.match(regex);

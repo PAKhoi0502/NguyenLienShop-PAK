@@ -43,9 +43,10 @@ export const shouldRefreshToken = (error) => {
    const isUnauthorized = error.response?.status === 401;
    const isRefreshEndpoint = error.config?.url?.includes('/api/auth/refresh');
    const isLoginEndpoint = error.config?.url?.includes('/api/auth/login');
+   const isOnLoginPage = window.location.pathname === '/login';
 
-   // Don't refresh tokens for login or refresh endpoints
-   return isUnauthorized && !isRefreshEndpoint && !isLoginEndpoint;
+   // Don't refresh tokens for login endpoints, refresh endpoints, or when on login page
+   return isUnauthorized && !isRefreshEndpoint && !isLoginEndpoint && !isOnLoginPage;
 };
 
 /**
@@ -56,10 +57,15 @@ export const handleTokenRefreshAndRetry = async (originalRequest) => {
       // Prevent infinite loops
       if (originalRequest._retry) {
          console.log('⚠️ Already retried, preventing infinite loop');
-         // Clear retry flag and reject to stop the loop
+         // Clean up retry flag and reject to stop the loop
          delete originalRequest._retry;
-         window.location.href = '/login';
          return Promise.reject(new Error('Token refresh loop prevented'));
+      }
+
+      // Check if already redirecting to prevent multiple redirects
+      if (window.location.pathname === '/login') {
+         console.log('⚠️ Already on login page, skipping refresh');
+         return Promise.reject(new Error('Already on login page'));
       }
 
       originalRequest._retry = true;
@@ -77,13 +83,28 @@ export const handleTokenRefreshAndRetry = async (originalRequest) => {
          console.log('❌ Token refresh failed, redirecting to login');
          // Clean up retry flag
          delete originalRequest._retry;
-         // Redirect to login if refresh fails
-         window.location.href = '/login';
+
+         // Prevent multiple redirects using a flag
+         if (!window.isRedirectingToLogin) {
+            window.isRedirectingToLogin = true;
+            setTimeout(() => {
+               window.location.href = '/login';
+            }, 100);
+         }
+
          return Promise.reject(refreshResult.error);
       }
    } catch (error) {
       console.error('❌ Error during token refresh and retry:', error);
-      window.location.href = '/login';
+
+      // Prevent multiple redirects
+      if (!window.isRedirectingToLogin) {
+         window.isRedirectingToLogin = true;
+         setTimeout(() => {
+            window.location.href = '/login';
+         }, 100);
+      }
+
       return Promise.reject(error);
    }
 };

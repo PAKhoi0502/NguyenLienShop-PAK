@@ -87,10 +87,34 @@ export const getAccountCountStats = async () => {
    }
 };
 
+// Lấy thống kê sản phẩm và danh mục
+export const getProductCategoryStats = async () => {
+   try {
+      const response = await instance.get('/api/admin/product-category-stats', {
+         headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+         }
+      });
+
+      console.log('🔍 Product Category Stats Response:', response);
+
+      if (response.data && response.data.errCode === 0) {
+         return { errCode: 0, data: response.data.data };
+      } else {
+         console.error('❌ API response error:', response.data);
+         return { errCode: -1, errMessage: 'Lỗi khi lấy thống kê sản phẩm và danh mục' };
+      }
+   } catch (error) {
+      console.error('❌ Error in getProductCategoryStats:', error);
+      return { errCode: -1, errMessage: 'Lỗi kết nối server' };
+   }
+};
+
 const dashboardService = {
    getDashboardStats,
    getAccountStats,
-   getAccountCountStats
+   getAccountCountStats,
+   getProductCategoryStats
 };
 
 export default dashboardService;

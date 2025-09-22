@@ -85,12 +85,13 @@ const AdminManager = () => {
                theme="user"
                content={
                   <div>
-                     <p><FormattedMessage id="body_admin.account_management.admin_manager.hint_title" defaultMessage="Hướng dẫn: Quản lý danh sách quản trị viên, bao gồm tạo, xem thông tin và xóa tài khoản." /></p>
+                     <p><FormattedMessage id="body_admin.account_management.admin_manager.hint_title" defaultMessage="Hướng dẫn" /></p>
                      <ul>
                         <li><FormattedMessage id="body_admin.account_management.admin_manager.hint_1" defaultMessage="Sử dụng nút 'Tạo quản trị viên' để thêm tài khoản quản trị mới vào hệ thống." /></li>
                         <li><FormattedMessage id="body_admin.account_management.admin_manager.hint_2" defaultMessage="Click vào tên quản trị viên để xem thông tin chi tiết." /></li>
                         <li><FormattedMessage id="body_admin.account_management.admin_manager.hint_3" defaultMessage="Sử dụng chức năng tìm kiếm để lọc theo tên, email hoặc họ tên." /></li>
-                        <li><FormattedMessage id="body_admin.account_management.admin_manager.hint_4" defaultMessage="Hãy thận trọng khi xóa tài khoản quản trị viên." /></li>
+                        <li><FormattedMessage id="body_admin.account_management.admin_manager.hint_4" defaultMessage="Tắt hiện thị của banner trước khi muốn cập nhật hoặc xóa nó." /></li>
+                        <li><FormattedMessage id="body_admin.account_management.admin_manager.hint_5" defaultMessage="Hãy thận trọng khi xóa tài khoản quản trị viên." /></li>
                      </ul>
                   </div>
                }

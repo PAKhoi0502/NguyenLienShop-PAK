@@ -3,34 +3,68 @@
 
 import axios from '../axios';
 
+// Cache để tránh gọi API liên tục
+let authCache = null;
+let lastCheckTime = 0;
+const CACHE_DURATION = 5000; // 5 seconds cache
+
 /**
  * Check authentication status by calling server
  * Replace localStorage token checking
  */
 export const checkAuthStatus = async () => {
    try {
-      const response = await axios.get('/api/auth/check');
+      const now = Date.now();
 
-      if (response.errCode === 0) {
-         return {
-            isAuthenticated: true,
-            user: response.data,
-            roleId: response.data.roleId
+      // Don't check auth if already on login page
+      if (window.location.pathname === '/login') {
+         console.log('🔧 Already on login page, returning unauthenticated');
+         const result = {
+            isAuthenticated: false,
+            user: null,
+            roleId: null
          };
+         // Cache this result briefly
+         authCache = result;
+         lastCheckTime = now;
+         return result;
       }
 
-      return {
+      // Return cached result if still fresh
+      if (authCache && (now - lastCheckTime) < CACHE_DURATION) {
+         console.log('🔧 Using cached auth status');
+         return authCache;
+      }
+
+      const response = await axios.get('/api/auth/check'); const result = response.errCode === 0 ? {
+         isAuthenticated: true,
+         user: response.data,
+         roleId: response.data.roleId
+      } : {
          isAuthenticated: false,
          user: null,
          roleId: null
       };
+
+      // Update cache
+      authCache = result;
+      lastCheckTime = now;
+
+      return result;
    } catch (error) {
       console.log('🍪 Auth check failed:', error.message);
-      return {
+
+      const result = {
          isAuthenticated: false,
          user: null,
          roleId: null
       };
+
+      // Cache failed result for shorter duration
+      authCache = result;
+      lastCheckTime = Date.now();
+
+      return result;
    }
 };
 
@@ -69,7 +103,21 @@ export const isUser = async () => {
 export const clearAuthState = () => {
    // No localStorage clearing needed for HttpOnly cookies
    // Server handles cookie clearing
+
+   // Clear auth cache
+   authCache = null;
+   lastCheckTime = 0;
+
    console.log('🍪 Auth state cleared (cookies handled by server)');
+};
+
+/**
+ * Clear auth cache manually (useful for debugging)
+ */
+export const clearAuthCache = () => {
+   authCache = null;
+   lastCheckTime = 0;
+   console.log('🧹 Auth cache cleared');
 };
 
 /**
