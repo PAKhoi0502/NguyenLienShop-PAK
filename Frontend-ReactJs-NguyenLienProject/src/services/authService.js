@@ -189,3 +189,55 @@ export const checkAuth = async () => {
       };
    }
 };
+
+// 🔐 Password reset services
+export const requestPasswordReset = async (phoneNumber) => {
+   try {
+      const res = await axios.post('/api/auth/request-password-reset', { phoneNumber });
+      return res;
+   } catch (err) {
+      const errorMessage = err?.response?.data?.message || err?.response?.data?.errMessage || 'Lỗi máy chủ!';
+      const errorStatus = err?.response?.status;
+
+      console.error('Request password reset error:', err);
+
+      return {
+         errCode: errorStatus || -1,
+         errMessage: errorMessage,
+      };
+   }
+};
+
+export const verifyResetOTP = async (phoneNumber, otpCode) => {
+   try {
+      const res = await axios.post('/api/auth/verify-reset-otp', { phoneNumber, otpCode });
+      return res;
+   } catch (err) {
+      const errorMessage = err?.response?.data?.message || err?.response?.data?.errMessage || 'Lỗi máy chủ!';
+      const errorStatus = err?.response?.status;
+
+      console.error('Verify reset OTP error:', err);
+
+      return {
+         errCode: errorStatus || -1,
+         errMessage: errorMessage,
+      };
+   }
+};
+
+export const resetPassword = async (resetToken, newPassword) => {
+   try {
+      const res = await axios.post('/api/auth/reset-password', { resetToken, newPassword });
+      return res;
+   } catch (err) {
+      const errorMessage = err?.response?.data?.message || err?.response?.data?.errMessage || 'Lỗi máy chủ!';
+      const errorStatus = err?.response?.status;
+
+      console.error('Reset password error:', err);
+
+      return {
+         errCode: errorStatus || -1,
+         errMessage: errorMessage,
+      };
+   }
+};

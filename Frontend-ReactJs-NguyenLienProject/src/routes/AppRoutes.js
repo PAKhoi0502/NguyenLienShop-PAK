@@ -13,6 +13,7 @@ import PublicRoute from '../hoc/PublicRoute';
 import Home from '../pages/home/Home';
 import Login from '../pages/auth/Login';
 import Register from '../pages/auth/Register';
+import ForgotPassword from '../pages/auth/ForgotPassword';
 import Profile from '../pages/user/Profile';
 import NotFoundPage from '../pages/auth/NotFoundPage';
 
@@ -58,6 +59,7 @@ const AppRoutes = () => (
          <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
          <Route path="/login" element={<PublicLayout><PublicRoute element={Login} /></PublicLayout>} />
          <Route path="/register" element={<PublicLayout><PublicRoute element={Register} /></PublicLayout>} />
+         <Route path="/forgot-password" element={<PublicLayout><PublicRoute element={ForgotPassword} /></PublicLayout>} />
          <Route path="/profile" element={<PublicLayout><PrivateRoute element={Profile} role="2" /></PublicLayout>} />
 
          {/* --- Admin Dashboard --- */}

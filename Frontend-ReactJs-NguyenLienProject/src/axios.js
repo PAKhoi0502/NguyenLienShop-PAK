@@ -27,12 +27,12 @@ instance.interceptors.request.use(
         // No need to manually add Authorization header from localStorage
         // Token will be available in req.cookies.authToken on server
 
-        // 🔧 During transition period, still support localStorage for fallback
-        const token = localStorage.getItem('token');
-        if (token) {
-            console.log('⚠️ Using localStorage token (transitional)');
-            config.headers['Authorization'] = `Bearer ${token}`;
-        }
+        // � SECURITY: Disable localStorage token completely for security
+        // const token = localStorage.getItem('token');
+        // if (token) {
+        //     console.log('⚠️ Using localStorage token (transitional)');
+        //     config.headers['Authorization'] = `Bearer ${token}`;
+        // }
 
         return config;
     },

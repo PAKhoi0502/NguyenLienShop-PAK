@@ -7,7 +7,8 @@
         "not_available": "N/A",
         "phone_label": "Phone:",
         "id_label": "ID:",
-        "admin_id_prefix": "Admin ID:"
+        "admin_id_prefix": "Admin ID:",
+        "try_again": "Try Again"
     },
     "login": {
         "title": "Welcome",
@@ -49,6 +50,96 @@
         "success_message": "You have been logged out successfully.",
         "failed_title": "Logout Error",
         "error": "Logout failed!"
+    },
+    "forgot_password": {
+        "title": "Forgot Password",
+        "subtitle": "Reset your password",
+        "phone_step": {
+            "title": "Enter Phone Number",
+            "description": "Please enter your phone number to receive an OTP code",
+            "phone_label": "Phone Number *",
+            "phone_placeholder": "Enter your phone number",
+            "submit_button": "Send OTP Code",
+            "back_to_login": "Back to Login",
+            "sending": "Sending...",
+            "success_title": "Success",
+            "success_message": "OTP code has been sent to your phone!",
+            "error_title": "Error",
+            "validation": {
+                "phone_required": "Please enter phone number",
+                "phone_invalid": "Invalid phone number"
+            },
+            "errors": {
+                "phone_not_found": "Phone number does not exist in the system",
+                "rate_limit": "You have made too many requests. Please try again in {minutes} minutes",
+                "send_failed": "Failed to send OTP code. Please try again",
+                "server_error": "Server error. Please try again later"
+            }
+        },
+        "otp_step": {
+            "title": "OTP Verification",
+            "description": "Please enter the OTP code sent to {phone}",
+            "otp_label": "OTP Code *",
+            "otp_placeholder": "Enter 6-digit OTP code",
+            "verify_button": "Verify OTP",
+            "resend_button": "Resend Code",
+            "back_button": "Go Back",
+            "verifying": "Verifying...",
+            "resending": "Resending...",
+            "expires_in": "Expires in {seconds}",
+            "resend_in": "Resend in {seconds}",
+            "attempts_remaining": "{remaining} attempts remaining",
+            "dev_info": "OTP Code (for dev): {otp}",
+            "success_title": "Success",
+            "error_title": "Error",
+            "validation": {
+                "otp_required": "Please enter OTP code",
+                "otp_invalid": "OTP code must be 6 digits"
+            },
+            "errors": {
+                "invalid_otp": "Invalid OTP code",
+                "expired_otp": "OTP code has expired",
+                "max_attempts": "Maximum attempts exceeded. Please request a new code",
+                "verification_failed": "Verification failed. Please try again"
+            }
+        },
+        "password_step": {
+            "title": "Set New Password",
+            "description": "Please enter a new password for your account",
+            "password_label": "New Password *",
+            "password_placeholder": "Enter new password (minimum 6 characters)",
+            "confirm_password_label": "Confirm Password *",
+            "confirm_password_placeholder": "Re-enter your new password",
+            "reset_button": "Reset Password",
+            "back_button": "Go Back",
+            "resetting": "Resetting...",
+            "success_title": "Success",
+            "success_message": "Password has been reset successfully! You will be redirected to the login page.",
+            "redirecting": "Redirecting in {seconds} seconds...",
+            "error_title": "Error",
+            "validation": {
+                "password_required": "Please enter new password",
+                "password_min_length": "Password must be at least 6 characters long",
+                "password_pattern": "Password must contain at least 1 lowercase letter and 1 number",
+                "confirm_required": "Please confirm password",
+                "password_mismatch": "Password confirmation does not match"
+            },
+            "errors": {
+                "reset_failed": "Password reset failed. Please try again",
+                "invalid_token": "Session expired. Please start over",
+                "server_error": "Server error. Please try again later"
+            }
+        },
+        "common": {
+            "loading": "Loading...",
+            "error": "An error occurred",
+            "try_again": "Try Again",
+            "cancel": "Cancel",
+            "back": "Back",
+            "continue": "Continue"
+        },
+        "back_to_login_text": "Already remember your password?",
+        "resent_message": "New OTP code has been sent"
     },
     "header_public": {
         "language_changed": "Language changed",
@@ -388,6 +479,11 @@
                 "update_success_title": "Success",
                 "update_error_title": "Error",
                 "delete": {
+                    "attempts_remaining": "{remaining} attempts remaining",
+                    "ok": "OK",
+                    "try_again": "Try Again",
+                    "last_attempt": "This is your last attempt!",
+                    "max_attempts_exceeded": "Deletion failed - Password entered incorrectly 3 times",
                     "delete_success_title": "Successfully Deleted",
                     "delete_error_title": "Error",
                     "loading_title": "Deleting...",
@@ -590,6 +686,9 @@
                     }
                 },
                 "delete": {
+                    "attempts_remaining": "{remaining} attempts remaining",
+                    "ok": "OK",
+                    "try_again": "Try Again",
                     "confirm_button_1": "Confirm",
                     "cancel_button": "Cancel",
                     "confirm_title_1": "Are you sure you want to delete this user?",

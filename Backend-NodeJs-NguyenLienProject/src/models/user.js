@@ -17,6 +17,12 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'userId',
         as: 'refreshTokens'
       });
+
+      // 🔗 Relationship with PasswordResetToken
+      User.hasMany(models.PasswordResetToken, {
+        foreignKey: 'userId',
+        as: 'passwordResetTokens'
+      });
     }
   }
   User.init({

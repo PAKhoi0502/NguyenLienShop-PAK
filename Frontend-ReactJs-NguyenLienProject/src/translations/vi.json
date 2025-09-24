@@ -7,7 +7,8 @@
         "not_available": "N/A",
         "phone_label": "Điện thoại",
         "id_label": "ID",
-        "admin_id_prefix": "ID Quản trị"
+        "admin_id_prefix": "ID Quản trị",
+        "try_again": "Thử lại"
     },
     "login": {
         "title": "Chào mừng bạn",
@@ -49,6 +50,96 @@
         "success_message": "Bạn đã đăng xuất khỏi tài khoản.",
         "failed_title": "Lỗi đăng xuất",
         "error": "Đăng xuất thất bại!"
+    },
+    "forgot_password": {
+        "title": "Quên mật khẩu",
+        "subtitle": "Đặt lại mật khẩu của bạn",
+        "phone_step": {
+            "title": "Nhập số điện thoại",
+            "description": "Vui lòng nhập số điện thoại đã đăng ký của bạn để nhận mã OTP đặt lại mật khẩu",
+            "phone_label": "Số điện thoại *",
+            "phone_placeholder": "Nhập số điện thoại",
+            "submit_button": "Gửi mã OTP",
+            "back_to_login": "Quay về đăng nhập",
+            "sending": "Đang gửi...",
+            "success_title": "Thành công",
+            "success_message": "Mã OTP đã được gửi đến số điện thoại của bạn!",
+            "error_title": "Lỗi",
+            "validation": {
+                "phone_required": "Vui lòng nhập số điện thoại",
+                "phone_invalid": "Số điện thoại không hợp lệ"
+            },
+            "errors": {
+                "phone_not_found": "Số điện thoại không tồn tại trong hệ thống",
+                "rate_limit": "Bạn đã gửi quá nhiều yêu cầu. Vui lòng thử lại sau {minutes} phút",
+                "send_failed": "Gửi mã OTP thất bại. Vui lòng thử lại",
+                "server_error": "Lỗi server. Vui lòng thử lại sau"
+            }
+        },
+        "otp_step": {
+            "title": "Xác thực OTP",
+            "description": "Vui lòng nhập mã OTP được gửi đến {phone}",
+            "otp_label": "Mã OTP *",
+            "otp_placeholder": "Nhập mã OTP 6 chữ số",
+            "verify_button": "Xác thực OTP",
+            "resend_button": "Gửi lại mã",
+            "back_button": "Quay lại",
+            "verifying": "Đang xác minh...",
+            "resending": "Gửi lại...",
+            "expires_in": "Hết hạn sau {seconds}",
+            "resend_in": "Gửi lại trong {seconds}",
+            "attempts_remaining": "{remaining} lần thử còn lại",
+            "dev_info": "Mã OTP (dành cho dev): {otp}",
+            "success_title": "Thành công",
+            "error_title": "Lỗi",
+            "validation": {
+                "otp_required": "Vui lòng nhập mã OTP",
+                "otp_invalid": "Mã OTP phải có 6 chữ số"
+            },
+            "errors": {
+                "invalid_otp": "Mã OTP không hợp lệ",
+                "expired_otp": "Mã OTP đã hết hạn. Vui lòng yêu cầu mã mới",
+                "max_attempts": "Bạn đã nhập sai quá nhiều lần. Vui lòng yêu cầu mã mới",
+                "verification_failed": "Xác minh không thành công. Vui lòng thử lại"
+            }
+        },
+        "password_step": {
+            "title": "Đặt Mật Khẩu Mới",
+            "description": "Vui lòng nhập mật khẩu mới cho tài khoản của bạn",
+            "password_label": "Mật khẩu mới *",
+            "password_placeholder": "Nhập mật khẩu mới (tối thiểu 6 ký tự)",
+            "confirm_password_label": "Xác nhận mật khẩu *",
+            "confirm_password_placeholder": "Nhập lại mật khẩu xác nhận",
+            "reset_button": "Đặt lại mật khẩu",
+            "back_button": "Quay lại",
+            "resetting": "Đang đặt lại...",
+            "success_title": "Thành công",
+            "success_message": "Mật khẩu đã được đặt lại thành công! Bạn sẽ được chuyển hướng đến trang đăng nhập.",
+            "redirecting": "Chuyển hướng trong {seconds} giây...",
+            "error_title": "Lỗi",
+            "validation": {
+                "password_required": "Vui lòng nhập mật khẩu mới",
+                "password_min_length": "Mật khẩu phải có ít nhất 6 ký tự",
+                "password_pattern": "Mật khẩu phải bao gồm ít nhất 1 chữ thường và 1 số",
+                "confirm_required": "Vui lòng nhập lại mật khẩu xác nhận",
+                "password_mismatch": "Mật khẩu xác nhận không khớp"
+            },
+            "errors": {
+                "reset_failed": "Đặt lại mật khẩu thất bại. Vui lòng thử lại",
+                "invalid_token": "Session đặt lại không hợp lệ hoặc đã hết hạn. Vui lòng bắt đầu lại quá trình đặt lại mật khẩu",
+                "server_error": "Lỗi server. Vui lòng thử lại sau"
+            }
+        },
+        "common": {
+            "loading": "Đang tải...",
+            "error": "Đã xảy ra lỗi",
+            "try_again": "Thử lại",
+            "cancel": "Thoát",
+            "back": "Quay lại",
+            "continue": "Tiếp tục"
+        },
+        "back_to_login_text": "Đã nhớ mật khẩu?",
+        "resent_message": "Mã OTP mới đã được gửi"
     },
     "header_public": {
         "language_changed": "Đổi ngôn ngữ",
@@ -388,6 +479,11 @@
                 "update_success_title": "Thành công",
                 "update_error_title": "Lỗi",
                 "delete": {
+                    "attempts_remaining": "{remaining} lần thử còn lại",
+                    "ok": "OK",
+                    "try_again": "Thử lại",
+                    "last_attempt": "Đây là lần thử cuối cùng!",
+                    "max_attempts_exceeded": "Xóa thất bại - Đã nhập sai mật khẩu quá 3 lần",
                     "delete_success_title": "Xóa thành công!",
                     "delete_error_title": "Lỗi",
                     "loading_title": "Đang xóa...",
@@ -591,6 +687,9 @@
                     }
                 },
                 "delete": {
+                    "attempts_remaining": "{remaining} lần thử còn lại",
+                    "ok": "OK",
+                    "try_again": "Thử lại",
                     "confirm_button_1": "Xác nhận",
                     "cancel_button": "Hủy",
                     "confirm_title_1": "Bạn chắc chắn muốn xóa người dùng này?",

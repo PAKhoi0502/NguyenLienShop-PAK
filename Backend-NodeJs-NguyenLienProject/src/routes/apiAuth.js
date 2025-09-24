@@ -58,4 +58,9 @@ router.get('/sessions', verifyToken, authController.handleGetUserSessions);
 // 🔐 Logout from all devices  
 router.post('/logout-all', verifyToken, authController.handleLogoutAllDevices);
 
+// 🔄 Forgot Password Flow
+router.post('/forgot-password', validateBodyFields(['phoneNumber']), authController.handleForgotPassword);
+router.post('/verify-reset-otp', validateBodyFields(['phoneNumber', 'otpCode']), authController.handleVerifyResetOTP);
+router.post('/reset-password', validateBodyFields(['resetToken', 'newPassword']), authController.handleResetPassword);
+
 export default router;

@@ -9,7 +9,7 @@ import {
    getRefreshTokenStatus,
    clearRefreshTokenData
 } from '../services/refreshTokenService';
-// import { checkAuthStatus } from '../utils/cookieAuth';
+import useAuth from '../hooks/useAuth';
 
 const AuthDebug = () => {
    const [isCollapsed, setIsCollapsed] = useState(false);
@@ -24,13 +24,15 @@ const AuthDebug = () => {
 
    const location = useLocation();
 
-   // Simple auth state without external hooks to avoid circular imports
+   // 🔒 Use secured useAuth hook instead of direct Redux access
+   const { isAuthenticated, roleId, isAdmin, adminInfo, isLoading } = useAuth();
    const reduxState = useSelector(state => state.admin);
 
-   // 🍪 Cookie-based auth - tokens no longer in localStorage
-   const token = localStorage.getItem('token'); // Should be null after migration
-   const storedRoleId = localStorage.getItem('roleId'); // Should be null after migration
+   // 🍪 Check storage status (should be empty after security fix)
+   const token = localStorage.getItem('token');
+   const storedRoleId = localStorage.getItem('roleId');
    const rememberMe = localStorage.getItem('rememberMe');
+   const lastLoginTime = localStorage.getItem('lastLoginTime');
 
    // Handle mouse events for dragging
    useEffect(() => {
@@ -96,14 +98,26 @@ const AuthDebug = () => {
    };
 
    const clearAllStorage = () => {
+      // Clear all localStorage items
       localStorage.clear();
       sessionStorage.clear();
-      localStorage.removeItem('persist:root');
 
-      ToastUtil.success('Storage Cleared', 'All storage cleared! Refreshing...');
+      // Also clear specific auth items
+      localStorage.removeItem('persist:root');
+      localStorage.removeItem('persist:admin');
+      localStorage.removeItem('token');
+      localStorage.removeItem('roleId');
+      localStorage.removeItem('lastLoginTime');
+
+      // Clear cookies manually (non-HttpOnly only)
+      document.cookie.split(";").forEach(function (c) {
+         document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+      });
+
+      ToastUtil.success('Storage Cleared', 'All storage cleared! Please also clear HttpOnly cookies in DevTools > Application > Cookies');
       setTimeout(() => {
          window.location.reload();
-      }, 1000);
+      }, 2000);
    };
 
    // 🔄 Refresh Token Test Functions
@@ -241,12 +255,19 @@ const AuthDebug = () => {
             </button>
          </div>
 
-         {/* Auth Status */}
+         {/* 🔒 Secured Authentication Status */}
          <div style={{ marginBottom: '8px', borderBottom: '1px solid #333', paddingBottom: '5px' }}>
             <strong style={{ color: '#ffaa00' }}>🔐 Authentication:</strong>
-            <div>token: {token ? '✅ Present' : '❌ Missing'}</div>
-            <div>roleId (localStorage): {storedRoleId || '⚪ None'}</div>
-            <div>isAdmin: {storedRoleId === '1' ? '✅ True' : '❌ False'}</div>
+            <div>useAuth Status: {isLoading ? '⏳ Loading...' : (isAuthenticated ? '✅ Authenticated' : '❌ Not Authenticated')}</div>
+            <div>Current Role: {roleId || '⚪ None'} {isAdmin ? '(Admin)' : ''}</div>
+            <div>User ID: {adminInfo?.id || '⚪ None'}</div>
+
+            {/* Legacy Storage Check (should be empty for security) */}
+            <div style={{ fontSize: '10px', color: '#888', marginTop: '3px', padding: '3px', backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: '2px' }}>
+               Legacy localStorage:
+               <div>• token: {token ? '⚠️ Present (Security Risk!)' : '✅ Cleared'}</div>
+               <div>• roleId: {storedRoleId ? '⚠️ Present (Security Risk!)' : '✅ Cleared'}</div>
+            </div>
          </div>
 
          {/* 🍪 Cookie Test Section */}
@@ -362,7 +383,20 @@ const AuthDebug = () => {
          <div style={{ marginBottom: '8px' }}>
             <strong style={{ color: '#ffaa00' }}>💾 Storage:</strong>
             <div>Remember Me: {rememberMe ? '✅ Yes' : '❌ No'}</div>
-            <div>Token Length: {token ? token.length + ' chars' : '0'}</div>
+            <div>Legacy Token: {token ? `⚠️ ${token.length} chars (REMOVE!)` : '✅ Cleared'}</div>
+            <div>Last Login: {lastLoginTime ? new Date(parseInt(lastLoginTime)).toLocaleTimeString() : '⚪ None'}</div>
+
+            {/* Security Status */}
+            <div style={{
+               fontSize: '10px',
+               marginTop: '3px',
+               padding: '3px',
+               backgroundColor: (token || storedRoleId) ? 'rgba(255,0,0,0.1)' : 'rgba(0,255,0,0.1)',
+               borderRadius: '2px',
+               border: `1px solid ${(token || storedRoleId) ? '#ff4444' : '#44ff44'}`
+            }}>
+               Security Status: {(token || storedRoleId) ? '⚠️ Legacy tokens found!' : '✅ Secure (HttpOnly cookies only)'}
+            </div>
          </div>
 
          {/* Quick Actions */}
@@ -372,9 +406,21 @@ const AuthDebug = () => {
                <button
                   onClick={() => {
                      console.log('🔍 Debug Info:', {
-                        auth: { token: !!token, roleId: storedRoleId },
+                        useAuth: {
+                           isAuthenticated,
+                           roleId,
+                           isAdmin,
+                           adminInfo,
+                           isLoading
+                        },
                         redux: reduxState,
-                        location: location
+                        location: location,
+                        storage: {
+                           token: !!token,
+                           roleId: storedRoleId,
+                           rememberMe,
+                           lastLoginTime
+                        }
                      });
                   }}
                   style={{
@@ -407,6 +453,32 @@ const AuthDebug = () => {
                   🗑️ Clear Toasts
                </button>
             </div>
+
+            {/* Emergency Security Button */}
+            {(token || storedRoleId) && (
+               <div style={{ marginTop: '5px' }}>
+                  <button
+                     onClick={() => {
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('roleId');
+                        ToastUtil.success('Security Fix', 'Legacy tokens removed! Refresh to see changes.');
+                     }}
+                     style={{
+                        background: '#ff4444',
+                        color: 'white',
+                        border: 'none',
+                        padding: '4px 8px',
+                        borderRadius: '3px',
+                        fontSize: '9px',
+                        cursor: 'pointer',
+                        width: '100%',
+                        fontWeight: 'bold'
+                     }}
+                  >
+                     🚨 EMERGENCY: Clear Legacy Tokens
+                  </button>
+               </div>
+            )}
          </div>
       </div>
    );

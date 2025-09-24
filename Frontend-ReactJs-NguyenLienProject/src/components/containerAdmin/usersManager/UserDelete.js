@@ -23,9 +23,20 @@ const UserDelete = ({ user, onSuccess }) => {
       );
    };
 
-   const handleDelete = async () => {
+   const handleDelete = async (passwordAttempts = 0) => {
+      // Đảm bảo passwordAttempts là số
+      const attempts = typeof passwordAttempts === 'number' ? passwordAttempts : 0;
+
+      console.log(`UserDelete - Starting with ${attempts} previous attempts`);
+
       if (!user || !user.id) {
          showToast("error", intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.not_found' }));
+         return;
+      }
+
+      // Check if password attempts exceeded (tối đa 3 lần thử)
+      if (attempts >= 2) { // >= 2 vì đây là lần thứ 3
+         showToast("error", intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.failed' }) || "Xóa thất bại - Đã nhập sai mật khẩu quá 3 lần");
          return;
       }
 
@@ -96,8 +107,15 @@ const UserDelete = ({ user, onSuccess }) => {
       if (!confirmText.isConfirmed) return;
 
       // Step 4: Password verification
+      // Đảm bảo attempts là số
+      const safeAttempts = typeof passwordAttempts === 'number' ? passwordAttempts : 0;
+
+      const passwordTitle = safeAttempts > 0 ?
+         `${intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.password_title' })} - Lần thử ${safeAttempts + 1}/3` :
+         intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.password_title' });
+
       const passwordConfirm = await Swal.fire({
-         title: intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.password_title' }),
+         title: passwordTitle,
          html: `
             <div style="text-align: left; margin: 20px 0;">
                <p style="margin-bottom: 15px; color: #dc2626; font-weight: 600;">
@@ -134,19 +152,67 @@ const UserDelete = ({ user, onSuccess }) => {
       const password = passwordConfirm.value;
 
       try {
-         // First verify password
-         const passwordVerification = await verifyPassword({ password });
+         // First verify password with custom headers to prevent retry loop
+         const passwordVerification = await verifyPassword({
+            password
+         }, {
+            headers: {
+               'X-Prevent-Retry': 'true' // Prevent axios interceptor from retrying on 401
+            }
+         });
 
          if (passwordVerification.errCode !== 0) {
-            showToast("error", passwordVerification.errMessage || 'Invalid password');
+            // Đảm bảo passwordAttempts là số
+            const attempts = typeof passwordAttempts === 'number' ? passwordAttempts : 0;
+
+            // Lần 0: còn 2 lần (tổng 3)
+            // Lần 1: còn 1 lần (tổng 3) 
+            // Lần 2: không còn lần nào (tổng 3)
+            const remainingAttempts = 2 - attempts; // Trực tiếp tính: còn lại = 2 - (lần đã thử)
+
+            console.log(`UserDelete - Sai lần thứ: ${attempts}/2, Còn lại: ${remainingAttempts} lần`);
+
+            // If password is wrong, show error with remaining attempts info
+            await Swal.fire({
+               title: intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.error' }),
+               html: `
+                  <div style="text-align: center; margin: 15px 0;">
+                     <p style="color: #dc2626; font-weight: 600; margin-bottom: 10px;">
+                        ${passwordVerification.errMessage || 'Mật khẩu không chính xác'}
+                     </p>
+                     ${remainingAttempts > 0 ?
+                     `<p style="color: #f59e0b; font-size: 14px;">
+                           <strong>⚠️ Còn lại ${remainingAttempts} lần thử</strong>
+                        </p>` :
+                     `<p style="color: #dc2626; font-size: 14px; font-weight: 600;">
+                           <strong>🚨 Đây là lần thử cuối cùng!</strong>
+                        </p>`
+                  }
+                  </div>
+               `,
+               icon: 'error',
+               confirmButtonText: remainingAttempts > 0 ?
+                  intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.try_again' }) || "Thử lại" :
+                  intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.ok' }) || "OK"
+            });
+
+            // Recursively call handleDelete with incremented attempts counter
+            if (remainingAttempts > 0) {
+               // Đảm bảo truyền số và tăng đúng
+               const nextAttempt = (typeof passwordAttempts === 'number' ? passwordAttempts : 0) + 1;
+               setTimeout(() => handleDelete(nextAttempt), 100);
+            } else {
+               // Max attempts reached
+               showToast("error", intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.failed' }) || "Xóa thất bại - Đã nhập sai mật khẩu quá 3 lần");
+            }
             return;
          }
 
          // Show final loading
          Swal.fire({
-            title: 'Deleting User...',
-            text: 'Please wait while we process your request.',
-            icon: 'info',
+            title: intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.loading_title' }) || 'Deleting User...',
+            text: intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.loading_text' }) || 'Please wait while we process your request.',
+            icon: intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.loading_icon' }) || 'info',
             allowOutsideClick: false,
             allowEscapeKey: false,
             showConfirmButton: false,
@@ -162,7 +228,7 @@ const UserDelete = ({ user, onSuccess }) => {
          if (res.errCode === 0) {
             // Success notification
             await Swal.fire({
-               title: 'User Deleted Successfully!',
+               title: intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.success_title' }) || 'User Deleted Successfully!',
                html: `
                   <div style="text-align: center; margin: 20px 0;">
                      <p style="color: #059669; font-weight: 600; margin-bottom: 10px;">

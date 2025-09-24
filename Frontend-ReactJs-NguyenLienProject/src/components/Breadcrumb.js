@@ -49,6 +49,8 @@ const Breadcrumb = ({ topOffset = 100 }) => {
       if (name === 'product-management') return 'Quản lý Sản phẩm';
       if (name === 'product-update') return 'Chỉnh sửa sản phẩm';
       if (name === 'product-detail') return 'Chi tiết thông tin sản phẩm';
+      if (name === 'forgot-password') return 'Quên mật khẩu';
+
 
       if (pathnames.includes('user-detail') && index === pathnames.length - 1) {
          return "Thông tin người dùng";

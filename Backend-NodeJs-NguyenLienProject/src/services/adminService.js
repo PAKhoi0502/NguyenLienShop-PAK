@@ -162,7 +162,6 @@ let updateAdmin = (data) => {
    });
 };
 
-
 // User Service
 let getAllUsers = (userId) => {
    return new Promise(async (resolve, reject) => {
@@ -214,7 +213,6 @@ let deleteUser = (userId) => {
       }
    });
 };
-
 let updateUser = (data) => {
    return new Promise(async (resolve, reject) => {
       try {

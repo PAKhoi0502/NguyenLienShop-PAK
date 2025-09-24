@@ -225,6 +225,125 @@ const handleVerifyPassword = async (req, res) => {
    }
 };
 
+// 🔄 FORGOT PASSWORD CONTROLLERS
+
+const handleForgotPassword = async (req, res) => {
+   try {
+      const { phoneNumber } = req.body;
+      const ipAddress = req.ip || req.connection.remoteAddress;
+      const userAgent = req.get('User-Agent');
+
+      console.log(`🔄 Forgot password request from ${phoneNumber}, IP: ${ipAddress}`);
+
+      const result = await authService.requestPasswordReset(phoneNumber, ipAddress, userAgent);
+
+      if (result.errCode !== 0) {
+         const statusCode = result.errCode === 1 ? 404 : 
+                           result.errCode === 2 ? 429 : 
+                           result.errCode === 3 ? 500 : 400;
+
+         return res.status(statusCode).json({
+            errCode: result.errCode,
+            errMessage: result.errMessage
+         });
+      }
+
+      return res.status(200).json({
+         errCode: 0,
+         message: result.message,
+         resetToken: result.resetToken,
+         expiresIn: result.expiresIn
+      });
+
+   } catch (error) {
+      console.error('HandleForgotPassword error:', error);
+      return res.status(500).json({
+         errCode: -1,
+         errMessage: 'Lỗi server khi xử lý yêu cầu đặt lại mật khẩu!'
+      });
+   }
+};
+
+const handleVerifyResetOTP = async (req, res) => {
+   try {
+      const { phoneNumber, otpCode } = req.body;
+
+      console.log(`🔐 OTP verification request from ${phoneNumber} with code: ${otpCode}`);
+
+      if (!otpCode || otpCode.length !== 6) {
+         return res.status(400).json({
+            errCode: 1,
+            errMessage: 'Mã OTP phải có 6 chữ số!'
+         });
+      }
+
+      const result = await authService.verifyResetOTP(phoneNumber, otpCode);
+
+      if (result.errCode !== 0) {
+         const statusCode = result.errCode === 1 ? 404 : 
+                           result.errCode === 2 || result.errCode === 3 ? 403 : 
+                           result.errCode === 4 ? 400 : 500;
+
+         return res.status(statusCode).json({
+            errCode: result.errCode,
+            errMessage: result.errMessage
+         });
+      }
+
+      return res.status(200).json({
+         errCode: 0,
+         message: result.message,
+         resetToken: result.resetToken
+      });
+
+   } catch (error) {
+      console.error('HandleVerifyResetOTP error:', error);
+      return res.status(500).json({
+         errCode: -1,
+         errMessage: 'Lỗi server khi xác thực OTP!'
+      });
+   }
+};
+
+const handleResetPassword = async (req, res) => {
+   try {
+      const { resetToken, newPassword } = req.body;
+
+      console.log(`🔐 Password reset request with token: ${resetToken?.substring(0, 8)}...`);
+
+      if (!newPassword) {
+         return res.status(400).json({
+            errCode: 1,
+            errMessage: 'Mật khẩu mới không được để trống!'
+         });
+      }
+
+      const result = await authService.resetPassword(resetToken, newPassword);
+
+      if (result.errCode !== 0) {
+         const statusCode = result.errCode === 1 ? 400 : 
+                           result.errCode === 2 ? 403 : 500;
+
+         return res.status(statusCode).json({
+            errCode: result.errCode,
+            errMessage: result.errMessage
+         });
+      }
+
+      return res.status(200).json({
+         errCode: 0,
+         message: result.message
+      });
+
+   } catch (error) {
+      console.error('HandleResetPassword error:', error);
+      return res.status(500).json({
+         errCode: -1,
+         errMessage: 'Lỗi server khi đặt lại mật khẩu!'
+      });
+   }
+};
+
 export default {
    handleLogin,
    handleRegister,
@@ -233,5 +352,8 @@ export default {
    handleRefreshToken,
    handleGetUserSessions,
    handleLogoutAllDevices,
-   handleVerifyPassword
+   handleVerifyPassword,
+   handleForgotPassword,
+   handleVerifyResetOTP,
+   handleResetPassword
 };

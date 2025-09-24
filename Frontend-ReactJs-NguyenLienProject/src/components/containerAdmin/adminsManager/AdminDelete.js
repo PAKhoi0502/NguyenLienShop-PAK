@@ -23,9 +23,20 @@ const AdminDelete = ({ user, onSuccess }) => {
       );
    };
 
-   const handleDelete = async () => {
+   const handleDelete = async (passwordAttempts = 0) => {
+      // Đảm bảo passwordAttempts là số
+      const attempts = typeof passwordAttempts === 'number' ? passwordAttempts : 0;
+
+      console.log(`AdminDelete - Starting with ${attempts} previous attempts`);
+
       if (!user || !user.id) {
          showToast("error", intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.not_found' }));
+         return;
+      }
+
+      // Check if password attempts exceeded (tối đa 3 lần thử)
+      if (attempts >= 2) { // >= 2 vì đây là lần thứ 3
+         showToast("error", intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.max_attempts_exceeded' }) || "Xóa thất bại - Đã nhập sai mật khẩu quá 3 lần");
          return;
       }
 
@@ -111,9 +122,14 @@ const AdminDelete = ({ user, onSuccess }) => {
       if (!confirmText.isConfirmed) return;
 
       // Step 4: Password verification
-      const passwordConfirm = await Swal.fire({
-         title: intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.password_title' }),
-         html: `
+      // Đảm bảo attempts là số
+      const safeAttempts = typeof passwordAttempts === 'number' ? passwordAttempts : 0;
+
+      const passwordTitle = safeAttempts > 0 ?
+         `${intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.password_title' })} - Lần thử ${safeAttempts + 1}/3` :
+         intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.password_title' }); const passwordConfirm = await Swal.fire({
+            title: passwordTitle,
+            html: `
             <div style="text-align: left; margin: 20px 0;">
                <p style="margin-bottom: 15px; color: #dc2626; font-weight: 600;">
                   ${intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.password_security_check' })}
@@ -123,37 +139,88 @@ const AdminDelete = ({ user, onSuccess }) => {
                </p>
             </div>
          `,
-         input: 'password',
-         inputPlaceholder: intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.password_placeholder' }),
-         icon: 'warning',
-         showCancelButton: true,
-         confirmButtonText: intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.password_button' }),
-         cancelButtonText: intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.cancel_button' }),
-         inputValidator: (value) => {
-            if (!value || value.trim() === '') {
-               return intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.password_required' });
+            input: 'password',
+            inputPlaceholder: intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.password_placeholder' }),
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.password_button' }),
+            cancelButtonText: intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.cancel_button' }),
+            inputValidator: (value) => {
+               if (!value || value.trim() === '') {
+                  return intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.password_required' });
+               }
+               if (value.length < 6) {
+                  return intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.password_min_length' });
+               }
+            },
+            customClass: {
+               popup: 'swal-delete-step4',
+               input: 'swal-password-input',
+               confirmButton: 'swal-delete-final-btn'
             }
-            if (value.length < 6) {
-               return intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.password_min_length' });
-            }
-         },
-         customClass: {
-            popup: 'swal-delete-step4',
-            input: 'swal-password-input',
-            confirmButton: 'swal-delete-final-btn'
-         }
-      });
+         });
 
       if (!passwordConfirm.isConfirmed) return;
 
       const password = passwordConfirm.value;
 
       try {
-         // First verify password
-         const passwordVerification = await verifyPassword({ password });
+         // First verify password with custom headers to prevent retry loop
+         const passwordVerification = await verifyPassword({
+            password
+         }, {
+            headers: {
+               'X-Prevent-Retry': 'true' // Prevent axios interceptor from retrying on 401
+            }
+         });
 
          if (passwordVerification.errCode !== 0) {
-            showToast("error", passwordVerification.errMessage || intl.formatMessage({ id: 'admin.delete.error_401' }));
+            // Đảm bảo passwordAttempts là số
+            const attempts = typeof passwordAttempts === 'number' ? passwordAttempts : 0;
+
+            // Lần 0: còn 2 lần (tổng 3)
+            // Lần 1: còn 1 lần (tổng 3) 
+            // Lần 2: không còn lần nào (tổng 3)
+            const remainingAttempts = 2 - attempts; // Trực tiếp tính: còn lại = 2 - (lần đã thử)
+
+            console.log(`AdminDelete - Sai lần thứ: ${attempts}/2, Còn lại: ${remainingAttempts} lần`);
+
+            // If password is wrong, show error with remaining attempts info
+            await Swal.fire({
+               title: intl.formatMessage({ id: 'common.error' }),
+               html: `
+                  <div style="text-align: center; margin: 15px 0;">
+                     <p style="color: #dc2626; font-weight: 600; margin-bottom: 10px;">
+                        ${passwordVerification.errMessage || intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.error_401' })}
+                     </p>
+                     ${remainingAttempts > 0 ?
+                     `<p style="color: #f59e0b; font-size: 14px;">
+                           <strong>⚠️ ${intl.formatMessage(
+                        { id: 'body_admin.account_management.admin_manager.delete.attempts_remaining' },
+                        { count: remainingAttempts }
+                     ) || `Còn lại ${remainingAttempts} lần thử`}</strong>
+                        </p>` :
+                     `<p style="color: #dc2626; font-size: 14px; font-weight: 600;">
+                           <strong>🚨 ${intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.last_attempt' }) || 'Đây là lần thử cuối cùng!'}</strong>
+                        </p>`
+                  }
+                  </div>
+               `,
+               icon: 'error',
+               confirmButtonText: remainingAttempts > 0 ?
+                  intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.try_again' }) || "Thử lại" :
+                  intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.ok' }) || "OK"
+            });
+
+            // Recursively call handleDelete with incremented attempts counter
+            if (remainingAttempts > 0) {
+               // Đảm bảo truyền số và tăng đúng
+               const nextAttempt = (typeof passwordAttempts === 'number' ? passwordAttempts : 0) + 1;
+               setTimeout(() => handleDelete(nextAttempt), 100);
+            } else {
+               // Max attempts reached
+               showToast("error", intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.max_attempts_exceeded' }) || "Xóa thất bại - Đã nhập sai mật khẩu quá 3 lần");
+            }
             return;
          }
 
