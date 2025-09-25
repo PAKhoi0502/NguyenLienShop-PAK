@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import toast from 'react-hot-toast';
 import './CustomToast.scss';
 
@@ -11,8 +11,6 @@ const iconByType = {
 };
 
 const CustomToast = ({ closeToast, t, titleId, message, messageId, time, type = "error", rawMessage = false }) => {
-    const intl = useIntl();
-
     // Function để đóng toast - support cả react-toastify và react-hot-toast
     const handleClose = () => {
         if (t?.id) {
@@ -24,19 +22,9 @@ const CustomToast = ({ closeToast, t, titleId, message, messageId, time, type = 
         }
     };
 
-    const formattedTime = time
-        ? intl.formatDate(time, {
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            hour12: true,
-        })
-        : '';
-
     return (
         <div className={`custom-toast toast-${type}`}>
             <div className="toast-title">
-                {time && <span className="date">{formattedTime}</span>}
                 {iconByType[type]}
                 <span className="toast-title-text">
                     {titleId ? <FormattedMessage id={titleId} defaultMessage={titleId} /> : "Thông báo"}

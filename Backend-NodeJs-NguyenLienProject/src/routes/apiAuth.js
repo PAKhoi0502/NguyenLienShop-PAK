@@ -62,5 +62,6 @@ router.post('/logout-all', verifyToken, authController.handleLogoutAllDevices);
 router.post('/forgot-password', validateBodyFields(['phoneNumber']), authController.handleForgotPassword);
 router.post('/verify-reset-otp', validateBodyFields(['phoneNumber', 'otpCode']), authController.handleVerifyResetOTP);
 router.post('/reset-password', validateBodyFields(['resetToken', 'newPassword']), authController.handleResetPassword);
+router.post('/clear-otp', validateBodyFields(['phoneNumber']), authController.handleClearOTP);
 
 export default router;

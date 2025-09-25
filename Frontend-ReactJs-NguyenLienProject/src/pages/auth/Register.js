@@ -3,20 +3,19 @@ import { useNavigate } from 'react-router-dom';
 import { register, checkPhoneExists } from '../../services/authService';
 import { toast } from 'react-toastify';
 import CustomToast from '../../components/CustomToast';
-import { useIntl, FormattedMessage } from 'react-intl';
+import { useIntl } from 'react-intl';
 import OtpVerification from '../../components/OtpVerification';
 import { validateVietnamesePhone } from '../../utils/vietnamesePhoneValidator';
 import './Register.scss';
 
 const Register = () => {
-   const [step, setStep] = useState(1); // 1: Form, 2: OTP Verification
+   const [step, setStep] = useState(1); // 1: Form, 2: OTP, 3: Success
    const [phoneNumber, setPhoneNumber] = useState('');
    const [password, setPassword] = useState('');
    const [confirmPassword, setConfirmPassword] = useState('');
    const [countdown, setCountdown] = useState(3);
    const [shouldRedirect, setShouldRedirect] = useState(false);
    const [loading, setLoading] = useState(false);
-   const [phoneVerified, setPhoneVerified] = useState(false);
    const navigate = useNavigate();
    const intl = useIntl();
 
@@ -29,136 +28,21 @@ const Register = () => {
 
    const validatePhone = () => {
       if (!phoneNumber) {
-         return "Vui lòng nhập số điện thoại";
+         return intl.formatMessage({ id: 'register.error_phone_required' });
       }
 
       // Enhanced Vietnamese phone validation using imported function
       if (!validateVietnamesePhone(phoneNumber)) {
-         return "Số điện thoại không hợp lệ";
+         return intl.formatMessage({ id: 'register.error_phone_invalid' });
       }
 
       return '';
    };
 
-   const handleContinueToOTP = async () => {
-      const passwordPattern = /^(?=.*[a-z])(?=.*\d).{6,}$/;
 
-      // Validate ALL form fields before opening OTP verification
-      if (!phoneNumber || !password || !confirmPassword) {
-         toast(
-            (props) => (
-               <CustomToast
-                  {...props}
-                  type="error"
-                  titleId="register.error_title"
-                  message="Vui lòng nhập đầy đủ thông tin"
-                  time={new Date()}
-               />
-            ),
-            { closeButton: false, type: "error" }
-         );
-         return;
-      }
-
-      // Validate phone number
-      const phoneError = validatePhone();
-      if (phoneError) {
-         toast(
-            (props) => (
-               <CustomToast
-                  {...props}
-                  type="error"
-                  titleId="register.error_title"
-                  message={phoneError}
-                  time={new Date()}
-               />
-            ),
-            { closeButton: false, type: "error" }
-         );
-         return;
-      }
-
-      // Validate password
-      if (!passwordPattern.test(password)) {
-         toast(
-            (props) => (
-               <CustomToast
-                  {...props}
-                  type="error"
-                  titleId="register.error_title"
-                  message="Mật khẩu phải có ít nhất 6 ký tự, bao gồm chữ thường và số"
-                  time={new Date()}
-               />
-            ),
-            { closeButton: false, type: "error" }
-         );
-         return;
-      }
-
-      // Validate password confirmation
-      if (password !== confirmPassword) {
-         toast(
-            (props) => (
-               <CustomToast
-                  {...props}
-                  type="error"
-                  titleId="register.error_title"
-                  message="Mật khẩu xác nhận không khớp"
-                  time={new Date()}
-               />
-            ),
-            { closeButton: false, type: "error" }
-         );
-         return;
-      }
-
-      // Check if phone number already exists
-      console.log('📱 [REGISTER] Checking if phone exists:', phoneNumber);
-      try {
-         const phoneCheckResult = await checkPhoneExists(phoneNumber.trim());
-
-         if (phoneCheckResult.exists) {
-            toast(
-               (props) => (
-                  <CustomToast
-                     {...props}
-                     type="error"
-                     titleId="register.error_title"
-                     message="Số điện thoại này đã được sử dụng để đăng ký. Vui lòng sử dụng số khác."
-                     time={new Date()}
-                  />
-               ),
-               { closeButton: false, type: "error" }
-            );
-            return;
-         }
-
-         // All validation passed - Move to OTP verification step
-         console.log('📱 [REGISTER] Phone available, opening OTP verification');
-         console.log('📱 [REGISTER] Phone:', phoneNumber);
-         setStep(2);
-
-      } catch (error) {
-         console.error('Phone check error:', error);
-         toast(
-            (props) => (
-               <CustomToast
-                  {...props}
-                  type="error"
-                  titleId="register.error_title"
-                  message="Không thể kiểm tra số điện thoại. Vui lòng thử lại."
-                  time={new Date()}
-               />
-            ),
-            { closeButton: false, type: "error" }
-         );
-      }
-   };
 
    const handleOtpVerificationSuccess = async () => {
       console.log('🎉 [OTP SUCCESS] Phone verification completed');
-      setPhoneVerified(true);
-      setStep(1); // Go back to form
 
       // Directly submit registration since phone is verified
       console.log('🚀 [OTP SUCCESS] Auto-submitting registration...');
@@ -184,7 +68,10 @@ const Register = () => {
                ),
                { closeButton: false, type: "success" }
             );
-            navigate('/login');
+
+            // Move to success step
+            setStep(3);
+            setShouldRedirect(true);
          } else {
             toast(
                (props) => (
@@ -198,6 +85,8 @@ const Register = () => {
                ),
                { closeButton: false, type: "error" }
             );
+            // Go back to step 1 on error
+            setStep(1);
          }
       } catch (error) {
          console.error('Register error:', error);
@@ -207,12 +96,14 @@ const Register = () => {
                   {...props}
                   type="error"
                   titleId="register.error_title"
-                  message="Lỗi hệ thống! Vui lòng thử lại."
+                  message={intl.formatMessage({ id: 'register.error_system_error' })}
                   time={new Date()}
                />
             ),
             { closeButton: false, type: "error" }
          );
+         // Go back to step 1 on error
+         setStep(1);
       } finally {
          setLoading(false);
       }
@@ -220,20 +111,21 @@ const Register = () => {
 
    const handleOtpCancel = () => {
       setStep(1);
-      setPhoneVerified(false);
    };
 
-   const handleRegister = async () => {
-      console.log('📝 [REGISTER START] phoneVerified:', phoneVerified);
+   const handleContinueToOTP = async () => {
+      const passwordPattern = /^(?=.*[a-z])(?=.*\d).{6,}$/;
 
-      if (!phoneVerified) {
+      // Validate ALL form fields before opening OTP verification
+      if (!phoneNumber || !password || !confirmPassword) {
+         console.log('📝 [Continue Debug] Missing fields');
          toast(
             (props) => (
                <CustomToast
                   {...props}
                   type="error"
-                  titleId="register.error_title"
-                  message="Vui lòng xác thực số điện thoại trước khi đăng ký"
+                  titleId="register.error_title_missing_info"
+                  message={intl.formatMessage({ id: 'register.error_missing_all_info' })}
                   time={new Date()}
                />
             ),
@@ -242,96 +134,101 @@ const Register = () => {
          return;
       }
 
-      // Form already validated before OTP verification
-      setLoading(true);
+      // Validate phone number
+      const phoneError = validatePhone();
+      if (phoneError) {
+         console.log('📝 [Continue Debug] Phone validation failed');
+         toast(
+            (props) => (
+               <CustomToast
+                  {...props}
+                  type="error"
+                  titleId="register.error_title_invalid_phone"
+                  message={intl.formatMessage({ id: 'register.error_invalid_phone' })}
+                  time={new Date()}
+               />
+            ),
+            { closeButton: false, type: "error" }
+         );
+         return;
+      }
+
+      // Validate password
+      if (!passwordPattern.test(password)) {
+         console.log('📝 [Continue Debug] Password validation failed');
+         toast(
+            (props) => (
+               <CustomToast
+                  {...props}
+                  type="error"
+                  titleId="register.error_title_invalid_password"
+                  message={intl.formatMessage({ id: 'register.error_password_format' })}
+                  time={new Date()}
+               />
+            ),
+            { closeButton: false, type: "error" }
+         );
+         return;
+      }
+
+      // Validate password confirmation
+      if (password !== confirmPassword) {
+         console.log('📝 [Continue Debug] Password mismatch');
+         toast(
+            (props) => (
+               <CustomToast
+                  {...props}
+                  type="error"
+                  titleId="register.error_title_invalid_re_password"
+                  message={intl.formatMessage({ id: 'register.error_password_mismatch_detail' })}
+                  time={new Date()}
+               />
+            ),
+            { closeButton: false, type: "error" }
+         );
+         return;
+      }
+
+      // Check if phone number already exists
+      console.log('📱 [REGISTER] Checking if phone exists:', phoneNumber);
       try {
-         const res = await register({ phoneNumber, password, roleId: 2, phoneVerified: phoneVerified });
+         const phoneCheckResult = await checkPhoneExists(phoneNumber.trim());
 
-         console.log('📝 [REGISTER DEBUG] Response:', res);
-         console.log('📝 [REGISTER DEBUG] ErrCode:', res?.errCode);
-         console.log('📝 [REGISTER DEBUG] ErrMessage:', res?.errMessage);
-
-         if (res.errCode === 0) {
-            toast(
-               (props) => (
-                  <CustomToast
-                     {...props}
-                     type="success"
-                     titleId="register.success_title"
-                     messageId="register.success_message"
-                     time={new Date()}
-                  />
-               ),
-               { closeButton: false, type: "success" }
-            );
-            setShouldRedirect(true);
-         } else {
-            // Check for specific error cases
-            let errorMessage;
-
-            if (
-               res.errCode === 1 &&
-               res.errMessage &&
-               (
-                  res.errMessage.toLowerCase().includes('tồn tại') ||
-                  res.errMessage.toLowerCase().includes('exist')
-               ) &&
-               (
-                  res.errMessage.toLowerCase().includes('số điện thoại') ||
-                  res.errMessage.toLowerCase().includes('phone')
-               )
-            ) {
-               console.log('📱 [REGISTER] Phone exists error detected');
-               errorMessage = "Số điện thoại này đã được sử dụng để đăng ký. Vui lòng sử dụng số khác.";
-            } else if (
-               res.errMessage &&
-               (
-                  res.errMessage.toLowerCase().includes('missing') ||
-                  res.errMessage.toLowerCase().includes('thiếu')
-               )
-            ) {
-               console.log('📋 [REGISTER] Missing fields error detected');
-               errorMessage = "Vui lòng nhập đủ thông tin cần thiết.";
-            } else {
-               console.log('🔄 [REGISTER] Generic error - ErrCode:', res.errCode, 'Message:', res.errMessage);
-               errorMessage = res.errMessage || intl.formatMessage({ id: 'register.error_failed' });
-            }
-
+         if (phoneCheckResult.exists) {
+            console.log('📝 [Continue Debug] Phone already exists');
             toast(
                (props) => (
                   <CustomToast
                      {...props}
                      type="error"
                      titleId="register.error_title"
-                     message={errorMessage}
+                     message={intl.formatMessage({ id: 'register.error_phone_exists' })}
                      time={new Date()}
                   />
                ),
                { closeButton: false, type: "error" }
             );
+            return;
          }
-      } catch (err) {
-         console.error('❌ [REGISTER ERROR]:', err);
-         console.log('❌ [REGISTER DEBUG] Error object:', {
-            message: err.message,
-            errMessage: err.errMessage,
-            response: err.response?.data
-         });
 
+         // All validation passed - Move to OTP verification step
+         console.log('📝 [Continue Debug] Validation passed, proceeding to OTP');
+         setStep(2);
+
+      } catch (error) {
+         console.error('Phone check error:', error);
          toast(
             (props) => (
                <CustomToast
                   {...props}
                   type="error"
                   titleId="register.error_title"
-                  message={intl.formatMessage({ id: 'register.error_failed' })}
+                  message={intl.formatMessage({ id: 'register.error_phone_check_failed' })}
                   time={new Date()}
                />
             ),
             { closeButton: false, type: "error" }
          );
-      } finally {
-         setLoading(false);
       }
    };
 
@@ -355,16 +252,6 @@ const Register = () => {
 
    return (
       <div className="register-page">
-         {step === 2 && (
-            <OtpVerification
-               phoneNumber={phoneNumber}
-               onVerificationSuccess={handleOtpVerificationSuccess}
-               onCancel={handleOtpCancel}
-               title={intl.formatMessage({ id: 'otp.register_title' })}
-               description={intl.formatMessage({ id: 'otp.register_description' })}
-            />
-         )}
-
          {step === 1 && (
             <div className="register-box">
                <h2>{intl.formatMessage({ id: 'register.title' })}</h2>
@@ -375,14 +262,8 @@ const Register = () => {
                   placeholder={intl.formatMessage({ id: 'register.phone_placeholder' })}
                   value={phoneNumber}
                   onChange={handleChange}
-                  disabled={loading || phoneVerified}
-                  className={phoneVerified ? 'verified' : ''}
+                  disabled={loading}
                />
-               {phoneVerified && (
-                  <div className="verification-badge">
-                     ✅ Số điện thoại đã được xác thực
-                  </div>
-               )}
 
                <input
                   type="password"
@@ -392,6 +273,7 @@ const Register = () => {
                   onChange={handleChange}
                   disabled={loading}
                />
+
                <input
                   type="password"
                   name="confirmPassword"
@@ -401,38 +283,50 @@ const Register = () => {
                   disabled={loading}
                />
 
-               {shouldRedirect && countdown > 0 && (
-                  <div className="redirecting">
-                     {intl.formatMessage(
-                        { id: 'register.redirecting' },
-                        { seconds: countdown }
-                     )}
-                  </div>
-               )}
-
-               {!phoneVerified ? (
-                  <button
-                     className="btn-verify-phone"
-                     onClick={handleContinueToOTP}
-                     disabled={loading || !phoneNumber || !password || !confirmPassword}
-                  >
-                     {loading
-                        ? intl.formatMessage({ id: 'register.loading' })
-                        : "Xác thực số điện thoại"}
-                  </button>
-               ) : (
-                  <button className="btn-register" onClick={handleRegister} disabled={loading}>
-                     {loading
-                        ? intl.formatMessage({ id: 'register.loading' })
-                        : intl.formatMessage({ id: 'register.button' })}
-                  </button>
-               )}
+               <button
+                  className="btn-verify-phone"
+                  onClick={handleContinueToOTP}
+                  disabled={loading}
+               >
+                  {loading
+                     ? intl.formatMessage({ id: 'register.loading' })
+                     : intl.formatMessage({ id: 'register.verify_phone_button' })}
+               </button>
 
                <div className="redirect-login">
                   <p>
                      {intl.formatMessage({ id: 'register.login_redirect' })}{' '}
                      <a href="/login">{intl.formatMessage({ id: 'register.login_link' })}</a>
                   </p>
+               </div>
+            </div>
+         )}
+
+         {step === 2 && (
+            <div className="otp-step">
+               <OtpVerification
+                  phoneNumber={phoneNumber}
+                  onVerificationSuccess={handleOtpVerificationSuccess}
+                  onCancel={handleOtpCancel}
+                  title={intl.formatMessage({ id: 'register.otp.title' })}
+                  description={intl.formatMessage({ id: 'register.otp.description' })}
+               />
+            </div>
+         )}
+
+         {step === 3 && shouldRedirect && countdown > 0 && (
+            <div className="register-box">
+               <div className="success-message">
+                  <div className="success-icon">✅</div>
+                  <h2>{intl.formatMessage({ id: 'register.success_title' })}</h2>
+                  <p>{intl.formatMessage({ id: 'register.success_message' })}</p>
+
+                  <div className="redirecting">
+                     {intl.formatMessage(
+                        { id: 'register.redirecting' },
+                        { seconds: countdown }
+                     )}
+                  </div>
                </div>
             </div>
          )}

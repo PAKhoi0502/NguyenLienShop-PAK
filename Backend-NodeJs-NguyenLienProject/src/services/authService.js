@@ -147,9 +147,9 @@ let requestPasswordReset = async (phoneNumber, ipAddress, userAgent) => {
       });
 
       if (!user) {
-         return { 
-            errCode: 1, 
-            errMessage: "Số điện thoại không tồn tại trong hệ thống!" 
+         return {
+            errCode: 1,
+            errMessage: "Số điện thoại không tồn tại trong hệ thống!"
          };
       }
 
@@ -266,13 +266,15 @@ let verifyResetOTP = async (phoneNumber, otpCode) => {
             await resetToken.destroy();
             return {
                errCode: 3,
-               errMessage: "Mã OTP không đúng và đã hết số lần thử. Vui lòng yêu cầu mã mới."
+               errMessage: "Mã OTP không đúng và đã hết số lần thử. Vui lòng yêu cầu mã mới.",
+               attemptsRemaining: 0
             };
          }
-         
+
          return {
             errCode: 4,
-            errMessage: `Mã OTP không đúng. Còn ${remainingAttempts} lần thử.`
+            errMessage: `Mã OTP không đúng. Còn ${remainingAttempts} lần thử.`,
+            attemptsRemaining: remainingAttempts
          };
       }
 
@@ -342,11 +344,38 @@ let resetPassword = async (resetToken, newPassword) => {
    }
 };
 
+// 🗑️ Clear OTP data for phone number (for when user goes back to step 1)
+let clearOTPForPhone = async (phoneNumber) => {
+   try {
+      console.log('🗑️ Clearing OTP for phone:', phoneNumber);
+
+      // Delete OTP record from database
+      const deletedCount = await db.PasswordResetToken.destroy({
+         where: { phoneNumber: phoneNumber }
+      });
+
+      console.log(`🗑️ Deleted ${deletedCount} OTP records for phone: ${phoneNumber}`);
+
+      return {
+         errCode: 0,
+         errMessage: 'OTP đã được xóa thành công!'
+      };
+
+   } catch (error) {
+      console.error('ClearOTPForPhone service error:', error);
+      return {
+         errCode: -1,
+         errMessage: 'Lỗi server khi xóa OTP!'
+      };
+   }
+};
+
 export default {
    loginUser,
    registerUser,
    verifyUserPassword,
    requestPasswordReset,
    verifyResetOTP,
-   resetPassword
+   resetPassword,
+   clearOTPForPhone
 }

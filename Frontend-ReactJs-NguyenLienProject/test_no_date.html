@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Toast - No Date</title>
+    <style>
+        .custom-toast {
+            padding: 16px 18px 14px 18px !important;
+            border-radius: 12px !important;
+            box-shadow: 0 4px 18px 0 rgba(40, 40, 40, 0.12) !important;
+            font-size: 15px;
+            color: #222;
+            background: #fff !important;
+            min-width: 280px;
+            max-width: 600px;
+            word-break: break-word;
+            position: relative !important;
+            overflow: visible !important;
+            width: fit-content !important;
+            box-sizing: border-box !important;
+            border: 1px solid #e0e0e0 !important;
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .toast-title {
+            display: grid !important;
+            grid-template-columns: 20px 1fr 30px !important;
+            align-items: flex-start !important;
+            font-weight: 500;
+            margin-bottom: 6px;
+            position: relative;
+            gap: 12px !important;
+            width: 100% !important;
+            overflow: visible !important;
+            min-width: fit-content !important;
+        }
+
+        .date {
+            display: none !important;
+        }
+
+        .fa {
+            font-size: 14px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 16px !important;
+            height: 16px !important;
+            grid-column: 1 !important;
+            justify-self: center !important;
+            text-align: center;
+            position: relative !important;
+            z-index: 1 !important;
+            margin: 0 !important;
+            color: #27ae60 !important;
+        }
+
+        .toast-title-text {
+            grid-column: 2 !important;
+            justify-self: start !important;
+            font-weight: 600;
+            font-size: 16px;
+            color: #222;
+            line-height: 1.3;
+            min-width: 0 !important;
+            overflow: visible !important;
+            word-wrap: normal !important;
+            white-space: nowrap !important;
+            text-overflow: unset !important;
+            max-width: calc(100% - 20px) !important;
+        }
+
+        .toast-close {
+            grid-column: 3 !important;
+            justify-self: center !important;
+            align-self: flex-start !important;
+            background: transparent;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            padding: 0;
+            color: #999;
+            font-size: 18px;
+            transition: color 0.15s;
+            width: 18px !important;
+            height: 18px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            margin-top: -2px !important;
+        }
+
+        .toast-close:hover {
+            color: #333;
+        }
+
+        .toast-content {
+            font-size: 14px;
+            color: #555;
+            margin-top: 2px;
+            word-break: break-word;
+            line-height: 1.4;
+            overflow: visible !important;
+            white-space: normal !important;
+        }
+
+        .success {
+            color: #27ae60 !important;
+        }
+
+        body {
+            background: #f0f0f0;
+            padding: 20px;
+        }
+
+        .test-section {
+            margin-bottom: 30px;
+        }
+
+        h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .comparison {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .comparison>div {
+            flex: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Test Toast - Không có Date/Time</h1>
+
+    <div class="comparison">
+        <div>
+            <h3>✅ Layout mới (Không có thời gian):</h3>
+            <div class="custom-toast">
+                <div class="toast-title">
+                    <span class="date">02:46:53 SA</span> <!-- Hidden by CSS -->
+                    <i class="fa success">✓</i>
+                    <span class="toast-title-text">Đăng xuất thành công!</span>
+                    <button class="toast-close">×</button>
+                </div>
+                <div class="toast-content">Bạn đã đăng xuất khỏi tài khoản.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h3>Test với title dài:</h3>
+        <div class="custom-toast">
+            <div class="toast-title">
+                <span class="date">02:46:53 SA</span>
+                <i class="fa success">✓</i>
+                <span class="toast-title-text">Phiên reset password đã được xóa vì lý do bảo mật</span>
+                <button class="toast-close">×</button>
+            </div>
+            <div class="toast-content">Vui lòng bắt đầu lại từ đầu.</div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h3>Test với title cực dài:</h3>
+        <div class="custom-toast">
+            <div class="toast-title">
+                <span class="date">02:46:53 SA</span>
+                <i class="fa success">✓</i>
+                <span class="toast-title-text">Hệ thống đã tự động xóa phiên làm việc reset mật khẩu của bạn vì lý do
+                    bảo mật khi điều hướng đi nơi khác</span>
+                <button class="toast-close">×</button>
+            </div>
+            <div class="toast-content">Điều này xảy ra để đảm bảo tính bảo mật cho tài khoản của bạn. Vui lòng thử lại.
+            </div>
+        </div>
+    </div>
+
+    <p><strong>Lợi ích:</strong><br>
+        ✅ Nhiều không gian hơn cho title text<br>
+        ✅ Layout đơn giản: chỉ Icon - Title - Close button<br>
+        ✅ Không còn bị dính với nút X<br>
+        ✅ Giao diện sạch sẽ hơn<br>
+    </p>
+
+</body>
+
+</html>

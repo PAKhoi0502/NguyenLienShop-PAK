@@ -6,10 +6,11 @@
   color: #222;
   background: #fff !important;
   min-width: 280px; // Increased for Vietnamese text
-  max-width: 420px; // Increased for Vietnamese text
+  max-width: 600px; // ✅ Increased max-width to accommodate longer titles
   word-break: break-word;
   position: relative !important;
   overflow: visible !important; // Allow content expansion
+  width: fit-content !important; // ✅ Auto-size based on content
 
   // Ensure toast is self-contained
   box-sizing: border-box !important;
@@ -17,16 +18,18 @@
 
   .toast-title {
     display: grid !important; // ✅ Use grid instead of flex
-    grid-template-columns: auto 20px 1fr auto !important; // ✅ Fixed columns: date | icon | title | close
+    grid-template-columns: 20px 1fr 30px !important; // ✅ Only 3 columns: icon | title | close button
     align-items: flex-start !important; // Allow title to expand vertically
     font-weight: 500;
     margin-bottom: 6px;
     position: relative;
-    gap: 8px !important; // ✅ Consistent spacing
+    gap: 12px !important; // ✅ Increased gap for better spacing
     width: 100% !important;
     overflow: visible !important; // Allow title expansion
+    min-width: fit-content !important; // ✅ Auto-size based on content
 
     .date {
+      display: none !important; // ✅ Hide the date completely
       font-size: 11px;
       color: #888;
       line-height: 1.2;
@@ -41,7 +44,7 @@
       justify-content: center !important;
       width: 16px !important;
       height: 16px !important;
-      grid-column: 2 !important; // ✅ Second column - fixed position
+      grid-column: 1 !important; // ✅ First column (was second)
       justify-self: center !important;
       text-align: center;
       position: relative !important;
@@ -50,7 +53,7 @@
     }
 
     .toast-title-text {
-      grid-column: 3 !important; // ✅ Third column - flexible
+      grid-column: 2 !important; // ✅ Second column (was third)
       justify-self: start !important;
       font-weight: 600;
       font-size: 16px;
@@ -58,14 +61,15 @@
       line-height: 1.3;
       min-width: 0 !important; // ✅ Allow text to shrink
       overflow: visible !important; // Show full text
-      word-wrap: break-word !important; // Allow text wrapping
-      white-space: normal !important; // Allow text to wrap to multiple lines
+      word-wrap: normal !important; // ✅ Don't break words
+      white-space: nowrap !important; // ✅ Keep title in single line
       text-overflow: unset !important; // Don't truncate text
+      max-width: calc(100% - 20px) !important; // ✅ Prevent overflow into close button area
     }
 
     .toast-close {
-      grid-column: 4 !important; // ✅ Fourth column
-      justify-self: end !important;
+      grid-column: 3 !important; // ✅ Third column (was fourth)
+      justify-self: center !important; // ✅ Center in its allocated space
       align-self: flex-start !important; // Stay at top when title wraps
       background: transparent;
       border: none;
@@ -123,7 +127,8 @@
 
     .toast-title {
       font-size: 13px;
-      grid-template-columns: auto 16px 1fr auto !important; // ✅ Smaller grid for mobile
+      grid-template-columns: 16px 1fr 24px !important; // ✅ 3 columns for mobile: icon | title | close
+      gap: 8px !important; // ✅ Smaller gap for mobile
 
       .fa,
       .toast-close {
@@ -134,10 +139,18 @@
 
       .toast-title-text {
         font-size: 14px;
+        max-width: calc(100% - 16px) !important; // ✅ Prevent overflow on mobile
+
+        // ✅ On very small screens, allow title to wrap if absolutely necessary
+        @media (max-width: 320px) {
+          white-space: pre-wrap !important;
+          word-break: break-word !important;
+          max-width: calc(100% - 12px) !important; // ✅ Even smaller margin for tiny screens
+        }
       }
 
       .date {
-        font-size: 10px;
+        display: none !important; // ✅ Keep date hidden on mobile too
         min-width: 46px;
       }
     }

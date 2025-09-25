@@ -2,6 +2,7 @@
     "common": {
         "ok": "OK",
         "error": "Lỗi",
+        "success": "Thành công",
         "cancel": "Hủy",
         "confirm": "Xác nhận",
         "not_available": "N/A",
@@ -27,6 +28,13 @@
         "loading": "Đang đăng nhập..."
     },
     "register": {
+        "error_title_missing_info": "Thiếu thông tin!",
+        "error_title_invalid_phone": "Số điện thoại không hợp lệ!",
+        "error_invalid_phone_format": "Định dạng số điện thoại không hợp lệ!",
+        "error_title_invalid_password": "Mật khẩu không hợp lệ!",
+        "error_title_invalid_re_password": "Mật khẩu không khớp!",
+        "phone_verified": "✅ Số điện thoại đã được xác thực",
+        "verify_phone_button": "Xác thực số điện thoại",
         "title": "Tạo tài khoản",
         "phone_placeholder": "Số điện thoại",
         "password_placeholder": "Mật khẩu",
@@ -35,15 +43,30 @@
         "loading": "Đang đăng ký...",
         "login_redirect": "Đã có tài khoản?",
         "login_link": "Đăng nhập",
-        "success_title": "Đăng ký thành công",
+        "success_title": "Tạo tài khoản thành công!",
         "success_message": "Bạn sẽ được chuyển hướng đến trang đăng nhập!",
         "redirecting": "Đang chuyển đến trang đăng nhập trong {seconds} giây...",
-        "error_title": "Lỗi đăng ký",
+        "error_title": "Lỗi tạo tài khoản!",
         "error_missing_info": "Vui lòng nhập đầy đủ thông tin!",
         "error_invalid_phone": "Số điện thoại không hợp lệ!",
         "error_invalid_password": "Mật khẩu phải có ít nhất 6 ký tự, gồm ít nhất 1 chữ thường và 1 số!",
         "error_password_mismatch": "Mật khẩu không khớp!",
-        "error_failed": "Đăng ký thất bại!"
+        "error_failed": "Tạo tài khoản thất bại!",
+        "error_phone_required": "Vui lòng nhập số điện thoại",
+        "error_phone_invalid": "Số điện thoại không hợp lệ",
+        "error_missing_all_info": "Vui lòng nhập đầy đủ thông tin",
+        "error_password_format": "Mật khẩu phải có ít nhất 6 ký tự, bao gồm chữ thường và số",
+        "error_password_mismatch_detail": "Mật khẩu hoặc mật khẩu xác nhận không khớp nhau.",
+        "error_phone_exists": "Số điện thoại này đã được sử dụng để đăng ký. Vui lòng sử dụng số khác.",
+        "error_phone_check_failed": "Không thể kiểm tra số điện thoại. Vui lòng thử lại.",
+        "error_system_error": "Lỗi hệ thống! Vui lòng thử lại.",
+        "error_phone_not_verified": "Vui lòng xác thực số điện thoại trước khi đăng ký",
+        "error_phone_exists_short": "Số điện thoại này đã được sử dụng để đăng ký. Vui lòng sử dụng số khác.",
+        "error_missing_fields": "Vui lòng nhập đủ thông tin cần thiết.",
+        "otp": {
+            "title": "Xác thực số điện thoại",
+            "description": "Vui lòng nhập mã OTP được gửi đến số điện thoại để hoàn tất đăng ký"
+        }
     },
     "logout": {
         "success": "Đăng xuất thành công!",
@@ -83,12 +106,14 @@
             "otp_placeholder": "Nhập mã OTP 6 chữ số",
             "verify_button": "Xác thực OTP",
             "resend_button": "Gửi lại mã",
+            "change_phone": "Thay đổi số điện thoại",
             "back_button": "Quay lại",
             "verifying": "Đang xác minh...",
             "resending": "Gửi lại...",
             "expires_in": "Hết hạn sau {seconds}",
             "resend_in": "Gửi lại trong {seconds}",
-            "attempts_remaining": "{remaining} lần thử còn lại",
+            "attempts_remaining": "Còn {count} lần thử",
+            "attempts_remaining_display": "Còn {count} lần thử",
             "dev_info": "Mã OTP (dành cho dev): {otp}",
             "success_title": "Thành công",
             "error_title": "Lỗi",
@@ -100,6 +125,8 @@
                 "invalid_otp": "Mã OTP không hợp lệ",
                 "expired_otp": "Mã OTP đã hết hạn. Vui lòng yêu cầu mã mới",
                 "max_attempts": "Bạn đã nhập sai quá nhiều lần. Vui lòng yêu cầu mã mới",
+                "too_many_attempts": "Đã vượt quá số lần thử. Vui lòng yêu cầu mã OTP mới.",
+                "no_attempts_left": "Đã hết số lần thử. Bạn sẽ được chuyển về bước đầu tiên.",
                 "verification_failed": "Xác minh không thành công. Vui lòng thử lại"
             }
         },
@@ -130,6 +157,8 @@
                 "server_error": "Lỗi server. Vui lòng thử lại sau"
             }
         },
+        "back_to_phone_input": "Đã quay lại bước nhập số điện thoại",
+        "resent_message": "Mã OTP mới đã được gửi đến số điện thoại của bạn!",
         "common": {
             "loading": "Đang tải...",
             "error": "Đã xảy ra lỗi",
@@ -139,7 +168,10 @@
             "continue": "Tiếp tục"
         },
         "back_to_login_text": "Đã nhớ mật khẩu?",
-        "resent_message": "Mã OTP mới đã được gửi"
+        "session_expired": "Phiên reset password đã hết hạn. Vui lòng thử lại từ đầu.",
+        "security_cleared": "Phiên reset password đã được xóa vì lý do bảo mật. Vui lòng bắt đầu lại từ đầu.",
+        "restored_title": "Khôi phục tiến trình",
+        "restored_message": "Đã khôi phục tiến trình reset password của bạn"
     },
     "header_public": {
         "language_changed": "Đổi ngôn ngữ",

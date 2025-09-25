@@ -2,6 +2,7 @@
     "common": {
         "ok": "OK",
         "error": "Error",
+        "success": "Success",
         "cancel": "Cancel",
         "confirm": "Confirm",
         "not_available": "N/A",
@@ -27,6 +28,13 @@
         "loading": "Logging in..."
     },
     "register": {
+        "error_title_missing_info": "Missing information!",
+        "error_title_invalid_phone": "Invalid phone number!",
+        "error_invalid_phone_format": "Invalid phone number format!",
+        "error_title_invalid_password": "Invalid password!",
+        "error_title_invalid_re_password": "Passwords do not match!",
+        "phone_verified": "✅ Phone number verified",
+        "verify_phone_button": "Verify Phone Number",
         "title": "Create Account",
         "phone_placeholder": "Phone number",
         "password_placeholder": "Password",
@@ -43,7 +51,22 @@
         "error_invalid_phone": "Invalid phone number!",
         "error_invalid_password": "Password must be at least 6 characters long, including at least 1 lowercase letter and 1 number!",
         "error_password_mismatch": "Passwords do not match!",
-        "error_failed": "Registration failed!"
+        "error_failed": "Registration failed!",
+        "error_phone_required": "Please enter phone number",
+        "error_phone_invalid": "Invalid phone number",
+        "error_missing_all_info": "Please fill in all information",
+        "error_password_format": "Password must be at least 6 characters, including lowercase letters and numbers",
+        "error_password_mismatch_detail": "Password or password confirmation do not match.",
+        "error_phone_exists": "This phone number has already been used for registration. Please use a different number.",
+        "error_phone_check_failed": "Unable to check phone number. Please try again.",
+        "error_system_error": "System error! Please try again.",
+        "error_phone_not_verified": "Please verify phone number before registration",
+        "error_phone_exists_short": "This phone number has already been used for registration. Please use a different number.",
+        "error_missing_fields": "Please fill in all required information.",
+        "otp": {
+            "title": "Phone Verification",
+            "description": "Please enter the OTP sent to the phone number to complete the registration"
+        }
     },
     "logout": {
         "success": "Logout Successful!",
@@ -83,12 +106,14 @@
             "otp_placeholder": "Enter 6-digit OTP code",
             "verify_button": "Verify OTP",
             "resend_button": "Resend Code",
+            "change_phone": "Change Phone Number",
             "back_button": "Go Back",
             "verifying": "Verifying...",
             "resending": "Resending...",
             "expires_in": "Expires in {seconds}",
             "resend_in": "Resend in {seconds}",
-            "attempts_remaining": "{remaining} attempts remaining",
+            "attempts_remaining": "{count} attempts remaining",
+            "attempts_remaining_display": "{count} attempts remaining",
             "dev_info": "OTP Code (for dev): {otp}",
             "success_title": "Success",
             "error_title": "Error",
@@ -100,6 +125,8 @@
                 "invalid_otp": "Invalid OTP code",
                 "expired_otp": "OTP code has expired",
                 "max_attempts": "Maximum attempts exceeded. Please request a new code",
+                "too_many_attempts": "Too many attempts. Please request a new OTP code.",
+                "no_attempts_left": "No attempts left. You will be redirected to the first step.",
                 "verification_failed": "Verification failed. Please try again"
             }
         },
@@ -130,6 +157,8 @@
                 "server_error": "Server error. Please try again later"
             }
         },
+        "back_to_phone_input": "Returned to phone input step",
+        "resent_message": "New OTP code has been sent to your phone number!",
         "common": {
             "loading": "Loading...",
             "error": "An error occurred",
@@ -139,7 +168,10 @@
             "continue": "Continue"
         },
         "back_to_login_text": "Already remember your password?",
-        "resent_message": "New OTP code has been sent"
+        "session_expired": "Reset password session has expired. Please start over.",
+        "security_cleared": "Reset password session has been cleared for security reasons. Please start over.",
+        "restored_title": "Session Restored",
+        "restored_message": "Your forgot password progress has been restored"
     },
     "header_public": {
         "language_changed": "Language changed",

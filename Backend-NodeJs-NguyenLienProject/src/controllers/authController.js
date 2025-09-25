@@ -238,9 +238,9 @@ const handleForgotPassword = async (req, res) => {
       const result = await authService.requestPasswordReset(phoneNumber, ipAddress, userAgent);
 
       if (result.errCode !== 0) {
-         const statusCode = result.errCode === 1 ? 404 : 
-                           result.errCode === 2 ? 429 : 
-                           result.errCode === 3 ? 500 : 400;
+         const statusCode = result.errCode === 1 ? 404 :
+            result.errCode === 2 ? 429 :
+               result.errCode === 3 ? 500 : 400;
 
          return res.status(statusCode).json({
             errCode: result.errCode,
@@ -280,13 +280,14 @@ const handleVerifyResetOTP = async (req, res) => {
       const result = await authService.verifyResetOTP(phoneNumber, otpCode);
 
       if (result.errCode !== 0) {
-         const statusCode = result.errCode === 1 ? 404 : 
-                           result.errCode === 2 || result.errCode === 3 ? 403 : 
-                           result.errCode === 4 ? 400 : 500;
+         const statusCode = result.errCode === 1 ? 404 :
+            result.errCode === 2 || result.errCode === 3 ? 403 :
+               result.errCode === 4 ? 400 : 500;
 
          return res.status(statusCode).json({
             errCode: result.errCode,
-            errMessage: result.errMessage
+            errMessage: result.errMessage,
+            attemptsRemaining: result.attemptsRemaining || 0
          });
       }
 
@@ -321,8 +322,8 @@ const handleResetPassword = async (req, res) => {
       const result = await authService.resetPassword(resetToken, newPassword);
 
       if (result.errCode !== 0) {
-         const statusCode = result.errCode === 1 ? 400 : 
-                           result.errCode === 2 ? 403 : 500;
+         const statusCode = result.errCode === 1 ? 400 :
+            result.errCode === 2 ? 403 : 500;
 
          return res.status(statusCode).json({
             errCode: result.errCode,
@@ -344,6 +345,46 @@ const handleResetPassword = async (req, res) => {
    }
 };
 
+// 🗑️ Clear OTP for phone number (when user goes back to step 1)
+const handleClearOTP = async (req, res) => {
+   try {
+      const { phoneNumber } = req.body;
+
+      // Validate phone number format
+      const phoneRegex = /^(84|0)[35789][0-9]{8}$/;
+      if (!phoneRegex.test(phoneNumber)) {
+         return res.status(400).json({
+            errCode: 1,
+            errMessage: 'Số điện thoại không hợp lệ!'
+         });
+      }
+
+      console.log('🗑️ Clearing OTP for phone:', phoneNumber);
+
+      // Clear OTP data from database
+      const result = await authService.clearOTPForPhone(phoneNumber);
+
+      if (result.errCode === 0) {
+         return res.status(200).json({
+            errCode: 0,
+            errMessage: 'Đã xóa OTP thành công!'
+         });
+      } else {
+         return res.status(400).json({
+            errCode: result.errCode,
+            errMessage: result.errMessage
+         });
+      }
+
+   } catch (error) {
+      console.error('HandleClearOTP error:', error);
+      return res.status(500).json({
+         errCode: -1,
+         errMessage: 'Lỗi server khi xóa OTP!'
+      });
+   }
+};
+
 export default {
    handleLogin,
    handleRegister,
@@ -355,5 +396,6 @@ export default {
    handleVerifyPassword,
    handleForgotPassword,
    handleVerifyResetOTP,
-   handleResetPassword
+   handleResetPassword,
+   handleClearOTP
 };

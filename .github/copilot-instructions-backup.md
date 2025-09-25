@@ -1,23 +1,22 @@
-````instructions
 # AI Coding Agent Instructions
 
 This document provides essential guidance for AI agents working in the NguyenLienShop e-commerce codebase.
 
 ## Project Architecture Overview
 
-This is a full-stack Vietnamese e-commerce platform with clear separation between frontend and backend:
+This is a full-stack e-commerce platform with clear separation between frontend and backend:
 
 ### Core Components
-- **Backend**: Node.js/Express API (`Backend-NodeJs-NguyenLienProject/`) on port 8080
-- **Frontend**: React SPA with admin panel (`Frontend-ReactJs-NguyenLienProject/`) on port 3000
-- **Database**: MySQL with Sequelize ORM, timezone `+07:00` (Vietnam)
-- **File Uploads**: Handled via `uploads/` directory with timestamped filenames (format: `1753361225076.jpg`)
+- **Backend**: Node.js/Express API (`Backend-NodeJs-NguyenLienProject/`)
+- **Frontend**: React SPA with admin panel (`Frontend-ReactJs-NguyenLienProject/`)
+- **Database**: MySQL with Sequelize ORM
+- **File Uploads**: Handled via `uploads/` directory with timestamped filenames
 
 ### Technology Stack
-- **Backend**: Node.js 16+ + Express + Sequelize + JWT + Multer + Babel + bcrypt
-- **Frontend**: React 18 + Redux Toolkit + React Router v6 + Axios + Bootstrap 5 + React Hot Toast
-- **Database**: MySQL 8.x with auto-increment issues (see troubleshooting section)
-- **Build Tools**: Babel transpilation, nodemon for development, Create React App
+- **Backend**: Node.js + Express + Sequelize + JWT + Multer + Babel
+- **Frontend**: React 18 + Redux Toolkit + React Router + Axios + Bootstrap + React Hot Toast
+- **Database**: MySQL with timezone `+07:00` (Vietnam)
+- **Build Tools**: Babel transpilation, nodemon for development
 
 ### Key Architectural Patterns
 
@@ -25,7 +24,7 @@ This is a full-stack Vietnamese e-commerce platform with clear separation betwee
 ```
 src/
 ├── server.js              # Entry point with CORS config for localhost:3000
-├── config/                # DB connection (connectDB.js), view engine setup
+├── config/                # DB connection, view engine setup
 ├── controllers/           # Route handlers following errCode pattern
 ├── services/              # Business logic layer
 ├── models/                # Sequelize models with associations
@@ -43,7 +42,6 @@ src/
 ├── services/              # API integration with axios interceptors
 ├── store/                 # Redux setup with actions/reducers
 ├── components/            # Organized by containerAdmin/ and containerPublic/
-├── translations/          # i18n files for Vietnamese/English
 └── pages/                 # Route components
 ```
 
@@ -66,71 +64,52 @@ All API responses follow this standard error code pattern:
 - **Token Management**: Automatic refresh and attachment via axios interceptors
 - **Admin Protection**: `/api/admin/` prefix routes require valid JWT tokens
 - **Security**: Token blacklisting implemented in `src/utils/tokenUtils.js` (see `LOGOUT_IMPLEMENTATION.md`)
-- **Known Issue**: Auth loops can occur - exclude login endpoints from auto-refresh interceptors
 
-### Database Operations & Known Issues
-- Models use CommonJS exports (`module.exports`)
-- Migrations in `src/migrations/` for schema changes
-- **Critical MySQL Issue**: Auto-increment can break, causing 500 errors on token creation
-- **Fix Process**: Run `fix_mysql_autoincrement.bat` or manually reset with `ALTER TABLE refresh_tokens AUTO_INCREMENT = 1;`
-- Connection: Uses `connectDB()` from `src/config/connectDB.js`, timezone `+07:00`
+### Database Associations (Sequelize)
+Key relationships to understand:
+- `Product` ↔ `Category` (many-to-many via ProductCategory)
+- `Product` → `ProductImage` (one-to-many)
+- `User` ↔ `Product` (many-to-many via Wishlist)
+- `Product` ↔ `DiscountCode` (many-to-many via ProductDiscount)
 
 ### File Upload Pattern
 - Images uploaded to `/uploads/` with timestamp naming: `1753361225076.jpg`
 - Multer middleware handles multipart/form-data
 - Frontend sends FormData for file uploads
-- Static serving: `app.use('/uploads', express.static('uploads'));`
 
 ## Essential Development Workflows
 
-### Setup & Running (Critical Order)
+### Running the Application
 ```bash
-# 1. Backend FIRST (from Backend-NodeJs-NguyenLienProject/)
-npm install
+# Backend (from Backend-NodeJs-NguyenLienProject/)
+npm start          # Uses nodemon + babel-node
 npm run migrate    # Run Sequelize migrations
-npm start          # Uses nodemon + babel-node on port 8080
+npm run seed       # Seed initial data
 
-# 2. Frontend SECOND (from Frontend-ReactJs-NguyenLienProject/)
-npm install
+# Frontend (from Frontend-ReactJs-NguyenLienProject/)
 npm start          # Development server on localhost:3000
+npm run build      # Production build
+
+# Frontend Production Server
+cd server && npm start  # Serves built React app
 ```
 
-### Environment Configuration
-**Backend (.env in Backend-NodeJs-NguyenLienProject/)**
-```env
-PORT=8080
-NODE_ENV=development
-JWT_SECRET=nguyenlien-secret-key
-JWT_EXPIRES=1d
-```
+### Database Operations
+- Models use CommonJS exports (`module.exports`)
+- Migrations in `src/migrations/` for schema changes
+- Environment variables in `.env` for DB configuration
+- Connection: MySQL on localhost:3306 (default) with timezone `+07:00`
+- **Critical**: Always use `connectDB()` from `src/config/connectDB.js` for connections
 
-**Frontend (.env in Frontend-ReactJs-NguyenLienProject/)**
-```env
-PORT=3000
-REACT_APP_BACKEND_URL=http://localhost:8080
-```
-
-### Common Troubleshooting
-
-#### React Reload Loop Issue
-- **Symptoms**: Website reloads continuously after setup
-- **Causes**: React.StrictMode, AuthDebugSafe component, hot reload conflicts
-- **Fixes**: 
-  - Comment out `<React.StrictMode>` in App.js
-  - Disable development debug components
-  - Run `clear_storage.js` to clear auth state
-  - Use `restart_with_cache_clear.bat`
-
-#### Database Connection Issues
-- Check MySQL service is running
-- Verify database exists and permissions are correct
-- Use `mysql_repair_autoincrement.sql` for token table issues
-- Connection test: `sequelize.authenticate()` in `connectDB.js`
+### CORS Configuration
+Backend explicitly allows `localhost:3000` with credentials. When modifying CORS:
+- Update both `cors()` config and manual headers in `server.js`
+- Ensure Authorization header is allowed
 
 ## Service Layer Patterns
 
 ### Frontend API Services
-Each service follows this pattern with consistent error handling:
+Each service follows this pattern with error handling:
 ```javascript
 // services/productService.js
 export const methodName = async (params) => {
@@ -164,9 +143,8 @@ let handleGetProducts = async (req, res) => {
 
 ### Backend Routes
 - `/api/*` - REST API endpoints (JSON responses)
-- `/uploads/*` - Static file serving for images
-- Admin routes protected with JWT middleware
-- CORS configured for `localhost:3000` with credentials
+- `/*` - Server-side rendered views (if needed)
+- Separation in `routes/apiRoutes.js` vs `routes/webRoutesBackend.js`
 
 ### Frontend Routes
 - Public routes: Home, Login, Register (wrapped in `PublicRoute` HOC)
@@ -180,35 +158,12 @@ let handleGetProducts = async (req, res) => {
 - Reducers in `store/reducers/` handle specific data domains
 - Use existing action patterns when adding new features
 
-## Database Associations (Sequelize)
-Key relationships to understand:
-- `Product` ↔ `Category` (many-to-many via ProductCategory)
-- `Product` → `ProductImage` (one-to-many)
-- `User` ↔ `Product` (many-to-many via Wishlist)
-- `Product` ↔ `DiscountCode` (many-to-many via ProductDiscount)
-
 ## Key Integration Points
 
-- **API Communication**: Backend (8080) ↔ Frontend (3000) with CORS
+- **API Base URL**: Backend runs on port 8080, frontend assumes `localhost:8080`
 - **Image Serving**: Static files served from `/uploads/` on backend
 - **Environment Variables**: Backend uses `.env`, frontend uses `REACT_APP_` prefixed vars
 - **Token Management**: Automatic refresh and attachment via axios interceptors
 - **Error Handling**: Toast notifications via react-hot-toast and react-toastify
-- **Internationalization**: Vietnamese/English support via react-intl
-
-## Project-Specific Conventions
-
-1. **Error Codes**: 0 = Success, 1 = Validation error, -1 = System error
-2. **Route Protection**: Role-based with `isRole(1)` for admin access
-3. **Component Naming**: `container{Admin|Public}` for role-based organization
-4. **File Naming**: Timestamps for uploads (e.g., `1753361225076.jpg`)
-5. **Language**: Mixed Vietnamese/English codebase with Vietnamese user messages
 
 When implementing new features, follow the established controller → service → model pattern on backend, and component → service → Redux flow on frontend.
-
-## Debug & Test Files
-- Root directory contains multiple `.md` files documenting specific fixes
-- Test scripts: `simple_test_api.js`, `test_forgot_password_api.js`
-- Emergency fixes: `emergency_auth_fix.js`, `clear_auth_tokens.js`
-- Repair tools: `fix_mysql_autoincrement.bat`, `mysql_repair_autoincrement.sql`
-````

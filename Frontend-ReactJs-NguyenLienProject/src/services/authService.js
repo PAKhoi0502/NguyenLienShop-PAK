@@ -193,7 +193,7 @@ export const checkAuth = async () => {
 // 🔐 Password reset services
 export const requestPasswordReset = async (phoneNumber) => {
    try {
-      const res = await axios.post('/api/auth/request-password-reset', { phoneNumber });
+      const res = await axios.post('/api/auth/forgot-password', { phoneNumber });
       return res;
    } catch (err) {
       const errorMessage = err?.response?.data?.message || err?.response?.data?.errMessage || 'Lỗi máy chủ!';
@@ -234,6 +234,24 @@ export const resetPassword = async (resetToken, newPassword) => {
       const errorStatus = err?.response?.status;
 
       console.error('Reset password error:', err);
+
+      return {
+         errCode: errorStatus || -1,
+         errMessage: errorMessage,
+      };
+   }
+};
+
+// 🗑️ Clear OTP for phone number (when user goes back to step 1)
+export const clearServerOTP = async (phoneNumber) => {
+   try {
+      const res = await axios.post('/api/auth/clear-otp', { phoneNumber });
+      return res.data;
+   } catch (err) {
+      const errorMessage = err?.response?.data?.errMessage || 'Lỗi khi xóa OTP!';
+      const errorStatus = err?.response?.status;
+
+      console.error('Clear OTP error:', err);
 
       return {
          errCode: errorStatus || -1,
