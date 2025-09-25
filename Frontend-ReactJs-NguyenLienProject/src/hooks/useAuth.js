@@ -22,9 +22,12 @@ const useAuth = () => {
    const checkCookieAuth = useCallback(async () => {
       const now = Date.now();
 
-      // Don't check auth if on login page
-      if (window.location.pathname === '/login') {
-         console.log('🔧 useAuth: On login page, skipping auth check');
+      // Don't check auth if on public pages
+      const publicPaths = ['/login', '/register', '/forgot-password'];
+      const currentPath = window.location.pathname;
+
+      if (publicPaths.some(path => currentPath === path || currentPath.startsWith(path))) {
+         console.log('🔧 useAuth: On public page, skipping auth check:', currentPath);
          setCookieAuth({ isAuthenticated: false });
          setIsLoading(false);
          return;
@@ -72,17 +75,27 @@ const useAuth = () => {
    // Separate effect to handle Redux/Cookie sync
    useEffect(() => {
       if (!isLoading && cookieAuth !== null) {
-         // Give some time after login for cookies to sync - prevent immediate logout
+         // Give more time after login for cookies to sync - prevent immediate logout
          const recentLoginTime = localStorage.getItem('lastLoginTime');
          const now = Date.now();
          const timeSinceLogin = recentLoginTime ? (now - parseInt(recentLoginTime)) : Infinity;
 
+         console.log('🔧 useAuth sync check:', {
+            isLoggedIn,
+            cookieAuthIsAuthenticated: cookieAuth.isAuthenticated,
+            timeSinceLogin,
+            recentLoginTime,
+            now
+         });
+
          // If Redux says logged in but cookie auth fails, and it's not a recent login, clear Redux
-         if (isLoggedIn && !cookieAuth.isAuthenticated && timeSinceLogin > 3000) { // 3 second grace period
+         if (isLoggedIn && !cookieAuth.isAuthenticated && timeSinceLogin > 10000) { // Increased to 10 second grace period
             console.log('🔧 useAuth: Redux state exists but cookie auth failed after grace period - clearing Redux');
             dispatch(processLogout());
-         } else if (isLoggedIn && !cookieAuth.isAuthenticated && timeSinceLogin <= 3000) {
+         } else if (isLoggedIn && !cookieAuth.isAuthenticated && timeSinceLogin <= 10000) {
             console.log('🔧 useAuth: Cookie auth failed but within grace period after login - keeping Redux state');
+         } else if (isLoggedIn && cookieAuth.isAuthenticated) {
+            console.log('🔧 useAuth: Both Redux and cookie auth are valid - all good');
          }
       }
    }, [isLoggedIn, cookieAuth, isLoading, dispatch]);

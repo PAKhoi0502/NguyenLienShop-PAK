@@ -119,6 +119,48 @@
          text-align: center;
       }
 
+      .success-message {
+         text-align: center;
+         padding: 30px 20px;
+         background: linear-gradient(135deg, #f0fff4 0%, #e6fffa 100%);
+         border-radius: 12px;
+         border: 2px solid #38a169;
+         margin-bottom: 20px;
+
+         .success-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            line-height: 1;
+         }
+
+         h2 {
+            color: #2d3748;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-align: center;
+         }
+
+         p {
+            color: #4a5568;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            text-align: center;
+         }
+
+         .redirecting {
+            background: rgba(56, 161, 105, 0.1);
+            color: #2d3748;
+            font-weight: 600;
+            font-size: 14px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-top: 10px;
+            border: 1px solid rgba(56, 161, 105, 0.3);
+         }
+      }
+
       .redirect-login {
          text-align: center;
          font-size: 14px;
@@ -157,6 +199,30 @@
          .btn-register {
             font-size: 14px;
             padding: 10px;
+         }
+
+         .success-message {
+            padding: 20px 15px;
+
+            .success-icon {
+               font-size: 50px;
+               margin-bottom: 15px;
+            }
+
+            h2 {
+               font-size: 20px;
+               margin-bottom: 12px;
+            }
+
+            p {
+               font-size: 14px;
+               margin-bottom: 15px;
+            }
+
+            .redirecting {
+               font-size: 13px;
+               padding: 10px 15px;
+            }
          }
 
          .redirect-login {

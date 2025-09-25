@@ -1,4 +1,5 @@
 import axios from '../axios';
+import { clearAuthCookies } from '../utils/cookieUtils';
 
 export const login = async ({ identifier, password }) => {
    try {
@@ -24,9 +25,15 @@ export const login = async ({ identifier, password }) => {
 
 export const register = async ({ phoneNumber, password, roleId, phoneVerified = false }) => {
    try {
+      console.log('📝 [AUTH SERVICE] Calling register API with:', { phoneNumber, roleId, phoneVerified });
       const res = await axios.post('/api/auth/register', { phoneNumber, password, roleId, phoneVerified });
-      return res.data; // Return data instead of response object
+      console.log('📝 [AUTH SERVICE] Register API response:', res);
+      console.log('📝 [AUTH SERVICE] Response type:', typeof res);
+
+      // Axios interceptor already returns data directly
+      return res; // Return res instead of res.data
    } catch (err) {
+      console.error('📝 [AUTH SERVICE] Register error:', err);
       const errorMessage = err?.response?.data?.message || 'Lỗi máy chủ!';
       const errorStatus = err?.response?.status;
 
@@ -157,7 +164,10 @@ export const checkPhoneExists = async (phoneNumber) => {
       // Clear Redux persist specifically
       localStorage.removeItem('persist:root');
 
-      console.log('🚪 Logout: All storage cleared');
+      // 🍪 Force clear cookies on client side as additional safety
+      clearAuthCookies();
+
+      console.log('🚪 Logout: All storage and cookies cleared');
 
       return res;
    } catch (err) {
@@ -168,6 +178,9 @@ export const checkPhoneExists = async (phoneNumber) => {
       localStorage.clear();
       sessionStorage.clear();
       localStorage.removeItem('persist:root');
+
+      // 🍪 Force clear cookies on client side even if server fails
+      clearAuthCookies();
 
       return {
          errCode: -1,

@@ -21,7 +21,19 @@ const Register = () => {
 
    const handleChange = (e) => {
       const { name, value } = e.target;
-      if (name === 'phoneNumber') setPhoneNumber(value);
+
+      if (name === 'phoneNumber') {
+         // Strict phone input validation - only allow digits and basic formatting
+         const cleanValue = value.replace(/[^\d]/g, ''); // Remove all non-digits
+
+         // Limit to 10 digits max and must start with 0
+         if (cleanValue.length === 0 || (cleanValue[0] === '0' && cleanValue.length <= 10)) {
+            setPhoneNumber(cleanValue);
+         }
+         // If input starts with non-0 or exceeds 10 digits, ignore the input
+         return;
+      }
+
       if (name === 'password') setPassword(value);
       if (name === 'confirmPassword') setConfirmPassword(value);
    };
@@ -29,6 +41,21 @@ const Register = () => {
    const validatePhone = () => {
       if (!phoneNumber) {
          return intl.formatMessage({ id: 'register.error_phone_required' });
+      }
+
+      // Strict validation: must be exactly digits only
+      if (!/^\d+$/.test(phoneNumber)) {
+         return intl.formatMessage({ id: 'register.error_phone_digits_only' });
+      }
+
+      // Must be exactly 10 digits
+      if (phoneNumber.length !== 10) {
+         return intl.formatMessage({ id: 'register.error_phone_length' });
+      }
+
+      // Must start with 0
+      if (!phoneNumber.startsWith('0')) {
+         return intl.formatMessage({ id: 'register.error_phone_start_zero' });
       }
 
       // Enhanced Vietnamese phone validation using imported function
@@ -143,8 +170,8 @@ const Register = () => {
                <CustomToast
                   {...props}
                   type="error"
-                  titleId="register.error_title_invalid_phone"
-                  message={intl.formatMessage({ id: 'register.error_invalid_phone' })}
+                  titleId="register.error_failed"
+                  message={intl.formatMessage({ id: 'register.error_invalid_phone_format' })}
                   time={new Date()}
                />
             ),

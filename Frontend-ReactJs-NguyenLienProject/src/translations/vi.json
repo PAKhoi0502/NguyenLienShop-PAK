@@ -29,7 +29,7 @@
     },
     "register": {
         "error_title_missing_info": "Thiếu thông tin!",
-        "error_title_invalid_phone": "Số điện thoại không hợp lệ!",
+        "error_title_invalid_phone": "Tạo tài khoản thất bại!",
         "error_invalid_phone_format": "Định dạng số điện thoại không hợp lệ!",
         "error_title_invalid_password": "Mật khẩu không hợp lệ!",
         "error_title_invalid_re_password": "Mật khẩu không khớp!",
@@ -54,6 +54,9 @@
         "error_failed": "Tạo tài khoản thất bại!",
         "error_phone_required": "Vui lòng nhập số điện thoại",
         "error_phone_invalid": "Số điện thoại không hợp lệ",
+        "error_phone_digits_only": "Số điện thoại chỉ được chứa các chữ số",
+        "error_phone_length": "Số điện thoại phải có đúng 10 chữ số",
+        "error_phone_start_zero": "Số điện thoại phải bắt đầu bằng số 0",
         "error_missing_all_info": "Vui lòng nhập đầy đủ thông tin",
         "error_password_format": "Mật khẩu phải có ít nhất 6 ký tự, bao gồm chữ thường và số",
         "error_password_mismatch_detail": "Mật khẩu hoặc mật khẩu xác nhận không khớp nhau.",

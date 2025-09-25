@@ -2,7 +2,7 @@ import { resolveInclude } from "ejs";
 import db from "../models/index"
 import bcrypt from 'bcryptjs';
 import { where } from "sequelize";
-import { checkPhoneNumberExists, checkUserNameExists, generateUniqueUsername } from "../utils/validators";
+import { checkPhoneNumberExists, checkUserNameExists, generateUniqueUsername, validateVietnamesePhoneNumber } from "../utils/validators";
 import { Op } from 'sequelize';
 import validator from 'validator';
 const { generateAccessToken } = require('../utils/tokenUtils');
@@ -54,6 +54,12 @@ let registerUser = (data) => {
          if (!data.phoneNumber || !data.password) {
             return resolve({ errCode: 6, errMessage: 'Phone number and password are required' });
          }
+
+         // Validate phone number format
+         if (!validateVietnamesePhoneNumber(data.phoneNumber)) {
+            return resolve({ errCode: 7, errMessage: 'Invalid Vietnamese phone number format' });
+         }
+
          if (!data.roleId || isNaN(parseInt(data.roleId))) {
             return resolve({ errCode: 5, errMessage: 'Invalid or missing roleId' });
          }

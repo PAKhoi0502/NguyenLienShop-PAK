@@ -21,6 +21,41 @@ export const checkPhoneNumberExists = async (phoneNumber) => {
       return false;
    }
 };
+
+// Validate Vietnamese phone number format
+export const validateVietnamesePhoneNumber = (phoneNumber) => {
+   if (!phoneNumber || typeof phoneNumber !== 'string') {
+      return false;
+   }
+
+   // Must be exactly digits only (no spaces, dashes, or other characters)
+   if (!/^\d+$/.test(phoneNumber)) {
+      return false;
+   }
+
+   // Must be exactly 10 digits
+   if (phoneNumber.length !== 10) {
+      return false;
+   }
+
+   // Must start with 0
+   if (!phoneNumber.startsWith('0')) {
+      return false;
+   }
+
+   // Valid Vietnamese network prefixes
+   const validPrefixes = [
+      '032', '033', '034', '035', '036', '037', '038', '039', // Viettel
+      '086', '096', '097', '098', // Viettel old
+      '081', '082', '083', '084', '085', '088', '091', '094', // VinaPhone
+      '070', '076', '077', '078', '079', '089', '090', '093', // MobiFone
+      '052', '056', '058', '092', // Vietnamobile
+      '059', '099' // Gmobile
+   ];
+
+   const prefix = phoneNumber.substring(0, 3);
+   return validPrefixes.includes(prefix);
+};
 export const checkUserNameExists = async (userName) => {
    if (!userName || userName.trim() === "") return false;
    try {

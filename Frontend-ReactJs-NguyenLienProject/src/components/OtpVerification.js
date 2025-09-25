@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { sendOTP, verifyOTP, resendOTP } from '../utils/mockSmsService';
 import { toast } from 'react-toastify';
@@ -43,7 +43,7 @@ const OtpVerification = ({
         };
     }, [countdown]);
 
-    const handleSendOTP = async () => {
+    const handleSendOTP = useCallback(async () => {
         if (otpSent || otpSentRef.current) {
             console.log('📱 [OTP SEND] OTP already sent, skipping... otpSent:', otpSent, 'otpSentRef:', otpSentRef.current);
             return;
@@ -95,16 +95,17 @@ const OtpVerification = ({
             otpSentRef.current = false;
         }
         setResendLoading(false);
-    };    // Auto send OTP when component mounts (only once)
+    }, [phoneNumber, otpSent]); // Dependencies include phoneNumber and otpSent    // Auto send OTP when component mounts (only once)
     useEffect(() => {
+        console.log('📱 [OTP USEEFFECT] Effect running - otpSent:', otpSent, 'otpSentRef:', otpSentRef.current, 'phoneNumber:', phoneNumber);
+
         if (!otpSent && !otpSentRef.current && phoneNumber) {
             console.log('📱 [OTP USEEFFECT] Sending OTP for phone:', phoneNumber, 'otpSent:', otpSent, 'otpSentRef:', otpSentRef.current);
             handleSendOTP();
         } else {
             console.log('📱 [OTP USEEFFECT] Skipping OTP send - already sent or no phone number');
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []); // Empty dependency array - only run once on mount
+    }, [phoneNumber, handleSendOTP, otpSent]); // Include all dependencies
 
     const handleOtpChange = (index, value) => {
         // Only allow digits
