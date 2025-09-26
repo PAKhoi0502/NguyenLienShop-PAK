@@ -27,7 +27,6 @@ const useAuth = () => {
       const currentPath = window.location.pathname;
 
       if (publicPaths.some(path => currentPath === path || currentPath.startsWith(path))) {
-         console.log('🔧 useAuth: On public page, skipping auth check:', currentPath);
          setCookieAuth({ isAuthenticated: false });
          setIsLoading(false);
          return;
@@ -35,13 +34,11 @@ const useAuth = () => {
 
       // Prevent multiple simultaneous checks
       if (isCheckingAuth.current) {
-         console.log('🔧 useAuth: Already checking auth, skipping...');
          return;
       }
 
       // Prevent too frequent checks
       if (now - lastCheckTime.current < MIN_CHECK_INTERVAL) {
-         console.log('🔧 useAuth: Too frequent check, skipping...');
          return;
       }
 
@@ -80,22 +77,11 @@ const useAuth = () => {
          const now = Date.now();
          const timeSinceLogin = recentLoginTime ? (now - parseInt(recentLoginTime)) : Infinity;
 
-         console.log('🔧 useAuth sync check:', {
-            isLoggedIn,
-            cookieAuthIsAuthenticated: cookieAuth.isAuthenticated,
-            timeSinceLogin,
-            recentLoginTime,
-            now
-         });
-
          // If Redux says logged in but cookie auth fails, and it's not a recent login, clear Redux
          if (isLoggedIn && !cookieAuth.isAuthenticated && timeSinceLogin > 10000) { // Increased to 10 second grace period
-            console.log('🔧 useAuth: Redux state exists but cookie auth failed after grace period - clearing Redux');
             dispatch(processLogout());
          } else if (isLoggedIn && !cookieAuth.isAuthenticated && timeSinceLogin <= 10000) {
-            console.log('🔧 useAuth: Cookie auth failed but within grace period after login - keeping Redux state');
          } else if (isLoggedIn && cookieAuth.isAuthenticated) {
-            console.log('🔧 useAuth: Both Redux and cookie auth are valid - all good');
          }
       }
    }, [isLoggedIn, cookieAuth, isLoading, dispatch]);

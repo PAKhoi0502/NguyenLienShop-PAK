@@ -153,7 +153,8 @@ export const checkPhoneExists = async (phoneNumber) => {
          exists: false
       };
    }
-}; export const logout = async () => {
+};
+export const logout = async () => {
    try {
       const res = await axios.post('/api/auth/logout');
 
@@ -167,7 +168,6 @@ export const checkPhoneExists = async (phoneNumber) => {
       // 🍪 Force clear cookies on client side as additional safety
       clearAuthCookies();
 
-      console.log('🚪 Logout: All storage and cookies cleared');
 
       return res;
    } catch (err) {

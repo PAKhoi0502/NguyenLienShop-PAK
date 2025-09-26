@@ -75,7 +75,8 @@
         "success": "Logout Successful!",
         "success_message": "You have been logged out successfully.",
         "failed_title": "Logout Error",
-        "error": "Logout failed!"
+        "error": "Logout failed!",
+        "loading": "Logging out..."
     },
     "forgot_password": {
         "title": "Forgot Password",

@@ -8,7 +8,6 @@
  * @param {string} domain - Cookie domain (optional)
  */
 export const clearCookie = (name, path = '/', domain = null) => {
-    console.log(`🍪 Clearing cookie: ${name}`);
 
     // Multiple approaches to ensure cookie clearing
     const expiredDate = 'Thu, 01 Jan 1970 00:00:00 UTC';
@@ -36,7 +35,6 @@ export const clearCookie = (name, path = '/', domain = null) => {
  * 🧹 Clear all authentication cookies
  */
 export const clearAuthCookies = () => {
-    console.log('🧹 Clearing all authentication cookies');
     
     const authCookieNames = ['authToken', 'refreshToken', 'authFlag']; // ✅ Include authFlag
     
@@ -51,7 +49,6 @@ export const clearAuthCookies = () => {
         }
     });
     
-    console.log('✅ All authentication cookies cleared (including authFlag)');
 };/**
  * 🔍 Get cookie value by name
  * @param {string} name - Cookie name

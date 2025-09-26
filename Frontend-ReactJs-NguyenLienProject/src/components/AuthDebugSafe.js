@@ -80,7 +80,6 @@ const AuthDebug = () => {
       setIsTestingCookie(true);
       try {
          const result = await checkAuth();
-         console.log('🍪 Cookie Auth Test Result:', result);
          setCookieTestResult(result);
 
          if (result.errCode === 0) {

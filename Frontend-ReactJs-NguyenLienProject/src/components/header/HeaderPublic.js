@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect, forwardRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { processLogout } from '../../store/reducers/adminReducer';
 import { setLanguage } from '../../store/reducers/appReducer';
 import { FaSearch, FaUser, FaShoppingBag, FaHeart, FaTimes } from 'react-icons/fa';
 import './HeaderPublic.scss';
@@ -24,47 +23,6 @@ const HeaderPublic = forwardRef((props, ref) => {
       setHideBanner(true);
       setTimeout(() => setShowBanner(false), 400);
    }
-
-   const handleLogout = async () => {
-      try {
-         // 🍪 HttpOnly cookies are cleared by server during logout API call
-         // No need to manually remove localStorage tokens
-
-         dispatch(processLogout());
-
-         // 🎯 Show success toast
-         toast(
-            (props) => (
-               <CustomToast
-                  {...props}
-                  type="success"
-                  titleId="logout.success"
-                  messageId="logout.success_message"
-                  time={new Date()}
-               />
-            ),
-            { closeButton: false, type: "success" }
-         );
-
-         navigate('/login');
-      } catch (error) {
-         console.error('❌ Logout error:', error);
-
-         // 🚨 Show error toast
-         toast(
-            (props) => (
-               <CustomToast
-                  {...props}
-                  type="error"
-                  titleId="logout.failed_title"
-                  messageId="logout.error"
-                  time={new Date()}
-               />
-            ),
-            { closeButton: false, type: "error" }
-         );
-      }
-   };
 
    const handleChangeLanguage = (e) => {
       const lang = e.target.value;
@@ -175,7 +133,13 @@ const HeaderPublic = forwardRef((props, ref) => {
                                  <FormattedMessage id="header_public.menu.profile" defaultMessage="Thông tin" />
 
                               </div>
-                              <div className="dropdown-item" onClick={handleLogout}>
+                              <div
+                                 className="dropdown-item"
+                                 onClick={() => {
+                                    navigate('/logout');
+                                    setShowAccountMenu(false);
+                                 }}
+                              >
                                  <FormattedMessage id="header_public.menu.logout" defaultMessage="Đăng xuất" />
                               </div>
 

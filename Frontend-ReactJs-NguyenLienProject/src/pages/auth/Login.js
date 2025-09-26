@@ -26,7 +26,29 @@ const Login = () => {
          setIdentifier(savedIdentifier);
          setRememberMe(true);
       }
-   }, []);
+
+      // Check for logout success parameter and show toast
+      const params = new URLSearchParams(location.search);
+      const logoutSuccess = params.get('logoutSuccess');
+      
+      if (logoutSuccess === 'true') {
+         // Show logout success toast
+         toast(
+            <CustomToast
+               type="success"
+               titleId="logout.success"
+               messageId="logout.success_message"
+               time={new Date()}
+            />,
+            { closeButton: false, type: "success" }
+         );
+         
+         // Clean up URL by removing the parameter
+         const newUrl = new URL(window.location);
+         newUrl.searchParams.delete('logoutSuccess');
+         window.history.replaceState({}, '', newUrl);
+      }
+   }, [location.search]);
 
    const handleChange = (e) => {
       const { name, value, checked } = e.target;
@@ -103,9 +125,6 @@ const Login = () => {
          // 🔧 Set login timestamp for useAuth grace period
          localStorage.setItem('lastLoginTime', Date.now().toString());
 
-         // 🔧 Debug: Check Redux state after dispatch
-         console.log('🔧 User data for Redux:', user);
-         console.log('🔧 Dispatched adminLoginSuccess');
 
          toast(
             <CustomToast

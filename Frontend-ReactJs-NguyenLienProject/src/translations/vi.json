@@ -75,7 +75,8 @@
         "success": "Đăng xuất thành công!",
         "success_message": "Bạn đã đăng xuất khỏi tài khoản.",
         "failed_title": "Lỗi đăng xuất",
-        "error": "Đăng xuất thất bại!"
+        "error": "Đăng xuất thất bại!",
+        "loading": "Đang đăng xuất..."
     },
     "forgot_password": {
         "title": "Quên mật khẩu",
