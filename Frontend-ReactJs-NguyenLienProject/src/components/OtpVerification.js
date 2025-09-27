@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { sendOTP, verifyOTP, resendOTP } from '../utils/mockSmsService';
 import { toast } from 'react-toastify';
 import CustomToast from './CustomToast';
@@ -9,10 +9,11 @@ const OtpVerification = ({
     phoneNumber,
     onVerificationSuccess,
     onCancel,
-    title = "Xác thực số điện thoại",
-    description = "Vui lòng nhập mã OTP được gửi đến số điện thoại của bạn"
+    title = "register.otp.title",
+    description = "register.otp.description"
 }) => {
     console.log('📱 [OTP COMPONENT] Loaded with phone:', phoneNumber);
+    const intl = useIntl();
 
     const [otpCode, setOtpCode] = useState(['', '', '', '', '', '']);
     const [loading, setLoading] = useState(false);
@@ -59,8 +60,8 @@ const OtpVerification = ({
             if (result.success) {
                 toast(<CustomToast
                     type="success"
-                    titleId="body_admin.account_management.admin_manager.otp.sent_title"
-                    message={result.message}
+                    titleId="register.otp.sent_title"
+                    message={intl.formatMessage({ id: 'register.otp.sent_success_msg' })}
                     time={new Date()}
                 />);
                 setCountdown(60); // 60 seconds countdown
@@ -77,8 +78,8 @@ const OtpVerification = ({
             } else {
                 toast(<CustomToast
                     type="error"
-                    titleId="otp.error_title"
-                    message={result.message}
+                    titleId="register.otp.error_title"
+                    message={intl.formatMessage({ id: 'register.otp.sent_error_msg' })}
                     time={new Date()}
                 />);
                 setOtpSent(false);
@@ -87,15 +88,15 @@ const OtpVerification = ({
         } catch (error) {
             toast(<CustomToast
                 type="error"
-                titleId="otp.error_title"
-                message="Đã xảy ra lỗi khi gửi OTP"
+                titleId="register.otp.error_title"
+                message={intl.formatMessage({ id: 'register.otp.sent_error_msg' })}
                 time={new Date()}
             />);
             setOtpSent(false);
             otpSentRef.current = false;
         }
         setResendLoading(false);
-    }, [phoneNumber, otpSent]); // Dependencies include phoneNumber and otpSent    // Auto send OTP when component mounts (only once)
+    }, [phoneNumber, otpSent, intl]); // Dependencies include phoneNumber, otpSent, and intl
     useEffect(() => {
         console.log('📱 [OTP USEEFFECT] Effect running - otpSent:', otpSent, 'otpSentRef:', otpSentRef.current, 'phoneNumber:', phoneNumber);
 
@@ -169,8 +170,8 @@ const OtpVerification = ({
         if (otpToVerify.length !== 6) {
             toast(<CustomToast
                 type="error"
-                titleId="otp.error_title"
-                message="Vui lòng nhập đầy đủ 6 chữ số"
+                titleId="register.otp.error_title"
+                message={intl.formatMessage({ id: 'otp.validation.complete_6_digits' })}
                 time={new Date()}
             />);
             return;
@@ -188,8 +189,8 @@ const OtpVerification = ({
             } else {
                 toast(<CustomToast
                     type="error"
-                    titleId="otp.error_title"
-                    message={result.message}
+                    titleId="register.otp.error_title"
+                    message={intl.formatMessage({ id: 'otp.error.invalid' })}
                     time={new Date()}
                 />);
 
@@ -209,8 +210,8 @@ const OtpVerification = ({
         } catch (error) {
             toast(<CustomToast
                 type="error"
-                titleId="otp.error_title"
-                message="Đã xảy ra lỗi khi xác thực OTP"
+                titleId="register.otp.error_title"
+                message={intl.formatMessage({ id: 'otp.error.verify_failed' })}
                 time={new Date()}
             />);
         }
@@ -230,7 +231,8 @@ const OtpVerification = ({
             if (result.success) {
                 toast(<CustomToast
                     type='success'
-                    message='Mã OTP mới đã được gửi'
+                    message={intl.formatMessage({ id: 'register.otp.re_sent_success_msg' })}
+                    titleId='register.otp.sent_title'
                     time={new Date()}
                 />);
                 setCountdown(60);
@@ -245,8 +247,8 @@ const OtpVerification = ({
             } else {
                 toast(<CustomToast
                     type='error'
-                    titleId='otp.error_title'
-                    message={result.message}
+                    titleId='register.otp.error_title'
+                    message={intl.formatMessage({ id: 'otp.error.resend_failed' })}
                     time={new Date()}
                 />);
                 setOtpSent(false);
@@ -255,8 +257,8 @@ const OtpVerification = ({
         } catch (error) {
             toast(<CustomToast
                 type='error'
-                titleId='otp.error_title'
-                message='Đã xảy ra lỗi khi gửi lại OTP'
+                titleId='register.otp.error_title'
+                message={intl.formatMessage({ id: 'otp.error.resend_failed' })}
                 time={new Date()}
             />);
             setOtpSent(false);

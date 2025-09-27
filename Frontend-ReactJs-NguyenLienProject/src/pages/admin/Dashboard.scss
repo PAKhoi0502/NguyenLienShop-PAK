@@ -6,8 +6,9 @@
 @import '../../styles/mixins';
 
 .dashboard {
-   min-height: 100vh;
-   background-color: color(gray-50);
+   min-height: 48vh;
+   // Xóa min-height để dashboard chỉ chiếm đúng kích thước nội dung
+   background-color: #f9fafb; // gray-50
    padding: spacing(6);
 
    @include mobile-only {
@@ -29,7 +30,7 @@
    &__title {
       font-size: font-size(3xl);
       font-weight: font-weight(bold);
-      color: color(gray-900);
+      color: #111827; // gray-900
       margin: 0 0 spacing(2) 0;
       line-height: line-height(tight);
 
@@ -40,7 +41,7 @@
 
    &__subtitle {
       font-size: font-size(lg);
-      color: color(gray-600);
+      color: #4b5563; // gray-600
       margin: 0;
       line-height: line-height(relaxed);
 
@@ -56,7 +57,8 @@
       display: grid;
       grid-template-columns: 1fr;
       gap: spacing(6);
-      margin-bottom: spacing(8);
+      // Xóa margin-bottom để không tạo thêm khoảng trống không cần thiết
+      // margin-bottom: spacing(8);
 
       @include mobile-first(md) {
          grid-template-columns: repeat(2, 1fr);
@@ -97,20 +99,20 @@
 
       // Color variants
       &.dashboard-card--blue {
-         border-left: 4px solid color(primary-500);
+         border-left: 4px solid #3b82f6; // primary-500
 
          .dashboard-card__icon-wrapper {
-            background-color: color(primary-100);
-            color: color(primary-600);
+            background-color: #dbeafe; // primary-100
+            color: #2563eb; // primary-600
          }
       }
 
       &.dashboard-card--green {
-         border-left: 4px solid color(success-500);
+         border-left: 4px solid #10b981; // success-500
 
          .dashboard-card__icon-wrapper {
-            background-color: color(success-100);
-            color: color(success-600);
+            background-color: #d1fae5; // success-100
+            color: #059669; // success-600
          }
       }
 
@@ -151,14 +153,14 @@
    &__title {
       font-size: font-size(xl);
       font-weight: font-weight(semibold);
-      color: color(gray-900);
+      color: #111827; // gray-900
       margin: spacing(3) 0 0 0;
       line-height: line-height(tight);
    }
 
    &__description {
       font-size: font-size(sm);
-      color: color(gray-600);
+      color: #4b5563; // gray-600
       line-height: line-height(relaxed);
       margin: 0;
       flex-grow: 1;
@@ -170,11 +172,11 @@
       right: spacing(6);
       width: 20px;
       height: 20px;
-      color: color(gray-400);
+      color: #9ca3af; // gray-400
       transition: transition(all);
 
       .dashboard-card:hover & {
-         color: color(primary-500);
+         color: #3b82f6; // primary-500
          transform: translateX(4px);
       }
 
@@ -222,36 +224,36 @@
 // ==============================================
 @media (prefers-color-scheme: dark) {
    .dashboard {
-      background-color: color(gray-900);
+      background-color: #111827; // gray-900
 
       &__title {
-         color: color(white);
+         color: #ffffff; // white
       }
 
       &__subtitle {
-         color: color(gray-300);
+         color: #d1d5db; // gray-300
       }
    }
 
    .dashboard-card {
-      background-color: color(gray-800);
-      border-color: color(gray-700);
+      background-color: #1f2937; // gray-800
+      border-color: #374151; // gray-700
 
       &__title {
-         color: color(white);
+         color: #ffffff; // white
       }
 
       &__description {
-         color: color(gray-300);
+         color: #d1d5db; // gray-300
       }
    }
 
    .stat-card {
-      background-color: color(gray-800);
-      border-color: color(gray-700);
+      background-color: #1f2937; // gray-800
+      border-color: #374151; // gray-700
 
       &__label {
-         color: color(gray-300);
+         color: #d1d5db; // gray-300
       }
    }
 }

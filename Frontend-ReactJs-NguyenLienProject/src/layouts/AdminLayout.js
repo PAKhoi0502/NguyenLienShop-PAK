@@ -4,6 +4,7 @@ import HeaderAdmin from '../components/header/HeaderAdmin';
 import FooterAdmin from '../components/footer/FooterAdmin';
 import useAuth from '../hooks/useAuth';
 import Breadcrumb from '../components/Breadcrumb';
+import './AdminLayout.scss';
 
 const AdminLayout = ({ children }) => {
    const { isAuthenticated, isAdmin, isLoading } = useAuth();

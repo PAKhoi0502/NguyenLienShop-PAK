@@ -8,7 +8,8 @@
 .footer-container {
    background-color: color(white);
    border-top: 1px solid color(gray-200);
-   margin-top: auto;
+   // Xóa margin-top: auto để footer không bị đẩy xuống
+   // margin-top: auto;
 
    // ==============================================
    // 📊 FOOTER STATS SECTION

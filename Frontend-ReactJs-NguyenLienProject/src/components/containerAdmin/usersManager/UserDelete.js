@@ -9,13 +9,19 @@ const UserDelete = ({ user, onSuccess }) => {
    const intl = useIntl();
 
    const showToast = (type, message) => {
+      const messageToShow = message || intl.formatMessage({
+         id: type === "success"
+            ? "body_admin.account_management.user_manager.delete.delete_success_message"
+            : "body_admin.account_management.user_manager.delete.delete_error_message"
+      });
+
       toast(
          (props) => (
             <CustomToast
                {...props}
                type={type}
-               titleId={type === "success" ? "body_admin.account_management.user_manager.delete_success_title" : "body_admin.account_management.user_manager.delete_error_title"}
-               message={message}
+               titleId={type === "success" ? "body_admin.account_management.user_manager.delete.success_title_delete" : "body_admin.account_management.user_manager.delete.error"}
+               message={messageToShow}
                time={new Date()}
             />
          ),
@@ -36,7 +42,7 @@ const UserDelete = ({ user, onSuccess }) => {
 
       // Check if password attempts exceeded (tối đa 3 lần thử)
       if (attempts >= 2) { // >= 2 vì đây là lần thứ 3
-         showToast("error", intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.failed' }) || "Xóa thất bại - Đã nhập sai mật khẩu quá 3 lần");
+         showToast("error", intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.error.max_attempts' }));
          return;
       }
 
@@ -111,7 +117,7 @@ const UserDelete = ({ user, onSuccess }) => {
       const safeAttempts = typeof passwordAttempts === 'number' ? passwordAttempts : 0;
 
       const passwordTitle = safeAttempts > 0 ?
-         `${intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.password_title' })} - Lần thử ${safeAttempts + 1}/3` :
+         `${intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.password_title' })} - ${intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.error.attempt_count' }, { current: safeAttempts + 1 })}` :
          intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.password_title' });
 
       const passwordConfirm = await Swal.fire({
@@ -178,22 +184,22 @@ const UserDelete = ({ user, onSuccess }) => {
                html: `
                   <div style="text-align: center; margin: 15px 0;">
                      <p style="color: #dc2626; font-weight: 600; margin-bottom: 10px;">
-                        ${passwordVerification.errMessage || 'Mật khẩu không chính xác'}
+                        ${passwordVerification.errMessage || intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.error.invalid_password' })}
                      </p>
                      ${remainingAttempts > 0 ?
                      `<p style="color: #f59e0b; font-size: 14px;">
-                           <strong>⚠️ Còn lại ${remainingAttempts} lần thử</strong>
+                           <strong>${intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.error.attempts_left' }, { remaining: remainingAttempts })}</strong>
                         </p>` :
                      `<p style="color: #dc2626; font-size: 14px; font-weight: 600;">
-                           <strong>🚨 Đây là lần thử cuối cùng!</strong>
+                           <strong>${intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.error.last_attempt' })}</strong>
                         </p>`
                   }
                   </div>
                `,
                icon: 'error',
                confirmButtonText: remainingAttempts > 0 ?
-                  intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.try_again' }) || "Thử lại" :
-                  intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.ok' }) || "OK"
+                  intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.try_again' }) :
+                  intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.ok' })
             });
 
             // Recursively call handleDelete with incremented attempts counter
@@ -203,16 +209,16 @@ const UserDelete = ({ user, onSuccess }) => {
                setTimeout(() => handleDelete(nextAttempt), 100);
             } else {
                // Max attempts reached
-               showToast("error", intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.failed' }) || "Xóa thất bại - Đã nhập sai mật khẩu quá 3 lần");
+               showToast("error", intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.error.failed' }));
             }
             return;
          }
 
          // Show final loading
          Swal.fire({
-            title: intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.loading_title' }) || 'Deleting User...',
-            text: intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.loading_text' }) || 'Please wait while we process your request.',
-            icon: intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.loading_icon' }) || 'info',
+            title: intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.loading_title' }),
+            text: intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.loading_text' }),
+            icon: 'info',
             allowOutsideClick: false,
             allowEscapeKey: false,
             showConfirmButton: false,
@@ -228,20 +234,20 @@ const UserDelete = ({ user, onSuccess }) => {
          if (res.errCode === 0) {
             // Success notification
             await Swal.fire({
-               title: intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.success_title' }) || 'User Deleted Successfully!',
+               title: intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.success_title_delete' }),
                html: `
                   <div style="text-align: center; margin: 20px 0;">
                      <p style="color: #059669; font-weight: 600; margin-bottom: 10px;">
-                        ✅ User has been permanently deleted
+                        ${intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.error.permanently_deleted' })}
                      </p>
                      <p style="color: #374151; font-size: 14px;">
-                        Phone: <strong>${user.phoneNumber || user.phone || user.userName || 'N/A'}</strong><br>
-                        ID: <strong>${user.id}</strong>
+                        ${intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.phone_label' })} <strong>${user.phoneNumber || user.phone || user.userName || intl.formatMessage({ id: 'common.not_available' })}</strong><br>
+                        ${intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.id_label' })} <strong>${user.id}</strong>
                      </p>
                   </div>
                `,
                icon: 'success',
-               confirmButtonText: 'OK',
+               confirmButtonText: intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.ok' }),
                customClass: {
                   popup: 'swal-delete-success'
                }
@@ -250,30 +256,30 @@ const UserDelete = ({ user, onSuccess }) => {
             showToast("success", res.errMessage || intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.success' }));
             if (typeof onSuccess === 'function') onSuccess(user.id);
          } else {
-            showToast("error", res.errMessage || intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.failed' }));
+            showToast("error", res.errMessage || intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.error.failed' }));
          }
       } catch (error) {
          Swal.close();
          console.error('Delete error:', error);
 
          // Enhanced error handling
-         let errorMessage = intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.error' });
+         let errorMessage = intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.error.server' });
 
          if (error.response?.status === 401) {
-            errorMessage = 'Invalid password or session expired';
+            errorMessage = intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.error.session_expired' });
          } else if (error.response?.status === 403) {
-            errorMessage = 'You do not have permission to delete this user';
+            errorMessage = intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.error.permission_denied' });
          } else if (error.response?.status === 404) {
-            errorMessage = 'User not found or already deleted';
+            errorMessage = intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.error.user_not_found' });
          } else if (error.errMessage) {
             errorMessage = error.errMessage;
          }
 
          await Swal.fire({
-            title: 'Deletion Failed',
+            title: intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.error.deletion_failed' }),
             text: errorMessage,
             icon: 'error',
-            confirmButtonText: 'OK',
+            confirmButtonText: intl.formatMessage({ id: 'body_admin.account_management.user_manager.delete.ok' }),
             customClass: {
                popup: 'swal-delete-error'
             }

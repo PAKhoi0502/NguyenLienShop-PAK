@@ -6,8 +6,8 @@
 @import '../../styles/mixins';
 
 .product-dashboard {
-   min-height: 100vh;
-   background: linear-gradient(135deg, #f0fdf4 0%, color(white) 50%, #ecfdf5 100%);
+   min-height: 50vh;
+   background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 50%, #ecfdf5 100%); // green-50, white, green-100
    padding: spacing(8) spacing(6);
 
    @include mobile-only {
@@ -21,7 +21,7 @@
       @include flex-between;
       margin-bottom: spacing(8);
       padding: spacing(6);
-      background: linear-gradient(135deg, color(white) 0%, #f0fdf4 100%);
+      background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%); // white, green-50
       border-radius: border-radius(xl);
       box-shadow: shadow(lg);
       border: 1px solid #bbf7d0;
@@ -98,7 +98,7 @@
    .quick-stat {
       text-align: center;
       padding: spacing(4);
-      background-color: color(white);
+      background-color: #ffffff; // white
       border-radius: border-radius(lg);
       box-shadow: shadow(sm);
       border: 2px solid #bbf7d0;
@@ -163,7 +163,7 @@
       min-height: 280px;
       position: relative;
       overflow: hidden;
-      background: linear-gradient(135deg, color(white) 0%, color(gray-50) 100%);
+      background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%); // white, gray-50
 
       // Colored accent based on variant
       &::before {
@@ -220,7 +220,7 @@
       height: 64px;
       border-radius: border-radius(lg);
       @include flex-center;
-      background: linear-gradient(135deg, color(white), #f8fafc);
+      background: linear-gradient(135deg, #ffffff, #f8fafc); // white
       border: 2px solid #e2e8f0;
       box-shadow: shadow(sm);
 
@@ -274,7 +274,7 @@
       .stat-label {
          display: block;
          font-size: font-size(xs);
-         color: color(gray-500);
+         color: #6b7280; // gray-500
          font-weight: font-weight(medium);
          margin-top: spacing(1);
       }
@@ -293,7 +293,7 @@
    &__title {
       font-size: font-size(xl);
       font-weight: font-weight(bold);
-      color: color(gray-900);
+      color: #111827; // gray-900
       margin: 0 0 spacing(2) 0;
       line-height: line-height(tight);
 
@@ -308,7 +308,7 @@
 
    &__description {
       font-size: font-size(sm);
-      color: color(gray-600);
+      color: #4b5563; // gray-600
       line-height: line-height(relaxed);
       margin: 0;
    }
@@ -322,7 +322,7 @@
       .action-text {
          font-size: font-size(sm);
          font-weight: font-weight(semibold);
-         color: color(gray-700);
+         color: #374151; // gray-700
 
          .option-card--green & {
             color: #3d8156;
@@ -336,7 +336,7 @@
       .action-arrow {
          width: 20px;
          height: 20px;
-         color: color(gray-400);
+         color: #9ca3af; // gray-400
          transition: all 0.3s ease;
 
          .option-card--green & {
@@ -415,10 +415,10 @@
 // ==============================================
 @media (prefers-color-scheme: dark) {
    .product-dashboard {
-      background: linear-gradient(135deg, #14532d 0%, color(gray-900) 50%, #166534 100%);
+      background: linear-gradient(135deg, #14532d 0%, #111827 50%, #166534 100%); // gray-900
 
       &__header {
-         background: linear-gradient(135deg, color(gray-800) 0%, #14532d 100%);
+         background: linear-gradient(135deg, #1f2937 0%, #14532d 100%); // gray-800
          border-color: #22c55e;
       }
 
@@ -427,11 +427,11 @@
       }
 
       &__subtitle {
-         color: color(gray-300);
+         color: #d1d5db; // gray-300
       }
 
       .quick-stat {
-         background-color: color(gray-800);
+         background-color: #1f2937; // gray-800
          border-color: #22c55e;
 
          &__number {
@@ -439,14 +439,14 @@
          }
 
          &__label {
-            color: color(gray-300);
+            color: #d1d5db; // gray-300
          }
       }
    }
 
    .option-card {
       &__container {
-         background: linear-gradient(135deg, color(gray-800) 0%, color(gray-700) 100%);
+         background: linear-gradient(135deg, #1f2937 0%, #374151 100%); // gray-800, gray-700
 
          &::after {
             background: radial-gradient(circle, rgba(34, 197, 94, 0.2) 0%, transparent 70%);
@@ -458,7 +458,7 @@
       }
 
       &__title {
-         color: color(gray-100);
+         color: #f3f4f6; // gray-100
 
          .option-card--green & {
             color: #bbf7d0;
@@ -470,12 +470,12 @@
       }
 
       &__description {
-         color: color(gray-400);
+         color: #9ca3af; // gray-400
       }
 
       &__action {
          .action-text {
-            color: color(gray-300);
+            color: #d1d5db; // gray-300
          }
       }
    }

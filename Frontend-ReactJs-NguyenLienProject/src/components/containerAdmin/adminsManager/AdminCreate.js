@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { createAdmin } from '../../../services/adminService';
 import { checkPhoneExists } from '../../../services/authService';
@@ -9,67 +9,94 @@ import OtpVerification from '../../../components/OtpVerification';
 import { validateVietnamesePhone } from '../../../utils/vietnamesePhoneValidator';
 import './AdminCreate.scss';
 
-const initialForm = {
-   phoneNumber: '',
-   password: '',
-   confirmPassword: '',
-};
-
 const AdminCreate = () => {
-   const [step, setStep] = useState(1); // 1: Form, 2: OTP Verification
-   const [form, setForm] = useState(initialForm);
+   const [step, setStep] = useState(1); // 1: Form, 2: OTP Verification, 3: Success
+   const [phoneNumber, setPhoneNumber] = useState('');
+   const [password, setPassword] = useState('');
+   const [confirmPassword, setConfirmPassword] = useState('');
+   const [countdown, setCountdown] = useState(3);
+   const [shouldRedirect, setShouldRedirect] = useState(false);
    const [loading, setLoading] = useState(false);
-   const [phoneVerified, setPhoneVerified] = useState(false);
-   const [adminCreated, setAdminCreated] = useState(false); // Track if admin is already created
    const navigate = useNavigate();
    const intl = useIntl();
 
    const handleChange = (e) => {
       const { name, value } = e.target;
-      setForm({ ...form, [name]: value });
+
+      if (name === 'phoneNumber') {
+         // Strict phone input validation - only allow digits and basic formatting
+         const cleanValue = value.replace(/[^\d]/g, ''); // Remove all non-digits
+
+         // Limit to 10 digits max and must start with 0
+         if (cleanValue.length === 0 || (cleanValue[0] === '0' && cleanValue.length <= 10)) {
+            setPhoneNumber(cleanValue);
+         }
+         // If input starts with non-0 or exceeds 10 digits, ignore the input
+         return;
+      }
+
+      if (name === 'password') setPassword(value);
+      if (name === 'confirmPassword') setConfirmPassword(value);
    };
 
    const validatePhone = () => {
-      if (!form.phoneNumber.trim()) {
+      if (!phoneNumber) {
          return intl.formatMessage({ id: 'body_admin.account_management.admin_manager.validation.phone_required' });
       }
 
+      // Strict validation: must be exactly digits only
+      if (!/^\d+$/.test(phoneNumber)) {
+         return intl.formatMessage({ id: 'body_admin.account_management.admin_manager.validation.phone_digits_only' });
+      }
+
+      // Must be exactly 10 digits
+      if (phoneNumber.length !== 10) {
+         return intl.formatMessage({ id: 'body_admin.account_management.admin_manager.validation.phone_length' });
+      }
+
+      // Must start with 0
+      if (!phoneNumber.startsWith('0')) {
+         return intl.formatMessage({ id: 'body_admin.account_management.admin_manager.validation.phone_start_zero' });
+      }
+
       // Enhanced Vietnamese phone validation using imported function
-      if (!validateVietnamesePhone(form.phoneNumber.trim())) {
+      if (!validateVietnamesePhone(phoneNumber)) {
          return intl.formatMessage({ id: 'body_admin.account_management.admin_manager.validation.phone_invalid' });
       }
 
       return '';
    };
 
-   const validate = () => {
-      const phoneError = validatePhone();
-      if (phoneError) {
-         return phoneError;
-      }
-
-      if (!form.password || form.password.length < 6) {
-         return intl.formatMessage({ id: 'body_admin.account_management.admin_manager.validation.password_short' });
-      }
-      if (!form.confirmPassword) {
-         return intl.formatMessage({ id: 'body_admin.account_management.admin_manager.validation.confirm_required' });
-      }
-      if (form.password !== form.confirmPassword) {
-         return intl.formatMessage({ id: 'body_admin.account_management.admin_manager.validation.password_mismatch' });
-      }
-      return '';
-   };
-
    const handleContinueToOTP = async () => {
       // Validate ALL form fields before opening OTP verification
-      const errMsg = validate();
-      if (errMsg) {
-         showToast("error", errMsg);
+      if (!phoneNumber || !password || !confirmPassword) {
+         showToast("error", intl.formatMessage({ id: 'body_admin.account_management.admin_manager.error.missing_all_info' }));
+         return;
+      }
+
+      // Validate phone number
+      const phoneError = validatePhone();
+      if (phoneError) {
+         showToast("error", phoneError);
+         return;
+      }
+
+      const passwordPattern = /^(?=.*[a-z])(?=.*\d).{6,}$/;
+
+      // Validate password
+      if (!passwordPattern.test(password)) {
+         showToast("error", intl.formatMessage({ id: 'body_admin.account_management.admin_manager.error.password_format' }));
+         return;
+      }
+
+      // Validate password confirmation
+      if (password !== confirmPassword) {
+         showToast("error", intl.formatMessage({ id: 'body_admin.account_management.admin_manager.error.password_mismatch' }));
          return;
       }
 
       try {
-         const phoneCheckResult = await checkPhoneExists(form.phoneNumber.trim());
+         const phoneCheckResult = await checkPhoneExists(phoneNumber.trim());
 
          // Handle undefined or null response
          if (!phoneCheckResult) {
@@ -104,54 +131,42 @@ const AdminCreate = () => {
    };
 
    const handleOtpVerificationSuccess = async () => {
-      setPhoneVerified(true);
-      setStep(1);
+      console.log('🎉 [OTP SUCCESS] Phone verification completed');
 
-      // Prevent duplicate creation
-      if (adminCreated) {
-         return;
-      }
-
-      setAdminCreated(true);
-
-      // Directly submit since we know phone is verified
-      const errMsg = validate();
-      if (errMsg) {
-         showToast("error", errMsg);
-         return;
-      }
+      // Directly submit registration since phone is verified
+      console.log('🚀 [OTP SUCCESS] Auto-submitting admin creation...');
 
       setLoading(true);
-
-      const submitData = {
-         phoneNumber: form.phoneNumber.trim(),
-         password: form.password,
-         roleId: 1,
-         phoneVerified: true,
-      };
+      setStep(1); // Return to step 1 but process creation
 
       try {
-         const res = await createAdmin(submitData);
+         const res = await createAdmin({
+            phoneNumber: phoneNumber.trim(),
+            password: password,
+            roleId: 1,
+            phoneVerified: true,
+         });
 
-         if (!res) {
-            showToast("error", intl.formatMessage({ id: 'body_admin.account_management.admin_manager.create_error_message' }));
-         } else if (res.errCode === 0) {
+         console.log('📝 [CREATE ADMIN DEBUG] Response:', res);
+         console.log('📝 [CREATE ADMIN DEBUG] ErrCode:', res?.errCode);
+         console.log('📝 [CREATE ADMIN DEBUG] ErrMessage:', res?.errMessage);
+
+         if (res.errCode === 0) {
             showToast("success", intl.formatMessage({ id: 'body_admin.account_management.admin_manager.create_success_message' }));
 
-            // Reset form state
-            setForm({ phoneNumber: '', password: '', confirmPassword: '' });
-            setPhoneVerified(false);
-            setAdminCreated(false);
-
-            // Auto navigate back to admin management after showing success message
-            setTimeout(() => {
-               navigate('/admin/account-management/admin-management');
-            }, 2000);
+            // Move to success step
+            setStep(3);
+            setShouldRedirect(true);
          } else {
             showToast("error", res.errMessage || intl.formatMessage({ id: 'body_admin.account_management.admin_manager.create_error_message' }));
+            // Go back to step 1 on error
+            setStep(1);
          }
       } catch (error) {
+         console.error('Create admin error:', error);
          showToast("error", error.message || intl.formatMessage({ id: 'body_admin.account_management.admin_manager.create_error_message' }));
+         // Go back to step 1 on error
+         setStep(1);
       } finally {
          setLoading(false);
       }
@@ -159,7 +174,6 @@ const AdminCreate = () => {
 
    const handleOtpCancel = () => {
       setStep(1);
-      setPhoneVerified(false);
    };
 
    const showToast = (type, message) => {
@@ -179,30 +193,38 @@ const AdminCreate = () => {
 
    const handleSubmit = async (e) => {
       e.preventDefault();
-
-      // Prevent duplicate submissions if admin already created
-      if (adminCreated) {
-         return;
-      }
-
-      if (!phoneVerified) {
-         showToast("error", intl.formatMessage({ id: 'body_admin.account_management.admin_manager.phone_verification_required' }));
-         return;
-      }
-
-      // This path shouldn't be reached since phone verification is required
-      showToast("error", intl.formatMessage({ id: 'body_admin.account_management.admin_manager.phone_verification_required' }));
+      // This should not be reached in the new flow
+      console.log('handleSubmit called - this should not happen in new flow');
    };
+
+   // Countdown effect for success redirect
+   useEffect(() => {
+      if (!shouldRedirect) return;
+      const interval = setInterval(() => {
+         setCountdown((prev) => {
+            if (prev <= 1) {
+               clearInterval(interval);
+               // Use setTimeout to avoid setState during render warning
+               setTimeout(() => {
+                  navigate('/admin/account-management/admin-management');
+               }, 0);
+               return 0;
+            }
+            return prev - 1;
+         });
+      }, 1000);
+      return () => clearInterval(interval);
+   }, [shouldRedirect, navigate]);
 
    return (
       <div className="admin-create-container">
          {step === 2 && (
             <OtpVerification
-               phoneNumber={form.phoneNumber}
+               phoneNumber={phoneNumber}
                onVerificationSuccess={handleOtpVerificationSuccess}
                onCancel={handleOtpCancel}
-               title={intl.formatMessage({ id: 'otp.admin_create_title' })}
-               description={intl.formatMessage({ id: 'otp.admin_create_description' })}
+               title={intl.formatMessage({ id: 'body_admin.account_management.admin_manager.otp.admin_create_title' })}
+               description={intl.formatMessage({ id: 'body_admin.account_management.admin_manager.otp.admin_create_description' })}
             />
          )}
 
@@ -215,24 +237,18 @@ const AdminCreate = () => {
                      <input
                         type="text"
                         name="phoneNumber"
-                        value={form.phoneNumber}
+                        value={phoneNumber}
                         onChange={handleChange}
                         placeholder={intl.formatMessage({ id: 'body_admin.account_management.admin_manager.placeholder.phone' })}
-                        disabled={loading || phoneVerified}
-                        className={phoneVerified ? 'verified' : ''}
+                        disabled={loading}
                      />
-                     {phoneVerified && (
-                        <div className="verification-badge">
-                           {intl.formatMessage({ id: 'body_admin.account_management.admin_manager.phone_verified_badge' })}
-                        </div>
-                     )}
                   </div>
                   <div className="form-group">
                      <label>{intl.formatMessage({ id: 'body_admin.account_management.admin_manager.label.password' })} *</label>
                      <input
                         type="password"
                         name="password"
-                        value={form.password}
+                        value={password}
                         onChange={handleChange}
                         placeholder={intl.formatMessage({ id: 'body_admin.account_management.admin_manager.placeholder.password' })}
                         autoComplete="new-password"
@@ -244,7 +260,7 @@ const AdminCreate = () => {
                      <input
                         type="password"
                         name="confirmPassword"
-                        value={form.confirmPassword}
+                        value={confirmPassword}
                         onChange={handleChange}
                         placeholder={intl.formatMessage({ id: 'body_admin.account_management.admin_manager.placeholder.confirm_password' })}
                         autoComplete="new-password"
@@ -253,32 +269,14 @@ const AdminCreate = () => {
                   </div>
 
                   <div className="form-actions">
-                     {!phoneVerified ? (
-                        <button
-                           type="button"
-                           className="btn-verify-phone"
-                           onClick={handleContinueToOTP}
-                           disabled={loading || !form.phoneNumber || !form.password || !form.confirmPassword}
-                        >
-                           {loading ? intl.formatMessage({ id: 'body_admin.account_management.admin_manager.processing' }) : intl.formatMessage({ id: 'body_admin.account_management.admin_manager.verify_phone_button' })}
-                        </button>
-                     ) : (
-                        <button type="button" className="btn-submit" disabled={loading} onClick={() => {
-                           if (adminCreated) {
-                              // Admin already created, navigate to admin management
-                              navigate('/admin/account-management/admin-management');
-                           } else {
-                              // This shouldn't happen since phone needs to be verified first
-                              showToast("error", intl.formatMessage({ id: 'body_admin.account_management.admin_manager.phone_verification_required' }));
-                           }
-                        }}>
-                           {loading
-                              ? intl.formatMessage({ id: 'body_admin.account_management.admin_manager.creating' })
-                              : adminCreated
-                                 ? intl.formatMessage({ id: 'body_admin.account_management.admin_manager.back_to_list' })
-                                 : intl.formatMessage({ id: 'body_admin.account_management.admin_manager.create_button' })}
-                        </button>
-                     )}
+                     <button
+                        type="button"
+                        className="btn-verify-phone"
+                        onClick={handleContinueToOTP}
+                        disabled={loading || !phoneNumber || !password || !confirmPassword}
+                     >
+                        {loading ? intl.formatMessage({ id: 'body_admin.account_management.admin_manager.processing' }) : intl.formatMessage({ id: 'body_admin.account_management.admin_manager.verify_phone_button' })}
+                     </button>
 
                      <button
                         type="button"
@@ -291,6 +289,23 @@ const AdminCreate = () => {
                   </div>
                </form>
             </>
+         )}
+
+         {step === 3 && shouldRedirect && countdown > 0 && (
+            <div className="admin-create-success">
+               <div className="success-message">
+                  <div className="success-icon">✅</div>
+                  <h2>{intl.formatMessage({ id: 'body_admin.account_management.admin_manager.create_success_title' })}</h2>
+                  <p>{intl.formatMessage({ id: 'body_admin.account_management.admin_manager.create_success_message' })}</p>
+
+                  <div className="redirecting">
+                     {intl.formatMessage(
+                        { id: 'body_admin.account_management.admin_manager.redirecting' },
+                        { seconds: countdown }
+                     )}
+                  </div>
+               </div>
+            </div>
          )}
       </div>
    );

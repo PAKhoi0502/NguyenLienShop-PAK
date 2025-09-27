@@ -32,7 +32,6 @@ export const checkAuthStatus = async () => {
 
       // Return cached result if still fresh
       if (authCache && (now - lastCheckTime) < CACHE_DURATION) {
-         console.log('🔧 Using cached auth status');
          return authCache;
       }
 

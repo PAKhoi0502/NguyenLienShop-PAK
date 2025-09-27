@@ -1,4 +1,13 @@
 .admin-layout {
+   // Đảm bảo layout có cấu trúc flexbox đúng để footer không bị đẩy xuống
+   display: flex;
+   flex-direction: column;
+   min-height: 100vh;
+
+   .admin-body {
+      flex: 1; // Main content sẽ mở rộng để lấp đầy khoảng trống
+   }
+
    .breadcrumb {
       top: 0px !important;
    }

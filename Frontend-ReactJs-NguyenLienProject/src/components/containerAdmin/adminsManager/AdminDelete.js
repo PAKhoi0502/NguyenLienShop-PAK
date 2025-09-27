@@ -9,13 +9,19 @@ const AdminDelete = ({ user, onSuccess }) => {
    const intl = useIntl();
 
    const showToast = (type, message) => {
+      const messageToShow = message || intl.formatMessage({
+         id: type === "success"
+            ? "body_admin.account_management.admin_manager.delete.delete_success_message"
+            : "body_admin.account_management.admin_manager.delete.delete_error_message"
+      });
+
       toast(
          (props) => (
             <CustomToast
                {...props}
                type={type}
                titleId={type === "success" ? "body_admin.account_management.admin_manager.delete.delete_success_title" : "body_admin.account_management.admin_manager.delete.delete_error_title"}
-               message={message}
+               message={messageToShow}
                time={new Date()}
             />
          ),

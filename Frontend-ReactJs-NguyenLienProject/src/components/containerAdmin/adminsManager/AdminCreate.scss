@@ -114,12 +114,12 @@
       width: 100%;
       background-color: #fef2f2;
       border: 2px solid #fca5a5;
-      color: color(gray-800);
+      color: #1f2937;
       transition: all 0.3s ease;
 
       &:focus {
          border-color: #dc2626;
-         background-color: color(white);
+         background-color: #ffffff;
          box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.1);
          transform: translateY(-1px);
       }
@@ -174,6 +174,240 @@
 }
 
 // ==============================================
+// ✅ SUCCESS PAGE STYLES
+// ==============================================
+.admin-create-success {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   min-height: 60vh;
+   padding: spacing(8);
+
+   @include mobile-only {
+      padding: spacing(4);
+      min-height: 50vh;
+   }
+}
+
+.success-message {
+   @include card-base;
+   @include card-padding(xl);
+   background: linear-gradient(135deg, color(white) 0%, #f0fdf4 100%);
+   border: 2px solid #bbf7d0;
+   border-radius: border-radius(2xl);
+   box-shadow: shadow(xl);
+   text-align: center;
+   max-width: 500px;
+   width: 100%;
+   position: relative;
+   overflow: hidden;
+
+   // Success border animation
+   &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(135deg, #22c55e 0%, #16a34a 50%, #15803d 100%);
+      border-radius: border-radius(2xl) border-radius(2xl) 0 0;
+   }
+
+   // Background decorative animation
+   &::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(34, 197, 94, 0.05) 0%, transparent 70%);
+      animation: admin-success-rotate 10s linear infinite;
+      pointer-events: none;
+      z-index: 0;
+   }
+
+   // All content above the background animation
+   >* {
+      position: relative;
+      z-index: 1;
+   }
+
+   @include mobile-only {
+      padding: spacing(6);
+      border-radius: border-radius(xl);
+   }
+}
+
+.success-icon {
+   font-size: 4rem;
+   margin-bottom: spacing(4);
+   animation: admin-success-bounce 2s ease-in-out infinite;
+   display: inline-block;
+   filter: drop-shadow(0 4px 8px rgba(34, 197, 94, 0.3));
+
+   @include mobile-only {
+      font-size: 3rem;
+      margin-bottom: spacing(3);
+   }
+}
+
+.success-message h2 {
+   font-size: font-size(2xl);
+   font-weight: font-weight(bold);
+   color: #15803d;
+   margin-bottom: spacing(3);
+   position: relative;
+
+   // Text shadow for better visibility
+   text-shadow: 0 2px 4px rgba(21, 128, 61, 0.1);
+
+   @include mobile-only {
+      font-size: font-size(xl);
+      margin-bottom: spacing(2);
+   }
+}
+
+.success-message p {
+   font-size: font-size(base);
+   color: #059669;
+   margin-bottom: spacing(6);
+   line-height: line-height(relaxed);
+   font-weight: font-weight(medium);
+
+   @include mobile-only {
+      font-size: font-size(sm);
+      margin-bottom: spacing(4);
+   }
+}
+
+.redirecting {
+   @include card-base;
+   background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+   border: 1px solid #86efac;
+   border-radius: border-radius(lg);
+   padding: spacing(4);
+   font-size: font-size(sm);
+   color: #166534;
+   font-weight: font-weight(semibold);
+   position: relative;
+   overflow: hidden;
+
+   // Animated progress bar
+   &::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+      border-radius: 0 0 border-radius(lg) border-radius(lg);
+      animation: admin-countdown-progress 3s linear;
+   }
+
+   // Icon animation
+   &::after {
+      content: '⏱️';
+      position: absolute;
+      top: spacing(1);
+      right: spacing(3);
+      font-size: font-size(base);
+      animation: admin-tick-pulse 1s ease-in-out infinite;
+   }
+
+   @include mobile-only {
+      padding: spacing(3);
+      font-size: font-size(xs);
+   }
+}
+
+// ==============================================
+// 🎭 SUCCESS PAGE ANIMATIONS
+// ==============================================
+@keyframes admin-success-bounce {
+
+   0%,
+   20%,
+   53%,
+   80%,
+   100% {
+      transform: translateY(0) scale(1);
+   }
+
+   40%,
+   43% {
+      transform: translateY(-20px) scale(1.1);
+   }
+
+   70% {
+      transform: translateY(-10px) scale(1.05);
+   }
+
+   90% {
+      transform: translateY(-4px) scale(1.02);
+   }
+}
+
+@keyframes admin-success-rotate {
+   0% {
+      transform: rotate(0deg);
+   }
+
+   100% {
+      transform: rotate(360deg);
+   }
+}
+
+@keyframes admin-countdown-progress {
+   0% {
+      width: 100%;
+   }
+
+   100% {
+      width: 0%;
+   }
+}
+
+@keyframes admin-tick-pulse {
+
+   0%,
+   100% {
+      transform: scale(1);
+      opacity: 0.7;
+   }
+
+   50% {
+      transform: scale(1.2);
+      opacity: 1;
+   }
+}
+
+// ==============================================
+// 🌙 DARK MODE SUCCESS STYLES
+// ==============================================
+@media (prefers-color-scheme: dark) {
+   .success-message {
+      background: linear-gradient(135deg, color(gray-800) 0%, #1a2e05 100%);
+      border-color: #15803d;
+
+      h2 {
+         color: #86efac;
+      }
+
+      p {
+         color: #bbf7d0;
+      }
+   }
+
+   .redirecting {
+      background: linear-gradient(135deg, color(gray-700) 0%, #1a2e05 100%);
+      border-color: #15803d;
+      color: #86efac;
+   }
+}
+
+// ==============================================
 // 🎬 FORM ACTIONS (Red theme)
 // ==============================================
 .admin-create-form .form-actions {
@@ -196,7 +430,7 @@
    @include button-base;
    @include button-size(lg);
    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
-   color: color(white);
+   color: #ffffff;
    border: none;
    min-width: 140px;
    position: relative;
@@ -241,7 +475,7 @@
          transform: translateY(-50%);
          width: 16px;
          height: 16px;
-         border: 2px solid color(white);
+         border: 2px solid #ffffff;
          border-top-color: transparent;
          border-radius: 50%;
          animation: admin-create-spin 1s linear infinite;
@@ -370,7 +604,7 @@
 // ==============================================
 @media (prefers-color-scheme: dark) {
    .admin-create-container {
-      background: linear-gradient(135deg, #7f1d1d 0%, color(gray-900) 50%, #991b1b 100%);
+      background: linear-gradient(135deg, #7f1d1d 0%, #111827 50%, #991b1b 100%);
    }
 
    .admin-create-title {
@@ -378,7 +612,7 @@
    }
 
    .admin-create-form {
-      background-color: color(gray-800);
+      background-color: #1f2937;
       border-color: #dc2626;
 
       .form-group {
@@ -387,12 +621,12 @@
          }
 
          input {
-            background-color: color(gray-700);
+            background-color: #374151;
             border-color: #dc2626;
-            color: color(white);
+            color: #ffffff;
 
             &:focus {
-               background-color: color(gray-800);
+               background-color: #1f2937;
                border-color: #f87171;
             }
 
@@ -403,17 +637,17 @@
       }
 
       .form-actions {
-         border-color: color(gray-700);
+         border-color: #374151;
       }
 
       .btn-cancel {
-         background: linear-gradient(135deg, color(gray-700) 0%, color(gray-600) 100%);
-         color: color(gray-300);
-         border-color: color(gray-500);
+         background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
+         color: #d1d5db;
+         border-color: #6b7280;
 
          &:hover:not(:disabled) {
-            background: linear-gradient(135deg, color(gray-600) 0%, color(gray-500) 100%);
-            border-color: color(gray-400);
+            background: linear-gradient(135deg, #4b5563 0%, #6b7280 100%);
+            border-color: #9ca3af;
          }
       }
    }

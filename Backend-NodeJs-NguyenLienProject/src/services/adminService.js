@@ -193,7 +193,7 @@ let deleteUser = (userId) => {
          if (!user) {
             return resolve({
                errCode: 2,
-               errMessage: `Người dùng không tồn tại`
+               errMessage: `User not found`
             });
          }
 
@@ -201,14 +201,14 @@ let deleteUser = (userId) => {
 
          return resolve({
             errCode: 0,
-            errMessage: `Đã xóa người dùng "${user.phoneNumber || 'ID: ' + user.id}" thành công`,
+            errMessage: `User ${user.phoneNumber || 'ID: ' + user.id} deleted successfully`,
             deletedUserId: user.id
          });
       } catch (error) {
          console.error("Delete User Error:", error);
          return resolve({
             errCode: -1,
-            errMessage: "Đã xảy ra lỗi trong quá trình xóa người dùng"
+            errMessage: "An error occurred while deleting user"
          });
       }
    });

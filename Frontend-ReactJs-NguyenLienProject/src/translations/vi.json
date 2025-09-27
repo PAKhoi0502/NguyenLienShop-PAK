@@ -9,7 +9,35 @@
         "phone_label": "Điện thoại",
         "id_label": "ID",
         "admin_id_prefix": "ID Quản trị",
-        "try_again": "Thử lại"
+        "try_again": "Thử lại",
+        "loading": "Đang tải...",
+        "no_data": "Không có dữ liệu",
+        "no_data_description": "Không có dữ liệu để hiển thị",
+        "back": "Quay lại",
+        "submit": "Gửi",
+        "update": "Cập nhật",
+        "create": "Tạo",
+        "delete": "Xóa",
+        "view": "Xem",
+        "edit": "Chỉnh sửa",
+        "search": "Tìm kiếm",
+        "reset": "Đặt lại",
+        "actions": "Hành động",
+        "yes": "Có",
+        "no": "Không",
+        "select": "-- Chọn --",
+        "select_option": "-- Chọn một tùy chọn --",
+        "loading_dots": "Đang tải...",
+        "error_occurred": "Đã xảy ra lỗi",
+        "try_later": "Vui lòng thử lại sau",
+        "required_field": "Trường này là bắt buộc",
+        "invalid_format": "Định dạng không hợp lệ",
+        "min_length": "Độ dài tối thiểu là {min} ký tự",
+        "max_length": "Độ dài tối đa là {max} ký tự",
+        "min_value": "Giá trị tối thiểu là {min}",
+        "max_value": "Giá trị tối đa là {max}",
+        "loading_failed": "Tải thất bại",
+        "no_results": "Không có kết quả phù hợp"
     },
     "login": {
         "title": "Chào mừng bạn",
@@ -67,8 +95,13 @@
         "error_phone_exists_short": "Số điện thoại này đã được sử dụng để đăng ký. Vui lòng sử dụng số khác.",
         "error_missing_fields": "Vui lòng nhập đủ thông tin cần thiết.",
         "otp": {
+            "re_sent_success_msg": "Mã OTP mới đã được gửi đến số điện thoại của bạn, vui lòng kiểm tra tin nhắn!",
+            "sent_error_msg": "Gửi mã OTP thất bại. Vui lòng thử lại.",
             "title": "Xác thực số điện thoại",
-            "description": "Vui lòng nhập mã OTP được gửi đến số điện thoại để hoàn tất đăng ký"
+            "sent_title": "OTP đã được gửi",
+            "description": "Vui lòng nhập mã OTP đã được gửi đến số điện thoại của bạn để hoàn tất đăng ký",
+            "error_title": "Tạo tài khoản thất bại!",
+            "sent_success_msg": "Mã OTP đã được gửi đến số điện thoại của bạn, vui lòng kiểm tra tin nhắn!"
         }
     },
     "logout": {
@@ -173,7 +206,21 @@
         },
         "back_to_login_text": "Đã nhớ mật khẩu?",
         "session_expired": "Phiên reset password đã hết hạn. Vui lòng thử lại từ đầu.",
-        "security_cleared": "Phiên reset password đã được xóa vì lý do bảo mật. Vui lòng bắt đầu lại từ đầu.",
+        "security_cleared": "Phiên reset password đã được xóa vì lý do bảo mật. Vui lòng bắt đầu lại từ đầu."
+    },
+    "otp": {
+        "validation": {
+            "complete_6_digits": "Vui lòng nhập đầy đủ 6 chữ số",
+            "invalid_format": "Định dạng OTP không hợp lệ"
+        },
+        "error": {
+            "verify_failed": "Đã xảy ra lỗi khi xác thực OTP",
+            "resend_failed": "Đã xảy ra lỗi khi gửi lại OTP",
+            "network_error": "Lỗi mạng. Vui lòng thử lại",
+            "expired": "OTP đã hết hạn. Vui lòng yêu cầu mã mới",
+            "invalid": "Mã OTP không hợp lệ. Vui lòng thử lại"
+        },
+        "error_title": "Lỗi xác thực",
         "restored_title": "Khôi phục tiến trình",
         "restored_message": "Đã khôi phục tiến trình reset password của bạn"
     },
@@ -380,6 +427,7 @@
         },
         "account_management": {
             "admin_manager": {
+                "redirecting": "Chuyển hướng trong {seconds} giây...",
                 "otp": {
                     "admin_create_title": "Xác thực số điện thoại để tạo Admin",
                     "admin_create_description": "Vui lòng nhập mã OTP được gửi đến số điện thoại để hoàn tất tạo tài khoản Admin",
@@ -649,7 +697,8 @@
                         "password_short": "Mật khẩu tối thiểu 6 ký tự.",
                         "confirm_required": "Vui lòng nhập lại mật khẩu.",
                         "password_mismatch": "Mật khẩu xác nhận không khớp."
-                    }
+                    },
+                    "redirecting": "Chuyển hướng trong {seconds} giây..."
                 },
                 "create_success_title": "Thành công",
                 "create_error_title": "Tạo tài khoản thất bại!",
@@ -723,6 +772,11 @@
                     }
                 },
                 "delete": {
+                    "not_available": "Không có thông tin",
+                    "loading_title": "Đang xóa...",
+                    "loading_text": "Vui lòng chờ trong giây lát.",
+                    "loading_icon": "🗑️",
+                    "success_title_delete": "Xóa người dùng thành công!",
                     "attempts_remaining": "{remaining} lần thử còn lại",
                     "ok": "OK",
                     "try_again": "Thử lại",
@@ -748,7 +802,23 @@
                     "password_button": "Xóa người dùng",
                     "password_required": "Mật khẩu là bắt buộc",
                     "password_min_length": "Mật khẩu phải có ít nhất 6 ký tự",
+                    "delete_success_message": "Xóa người dùng thành công!",
+                    "delete_error_message": "Không thể xóa người dùng này!",
+                    "phone_label": "Số điện thoại:",
+                    "id_label": "ID:",
                     "error": {
+                        "max_attempts": "Xóa không thành công - Nhập sai mật khẩu quá 3 lần",
+                        "invalid_password": "Mật khẩu không hợp lệ",
+                        "last_attempt": "🚨 Đây là lần thử cuối cùng của bạn!",
+                        "attempts_left": "⚠️ Còn {remaining} lần thử",
+                        "failed": "Xóa không thành công - Nhập sai mật khẩu quá 3 lần",
+                        "session_expired": "Mật khẩu không hợp lệ hoặc phiên đã hết hạn",
+                        "attempt_count": "Lần thử {current}/3",
+                        "permanently_deleted": "Người dùng đã bị xóa vĩnh viễn và không thể khôi phục.",
+                        "deletion_failed": "Không thể xóa người dùng này!",
+                        "user_not_found": "Không tìm thấy người dùng để xóa!",
+                        "permission_denied": "Quyền bị từ chối - Bạn không có quyền xóa người dùng.",
+                        "default": "Đã xảy ra lỗi khi xóa người dùng.",
                         "not_found": "Không tìm thấy người dùng để xóa!",
                         "cannot_delete": "Không thể xóa người dùng!",
                         "server": "Đã xảy ra lỗi khi xóa người dùng."

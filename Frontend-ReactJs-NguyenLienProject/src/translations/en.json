@@ -9,7 +9,35 @@
         "phone_label": "Phone:",
         "id_label": "ID:",
         "admin_id_prefix": "Admin ID:",
-        "try_again": "Try Again"
+        "try_again": "Try Again",
+        "loading": "Loading...",
+        "no_data": "No data",
+        "no_data_description": "No data available to display",
+        "back": "Back",
+        "submit": "Submit",
+        "update": "Update",
+        "create": "Create",
+        "delete": "Delete",
+        "view": "View",
+        "edit": "Edit",
+        "search": "Search",
+        "reset": "Reset",
+        "actions": "Actions",
+        "yes": "Yes",
+        "no": "No",
+        "select": "-- Select --",
+        "select_option": "-- Select an option --",
+        "loading_dots": "Loading...",
+        "error_occurred": "An error occurred",
+        "try_later": "Please try again later",
+        "required_field": "This field is required",
+        "invalid_format": "Invalid format",
+        "min_length": "Minimum length is {min} characters",
+        "max_length": "Maximum length is {max} characters",
+        "min_value": "Minimum value is {min}",
+        "max_value": "Maximum value is {max}",
+        "loading_failed": "Loading failed",
+        "no_results": "No results found"
     },
     "login": {
         "title": "Welcome",
@@ -67,8 +95,13 @@
         "error_phone_exists_short": "This phone number has already been used for registration. Please use a different number.",
         "error_missing_fields": "Please fill in all required information.",
         "otp": {
+            "re_sent_success_msg": "A new OTP has been sent to your phone number. Please check your messages!",
+            "sent_title": "OTP Sent!",
+            "sent_success_msg": "OTP has been sent to your phone number.",
+            "sent_error_msg": "Failed to send OTP. Please try again.",
             "title": "Phone Verification",
-            "description": "Please enter the OTP sent to the phone number to complete the registration"
+            "description": "Please enter the OTP sent to the phone number to complete the registration",
+            "error_title": "Registration Failed!"
         }
     },
     "logout": {
@@ -173,7 +206,21 @@
         },
         "back_to_login_text": "Already remember your password?",
         "session_expired": "Reset password session has expired. Please start over.",
-        "security_cleared": "Reset password session has been cleared for security reasons. Please start over.",
+        "security_cleared": "Reset password session has been cleared for security reasons. Please start over."
+    },
+    "otp": {
+        "validation": {
+            "complete_6_digits": "Please enter all 6 digits",
+            "invalid_format": "Invalid OTP format"
+        },
+        "error": {
+            "verify_failed": "An error occurred while verifying OTP",
+            "resend_failed": "An error occurred while resending OTP",
+            "network_error": "Network error. Please try again",
+            "expired": "OTP has expired. Please request a new one",
+            "invalid": "Invalid OTP code. Please try again"
+        },
+        "error_title": "Verification Error",
         "restored_title": "Session Restored",
         "restored_message": "Your forgot password progress has been restored"
     },
@@ -380,6 +427,7 @@
         },
         "account_management": {
             "admin_manager": {
+                "redirecting": "Redirecting in {seconds} seconds...",
                 "otp": {
                     "admin_create_title": "Phone Verification for Admin Creation",
                     "admin_create_description": "Please enter the OTP sent to the phone number to complete the admin account creation",
@@ -648,7 +696,8 @@
                         "password_short": "Password must be at least 6 characters.",
                         "confirm_required": "Please re-enter password.",
                         "password_mismatch": "Password confirmation does not match."
-                    }
+                    },
+                    "redirecting": "Redirecting in {seconds} seconds..."
                 },
                 "create_success_title": "Success",
                 "create_error_title": "Create Error!",
@@ -722,9 +771,15 @@
                     }
                 },
                 "delete": {
+                    "not_available": "Not available.",
+                    "success_title_delete": "Successfully Deleted",
+                    "loading_title": "Deleting...",
+                    "loading_text": "Please wait a moment.",
+                    "loading_icon": "🗑️",
                     "attempts_remaining": "{remaining} attempts remaining",
                     "ok": "OK",
                     "try_again": "Try Again",
+                    "failed": "Delete failed",
                     "confirm_button_1": "Confirm",
                     "cancel_button": "Cancel",
                     "confirm_title_1": "Are you sure you want to delete this user?",
@@ -747,10 +802,23 @@
                     "password_button": "Delete User",
                     "password_required": "Password is required",
                     "password_min_length": "Password must be at least 6 characters long",
+                    "phone_label": "Phone Number:",
+                    "id_label": "ID:",
                     "error": {
                         "not_found": "User not found!",
                         "cannot_delete": "Cannot delete user!",
-                        "server": "An error occurred while deleting user."
+                        "server": "An error occurred while deleting user.",
+                        "max_attempts": "Delete failed - Incorrect password entered more than 3 times",
+                        "invalid_password": "Invalid password",
+                        "last_attempt": "🚨 This is your last attempt!",
+                        "attempts_left": "⚠️ {remaining} attempts remaining",
+                        "failed": "Delete failed - Incorrect password entered more than 3 times",
+                        "permission_denied": "You do not have permission to delete this user",
+                        "user_not_found": "User not found or already deleted",
+                        "session_expired": "Invalid password or session expired",
+                        "deletion_failed": "Deletion Failed",
+                        "permanently_deleted": "✅ User has been permanently deleted",
+                        "attempt_count": "Attempt {current}/3"
                     },
                     "confirm_title": "Are you sure you want to delete this user?",
                     "confirm_title_final": "Do you really want to delete?",
