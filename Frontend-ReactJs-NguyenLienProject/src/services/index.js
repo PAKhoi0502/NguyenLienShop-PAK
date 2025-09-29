@@ -1,3 +1,5 @@
+import dashboardService from './dashboardService';
+
 export * as adminService from './adminService';
 export * as userService from './userService';
 export * as productService from './productService';

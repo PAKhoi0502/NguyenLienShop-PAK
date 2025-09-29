@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 
 import * as actions from "../../store/actions";
 import './FooterAdmin.scss';
-import { dashboardService } from '../../services';
+import { dashboardService, adminService } from '../../services';
 
 class Footer extends Component {
    constructor(props) {
@@ -23,6 +23,11 @@ class Footer extends Component {
             activeUsers: 0,
             inactiveUsers: 0
          },
+         productStats: {
+            totalCategories: 0,
+            totalProducts: 0
+         },
+         isLoadingProductStats: false,
          isLoadingDashboardStats: false,
          isLoadingAccountStats: false
       };
@@ -34,6 +39,8 @@ class Footer extends Component {
          this.loadAccountStats();
       } else if (this.props.statsType === 'dashboard') {
          this.loadDashboardStats();
+      } else if (this.props.statsType === 'product') {
+         this.loadProductStats();
       }
    }
 
@@ -44,6 +51,8 @@ class Footer extends Component {
             this.loadAccountStats();
          } else if (this.props.statsType === 'dashboard') {
             this.loadDashboardStats();
+         } else if (this.props.statsType === 'product') {
+            this.loadProductStats();
          }
       }
    }
@@ -93,6 +102,35 @@ class Footer extends Component {
       } catch (error) {
          console.error('Error loading account stats:', error);
          this.setState({ isLoadingAccountStats: false });
+      }
+   }
+
+   loadProductStats = async () => {
+      try {
+         this.setState({ isLoadingProductStats: true });
+
+         const response = await adminService.getProductCategoryStats();
+
+
+         if (response.errCode === 0) {
+            // Backend trả về dữ liệu dưới dạng: data.products.total và data.categories.total
+            const stats = {
+               totalCategories: response.data?.categories?.total || 0,
+               totalProducts: response.data?.products?.total || 0
+            };
+
+
+            this.setState({
+               productStats: stats,
+               isLoadingProductStats: false
+            });
+         } else {
+            console.error('Error loading product stats:', response.errMessage);
+            this.setState({ isLoadingProductStats: false });
+         }
+      } catch (error) {
+         console.error('Error loading product stats:', error);
+         this.setState({ isLoadingProductStats: false });
       }
    }
 
@@ -154,6 +192,26 @@ class Footer extends Component {
                }
             ]
          };
+      } else if (statsType === 'product') {
+         // Use data from state (loaded via API) or fallback to props
+         const { productStats } = this.state;
+         const finalStats = statsData || productStats;
+
+
+         return {
+            stats: [
+               {
+                  value: finalStats.totalCategories || 0,
+                  labelId: "footer_admin.dashboard.product_category_dashboard.total_categories",
+                  defaultMessage: "Tổng danh mục"
+               },
+               {
+                  value: finalStats.totalProducts || 0,
+                  labelId: "footer_admin.dashboard.product_category_dashboard.total_products",
+                  defaultMessage: "Tổng sản phẩm"
+               }
+            ]
+         };
       }
 
       // Default fallback
@@ -169,11 +227,12 @@ class Footer extends Component {
 
    render() {
       const { stats } = this.getStatsData();
-      const { isLoadingDashboardStats, isLoadingAccountStats } = this.state;
+      const { isLoadingDashboardStats, isLoadingAccountStats, isLoadingProductStats } = this.state;
       const { statsType } = this.props;
 
       const showLoading = (statsType === 'dashboard' && isLoadingDashboardStats) ||
          (statsType === 'account' && isLoadingAccountStats) ||
+         (statsType === 'product' && isLoadingProductStats) ||
          this.props.isLoading; return (
             <div className="footer-container">
                <div className="footer-stats">
@@ -201,23 +260,23 @@ class Footer extends Component {
                <div className="footer-info">
                   <div className="footer-content">
                      <div className="footer-section">
-                        <h4>NguyenLien Shop</h4>
-                        <p>Hệ thống quản lý thương mại điện tử</p>
+                        <h4><FormattedMessage id="footer_admin.footer_section.title" defaultMessage="NguyenLien Shop" /></h4>
+                        <p><FormattedMessage id="footer_admin.footer_section.description" defaultMessage="Hệ thống quản lý thương mại điện tử" /></p>
                      </div>
                      <div className="footer-section">
-                        <h4>Liên hệ</h4>
-                        <p>Email: admin@nguyenlienshop.com</p>
-                        <p>Phone: (84) 123-456-789</p>
+                        <h4><FormattedMessage id="footer_admin.footer_section.contact.title" defaultMessage="Liên hệ" /></h4>
+                        <p><FormattedMessage id="footer_admin.footer_section.contact.email" defaultMessage="Email: admin@nguyenlienshop.com" /></p>
+                        <p><FormattedMessage id="footer_admin.footer_section.contact.phone" defaultMessage="Phone: (84) 123-456-789" /></p>
                      </div>
                      <div className="footer-section">
-                        <h4>Phiên bản</h4>
-                        <p>Admin Panel v2.0.1</p>
-                        <p>Cập nhật: {new Date().getFullYear()}</p>
+                        <h4><FormattedMessage id="footer_admin.footer_section.version.title" defaultMessage="Phiên bản" /></h4>
+                        <p><FormattedMessage id="footer_admin.footer_section.version.version" defaultMessage="Admin Panel v2.0.1" /></p>
+                        <p><FormattedMessage id="footer_admin.footer_section.version.update" defaultMessage="Cập nhật: {new Date().getFullYear()}" /></p>
                      </div>
                   </div>
 
                   <div className="footer-bottom">
-                     <p>&copy; {new Date().getFullYear()} NguyenLien Shop. All rights reserved.</p>
+                     <p><FormattedMessage id="footer_admin.footer_bottom" defaultMessage="&copy; {new Date().getFullYear()} NguyenLien Shop. All rights reserved." /></p>
                   </div>
                </div>
             </div>

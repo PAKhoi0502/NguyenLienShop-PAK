@@ -15,8 +15,8 @@ body,
    font-family: map-get($font-family, sans);
    font-size: font-size(base);
    line-height: line-height(normal);
-   color: color(gray-900);
-   background-color: color(background);
+   color: #111827; // gray-900
+   background-color: #ffffff; // background (assuming white)
    -webkit-font-smoothing: antialiased;
    -moz-osx-font-smoothing: grayscale;
 }
@@ -49,12 +49,12 @@ figure {
 
 // Links
 a {
-   color: color(primary-600);
+   color: #2563eb; // primary-600
    text-decoration: none;
    transition: transition(colors);
 
    &:hover {
-      color: color(primary-700);
+      color: #1d4ed8; // primary-700
    }
 }
 
@@ -66,7 +66,7 @@ button {
 
 // Focus states
 :focus-visible {
-   outline: 2px solid color(primary-500);
+   outline: 2px solid #3b82f6; // primary-500
    outline-offset: 2px;
 }
 

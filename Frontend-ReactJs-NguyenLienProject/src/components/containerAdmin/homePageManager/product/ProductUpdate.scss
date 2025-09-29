@@ -26,7 +26,6 @@
       position: relative;
 
       &::before {
-         content: '✏️';
          margin-right: spacing(2);
          font-size: font-size(2xl);
       }
@@ -37,8 +36,8 @@
          bottom: -8px;
          left: 50%;
          transform: translateX(-50%);
-         width: 120px;
-         height: 3px;
+         width: 240px;
+         height: 4px;
          background: linear-gradient(90deg, #22c55e, #16a34a);
          border-radius: border-radius(full);
       }
@@ -135,6 +134,144 @@
                -webkit-appearance: none;
                appearance: none;
                margin: 0;
+            }
+         }
+
+         // ==============================================
+         // 💰 INPUT WITH UNIT STYLING
+         // ==============================================
+         .input-with-unit {
+            position: relative;
+            display: flex;
+            align-items: center;
+
+            input {
+               width: 100%;
+               padding-right: 60px; // Space for unit
+               border-radius: border-radius(lg) 0 0 border-radius(lg);
+               border-right: none;
+            }
+
+            .unit {
+               position: absolute;
+               right: 0;
+               top: 0;
+               bottom: 0;
+               display: flex;
+               align-items: center;
+               justify-content: center;
+               padding: 0 spacing(3);
+               background: linear-gradient(135deg, #22c55e, #16a34a);
+               color: color(white);
+               font-weight: font-weight(semibold);
+               font-size: font-size(sm);
+               border-radius: 0 border-radius(lg) border-radius(lg) 0;
+               border: 2px solid #16a34a;
+               border-left: none;
+               min-width: 50px;
+               transition: all 0.3s ease;
+
+               @include mobile-only {
+                  font-size: font-size(xs);
+                  padding: 0 spacing(2);
+                  min-width: 45px;
+               }
+            }
+
+            // Focus effect
+            &:focus-within {
+               .unit {
+                  background: linear-gradient(135deg, #16a34a, #15803d);
+                  border-color: #15803d;
+                  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+               }
+            }
+
+            // Filled state
+            input:not(:placeholder-shown)+.unit {
+               background: linear-gradient(135deg, #f9a8d4, #ec4899);
+               border-color: #ec4899;
+            }
+
+            // Invalid state
+            input:invalid+.unit {
+               background: linear-gradient(135deg, #ef4444, #dc2626);
+               border-color: #dc2626;
+            }
+         }
+
+         // ==============================================
+         // 📏 DIMENSIONS INPUTS STYLING
+         // ==============================================
+         .dimensions-inputs {
+            display: flex;
+            align-items: end;
+            gap: spacing(3);
+            margin-top: spacing(2);
+
+            @include mobile-only {
+               flex-direction: column;
+               align-items: stretch;
+               gap: spacing(2);
+            }
+
+            .dimension-input {
+               flex: 1;
+               display: flex;
+               flex-direction: column;
+
+               label {
+                  margin-bottom: spacing(1);
+                  font-size: font-size(xs);
+                  color: #6b7280;
+                  font-weight: font-weight(medium);
+               }
+
+               input {
+                  width: 100%;
+                  padding: spacing(3);
+                  border: 2px solid #d1fae5;
+                  border-radius: border-radius(md);
+                  font-size: font-size(sm);
+                  text-align: center;
+                  background: color(white);
+                  color: #374151;
+                  transition: all 0.3s ease;
+
+                  &::placeholder {
+                     color: #9ca3af;
+                     font-size: font-size(xs);
+                  }
+
+                  &:focus {
+                     outline: none;
+                     border-color: #22c55e;
+                     box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+                     background: #f9fafb;
+                  }
+
+                  &:not(:placeholder-shown) {
+                     background-color: #fdf2f8;
+                     border-color: #f9a8d4;
+                  }
+               }
+            }
+
+            .dimension-separator {
+               display: flex;
+               align-items: center;
+               justify-content: center;
+               font-size: font-size(lg);
+               font-weight: font-weight(bold);
+               color: #22c55e;
+               margin-bottom: spacing(2);
+               min-width: 20px;
+
+               @include mobile-only {
+                  margin-bottom: 0;
+                  padding: spacing(2) 0;
+                  font-size: font-size(xl);
+               }
             }
          }
 
@@ -465,6 +602,65 @@
                textarea {
                   border-left-color: #fbbf24;
                   background-color: color(gray-600);
+               }
+            }
+
+            // Dark mode for input with unit
+            .input-with-unit {
+               .unit {
+                  background: linear-gradient(135deg, #22c55e, #16a34a);
+                  border-color: #16a34a;
+               }
+
+               &:focus-within {
+                  .unit {
+                     background: linear-gradient(135deg, #16a34a, #15803d);
+                     border-color: #15803d;
+                  }
+               }
+
+               input:not(:placeholder-shown)+.unit {
+                  background: linear-gradient(135deg, #f9a8d4, #ec4899);
+                  border-color: #ec4899;
+               }
+
+               input:invalid+.unit {
+                  background: linear-gradient(135deg, #f87171, #ef4444);
+                  border-color: #ef4444;
+               }
+            }
+
+            // Dark mode for dimensions inputs
+            .dimensions-inputs {
+               .dimension-input {
+                  label {
+                     color: #9ca3af;
+                  }
+
+                  input {
+                     background: color(gray-700);
+                     color: color(gray-200);
+                     border-color: #22c55e;
+
+                     &::placeholder {
+                        color: color(gray-400);
+                     }
+
+                     &:focus {
+                        background: color(gray-600);
+                        border-color: #16a34a;
+                        box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
+                     }
+
+                     &:not(:placeholder-shown) {
+                        background-color: color(gray-600);
+                        border-color: #22c55e;
+                     }
+                  }
+               }
+
+               .dimension-separator {
+                  color: #22c55e;
                }
             }
          }

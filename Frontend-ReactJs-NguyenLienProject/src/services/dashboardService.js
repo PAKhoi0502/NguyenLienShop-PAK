@@ -96,7 +96,6 @@ export const getProductCategoryStats = async () => {
          }
       });
 
-      console.log('🔍 Product Category Stats Response:', response);
 
       if (response.data && response.data.errCode === 0) {
          return { errCode: 0, data: response.data.data };

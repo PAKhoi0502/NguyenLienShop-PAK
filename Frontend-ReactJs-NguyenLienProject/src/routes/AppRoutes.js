@@ -99,6 +99,8 @@ const AppRoutes = () => (
          <Route path="/admin/product-category-management/product-management/add-category" element={<PrivateRoute role="1" element={() => <AdminLayout><AddCategory /></AdminLayout>} />} />
          <Route path="/admin/product-category-management/product-management/delete-category" element={<PrivateRoute role="1" element={() => <AdminLayout><DeleteCategory /></AdminLayout>} />} />
          <Route path="/admin/product-category-management/product-management/info-category" element={<PrivateRoute role="1" element={() => <AdminLayout><InfoCategory /></AdminLayout>} />} />
+         <Route path="/admin/product-category-management/product-management/add-category/:id" element={<PrivateRoute role="1" element={() => <AdminLayout><AddCategory /></AdminLayout>} />} />
+         <Route path="/admin/product-category-management/product-management/delete-category/:id" element={<PrivateRoute role="1" element={() => <AdminLayout><DeleteCategory /></AdminLayout>} />} />
 
 
          {/* --- Admin - Quản lý danh mục sản phẩm --- */}

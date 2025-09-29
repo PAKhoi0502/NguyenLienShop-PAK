@@ -42,7 +42,6 @@
          position: relative;
 
          &::before {
-            content: '📦';
             margin-right: spacing(2);
             font-size: font-size(2xl);
          }
@@ -95,7 +94,6 @@
       position: relative;
 
       &::before {
-         content: '📦';
          margin-right: spacing(2);
          font-size: font-size(2xl);
       }
@@ -106,8 +104,8 @@
          bottom: -8px;
          left: 50%;
          transform: translateX(-50%);
-         width: 100px;
-         height: 3px;
+         width: 260px;
+         height: 4px;
          background: linear-gradient(90deg, #22c55e, #16a34a);
          border-radius: border-radius(full);
       }
@@ -244,7 +242,7 @@
 
          th {
             padding: spacing(4);
-            text-align: left;
+            text-align: center;
             font-weight: font-weight(bold);
             color: #14532d;
             border-bottom: 2px solid #22c55e;
@@ -274,6 +272,7 @@
             }
 
             td {
+               text-align: center;
                padding: spacing(4);
                border-bottom: 1px solid #e5e7eb;
                color: #374151;
@@ -303,6 +302,7 @@
       display: flex;
       gap: spacing(2);
       flex-wrap: wrap;
+      justify-content: center;
 
       @include mobile-only {
          flex-direction: column;
@@ -373,13 +373,13 @@
 
       // Toggle Active button (Purple)
       &.btn-toggle {
-         background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-         color: color(white);
-         border: 1px solid #7c3aed;
+         background: linear-gradient(135deg, #8b5cf6, #7c3aed) !important;
+         color: color(white) !important;
+         border: 1px solid #7c3aed !important;
 
          &:hover {
-            background: linear-gradient(135deg, #7c3aed, #6d28d9);
-            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+            background: linear-gradient(135deg, #7c3aed, #6d28d9) !important;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3) !important;
          }
       }
 
@@ -588,4 +588,8 @@
          border-color: #ef4444;
       }
    }
+}
+
+.status-cell {
+   font-size: 1.5rem;
 }

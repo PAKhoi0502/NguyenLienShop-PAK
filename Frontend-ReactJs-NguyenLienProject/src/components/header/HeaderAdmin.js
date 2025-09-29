@@ -41,7 +41,7 @@ const HeaderAdmin = () => {
                     value={language}
                     onChange={handleChangeLanguage}
                 >
-                    <option value="vi">VN</option>
+                    <option value="vi">VI</option>
                     <option value="en">EN</option>
                 </select>
             </div>

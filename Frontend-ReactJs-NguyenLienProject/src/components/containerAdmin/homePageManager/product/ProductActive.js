@@ -16,8 +16,8 @@ const ProductActive = ({ product, onSuccess }) => {
                type={type}
                titleId={intl.formatMessage({
                   id: type === "success"
-                     ? "product.activate.activate_success_title"
-                     : "product.activate.activate_error_title"
+                     ? "body_admin.product_management.activate_product.activate_success_title"
+                     : "body_admin.product_management.activate_product.activate_error_title"
                })}
                message={message}
                time={new Date()}
@@ -29,7 +29,7 @@ const ProductActive = ({ product, onSuccess }) => {
 
    const handleToggleActive = async () => {
       if (!product || !product.id) {
-         showToast("error", intl.formatMessage({ id: 'admin.delete.not_found' }));
+         showToast("error", intl.formatMessage({ id: 'body_admin.product_management.activate_product.not_found', defaultMessage: 'Không tìm thấy sản phẩm' }));
          return;
       }
 
@@ -38,15 +38,17 @@ const ProductActive = ({ product, onSuccess }) => {
       // Sử dụng Swal để xác nhận trước khi bật/tắt sản phẩm
       const confirm = await Swal.fire({
          title: isActive
-            ? intl.formatMessage({ id: 'product.activate.confirm_title_1' })
-            : intl.formatMessage({ id: 'product.deactivate.confirm_title_1' }),
-         html: `<strong>${product.nameProduct || intl.formatMessage({ id: 'product.activate.no_name' })}</strong><br>ID: ${product.id}`,
+            ? intl.formatMessage({ id: 'body_admin.product_management.activate_product.confirm_activate_title', defaultMessage: 'Bạn có chắc muốn kích hoạt sản phẩm này?' })
+            : intl.formatMessage({ id: 'body_admin.product_management.activate_product.confirm_deactivate_title', defaultMessage: 'Bạn có chắc muốn vô hiệu hóa sản phẩm này?' }),
+         html: `<strong>${product.nameProduct || intl.formatMessage({ id: 'body_admin.product_management.activate_product.no_name', defaultMessage: 'Không có tên' })}</strong><br>ID: ${product.id}`,
          icon: isActive ? 'question' : 'warning',
          showCancelButton: true,
          confirmButtonText: isActive
-            ? intl.formatMessage({ id: 'product.activate.confirm_button_1' })
-            : intl.formatMessage({ id: 'product.deactivate.confirm_button_1' }),
-         cancelButtonText: intl.formatMessage({ id: 'admin.delete.cancel_button' })
+            ? intl.formatMessage({ id: 'body_admin.product_management.activate_product.confirm_activate_button', defaultMessage: 'Có, kích hoạt nó' })
+            : intl.formatMessage({ id: 'body_admin.product_management.activate_product.confirm_deactivate_button', defaultMessage: 'Có, vô hiệu hóa nó' }),
+         cancelButtonText: intl.formatMessage({ id: 'body_admin.product_management.activate_product.cancel_button', defaultMessage: 'Hủy' }),
+         confirmButtonColor: isActive ? '#22c55e' : '#ef4444',
+         cancelButtonColor: '#6b7280'
       });
 
       if (!confirm.isConfirmed) return;
@@ -55,16 +57,19 @@ const ProductActive = ({ product, onSuccess }) => {
          const res = await getActiveProducts(product.id, isActive);
 
          if (res.errCode === 0) {
-            showToast("success", res.message || 'Cập nhật trạng thái sản phẩm thành công');
+            const successMessage = isActive
+               ? intl.formatMessage({ id: 'body_admin.product_management.activate_product.activate_success', defaultMessage: 'Kích hoạt sản phẩm thành công' })
+               : intl.formatMessage({ id: 'body_admin.product_management.activate_product.deactivate_success', defaultMessage: 'Vô hiệu hóa sản phẩm thành công' });
+            showToast("success", res.message || successMessage);
             if (typeof onSuccess === 'function') {
                onSuccess(product.id, { ...product, isActive });
             }
          } else {
-            showToast("error", res.errMessage || 'Lỗi khi cập nhật trạng thái sản phẩm');
+            showToast("error", res.errMessage || intl.formatMessage({ id: 'body_admin.product_management.activate_product.error', defaultMessage: 'Có lỗi xảy ra khi cập nhật trạng thái sản phẩm' }));
          }
       } catch (error) {
          console.error('Lỗi khi gọi API cập nhật trạng thái sản phẩm:', error);
-         showToast("error", 'Lỗi khi gọi API');
+         showToast("error", intl.formatMessage({ id: 'body_admin.product_management.activate_product.error', defaultMessage: 'Có lỗi xảy ra khi cập nhật trạng thái sản phẩm' }));
       }
    };
 
@@ -75,8 +80,8 @@ const ProductActive = ({ product, onSuccess }) => {
             onClick={handleToggleActive}
          >
             {product.isActive
-               ? intl.formatMessage({ id: 'body_admin.product_management.deactivate_button' })
-               : intl.formatMessage({ id: 'body_admin.product_management.activate_button' })}
+               ? intl.formatMessage({ id: 'body_admin.product_management.activate_product.deactivate_button' })
+               : intl.formatMessage({ id: 'body_admin.product_management.activate_product.activate_button' })}
          </button>
       </div>
    );

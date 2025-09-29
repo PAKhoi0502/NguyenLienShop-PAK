@@ -51,6 +51,10 @@ const Breadcrumb = ({ topOffset = 100 }) => {
       if (name === 'product-detail') return 'Chi tiết thông tin sản phẩm';
       if (name === 'forgot-password') return 'Quên mật khẩu';
 
+      if (name === 'product-create') return 'Tạo sản phẩm';
+      if (name === 'info-category') return 'Thông tin danh mục sản phẩm';
+      if (name === 'add-category') return 'Thêm danh mục sản phẩm';
+      if (name === 'delete-category') return 'Xóa danh mục sản phẩm';
 
       if (pathnames.includes('user-detail') && index === pathnames.length - 1) {
          return "Thông tin người dùng";

@@ -7,6 +7,7 @@ import CategoryDelete from './CategoryDelete.js';
 import CategoryActive from './CategoryActive.js';
 import CustomToast from '../../../CustomToast';
 import HintBox from '../../../HintBox';
+import './CategoryManager.scss';
 
 const CategoryManager = () => {
    const [categories, setCategories] = useState([]);
@@ -93,6 +94,18 @@ const CategoryManager = () => {
             </button>
          </div>
          <div className="category-filters">
+            <HintBox
+               theme="category"
+               content={
+                  <div>
+                     <p><FormattedMessage id="category.manager.hint_title" defaultMessage="Hướng dẫn: Quản lý danh sách danh mục, bao gồm tạo, cập nhật, xóa và thay đổi trạng thái hiển thị." /></p>
+                     <ul>
+                        <li><FormattedMessage id="category.manager.hint_update" defaultMessage="Cần ẩn danh mục trước khi cập nhật hoặc xóa." /></li>
+                        <li><FormattedMessage id="category.manager.hint_active" defaultMessage="Chỉ danh mục đã ẩn mới có thể cập nhật hoặc xóa." /></li>
+                     </ul>
+                  </div>
+               }
+            />
             <label><FormattedMessage id="category.manager.filter_status" defaultMessage="Lọc trạng thái:" /></label>
             <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
                <option value="all"><FormattedMessage id="category.manager.filter_all" defaultMessage="Tất cả" /></option>
@@ -100,17 +113,6 @@ const CategoryManager = () => {
                <option value="inactive"><FormattedMessage id="category.manager.filter_inactive" defaultMessage="Đã ẩn" /></option>
             </select>
          </div>
-         <HintBox
-            content={
-               <div>
-                  <p><FormattedMessage id="category.manager.hint_title" defaultMessage="Hướng dẫn: Quản lý danh sách danh mục, bao gồm tạo, cập nhật, xóa và thay đổi trạng thái hiển thị." /></p>
-                  <ul style={{ textAlign: 'left', paddingLeft: '1rem', marginTop: '0.5rem' }}>
-                     <li><FormattedMessage id="category.manager.hint_update" defaultMessage="Cần ẩn danh mục trước khi cập nhật hoặc xóa." /></li>
-                     <li><FormattedMessage id="category.manager.hint_active" defaultMessage="Chỉ danh mục đã ẩn mới có thể cập nhật/xóa." /></li>
-                  </ul>
-               </div>
-            }
-         />
          <div className="category-search-bar">
             <input
                type="text"
@@ -144,7 +146,7 @@ const CategoryManager = () => {
                            <tr key={category.id}>
                               <td>{category.id}</td>
                               <td>{category.nameCategory || ''}</td>
-                              <td>{category.isActive ? '✅' : '❌'}</td>
+                              <td className="status-cell">{category.isActive ? '✅' : '❌'}</td>
                               <td>
                                  <div className="action-buttons">
                                     <button

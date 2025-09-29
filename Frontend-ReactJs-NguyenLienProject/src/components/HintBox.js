@@ -41,6 +41,8 @@ const HintBox = ({ content, theme = 'default' }) => {
             return 'product-theme';
          case 'user':
             return 'user-theme';
+         case 'category':
+            return 'category-theme';
          default:
             return '';
       }

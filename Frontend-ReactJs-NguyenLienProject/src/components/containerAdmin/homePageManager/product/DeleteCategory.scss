@@ -1,5 +1,478 @@
 // ==============================================
-// 🗑️ DELETE CATEGORY STYLES
+// 🗑️ DELETE CATEGORY STYLES (Green Theme)
 // ==============================================
-// Import shared styles from AddCategory
-@import './AddCategory.scss';
+
+@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
+
+.add-product-category.admin-page {
+    min-height: 100vh;
+    padding: spacing(8) spacing(6);
+    background: linear-gradient(135deg, #f0fdf4 0%, color(white) 50%, #ecfdf5 100%);
+
+    @include mobile-only {
+        padding: spacing(6) spacing(4);
+    }
+
+    // ==============================================
+    // 🎭 MODAL VERSION - When used inside InfoCategory modal
+    // ==============================================
+    .modal-content & {
+        min-height: auto !important;
+        padding: 0 !important;
+        background: transparent !important;
+    }
+
+    // ==============================================
+    // 📦 FORM CONTAINER
+    // ==============================================
+    .form-container {
+        max-width: 600px;
+        margin: 0 auto;
+        background: color(white);
+        border-radius: border-radius(xl);
+        padding: spacing(8);
+        box-shadow: shadow(lg);
+        border: 1px solid #bbf7d0;
+        position: relative;
+        overflow: hidden;
+
+        @include mobile-only {
+            padding: spacing(6) spacing(4);
+            margin: spacing(4);
+        }
+
+        // Modal version adjustments
+        .modal-content & {
+            margin: 0 !important;
+            box-shadow: none !important;
+            border: none !important;
+            border-radius: 0 !important;
+            padding: spacing(4) 0 !important;
+            background: transparent !important;
+            max-width: none !important;
+
+            &::before {
+                display: none !important;
+            }
+        }
+
+        // Gradient border effect
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ef4444, #dc2626, #b91c1c);
+            border-radius: border-radius(xl) border-radius(xl) 0 0;
+        }
+
+        // ==============================================
+        // 📋 HEADER & TITLE
+        // ==============================================
+        h2 {
+            font-size: font-size(2xl);
+            font-weight: font-weight(bold);
+            color: #dc2626;
+            margin: 0 0 spacing(8) 0;
+            text-align: center;
+            position: relative;
+            padding-top: spacing(2);
+
+            // Modal version adjustments
+            .modal-content & {
+                font-size: font-size(xl);
+                margin: 0 0 spacing(6) 0;
+                padding-top: 0;
+
+                &::after {
+                    width: 80px;
+                    height: 2px;
+                }
+
+                @include mobile-only {
+                    font-size: font-size(lg);
+                    margin: 0 0 spacing(4) 0;
+                }
+            }
+
+            &::before {
+                content: '🗑️';
+                font-size: font-size(xl);
+                margin-right: spacing(2);
+            }
+
+            &::after {
+                content: '';
+                position: absolute;
+                bottom: -8px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 280px;
+                height: 4px;
+                background: linear-gradient(90deg, #ef4444, #dc2626);
+                border-radius: border-radius(full);
+            }
+
+            @include mobile-only {
+                font-size: font-size(xl);
+            }
+        }
+
+        // ==============================================
+        // 📋 CATEGORY LIST
+        // ==============================================
+        .category-list {
+            margin-bottom: spacing(8);
+            max-height: 400px;
+            overflow-y: auto;
+            padding: spacing(2);
+            border: 1px solid #bbf7d0;
+            border-radius: border-radius(lg);
+            background: #f0fdf4;
+
+            @include mobile-only {
+                max-height: 300px;
+            }
+
+            // Modal version adjustments
+            .modal-content & {
+                max-height: 300px !important;
+                margin-bottom: spacing(6) !important;
+
+                @include mobile-only {
+                    max-height: 250px !important;
+                    margin-bottom: spacing(4) !important;
+                }
+            }
+
+            // Custom scrollbar
+            &::-webkit-scrollbar {
+                width: 8px;
+            }
+
+            &::-webkit-scrollbar-track {
+                background: #ecfdf5;
+                border-radius: border-radius(full);
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background: #22c55e;
+                border-radius: border-radius(full);
+
+                &:hover {
+                    background: #16a34a;
+                }
+            }
+
+            .category-item {
+                display: flex;
+                align-items: center;
+                padding: spacing(4);
+                margin-bottom: spacing(2);
+                background: color(white);
+                border-radius: border-radius(lg);
+                border: 1px solid #bbf7d0;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                position: relative;
+                overflow: hidden;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+
+                &:hover {
+                    background: #fef2f2;
+                    border-color: #fecaca;
+                    transform: translateX(4px);
+                    box-shadow: 0 4px 16px rgba(239, 68, 68, 0.15);
+                }
+
+                // Modal version adjustments
+                .modal-content & {
+                    padding: spacing(3) !important;
+
+                    &:hover {
+                        background: #fef2f2 !important;
+                        border-color: #fecaca !important;
+                    }
+
+                    @include mobile-only {
+                        padding: spacing(2) !important;
+                    }
+                }
+
+                // Checkbox styling
+                input[type="checkbox"] {
+                    width: 20px;
+                    height: 20px;
+                    margin-right: spacing(3);
+                    cursor: pointer;
+                    appearance: none;
+                    border: 2px solid #dc2626;
+                    border-radius: border-radius(sm);
+                    background: color(white);
+                    position: relative;
+                    transition: all 0.2s ease;
+
+                    &:checked {
+                        background: linear-gradient(135deg, #ef4444, #dc2626);
+                        border-color: #b91c1c;
+
+                        &::after {
+                            content: '✓';
+                            position: absolute;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                            color: color(white);
+                            font-size: font-size(sm);
+                            font-weight: font-weight(bold);
+                        }
+                    }
+
+                    &:hover {
+                        border-color: #ef4444;
+                        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+                    }
+                }
+
+                // Label text
+                font-size: font-size(base);
+                font-weight: font-weight(medium);
+                color: #14532d;
+                user-select: none;
+
+                // Icon before text
+                &::before {
+                    content: '📁';
+                    margin-right: spacing(2);
+                    font-size: font-size(sm);
+                }
+
+                // Hover ripple effect
+                &::after {
+                    content: '';
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    width: 0;
+                    height: 0;
+                    border-radius: 50%;
+                    background: rgba(239, 68, 68, 0.1);
+                    transform: translate(-50%, -50%);
+                    transition: width 0.3s ease, height 0.3s ease;
+                }
+
+                &:active::after {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+
+            // Empty state message
+            p {
+                text-align: center;
+                color: #6b7280;
+                font-style: italic;
+                padding: spacing(8);
+                margin: 0;
+
+                &::before {
+                    content: '📭';
+                    display: block;
+                    font-size: font-size(3xl);
+                    margin-bottom: spacing(4);
+                }
+            }
+        }
+
+        // ==============================================
+        // 🎯 FORM ACTIONS
+        // ==============================================
+        .form-actions {
+            display: flex;
+            gap: spacing(4);
+            justify-content: center;
+
+            @include mobile-only {
+                flex-direction: column;
+            }
+
+            .btn {
+                @include button-base;
+                padding: spacing(4) spacing(8);
+                border-radius: border-radius(lg);
+                font-weight: font-weight(semibold);
+                font-size: font-size(base);
+                border: none;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                min-width: 140px;
+
+                @include mobile-only {
+                    padding: spacing(4) spacing(6);
+                    min-width: auto;
+                }
+
+                &:hover:not(:disabled) {
+                    transform: translateY(-2px);
+                    box-shadow: shadow(lg);
+                }
+
+                &:active:not(:disabled) {
+                    transform: translateY(0);
+                }
+
+                &:disabled {
+                    opacity: 0.6;
+                    cursor: not-allowed;
+                    transform: none !important;
+                    box-shadow: none !important;
+                }
+
+                &.btn-danger {
+                    background: linear-gradient(135deg, #ef4444, #dc2626);
+                    color: color(white);
+                    border: 1px solid #dc2626;
+
+                    &:hover:not(:disabled) {
+                        background: linear-gradient(135deg, #dc2626, #b91c1c);
+                        box-shadow: 0 8px 24px rgba(239, 68, 68, 0.3);
+                    }
+
+                    &:disabled {
+                        background: linear-gradient(135deg, #9ca3af, #6b7280);
+                        border-color: #9ca3af;
+
+                        &::before {
+                            content: '⏳';
+                            margin-right: spacing(2);
+                            animation: spin 1s linear infinite;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // ==============================================
+    // 🎭 ANIMATIONS
+    // ==============================================
+    .form-container {
+        animation: fade-in 0.6s ease-out;
+    }
+
+    @keyframes fade-in {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes spin {
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    // ==============================================
+    // 📱 RESPONSIVE DESIGN
+    // ==============================================
+    @include tablet-only {
+        .form-container {
+            margin: spacing(4);
+            padding: spacing(6);
+
+            .category-list {
+                max-height: 350px;
+            }
+        }
+    }
+
+    @include mobile-only {
+        .form-container {
+            border-radius: border-radius(lg);
+
+            .category-list {
+                padding: spacing(2);
+
+                .category-item {
+                    padding: spacing(3);
+
+                    input[type="checkbox"] {
+                        width: 18px;
+                        height: 18px;
+                    }
+
+                    font-size: font-size(sm);
+                }
+            }
+
+            .form-actions {
+                .btn {
+                    font-size: font-size(sm);
+                    letter-spacing: 0.5px;
+                }
+            }
+        }
+    }
+}
+
+// ==============================================
+// 🌙 DARK MODE SUPPORT
+// ==============================================
+@media (prefers-color-scheme: dark) {
+    .add-product-category.admin-page {
+        background: linear-gradient(135deg, #14532d 0%, color(gray-900) 50%, #166534 100%);
+
+        .form-container {
+            background: color(gray-800);
+            border-color: #22c55e;
+
+            h2 {
+                color: #fca5a5;
+            }
+
+            .category-list {
+                background: #14532d;
+                border-color: #22c55e;
+
+                &::-webkit-scrollbar-track {
+                    background: color(gray-700);
+                }
+
+                .category-item {
+                    background: color(gray-800);
+                    border-color: #22c55e;
+                    color: #bbf7d0;
+
+                    &:hover {
+                        background: #2d1b1b;
+                        border-color: #fecaca;
+                    }
+
+                    input[type="checkbox"] {
+                        border-color: #dc2626;
+                    }
+                }
+
+                p {
+                    color: #9ca3af;
+                }
+            }
+        }
+    }
+}

@@ -12,7 +12,8 @@ const ProductUpdate = () => {
    const [description, setDescription] = useState('');
    const [price, setPrice] = useState('');
    const [discountPrice, setDiscountPrice] = useState('');
-   const [dimensions, setDimensions] = useState('');
+   const [length, setLength] = useState('');
+   const [width, setWidth] = useState('');
    const [stock, setStock] = useState('');
    const [isNew, setIsNew] = useState(false);
    const [isBestSeller, setIsBestSeller] = useState(false);
@@ -28,7 +29,7 @@ const ProductUpdate = () => {
             <CustomToast
                {...props}
                type={type}
-               titleId={type === 'success' ? 'product.update.success_title' : 'product.update.error_title'}
+               titleId={type === 'success' ? 'body_admin.product_management.update_product.success_title' : 'body_admin.product_management.update_product.error_title'}
                message={message}
                time={new Date()}
             />
@@ -40,27 +41,43 @@ const ProductUpdate = () => {
    const fetchProduct = async () => {
       try {
          const res = await getProductById(id);
-         console.log('Fetch product response:', res);
          if (res && res.errCode === 0 && res.product) {
             const { nameProduct, description, price, discountPrice, dimensions, stock, isNew, isBestSeller } = res.product;
             setNameProduct(nameProduct || '');
             setDescription(description || '');
             setPrice(price ? price.toString() : '');
             setDiscountPrice(discountPrice ? discountPrice.toString() : '');
-            setDimensions(dimensions || '');
+
+            // Parse dimensions từ format "lengthxwidth" thành length và width riêng biệt
+            if (dimensions && dimensions.includes('x')) {
+               const [parsedLength, parsedWidth] = dimensions.split('x');
+               setLength(parsedLength || '');
+               setWidth(parsedWidth || '');
+            } else {
+               setLength('');
+               setWidth('');
+            }
+
             setStock(stock ? stock.toString() : '');
             setIsNew(!!isNew);
             setIsBestSeller(!!isBestSeller);
          } else {
-            const errorMessage = res.errMessage || intl.formatMessage({ id: 'product.update.fetch_error', defaultMessage: 'Không thể tải thông tin sản phẩm' });
+            const errorMessage = res.errMessage || intl.formatMessage({ id: 'body_admin.product_management.update_product.fetch_error', defaultMessage: 'Không thể tải thông tin sản phẩm' });
             showToast('error', errorMessage);
             navigate('/admin/product-category-management/product-management');
          }
       } catch (err) {
          console.error('Fetch product error:', err.response?.data, err.response?.status);
-         const errorMessage = err.response?.data?.errMessage || intl.formatMessage({ id: 'product.update.server_error', defaultMessage: 'Lỗi server khi tải sản phẩm' });
-         showToast('error', errorMessage);
-         navigate('/admin/product-category-management/product-management');
+
+         // Xử lý lỗi 401 từ axios interceptor
+         if (err.response?.status === 401) {
+            showToast('error', intl.formatMessage({ id: 'body_admin.product_management.update_product.unauthorized', defaultMessage: 'Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại' }));
+            // Không cần navigate, axios interceptor sẽ xử lý
+         } else {
+            const errorMessage = err.response?.data?.errMessage || intl.formatMessage({ id: 'body_admin.product_management.update_product.server_error', defaultMessage: 'Lỗi server khi tải sản phẩm' });
+            showToast('error', errorMessage);
+            navigate('/admin/product-category-management/product-management');
+         }
       } finally {
          setFetching(false);
       }
@@ -74,26 +91,40 @@ const ProductUpdate = () => {
       e.preventDefault();
       setLoading(true);
 
-      const token = localStorage.getItem('token');
-      if (!token) {
-         showToast('error', intl.formatMessage({ id: 'product.update.no_token', defaultMessage: 'Vui lòng đăng nhập lại' }));
-         navigate('/login');
-         setLoading(false);
-         return;
-      }
-
+      // Kiểm tra dữ liệu bắt buộc
       if (!nameProduct || !price || !stock) {
-         showToast('error', intl.formatMessage({ id: 'product.update.missing_fields', defaultMessage: 'Vui lòng nhập đầy đủ các trường bắt buộc (tên, giá, số lượng tồn kho)' }));
+         showToast('error', intl.formatMessage({ id: 'body_admin.product_management.update_product.missing_fields', defaultMessage: 'Vui lòng nhập đầy đủ các trường bắt buộc (tên, giá, số lượng tồn kho)' }));
          setLoading(false);
          return;
       }
 
-      const parsedPrice = parseFloat(price);
-      const parsedStock = parseInt(stock);
-      const parsedDiscountPrice = discountPrice ? parseFloat(discountPrice) : null;
+      // Validation chi tiết cho Price
+      const priceValue = parseFloat(price);
+      if (isNaN(priceValue) || priceValue <= 0) {
+         showToast('error', intl.formatMessage({ id: 'body_admin.product_management.update_product.price_invalid', defaultMessage: 'Giá sản phẩm phải lớn hơn 0' }));
+         setLoading(false);
+         return;
+      }
 
-      if (isNaN(parsedPrice) || isNaN(parsedStock)) {
-         showToast('error', intl.formatMessage({ id: 'product.update.invalid_number', defaultMessage: 'Giá và số lượng tồn kho phải là số hợp lệ' }));
+      // Validation cho Discount Price
+      if (discountPrice) {
+         const discountValue = parseFloat(discountPrice);
+         if (isNaN(discountValue) || discountValue < 0) {
+            showToast('error', intl.formatMessage({ id: 'body_admin.product_management.update_product.discount_invalid', defaultMessage: 'Giá khuyến mãi phải lớn hơn hoặc bằng 0' }));
+            setLoading(false);
+            return;
+         }
+         if (discountValue >= priceValue) {
+            showToast('error', intl.formatMessage({ id: 'body_admin.product_management.update_product.discount_higher', defaultMessage: 'Giá khuyến mãi phải nhỏ hơn giá gốc' }));
+            setLoading(false);
+            return;
+         }
+      }
+
+      // Validation cho Stock
+      const stockValue = parseInt(stock);
+      if (isNaN(stockValue) || stockValue < 0 || !Number.isInteger(parseFloat(stock))) {
+         showToast('error', intl.formatMessage({ id: 'body_admin.product_management.update_product.stock_invalid', defaultMessage: 'Số lượng tồn kho phải là số nguyên dương' }));
          setLoading(false);
          return;
       }
@@ -102,10 +133,10 @@ const ProductUpdate = () => {
          id,
          nameProduct,
          description: description || '',
-         price: parsedPrice,
-         discountPrice: parsedDiscountPrice,
-         dimensions: dimensions || '',
-         stock: parsedStock,
+         price: priceValue,
+         discountPrice: discountPrice ? parseFloat(discountPrice) : null,
+         dimensions: length && width ? `${length}x${width}` : '',
+         stock: stockValue,
          isNew, // Thêm isNew vào dữ liệu
          isBestSeller // Thêm isBestSeller vào dữ liệu
       };
@@ -113,14 +144,25 @@ const ProductUpdate = () => {
       try {
          const res = await updateProduct(data);
          if (res && res.errCode === 0) {
-            showToast('success', intl.formatMessage({ id: 'product.update.success', defaultMessage: 'Cập nhật sản phẩm thành công' }));
+            showToast('success', intl.formatMessage({ id: 'body_admin.product_management.update_product.success', defaultMessage: 'Cập nhật sản phẩm thành công' }));
             navigate('/admin/product-category-management/product-management');
+         } else if (res && res.errCode === 401) {
+            // Xử lý lỗi 401 - không có quyền
+            showToast('error', res.errMessage || intl.formatMessage({ id: 'body_admin.product_management.update_product.unauthorized', defaultMessage: 'Không có quyền cập nhật sản phẩm' }));
+            // Không redirect về login, để axios interceptor xử lý
          } else {
-            showToast('error', res.errMessage || intl.formatMessage({ id: 'product.update.error', defaultMessage: 'Không thể cập nhật sản phẩm' }));
+            showToast('error', res.errMessage || intl.formatMessage({ id: 'body_admin.product_management.update_product.error', defaultMessage: 'Không thể cập nhật sản phẩm' }));
          }
       } catch (err) {
          console.error('Update product error:', err.response?.data, err.response?.status);
-         showToast('error', intl.formatMessage({ id: 'product.update.server_error', defaultMessage: 'Lỗi server khi cập nhật sản phẩm' }));
+
+         // Xử lý lỗi 401 từ axios interceptor
+         if (err.response?.status === 401) {
+            showToast('error', intl.formatMessage({ id: 'body_admin.product_management.update_product.unauthorized', defaultMessage: 'Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại' }));
+            // Không cần navigate, axios interceptor sẽ xử lý
+         } else {
+            showToast('error', intl.formatMessage({ id: 'body_admin.product_management.update_product.server_error', defaultMessage: 'Lỗi server khi cập nhật sản phẩm' }));
+         }
       } finally {
          setLoading(false);
       }
@@ -131,23 +173,24 @@ const ProductUpdate = () => {
          <HintBox
             content={
                <div>
-                  <p><FormattedMessage id="product.hint.title" defaultMessage="Hướng dẫn: Cập nhật thông tin sản phẩm." /></p>
+                  <p><FormattedMessage id="body_admin.product_management.update_product.hint.title" defaultMessage="Hướng dẫn: Cập nhật thông tin sản phẩm." /></p>
                   <ul style={{ textAlign: 'left', paddingLeft: '1rem', marginTop: '0.5rem' }}>
-                     <li><FormattedMessage id="product.hint.name" defaultMessage="Tên sản phẩm là bắt buộc." /></li>
-                     <li><FormattedMessage id="product.hint.price" defaultMessage="Giá và số lượng tồn kho là bắt buộc." /></li>
-                     <li><FormattedMessage id="product.hint.optional" defaultMessage="Mô tả, giá khuyến mãi, kích thước, sản phẩm mới, sản phẩm bán chạy là tùy chọn." /></li>
+                     <li><FormattedMessage id="body_admin.product_management.update_product.hint.name" defaultMessage="Tên sản phẩm là bắt buộc." /></li>
+                     <li><FormattedMessage id="body_admin.product_management.update_product.hint.price" defaultMessage="Giá phải lớn hơn 0, số lượng tồn kho phải là số nguyên dương." /></li>
+                     <li><FormattedMessage id="body_admin.product_management.update_product.hint.discount" defaultMessage="Giá khuyến mãi phải nhỏ hơn giá gốc (nếu có)." /></li>
+                     <li><FormattedMessage id="body_admin.product_management.update_product.hint.optional" defaultMessage="Mô tả, chiều dài và chiều rộng, sản phẩm mới, sản phẩm bán chạy là tùy chọn." /></li>
                   </ul>
                </div>
             }
          />
 
-         <h1><FormattedMessage id="product.update.title" defaultMessage="Cập nhật sản phẩm" /></h1>
+         <h1><FormattedMessage id="body_admin.product_management.update_product.title" defaultMessage="Cập nhật sản phẩm" /></h1>
          {fetching ? (
-            <p className="product-loading"><FormattedMessage id="product.update.loading" defaultMessage="Đang tải thông tin sản phẩm..." /></p>
+            <p className="product-loading"><FormattedMessage id="body_admin.product_management.update_product.loading" defaultMessage="Đang tải thông tin sản phẩm..." /></p>
          ) : (
             <form onSubmit={handleSubmit} className="product-update-form">
                <div className="form-group">
-                  <label><FormattedMessage id="product.update.name" defaultMessage="Tên sản phẩm:" /> <span style={{ color: 'red' }}>*</span></label>
+                  <label><FormattedMessage id="body_admin.product_management.update_product.name" defaultMessage="Tên sản phẩm:" /> <span style={{ color: 'red' }}>*</span></label>
                   <input
                      type="text"
                      value={nameProduct}
@@ -156,54 +199,86 @@ const ProductUpdate = () => {
                   />
                </div>
                <div className="form-group">
-                  <label><FormattedMessage id="product.update.description" defaultMessage="Mô tả:" /></label>
+                  <label><FormattedMessage id="body_admin.product_management.update_product.description" defaultMessage="Mô tả:" /></label>
                   <textarea
                      value={description}
                      onChange={(e) => setDescription(e.target.value)}
                   />
                </div>
                <div className="form-group">
-                  <label><FormattedMessage id="product.update.price" defaultMessage="Giá:" /> <span style={{ color: 'red' }}>*</span></label>
-                  <input
-                     type="number"
-                     value={price}
-                     onChange={(e) => setPrice(e.target.value)}
-                     min="0"
-                     step="0.01"
-                     required
-                  />
+                  <label><FormattedMessage id="body_admin.product_management.update_product.price" defaultMessage="Giá:" /> <span style={{ color: 'red' }}>*</span></label>
+                  <div className="input-with-unit">
+                     <input
+                        type="number"
+                        value={price}
+                        onChange={(e) => setPrice(e.target.value)}
+                        min="0.01"
+                        step="0.01"
+                        required
+                        placeholder="VD: 500"
+                     />
+                     <span className="unit">VNĐ</span>
+                  </div>
                </div>
                <div className="form-group">
-                  <label><FormattedMessage id="product.update.discountPrice" defaultMessage="Giá khuyến mãi:" /></label>
-                  <input
-                     type="number"
-                     value={discountPrice}
-                     onChange={(e) => setDiscountPrice(e.target.value)}
-                     min="0"
-                     step="0.01"
-                  />
+                  <label><FormattedMessage id="body_admin.product_management.update_product.discountPrice" defaultMessage="Giá khuyến mãi:" /></label>
+                  <div className="input-with-unit">
+                     <input
+                        type="number"
+                        value={discountPrice}
+                        onChange={(e) => setDiscountPrice(e.target.value)}
+                        min="0"
+                        step="0.01"
+                        placeholder="VD: 450"
+                     />
+                     <span className="unit">VNĐ</span>
+                  </div>
                </div>
                <div className="form-group">
-                  <label><FormattedMessage id="product.update.dimensions" defaultMessage="Kích thước:" /></label>
-                  <input
-                     type="text"
-                     value={dimensions}
-                     onChange={(e) => setDimensions(e.target.value)}
-                  />
+                  <label><FormattedMessage id="body_admin.product_management.update_product.dimensions" defaultMessage="Kích thước:" /></label>
+                  <div className="dimensions-inputs">
+                     <div className="dimension-input">
+                        <label><FormattedMessage id="body_admin.product_management.update_product.length" defaultMessage="Chiều dài (cm):" /></label>
+                        <input
+                           type="number"
+                           value={length}
+                           onChange={(e) => setLength(e.target.value)}
+                           min="0"
+                           step="0.1"
+                           placeholder="VD: 2"
+                        />
+                     </div>
+                     <div className="dimension-separator">x</div>
+                     <div className="dimension-input">
+                        <label><FormattedMessage id="body_admin.product_management.update_product.width" defaultMessage="Chiều rộng (cm):" /></label>
+                        <input
+                           type="number"
+                           value={width}
+                           onChange={(e) => setWidth(e.target.value)}
+                           min="0"
+                           step="0.1"
+                           placeholder="VD: 3"
+                        />
+                     </div>
+                  </div>
                </div>
                <div className="form-group">
-                  <label><FormattedMessage id="product.update.stock" defaultMessage="Số lượng tồn kho:" /> <span style={{ color: 'red' }}>*</span></label>
-                  <input
-                     type="number"
-                     value={stock}
-                     onChange={(e) => setStock(e.target.value)}
-                     min="0"
-                     step="1"
-                     required
-                  />
+                  <label><FormattedMessage id="body_admin.product_management.update_product.stock" defaultMessage="Số lượng tồn kho:" /> <span style={{ color: 'red' }}>*</span></label>
+                  <div className="input-with-unit">
+                     <input
+                        type="number"
+                        value={stock}
+                        onChange={(e) => setStock(e.target.value)}
+                        min="0"
+                        step="1"
+                        required
+                        placeholder="VD: 5000"
+                     />
+                     <span className="unit">cái</span>
+                  </div>
                </div>
                <div className="form-group">
-                  <label><FormattedMessage id="product.update.isNew" defaultMessage="Sản phẩm mới:" /></label>
+                  <label><FormattedMessage id="body_admin.product_management.update_product.isNew" defaultMessage="Sản phẩm mới:" /></label>
                   <input
                      type="checkbox"
                      checked={isNew}
@@ -211,7 +286,7 @@ const ProductUpdate = () => {
                   />
                </div>
                <div className="form-group">
-                  <label><FormattedMessage id="product.update.isBestSeller" defaultMessage="Sản phẩm bán chạy:" /></label>
+                  <label><FormattedMessage id="body_admin.product_management.update_product.isBestSeller" defaultMessage="Sản phẩm bán chạy:" /></label>
                   <input
                      type="checkbox"
                      checked={isBestSeller}
@@ -220,7 +295,7 @@ const ProductUpdate = () => {
                </div>
                <div className="form-actions">
                   <button className="btn-submit" type="submit" disabled={loading}>
-                     {loading ? <FormattedMessage id="product.update.loading_submit" defaultMessage="Đang cập nhật..." /> : <FormattedMessage id="product.update.submit" defaultMessage="Cập nhật sản phẩm" />}
+                     {loading ? <FormattedMessage id="body_admin.product_management.update_product.loading_submit" defaultMessage="Đang cập nhật..." /> : <FormattedMessage id="body_admin.product_management.update_product.submit" defaultMessage="Cập nhật sản phẩm" />}
                   </button>
                   <button
                      type="button"
@@ -228,7 +303,7 @@ const ProductUpdate = () => {
                      onClick={() => navigate('/admin/product-category-management/product-management')}
                      disabled={loading}
                   >
-                     <FormattedMessage id="product.update.cancel" defaultMessage="Hủy" />
+                     <FormattedMessage id="body_admin.product_management.update_product.cancel" defaultMessage="Hủy" />
                   </button>
                </div>
             </form>

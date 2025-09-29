@@ -26,7 +26,6 @@
       position: relative;
 
       &::before {
-         content: '📋';
          margin-right: spacing(2);
          font-size: font-size(2xl);
       }
@@ -37,8 +36,8 @@
          bottom: -8px;
          left: 50%;
          transform: translateX(-50%);
-         width: 100px;
-         height: 3px;
+         width: 180px;
+         height: 4px;
          background: linear-gradient(90deg, #22c55e, #16a34a);
          border-radius: border-radius(full);
       }

@@ -109,7 +109,7 @@ const ProductCategoryDashboard = () => {
                      {loading ? '...' : stats.summary.totalItems}
                   </span>
                   <span className="quick-stat__label">
-                     <FormattedMessage id="dashboard.dashboard_product_category.total_items" defaultMessage="Tổng items" />
+                     <FormattedMessage id="dashboard.dashboard_product_category.total_items" defaultMessage="Tổng sản phẩm và danh mục" />
                   </span>
                </div>
             </div>

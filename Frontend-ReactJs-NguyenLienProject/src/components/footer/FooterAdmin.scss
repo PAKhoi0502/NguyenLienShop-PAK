@@ -6,8 +6,8 @@
 @import '../../styles/mixins';
 
 .footer-container {
-   background-color: color(white);
-   border-top: 1px solid color(gray-200);
+   background-color: #ffffff; // white
+   border-top: 1px solid #e5e7eb; // gray-200
    // Xóa margin-top: auto để footer không bị đẩy xuống
    // margin-top: auto;
 
@@ -16,8 +16,8 @@
    // ==============================================
    .footer-stats {
       padding: spacing(8) spacing(6);
-      background: linear-gradient(135deg, color(gray-50) 0%, color(white) 100%);
-      border-bottom: 1px solid color(gray-100);
+      background: linear-gradient(135deg, #f9fafb 0%, #ffffff 100%); // gray-50, white
+      border-bottom: 1px solid #f3f4f6; // gray-100
 
       @include mobile-only {
          padding: spacing(6) spacing(4);
@@ -45,7 +45,7 @@
       @include card-padding(md);
       text-align: center;
       transition: transition(transform);
-      background: linear-gradient(145deg, color(white) 0%, color(gray-50) 100%);
+      background: linear-gradient(145deg, #ffffff 0%, #f9fafb 100%); // white, gray-50
       position: relative;
       overflow: hidden;
 
@@ -62,15 +62,15 @@
          left: 0;
          right: 0;
          height: 3px;
-         background: linear-gradient(90deg, color(primary-500), color(primary-600), color(primary-700));
+         background: linear-gradient(90deg, #3b82f6, #2563eb, #1d4ed8); // primary-500, primary-600, primary-700
       }
 
       &:nth-child(1)::before {
-         background: linear-gradient(90deg, color(primary-500), color(primary-600));
+         background: linear-gradient(90deg, #3b82f6, #2563eb); // primary-500, primary-600
       }
 
       &:nth-child(2)::before {
-         background: linear-gradient(90deg, color(success-500), color(success-600));
+         background: linear-gradient(90deg, #10b981, #059669); // success-500, success-600
       }
 
       &:nth-child(3)::before {
@@ -78,13 +78,13 @@
       }
 
       &:nth-child(4)::before {
-         background: linear-gradient(90deg, color(warning-500), color(warning-600));
+         background: linear-gradient(90deg, #f59e0b, #d97706); // warning-500, warning-600
       }
 
       &__value {
          font-size: font-size(3xl);
          font-weight: font-weight(bold);
-         color: color(gray-800);
+         color: #1f2937; // gray-800
          margin-bottom: spacing(1);
          line-height: line-height(none);
 
@@ -95,7 +95,7 @@
 
       &__label {
          font-size: font-size(sm);
-         color: color(gray-600);
+         color: #4b5563; // gray-600
          font-weight: font-weight(medium);
          text-transform: uppercase;
          letter-spacing: 0.05em;
@@ -133,13 +133,13 @@
       h4 {
          font-size: font-size(lg);
          font-weight: font-weight(semibold);
-         color: color(gray-900);
+         color: #111827; // gray-900
          margin-bottom: spacing(3);
       }
 
       p {
          font-size: font-size(sm);
-         color: color(gray-600);
+         color: #4b5563; // gray-600
          line-height: line-height(relaxed);
          margin-bottom: spacing(1);
 
@@ -150,7 +150,7 @@
    }
 
    .footer-bottom {
-      border-top: 1px solid color(gray-200);
+      border-top: 1px solid #e5e7eb; // gray-200
       padding-top: spacing(4);
       text-align: center;
       max-width: 1200px;
@@ -158,7 +158,7 @@
 
       p {
          font-size: font-size(sm);
-         color: color(gray-500);
+         color: #6b7280; // gray-500
          margin: 0;
       }
    }
@@ -186,42 +186,42 @@
 // ==============================================
 @media (prefers-color-scheme: dark) {
    .footer-container {
-      background-color: color(gray-800);
-      border-color: color(gray-700);
+      background-color: #1f2937; // gray-800
+      border-color: #374151; // gray-700
 
       .footer-stats {
-         background: linear-gradient(135deg, color(gray-700) 0%, color(gray-800) 100%);
-         border-color: color(gray-700);
+         background: linear-gradient(135deg, #374151 0%, #1f2937 100%); // gray-700, gray-800
+         border-color: #374151; // gray-700
       }
 
       .stat-card {
-         background: linear-gradient(145deg, color(gray-700) 0%, color(gray-800) 100%);
-         border-color: color(gray-600);
+         background: linear-gradient(145deg, #374151 0%, #1f2937 100%); // gray-700, gray-800
+         border-color: #4b5563; // gray-600
 
          &__value {
-            color: color(white);
+            color: #ffffff; // white
          }
 
          &__label {
-            color: color(gray-300);
+            color: #d1d5db; // gray-300
          }
       }
 
       .footer-section {
          h4 {
-            color: color(white);
+            color: #ffffff; // white
          }
 
          p {
-            color: color(gray-300);
+            color: #d1d5db; // gray-300
          }
       }
 
       .footer-bottom {
-         border-color: color(gray-700);
+         border-color: #374151; // gray-700
 
          p {
-            color: color(gray-400);
+            color: #9ca3af; // gray-400
          }
       }
    }

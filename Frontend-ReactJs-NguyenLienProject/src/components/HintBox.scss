@@ -81,6 +81,7 @@
    align-items: center;
    justify-content: center;
    z-index: 9999;
+   -webkit-backdrop-filter: blur(4px); // Safari support
    backdrop-filter: blur(4px);
    animation: fade-in 0.3s ease-out;
 
@@ -90,7 +91,7 @@
 }
 
 .hint-box {
-   background: color(white);
+   background: #ffffff; // white
    padding: spacing(8);
    border-radius: border-radius(xl);
    box-shadow: shadow(2xl);
@@ -112,7 +113,7 @@
       top: -20px;
       left: 50%;
       transform: translateX(-50%);
-      background: color(white);
+      background: #ffffff; // white
       padding: spacing(2);
       border-radius: border-radius(full);
       border: 2px solid #f59e0b;
@@ -271,6 +272,36 @@
          }
       }
    }
+
+   &.category-theme {
+      border-color: #f59e0b;
+
+      &::before {
+         border-color: #f59e0b;
+      }
+   }
+
+   ul li {
+      &:hover {
+         border-left-color: #f59e0b;
+      }
+   }
+
+   &:nth-child(even)::before {
+      content: '🔧';
+   }
+
+   &:nth-child(3n)::before {
+      content: '📊';
+   }
+
+   &:nth-child(3n)::before {
+      content: '📊';
+   }
+
+   &:nth-child(3n)::before {
+      content: '📊';
+   }
 }
 
 // ==============================================
@@ -322,37 +353,37 @@
    }
 
    .hint-box {
-      background: color(gray-800);
+      background: #1f2937; // gray-800
       border-color: #fbbf24;
 
       &::before {
-         background: color(gray-800);
+         background: #1f2937; // gray-800
          border-color: #fbbf24;
       }
 
       &::after {
-         background: color(gray-800);
+         background: #1f2937; // gray-800
          border-color: #fbbf24;
       }
 
       .hint-close {
-         color: color(gray-400);
+         color: #9ca3af; // gray-400
 
          &:hover {
-            background: color(gray-700);
-            color: color(gray-200);
+            background: #374151; // gray-700
+            color: #e5e7eb; // gray-200
          }
       }
 
       p {
-         color: color(gray-100);
+         color: #f3f4f6; // gray-100
       }
 
       ul li {
-         color: color(gray-300);
+         color: #d1d5db; // gray-300
 
          &:hover {
-            background: color(gray-700);
+            background: #374151; // gray-700
          }
       }
 

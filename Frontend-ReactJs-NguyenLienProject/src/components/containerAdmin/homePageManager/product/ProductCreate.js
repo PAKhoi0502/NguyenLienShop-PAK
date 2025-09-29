@@ -12,7 +12,8 @@ const ProductCreate = () => {
    const [description, setDescription] = useState('');
    const [price, setPrice] = useState('');
    const [discountPrice, setDiscountPrice] = useState('');
-   const [dimensions, setDimensions] = useState('');
+   const [length, setLength] = useState('');
+   const [width, setWidth] = useState('');
    const [stock, setStock] = useState('');
    const [loading, setLoading] = useState(false);
    const navigate = useNavigate();
@@ -24,7 +25,38 @@ const ProductCreate = () => {
 
       // Kiểm tra dữ liệu bắt buộc
       if (!nameProduct || !price || !stock) {
-         showToast('error', intl.formatMessage({ id: 'product.create.missing_fields', defaultMessage: 'Vui lòng nhập đầy đủ các trường bắt buộc (tên, giá, số lượng tồn kho)' }));
+         showToast('error', intl.formatMessage({ id: 'body_admin.product_management.create.create_blocked', defaultMessage: 'Vui lòng nhập đầy đủ các trường bắt buộc (tên, giá, số lượng tồn kho)' }));
+         setLoading(false);
+         return;
+      }
+
+      // Validation chi tiết cho Price
+      const priceValue = parseFloat(price);
+      if (isNaN(priceValue) || priceValue <= 0) {
+         showToast('error', intl.formatMessage({ id: 'body_admin.product_management.create.price_invalid', defaultMessage: 'Giá sản phẩm phải lớn hơn 0' }));
+         setLoading(false);
+         return;
+      }
+
+      // Validation cho Discount Price
+      if (discountPrice) {
+         const discountValue = parseFloat(discountPrice);
+         if (isNaN(discountValue) || discountValue < 0) {
+            showToast('error', intl.formatMessage({ id: 'body_admin.product_management.create.discount_invalid', defaultMessage: 'Giá khuyến mãi phải lớn hơn hoặc bằng 0' }));
+            setLoading(false);
+            return;
+         }
+         if (discountValue >= priceValue) {
+            showToast('error', intl.formatMessage({ id: 'body_admin.product_management.create.discount_higher', defaultMessage: 'Giá khuyến mãi phải nhỏ hơn giá gốc' }));
+            setLoading(false);
+            return;
+         }
+      }
+
+      // Validation cho Stock
+      const stockValue = parseInt(stock);
+      if (isNaN(stockValue) || stockValue < 0 || !Number.isInteger(parseFloat(stock))) {
+         showToast('error', intl.formatMessage({ id: 'body_admin.product_management.create.stock_invalid', defaultMessage: 'Số lượng tồn kho phải là số nguyên dương' }));
          setLoading(false);
          return;
       }
@@ -34,7 +66,7 @@ const ProductCreate = () => {
          description: description || '',
          price,
          discountPrice: discountPrice || '',
-         dimensions: dimensions || '',
+         dimensions: length && width ? `${length} x ${width}` : '',
          stock,
          isActive: false // Mặc định sản phẩm mới không active
       };
@@ -42,14 +74,25 @@ const ProductCreate = () => {
       try {
          const res = await createProduct(data);
          if (res && res.errCode === 0) {
-            showToast('success', intl.formatMessage({ id: 'product.create.success', defaultMessage: 'Tạo sản phẩm thành công' }));
+            showToast('success', intl.formatMessage({ id: 'body_admin.product_management.create.success', defaultMessage: 'Tạo sản phẩm thành công' }));
             navigate('/admin/product-category-management/product-management');
+         } else if (res && res.errCode === 401) {
+            // Xử lý lỗi 401 - không có quyền
+            showToast('error', res.errMessage || intl.formatMessage({ id: 'body_admin.product_management.create.unauthorized', defaultMessage: 'Không có quyền tạo sản phẩm' }));
+            // Không redirect về login, để axios interceptor xử lý
          } else {
-            showToast('error', res.errMessage || intl.formatMessage({ id: 'product.create.error', defaultMessage: 'Không thể tạo sản phẩm' }));
+            showToast('error', res.errMessage || intl.formatMessage({ id: 'body_admin.product_management.create.error', defaultMessage: 'Không thể tạo sản phẩm' }));
          }
       } catch (err) {
          console.error('Create product error:', err);
-         showToast('error', intl.formatMessage({ id: 'product.create.server_error', defaultMessage: 'Lỗi server khi tạo sản phẩm' }));
+
+         // Xử lý lỗi 401 từ axios interceptor
+         if (err.response?.status === 401) {
+            showToast('error', intl.formatMessage({ id: 'body_admin.product_management.create.unauthorized', defaultMessage: 'Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại' }));
+            // Không cần navigate, axios interceptor sẽ xử lý
+         } else {
+            showToast('error', intl.formatMessage({ id: 'body_admin.product_management.create.server_error', defaultMessage: 'Lỗi server khi tạo sản phẩm' }));
+         }
       } finally {
          setLoading(false);
       }
@@ -61,7 +104,7 @@ const ProductCreate = () => {
             <CustomToast
                {...props}
                type={type}
-               titleId={type === 'success' ? 'product.create.create_success_title' : 'product.create.create_error_title'}
+               titleId={type === 'success' ? 'body_admin.product_management.create.create_success_title' : 'body_admin.product_management.create.create_error_title'}
                message={message}
                time={new Date()}
             />
@@ -75,20 +118,21 @@ const ProductCreate = () => {
          <HintBox
             content={
                <div>
-                  <p><FormattedMessage id="product.hint.title" defaultMessage="Hướng dẫn: Điền thông tin sản phẩm." /></p>
+                  <p><FormattedMessage id="body_admin.product_management.create.hint.title" defaultMessage="Hướng dẫn: Điền thông tin sản phẩm." /></p>
                   <ul style={{ textAlign: 'left', paddingLeft: '1rem', marginTop: '0.5rem' }}>
-                     <li><FormattedMessage id="product.hint.name" defaultMessage="Tên sản phẩm là bắt buộc." /></li>
-                     <li><FormattedMessage id="product.hint.price" defaultMessage="Giá và số lượng tồn kho là bắt buộc." /></li>
-                     <li><FormattedMessage id="product.hint.optional" defaultMessage="Mô tả, giá khuyến mãi, kích thước là tùy chọn." /></li>
+                     <li><FormattedMessage id="body_admin.product_management.create.hint.name" defaultMessage="Tên sản phẩm là bắt buộc." /></li>
+                     <li><FormattedMessage id="body_admin.product_management.create.hint.price" defaultMessage="Giá phải lớn hơn 0, số lượng tồn kho phải là số nguyên dương." /></li>
+                     <li><FormattedMessage id="body_admin.product_management.create.hint.discount" defaultMessage="Giá khuyến mãi phải nhỏ hơn giá gốc (nếu có)." /></li>
+                     <li><FormattedMessage id="body_admin.product_management.create.hint.optional" defaultMessage="Mô tả, chiều dài và chiều rộng là tùy chọn." /></li>
                   </ul>
                </div>
             }
          />
 
-         <h1><FormattedMessage id="product.create.title" defaultMessage="Tạo sản phẩm mới" /></h1>
+         <h1><FormattedMessage id="body_admin.product_management.create.title" defaultMessage="Tạo sản phẩm mới" /></h1>
          <form onSubmit={handleSubmit} className="product-create-form">
             <div className="form-group">
-               <label><FormattedMessage id="product.create.name" defaultMessage="Tên sản phẩm:" /> <span style={{ color: 'red' }}>*</span></label>
+               <label><FormattedMessage id="body_admin.product_management.create.name" defaultMessage="Tên sản phẩm:" /> <span style={{ color: 'red' }}>*</span></label>
                <input
                   type="text"
                   value={nameProduct}
@@ -97,55 +141,87 @@ const ProductCreate = () => {
                />
             </div>
             <div className="form-group">
-               <label><FormattedMessage id="product.create.description" defaultMessage="Mô tả:" /></label>
+               <label><FormattedMessage id="body_admin.product_management.create.description" defaultMessage="Mô tả:" /></label>
                <textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                />
             </div>
             <div className="form-group">
-               <label><FormattedMessage id="product.create.price" defaultMessage="Giá:" /> <span style={{ color: 'red' }}>*</span></label>
-               <input
-                  type="number"
-                  value={price}
-                  onChange={(e) => setPrice(e.target.value)}
-                  min="0"
-                  step="0.01"
-                  required
-               />
+               <label><FormattedMessage id="body_admin.product_management.create.price" defaultMessage="Giá:" /> <span style={{ color: 'red' }}>*</span></label>
+               <div className="input-with-unit">
+                  <input
+                     type="number"
+                     value={price}
+                     onChange={(e) => setPrice(e.target.value)}
+                     min="0.01"
+                     step="0.01"
+                     required
+                     placeholder="VD: 500"
+                  />
+                  <span className="unit">VNĐ</span>
+               </div>
             </div>
             <div className="form-group">
-               <label><FormattedMessage id="product.create.discountPrice" defaultMessage="Giá khuyến mãi:" /></label>
-               <input
-                  type="number"
-                  value={discountPrice}
-                  onChange={(e) => setDiscountPrice(e.target.value)}
-                  min="0"
-                  step="0.01"
-               />
+               <label><FormattedMessage id="body_admin.product_management.create.discountPrice" defaultMessage="Giá khuyến mãi:" /></label>
+               <div className="input-with-unit">
+                  <input
+                     type="number"
+                     value={discountPrice}
+                     onChange={(e) => setDiscountPrice(e.target.value)}
+                     min="0"
+                     step="0.01"
+                     placeholder="VD: 450"
+                  />
+                  <span className="unit">VNĐ</span>
+               </div>
             </div>
             <div className="form-group">
-               <label><FormattedMessage id="product.create.dimensions" defaultMessage="Kích thước:" /></label>
-               <input
-                  type="text"
-                  value={dimensions}
-                  onChange={(e) => setDimensions(e.target.value)}
-               />
+               <label><FormattedMessage id="body_admin.product_management.create.dimensions" defaultMessage="Kích thước:" /></label>
+               <div className="dimensions-inputs">
+                  <div className="dimension-input">
+                     <label><FormattedMessage id="body_admin.product_management.create.length" defaultMessage="Chiều dài (cm):" /></label>
+                     <input
+                        type="number"
+                        value={length}
+                        onChange={(e) => setLength(e.target.value)}
+                        min="0"
+                        step="0.1"
+                        placeholder="VD: 2"
+                     />
+                  </div>
+                  <div className="dimension-separator"> x </div>
+                  <div className="dimension-input">
+                     <label><FormattedMessage id="body_admin.product_management.create.width" defaultMessage="Chiều rộng (cm):" /></label>
+                     <input
+                        type="number"
+                        value={width}
+                        onChange={(e) => setWidth(e.target.value)}
+                        min="0"
+                        step="0.1"
+                        placeholder="VD: 3"
+                     />
+                  </div>
+               </div>
             </div>
             <div className="form-group">
-               <label><FormattedMessage id="product.create.stock" defaultMessage="Số lượng tồn kho:" /> <span style={{ color: 'red' }}>*</span></label>
-               <input
-                  type="number"
-                  value={stock}
-                  onChange={(e) => setStock(e.target.value)}
-                  min="0"
-                  step="1"
-                  required
-               />
+               <label><FormattedMessage id="body_admin.product_management.create.stock" defaultMessage="Số lượng tồn kho:" /> <span style={{ color: 'red' }}>*</span></label>
+               <div className="input-with-unit">
+                  <input
+                     type="number"
+                     value={stock}
+                     onChange={(e) => setStock(e.target.value)}
+                     min="0"
+                     step="1"
+                     required
+                     placeholder="VD: 5000"
+                  />
+                  <span className="unit">cái</span>
+               </div>
             </div>
             <div className="form-actions">
                <button className="btn-submit" type="submit" disabled={loading}>
-                  {loading ? <FormattedMessage id="product.create.loading" defaultMessage="Đang tạo..." /> : <FormattedMessage id="product.create.submit" defaultMessage="Tạo sản phẩm" />}
+                  {loading ? <FormattedMessage id="body_admin.product_management.create.loading" defaultMessage="Đang tạo..." /> : <FormattedMessage id="body_admin.product_management.create.submit" defaultMessage="Tạo sản phẩm" />}
                </button>
                <button
                   type="button"
@@ -153,7 +229,7 @@ const ProductCreate = () => {
                   onClick={() => navigate('/admin/product-category-management/product-management')}
                   disabled={loading}
                >
-                  <FormattedMessage id="product.create.cancel" defaultMessage="Hủy" />
+                  <FormattedMessage id="body_admin.product_management.create.cancel" defaultMessage="Hủy" />
                </button>
             </div>
          </form>
