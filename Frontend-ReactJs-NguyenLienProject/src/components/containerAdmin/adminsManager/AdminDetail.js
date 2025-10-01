@@ -66,7 +66,7 @@ const AdminDetail = () => {
             <button className="btn-edit" onClick={handleEdit}>
                <FormattedMessage id="body_admin.account_management.admin_manager.detail_admin.edit_button" defaultMessage="Cập nhật thông tin" />
             </button>
-            <button className="btn-back" onClick={() => navigate('/admin/account-management/admin-management')}>
+            <button className="btn-back" onClick={() => navigate(-1)}>
                <FormattedMessage id="body_admin.account_management.admin_manager.detail_admin.back_button" defaultMessage="Quay lại" />
             </button>
          </div>

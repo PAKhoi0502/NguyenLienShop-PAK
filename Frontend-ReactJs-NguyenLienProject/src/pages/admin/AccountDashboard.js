@@ -18,7 +18,6 @@ const AccountDashboard = () => {
       try {
          // Gọi API mới để lấy số lượng admin và user
          const response = await getAccountCountStats();
-         console.log('🔍 Account Count Response:', response);
 
          if (response && response.errCode === 0 && response.data) {
             const { totalAdmins, totalUsers } = response.data;

@@ -16,7 +16,7 @@ const CategoryDelete = ({ category }) => {
             <CustomToast
                {...props}
                type={type}
-               titleId={type === 'success' ? 'category.delete.success_title' : 'category.delete.error_title'}
+               titleId={type === 'success' ? 'body_admin.category_management.delete.success_title' : 'body_admin.category_management.delete.error_title'}
                message={message}
                time={new Date()}
             />
@@ -27,33 +27,33 @@ const CategoryDelete = ({ category }) => {
 
    const handleDelete = async () => {
       if (!category || !category.id) {
-         showToast('error', intl.formatMessage({ id: 'category.delete.not_found', defaultMessage: 'Danh mục không được tìm thấy' }));
+         showToast('error', intl.formatMessage({ id: 'body_admin.category_management.delete.not_found', defaultMessage: 'Danh mục không được tìm thấy' }));
          return;
       }
 
       if (category.isActive) {
-         showToast('error', intl.formatMessage({ id: 'category.delete.blocked_active', defaultMessage: 'Không thể xóa danh mục đang hoạt động' }));
+         showToast('error', intl.formatMessage({ id: 'body_admin.category_management.delete.blocked_active', defaultMessage: 'Không thể xóa danh mục đang hoạt động' }));
          return;
       }
 
       const confirmFirst = await Swal.fire({
-         title: intl.formatMessage({ id: 'category.delete.confirm_title_1', defaultMessage: 'Xác nhận xóa danh mục' }),
-         html: `<strong>${category.nameCategory || intl.formatMessage({ id: 'category.delete.no_name', defaultMessage: 'Không có tên danh mục' })}</strong><br>ID: ${category.id}`,
+         title: intl.formatMessage({ id: 'body_admin.category_management.delete.confirm_title_1', defaultMessage: 'Xác nhận xóa danh mục' }),
+         html: `<strong>${category.nameCategory || intl.formatMessage({ id: 'body_admin.category_management.delete.no_name', defaultMessage: 'Không có tên danh mục' })}</strong><br>ID: ${category.id}`,
          icon: 'warning',
          showCancelButton: true,
-         confirmButtonText: intl.formatMessage({ id: 'category.delete.confirm_button_1', defaultMessage: 'Tiếp tục' }),
-         cancelButtonText: intl.formatMessage({ id: 'admin.delete.cancel_button', defaultMessage: 'Hủy' })
+         confirmButtonText: intl.formatMessage({ id: 'body_admin.category_management.delete.confirm_button_1', defaultMessage: 'Tiếp tục' }),
+         cancelButtonText: intl.formatMessage({ id: 'body_admin.category_management.delete.cancel_button', defaultMessage: 'Hủy' })
       });
 
       if (!confirmFirst.isConfirmed) return;
 
       const confirmSecond = await Swal.fire({
-         title: intl.formatMessage({ id: 'category.delete.confirm_title_2', defaultMessage: 'Bạn chắc chắn muốn xóa?' }),
-         text: intl.formatMessage({ id: 'category.delete.confirm_text_2', defaultMessage: 'Hành động này không thể hoàn tác!' }),
+         title: intl.formatMessage({ id: 'body_admin.category_management.delete.confirm_title_2', defaultMessage: 'Bạn chắc chắn muốn xóa?' }),
+         text: intl.formatMessage({ id: 'body_admin.category_management.delete.confirm_text_2', defaultMessage: 'Hành động này không thể hoàn tác!' }),
          icon: 'question',
          showCancelButton: true,
-         confirmButtonText: intl.formatMessage({ id: 'category.delete.confirm_button_2', defaultMessage: 'Xóa' }),
-         cancelButtonText: intl.formatMessage({ id: 'admin.delete.cancel_button', defaultMessage: 'Hủy' })
+         confirmButtonText: intl.formatMessage({ id: 'body_admin.category_management.delete.confirm_button_2', defaultMessage: 'Xóa' }),
+         cancelButtonText: intl.formatMessage({ id: 'body_admin.category_management.delete.cancel_button', defaultMessage: 'Hủy' })
       });
 
       if (!confirmSecond.isConfirmed) return;
@@ -61,19 +61,19 @@ const CategoryDelete = ({ category }) => {
       try {
          const res = await deleteCategory(category.id);
          if (res.errCode === 0) {
-            showToast('success', res.errMessage || intl.formatMessage({ id: 'category.delete.success', defaultMessage: 'Xóa danh mục thành công' }));
+            showToast('success', res.errMessage || intl.formatMessage({ id: 'body_admin.category_management.delete.success', defaultMessage: 'Xóa danh mục thành công' }));
             setTimeout(() => navigate(0), 1500);
          } else {
-            showToast('error', res.errMessage || intl.formatMessage({ id: 'category.delete.failed', defaultMessage: 'Xóa danh mục thất bại' }));
+            showToast('error', res.errMessage || intl.formatMessage({ id: 'body_admin.category_management.delete.failed', defaultMessage: 'Xóa danh mục thất bại' }));
          }
       } catch (error) {
-         showToast('error', error.response?.data?.errMessage || intl.formatMessage({ id: 'category.delete.error', defaultMessage: 'Lỗi khi xóa danh mục' }));
+         showToast('error', error.response?.data?.errMessage || intl.formatMessage({ id: 'body_admin.category_management.delete.error', defaultMessage: 'Lỗi khi xóa danh mục' }));
       }
    };
 
    return (
       <button className="btn-action btn-delete" onClick={handleDelete}>
-         {intl.formatMessage({ id: 'category.delete.button', defaultMessage: 'Xóa' })}
+         {intl.formatMessage({ id: 'body_admin.category_management.delete.button', defaultMessage: 'Xóa' })}
       </button>
    );
 };

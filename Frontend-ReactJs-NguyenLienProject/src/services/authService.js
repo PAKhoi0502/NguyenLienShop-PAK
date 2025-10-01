@@ -25,10 +25,7 @@ export const login = async ({ identifier, password }) => {
 
 export const register = async ({ phoneNumber, password, roleId, phoneVerified = false }) => {
    try {
-      console.log('📝 [AUTH SERVICE] Calling register API with:', { phoneNumber, roleId, phoneVerified });
       const res = await axios.post('/api/auth/register', { phoneNumber, password, roleId, phoneVerified });
-      console.log('📝 [AUTH SERVICE] Register API response:', res);
-      console.log('📝 [AUTH SERVICE] Response type:', typeof res);
 
       // Axios interceptor already returns data directly
       return res; // Return res instead of res.data
@@ -53,15 +50,8 @@ export const register = async ({ phoneNumber, password, roleId, phoneVerified = 
 
 export const checkPhoneExists = async (phoneNumber) => {
    try {
-      console.log('🔍 [AUTH SERVICE] Calling check phone API with:', phoneNumber);
-      console.log('🔍 [AUTH SERVICE] Using baseURL:', process.env.REACT_APP_BACKEND_URL);
 
       const res = await axios.post('/api/auth/check-phone', { phoneNumber });
-      console.log('🔍 [AUTH SERVICE] Full API response:', res);
-      console.log('🔍 [AUTH SERVICE] Response status:', res.status);
-      console.log('🔍 [AUTH SERVICE] Response data:', res.data);
-      console.log('🔍 [AUTH SERVICE] Response headers:', res.headers);
-      console.log('🔍 [AUTH SERVICE] Response type:', typeof res);
 
       // Check if response is empty object (network/server issue)
       if (!res || (typeof res === 'object' && Object.keys(res).length === 0)) {
@@ -76,11 +66,9 @@ export const checkPhoneExists = async (phoneNumber) => {
       // Check if response has undefined status (network issue)
       if (res.status === undefined && res.data === undefined && res.headers === undefined) {
          // This means axios interceptor returned data directly
-         console.log('🔍 [AUTH SERVICE] Axios interceptor returned data directly:', res);
 
          // Check if it's the expected backend response structure
          if (res && typeof res === 'object' && res.errCode !== undefined) {
-            console.log('🔍 [AUTH SERVICE] Valid backend response structure:', res);
             return res;
          }
 
@@ -95,17 +83,14 @@ export const checkPhoneExists = async (phoneNumber) => {
       // The axios interceptor transforms successful responses to return data directly
       // So 'res' here should already be the data object from the backend
       if (res && typeof res === 'object') {
-         console.log('🔍 [AUTH SERVICE] Processing intercepted response:', res);
 
          // If it has errCode, it's the expected structure
          if (res.errCode !== undefined) {
-            console.log('🔍 [AUTH SERVICE] Valid API response structure:', res);
             return res;
          }
 
          // If no errCode but has 'exists', it might be the response data
          if (res.exists !== undefined) {
-            console.log('🔍 [AUTH SERVICE] Direct response data:', res);
             return {
                errCode: 0,
                exists: res.exists,
@@ -195,7 +180,6 @@ export const checkAuth = async () => {
       const res = await axios.get('/api/auth/check');
       return res;
    } catch (err) {
-      console.log('🍪 Auth check failed:', err.message);
       return {
          errCode: 1,
          errMessage: 'Not authenticated',

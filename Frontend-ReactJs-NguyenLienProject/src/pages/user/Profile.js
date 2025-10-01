@@ -38,16 +38,6 @@ const Profile = () => {
                </strong>
                : {adminInfo?.roleId === 1 ? 'Admin' : adminInfo?.roleId === 2 ? 'User' : 'N/A'}
             </p>
-            <button
-               className="btn-logout"
-               onClick={() => {
-                  localStorage.removeItem('token');
-                  localStorage.removeItem('roleId');
-                  navigate('/login');
-               }}
-            >
-               <FormattedMessage id="profile.logout" defaultMessage="Log Out" />
-            </button>
          </div>
       </div>
    );

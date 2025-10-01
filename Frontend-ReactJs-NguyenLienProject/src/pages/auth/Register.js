@@ -69,18 +69,13 @@ const Register = () => {
 
 
    const handleOtpVerificationSuccess = async () => {
-      console.log('🎉 [OTP SUCCESS] Phone verification completed');
 
       // Directly submit registration since phone is verified
-      console.log('🚀 [OTP SUCCESS] Auto-submitting registration...');
 
       setLoading(true);
       try {
          const res = await register({ phoneNumber, password, roleId: 2, phoneVerified: true });
 
-         console.log('📝 [REGISTER DEBUG] Response:', res);
-         console.log('📝 [REGISTER DEBUG] ErrCode:', res?.errCode);
-         console.log('📝 [REGISTER DEBUG] ErrMessage:', res?.errMessage);
 
          if (res.errCode === 0) {
             toast(
@@ -145,7 +140,6 @@ const Register = () => {
 
       // Validate ALL form fields before opening OTP verification
       if (!phoneNumber || !password || !confirmPassword) {
-         console.log('📝 [Continue Debug] Missing fields');
          toast(
             (props) => (
                <CustomToast
@@ -164,7 +158,6 @@ const Register = () => {
       // Validate phone number
       const phoneError = validatePhone();
       if (phoneError) {
-         console.log('📝 [Continue Debug] Phone validation failed');
          toast(
             (props) => (
                <CustomToast
@@ -182,7 +175,6 @@ const Register = () => {
 
       // Validate password
       if (!passwordPattern.test(password)) {
-         console.log('📝 [Continue Debug] Password validation failed');
          toast(
             (props) => (
                <CustomToast
@@ -200,7 +192,6 @@ const Register = () => {
 
       // Validate password confirmation
       if (password !== confirmPassword) {
-         console.log('📝 [Continue Debug] Password mismatch');
          toast(
             (props) => (
                <CustomToast
@@ -217,12 +208,10 @@ const Register = () => {
       }
 
       // Check if phone number already exists
-      console.log('📱 [REGISTER] Checking if phone exists:', phoneNumber);
       try {
          const phoneCheckResult = await checkPhoneExists(phoneNumber.trim());
 
          if (phoneCheckResult.exists) {
-            console.log('📝 [Continue Debug] Phone already exists');
             toast(
                (props) => (
                   <CustomToast
@@ -239,7 +228,6 @@ const Register = () => {
          }
 
          // All validation passed - Move to OTP verification step
-         console.log('📝 [Continue Debug] Validation passed, proceeding to OTP');
          setStep(2);
 
       } catch (error) {

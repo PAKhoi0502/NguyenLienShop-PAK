@@ -188,6 +188,44 @@ let getAllCategoriesExcept = async (excludeCategoryId) => {
    }
 };
 
+// Đếm số lượng sản phẩm trong danh mục
+let getProductCountByCategoryId = async (categoryId) => {
+   try {
+      const count = await db.ProductCategory.count({
+         where: { categoryId: categoryId }
+      });
+      return { errCode: 0, count };
+   } catch (err) {
+      return { errCode: -1, errMessage: err.message };
+   }
+};
+
+// Đếm số lượng sản phẩm trong tất cả danh mục
+let getProductCountForAllCategories = async () => {
+   try {
+      const categories = await db.Category.findAll({
+         attributes: ['id', 'nameCategory']
+      });
+
+      const result = await Promise.all(
+         categories.map(async (category) => {
+            const count = await db.ProductCategory.count({
+               where: { categoryId: category.id }
+            });
+            return {
+               categoryId: category.id,
+               categoryName: category.nameCategory,
+               productCount: count
+            };
+         })
+      );
+
+      return { errCode: 0, data: result };
+   } catch (err) {
+      return { errCode: -1, errMessage: err.message };
+   }
+};
+
 export default {
    getCategoryById,
    getCategories,
@@ -199,5 +237,7 @@ export default {
    deleteProductForCategory,
    getAllCategories,
    getAllCategoriesExcept,
-   getProductsByCategoryId
+   getProductsByCategoryId,
+   getProductCountByCategoryId,
+   getProductCountForAllCategories
 };

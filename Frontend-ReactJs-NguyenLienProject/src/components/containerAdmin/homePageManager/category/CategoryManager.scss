@@ -104,8 +104,8 @@
             bottom: -8px;
             left: 50%;
             transform: translateX(-50%);
-            width: 100px;
-            height: 3px;
+            width: 260px;
+            height: 4px;
             background: linear-gradient(90deg, #d97706, #b45309);
             border-radius: border-radius(full);
         }
@@ -135,6 +135,24 @@
         .hint-icon-wrapper {
             margin: 0;
             flex-shrink: 0;
+
+            .hint-icon {
+                font-size: font-size(xl);
+                min-width: 40px;
+                min-height: 40px;
+                padding: spacing(2);
+
+                @include mobile-only {
+                    font-size: font-size(lg);
+                    min-width: 36px;
+                    min-height: 36px;
+                    padding: spacing(1);
+                }
+
+                &:hover {
+                    transform: scale(1.1);
+                }
+            }
         }
 
         label {
@@ -242,7 +260,7 @@
 
             th {
                 padding: spacing(4);
-                text-align: left;
+                text-align: center;
                 font-weight: font-weight(bold);
                 color: #92400e;
                 border-bottom: 2px solid #f97316;
@@ -272,6 +290,7 @@
                 }
 
                 td {
+                    text-align: center;
                     padding: spacing(4);
                     border-bottom: 1px solid #fed7aa;
                     color: #374151;
@@ -298,8 +317,9 @@
     // 🎯 ACTION BUTTONS
     // ==============================================
     .action-buttons {
+        justify-content: center;
         display: flex;
-        gap: spacing(2);
+        gap: spacing(4);
         flex-wrap: wrap;
 
         @include mobile-only {
@@ -311,7 +331,7 @@
     .btn-action {
         @include button-base;
         padding: spacing(2) spacing(3);
-        font-size: font-size(xs);
+        font-size: font-size(lg);
         font-weight: font-weight(medium);
         border-radius: border-radius(md);
         transition: all 0.3s ease;
@@ -335,61 +355,73 @@
 
         // Detail button (Blue)
         &.btn-detail {
-            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            background: linear-gradient(135deg, #8EC5FF, #155DFC);
             color: color(white);
             border: 1px solid #2563eb;
 
             &:hover {
-                background: linear-gradient(135deg, #2563eb, #1d4ed8);
-                box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+                background: linear-gradient(135deg, #162456, #155DFC);
+                box-shadow: 0 4px 12px rgba(255, 255, 255, 0.5);
             }
         }
 
         // Update button (Green)
         &.btn-update {
-            background: linear-gradient(135deg, #22c55e, #16a34a);
+            background: linear-gradient(135deg, #7BF1A8, #2AA63E);
             color: color(white);
             border: 1px solid #16a34a;
 
             &:hover {
-                background: linear-gradient(135deg, #16a34a, #15803d);
-                box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+                background: linear-gradient(135deg, #032E15, #2AA63E);
+                box-shadow: 0 4px 12px rgba(255, 255, 255, 0.5);
             }
         }
 
         // Add Category button (Orange)
-        &.btn-add-category {
-            background: linear-gradient(135deg, #f97316, #ea580c);
+        &.btn-add-product {
+            background: linear-gradient(135deg, #46ECD5, #2A9689);
             color: color(white);
-            border: 1px solid #ea580c;
+            border: 1px solid #3BB8DB;
 
             &:hover {
-                background: linear-gradient(135deg, #ea580c, #dc2626);
-                box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
-            }
-        }
-
-        // Toggle Active button (Purple)
-        &.btn-toggle {
-            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-            color: color(white);
-            border: 1px solid #7c3aed;
-
-            &:hover {
-                background: linear-gradient(135deg, #7c3aed, #6d28d9);
-                box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+                background: linear-gradient(135deg, #022F2E, #2A9689);
+                box-shadow: 0 4px 12px rgba(255, 255, 255, 0.5);
             }
         }
 
         // Delete button (Red)
         &.btn-delete {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
+            background: linear-gradient(135deg, #FFA2A2, #E7180B);
             color: color(white);
             border: 1px solid #dc2626;
 
             &:hover {
-                background: linear-gradient(135deg, #dc2626, #b91c1c);
-                box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+                background: linear-gradient(135deg, #460809, #E7180B);
+                box-shadow: 0 4px 12px rgba(255, 255, 255, 0.5);
+            }
+        }
+
+        // Activate button (White with black text)
+        &.btn-activate {
+            background: linear-gradient(135deg, #C4B4FF, #9810FA);
+            color: color(white);
+            border: 1px solid #AD46FF;
+
+            &:hover {
+                background: linear-gradient(135deg, #3C0366, #9810FA);
+                box-shadow: 0 4px 12px rgba(255, 255, 255, 0.5);
+            }
+        }
+
+        // Deactivate button (Gray)
+        &.btn-deactivate {
+            background: linear-gradient(135deg, #6A7282, #314158);
+            color: color(white);
+            border: 1px solid #4b5563;
+
+            &:hover {
+                background: linear-gradient(135deg, #020618, #314158);
+                box-shadow: 0 4px 12px rgba(255, 255, 255, 0.5);
             }
         }
     }
@@ -542,6 +574,41 @@
 }
 
 // ==============================================
+// 📊 PRODUCT COUNT BADGE STYLES
+// ==============================================
+.product-count-cell {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.product-count-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 14px;
+    min-width: 40px;
+    text-align: center;
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: white;
+    border: 2px solid #16a34a;
+    box-shadow: 0 2px 4px rgba(34, 197, 94, 0.2);
+    transition: all 0.3s ease;
+
+    &:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(34, 197, 94, 0.3);
+    }
+
+    // Dark theme support
+    .category-manager-container.dark & {
+        background: linear-gradient(135deg, #16a34a, #15803d);
+        border-color: #22c55e;
+        color: #f0fdf4;
+    }
+}
+
+// ==============================================
 // 📊 STOCK BADGE STYLES
 // ==============================================
 .stock-badge {
@@ -585,5 +652,18 @@
             color: #fed7aa;
             border-color: #fed7aa;
         }
+    }
+}
+
+.category-name-link {
+    color: #ffffff !important;
+    text-decoration: none !important;
+    transition: none !important;
+    transform: none !important;
+
+    &:hover {
+        color: #ffd1b1 !important;
+        text-decoration: none !important;
+        transform: none !important;
     }
 }

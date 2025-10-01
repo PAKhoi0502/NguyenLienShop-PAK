@@ -73,7 +73,7 @@ const InfoProduct = ({ categoryId: propCategoryId }) => {
             <button className="btn btn-danger" onClick={() => setShowDelete(true)}>
                Xóa sản phẩm
             </button>
-            <button className="btn-back" onClick={() => navigate('/admin/product-category-management/category-management')}>
+            <button className="btn-back" onClick={() => navigate(-1)}>
                Quay lại
             </button>
          </div>

@@ -139,12 +139,12 @@ const ProductManager = () => {
                <table className="product-table">
                   <thead>
                      <tr>
-                        <th>ID</th>
-                        <th><FormattedMessage id="body_admin.product_management.name" defaultMessage="Tên sản phẩm" /></th>
-                        <th><FormattedMessage id="body_admin.product_management.stock" defaultMessage="Tồn kho" /></th>
-                        <th><FormattedMessage id="body_admin.product_management.dimensions" defaultMessage="Kích thước" /></th>
-                        <th><FormattedMessage id="body_admin.product_management.status" defaultMessage="Ẩn/Hiện" /></th>
-                        <th><FormattedMessage id="body_admin.product_management.actions" defaultMessage="Hành động" /></th>
+                        <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }}>ID</th>
+                        <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }}><FormattedMessage id="body_admin.product_management.name" defaultMessage="Tên sản phẩm" /></th>
+                        <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }}><FormattedMessage id="body_admin.product_management.stock" defaultMessage="Tồn kho" /></th>
+                        <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }}><FormattedMessage id="body_admin.product_management.dimensions" defaultMessage="Kích thước" /></th>
+                        <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }}><FormattedMessage id="body_admin.product_management.status" defaultMessage="Ẩn/Hiện" /></th>
+                        <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }}><FormattedMessage id="body_admin.product_management.actions" defaultMessage="Hành động" /></th>
                      </tr>
                   </thead>
                   <tbody>
@@ -157,15 +157,30 @@ const ProductManager = () => {
                      ) : (
                         filteredProducts.map((product) => (
                            <tr key={product.id}>
-                              <td>{product.id}</td>
-                              <td>{product.nameProduct || ''}</td>
+                              <td style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>{product.id}</td>
+                              <td style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>
+                                 <span
+                                    className="product-name-link"
+                                    onClick={() => handleDetailClick(product)}
+                                    style={{
+                                       cursor: 'pointer',
+                                       color: '#2563eb',
+                                       textDecoration: 'underline',
+                                       transition: 'color 0.3s ease'
+                                    }}
+                                    onMouseEnter={(e) => e.target.style.color = '#1d4ed8'}
+                                    onMouseLeave={(e) => e.target.style.color = '#2563eb'}
+                                 >
+                                    {product.nameProduct || ''}
+                                 </span>
+                              </td>
                               <td>
-                                 <span style={{ fontSize: '1rem', fontWeight: 'bold' }} className={`stock-badge ${(product.stock === 0 || product.stock === null) ? 'out-of-stock' : 'in-stock'}`}>
+                                 <span style={{ fontSize: '1rem', fontWeight: 'bold', cursor: 'default' }} className={`stock-badge ${(product.stock === 0 || product.stock === null) ? 'out-of-stock' : 'in-stock'}`}>
                                     {product.stock || 0}
                                  </span>
                               </td>
                               <td style={{ fontSize: '1rem', fontWeight: 'bold' }}>{product.dimensions || intl.formatMessage({ id: 'body_admin.product_management.empty_dimensions', defaultMessage: 'Không có' })}</td>
-                              <td className="status-cell">{product.isActive ? '✅' : '❌'}</td>
+                              <td className="status-cell" style={{ cursor: 'default' }}>{product.isActive ? '✅' : '❌'}</td>
                               <td>
                                  <div className="action-buttons">
                                     <button

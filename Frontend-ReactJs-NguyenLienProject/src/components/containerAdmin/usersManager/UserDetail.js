@@ -74,7 +74,7 @@ const UserDetail = () => {
             <button className="btn-edit" onClick={handleEdit}>
                <FormattedMessage id="body_admin.account_management.user_manager.detail_user.edit_button" defaultMessage="Cập nhật thông tin" />
             </button>
-            <button className="btn-back" onClick={() => navigate('/admin/account-management/user-management')}>
+            <button className="btn-back" onClick={() => navigate(-1)}>
                <FormattedMessage id="body_admin.account_management.user_manager.detail_user.back_button" defaultMessage="Quay lại" />
             </button>
          </div>

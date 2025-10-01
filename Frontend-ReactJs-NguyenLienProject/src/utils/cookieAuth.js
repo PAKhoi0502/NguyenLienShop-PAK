@@ -16,15 +16,17 @@ export const checkAuthStatus = async () => {
    try {
       const now = Date.now();
 
-      // Don't check auth if already on login page
+      // Don't check auth if already on login page - return cached result instead
       if (window.location.pathname === '/login') {
-         console.log('🔧 Already on login page, returning unauthenticated');
+         // Return cached result if available, otherwise return unauthenticated
+         if (authCache) {
+            return authCache;
+         }
          const result = {
             isAuthenticated: false,
             user: null,
             roleId: null
          };
-         // Cache this result briefly
          authCache = result;
          lastCheckTime = now;
          return result;
@@ -51,7 +53,6 @@ export const checkAuthStatus = async () => {
 
       return result;
    } catch (error) {
-      console.log('🍪 Auth check failed:', error.message);
 
       const result = {
          isAuthenticated: false,
@@ -107,7 +108,6 @@ export const clearAuthState = () => {
    authCache = null;
    lastCheckTime = 0;
 
-   console.log('🍪 Auth state cleared (cookies handled by server)');
 };
 
 /**
@@ -116,7 +116,6 @@ export const clearAuthState = () => {
 export const clearAuthCache = () => {
    authCache = null;
    lastCheckTime = 0;
-   console.log('🧹 Auth cache cleared');
 };
 
 /**
@@ -127,9 +126,7 @@ export const migrateFromLocalStorage = () => {
    const oldRoleId = localStorage.getItem('roleId');
 
    if (oldToken || oldRoleId) {
-      console.log('🔄 Migrating from localStorage to HttpOnly cookies...');
       localStorage.removeItem('token');
       localStorage.removeItem('roleId');
-      console.log('✅ localStorage tokens removed');
    }
 };

@@ -131,10 +131,8 @@ const UserCreate = () => {
    };
 
    const handleOtpVerificationSuccess = async () => {
-      console.log('🎉 [OTP SUCCESS] Phone verification completed');
 
       // Directly submit registration since phone is verified
-      console.log('🚀 [OTP SUCCESS] Auto-submitting user creation...');
 
       setLoading(true);
       setStep(1); // Return to step 1 but process creation
@@ -147,9 +145,6 @@ const UserCreate = () => {
             phoneVerified: true,
          });
 
-         console.log('📝 [CREATE USER DEBUG] Response:', res);
-         console.log('📝 [CREATE USER DEBUG] ErrCode:', res?.errCode);
-         console.log('📝 [CREATE USER DEBUG] ErrMessage:', res?.errMessage);
 
          if (res.errCode === 0) {
             showToast("success", intl.formatMessage({ id: 'body_admin.account_management.user_manager.create.success_message' }));
@@ -194,7 +189,6 @@ const UserCreate = () => {
    const handleSubmit = async (e) => {
       e.preventDefault();
       // This should not be reached in the new flow
-      console.log('handleSubmit called - this should not happen in new flow');
    };
 
    // Countdown effect for success redirect

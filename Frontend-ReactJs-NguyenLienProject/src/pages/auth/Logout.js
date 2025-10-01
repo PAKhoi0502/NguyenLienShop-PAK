@@ -27,8 +27,7 @@ const Logout = () => {
             const response = await logout();
 
             if (response.errCode === 0 || response.errCode === undefined) {
-               console.log('Logout successful');
-               
+
                // Show success toast BEFORE navigate
                toast(
                   <CustomToast
@@ -39,10 +38,10 @@ const Logout = () => {
                   />,
                   { closeButton: false, type: "success" }
                );
-               
+
                // Clear Redux state
                dispatch(processLogout());
-               
+
                // Delay navigate to allow toast to show
                setTimeout(() => {
                   navigate('/login', { replace: true });
@@ -67,7 +66,7 @@ const Logout = () => {
             />,
             { closeButton: false, type: "error" }
          );
-         
+
          // Even if API fails, still logout and navigate
          dispatch(processLogout());
          setTimeout(() => {
@@ -81,7 +80,7 @@ const Logout = () => {
       return () => {
          // Keep hasLoggedOut.current = true to prevent re-execution
       };
-   // eslint-disable-next-line react-hooks/exhaustive-deps
+      // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []); // Intentionally empty to prevent re-execution
 
    return (

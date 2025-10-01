@@ -100,11 +100,9 @@ export const getProductCategoryStats = async () => {
       if (response.data && response.data.errCode === 0) {
          return { errCode: 0, data: response.data.data };
       } else {
-         console.error('❌ API response error:', response.data);
          return { errCode: -1, errMessage: 'Lỗi khi lấy thống kê sản phẩm và danh mục' };
       }
    } catch (error) {
-      console.error('❌ Error in getProductCategoryStats:', error);
       return { errCode: -1, errMessage: 'Lỗi kết nối server' };
    }
 };

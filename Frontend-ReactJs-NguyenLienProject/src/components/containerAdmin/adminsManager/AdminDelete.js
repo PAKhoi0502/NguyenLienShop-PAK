@@ -33,7 +33,6 @@ const AdminDelete = ({ user, onSuccess }) => {
       // Đảm bảo passwordAttempts là số
       const attempts = typeof passwordAttempts === 'number' ? passwordAttempts : 0;
 
-      console.log(`AdminDelete - Starting with ${attempts} previous attempts`);
 
       if (!user || !user.id) {
          showToast("error", intl.formatMessage({ id: 'body_admin.account_management.admin_manager.delete.not_found' }));
@@ -189,7 +188,6 @@ const AdminDelete = ({ user, onSuccess }) => {
             // Lần 2: không còn lần nào (tổng 3)
             const remainingAttempts = 2 - attempts; // Trực tiếp tính: còn lại = 2 - (lần đã thử)
 
-            console.log(`AdminDelete - Sai lần thứ: ${attempts}/2, Còn lại: ${remainingAttempts} lần`);
 
             // If password is wrong, show error with remaining attempts info
             await Swal.fire({

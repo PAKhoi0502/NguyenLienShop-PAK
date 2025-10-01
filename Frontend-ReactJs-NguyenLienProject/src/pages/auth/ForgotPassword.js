@@ -32,7 +32,6 @@ const ForgotPassword = () => {
         // Clear session when user closes browser/tab at sensitive steps
         const handleBeforeUnload = () => {
             if (step >= 2) {
-                console.log('🚫 Browser/tab closing - clearing session for security');
                 sessionStorage.removeItem('forgotPasswordFlow');
             }
         };
@@ -43,7 +42,6 @@ const ForgotPassword = () => {
             // Clear session when user leaves the forgot password page
             // This is important for security - don't restore sensitive reset sessions
             if (step >= 2) { // Only clear if we're past the phone input step
-                console.log('🚫 User navigated away from forgot password - clearing session for security');
                 sessionStorage.removeItem('forgotPasswordFlow');
                 hasRestoredGlobal = false;
             }
@@ -66,7 +64,6 @@ const ForgotPassword = () => {
                 if (expiryTime && now < expiryTime) {
                     // Security check: Don't restore step 3 (password reset) for security reasons
                     if (savedStep === 3) {
-                        console.log('🚫 Not restoring step 3 (password reset) for security reasons');
                         sessionStorage.removeItem('forgotPasswordFlow');
 
                         // Show security warning
@@ -94,7 +91,6 @@ const ForgotPassword = () => {
                         setCountdown(remaining);
                     }
 
-                    console.log('🔄 Restored forgot password flow from sessionStorage');
 
                     // Only show restore toast if we're restoring meaningful progress
                     if (savedStep > 1) {
@@ -121,7 +117,6 @@ const ForgotPassword = () => {
                 } else {
                     // Expired, clean up
                     sessionStorage.removeItem('forgotPasswordFlow');
-                    console.log('🗑️ Removed expired forgot password state');
                 }
             } catch (error) {
                 console.error('Failed to restore forgot password state:', error);
@@ -167,7 +162,6 @@ const ForgotPassword = () => {
         expiryTimeRef.current = null; // Reset expiry time ref
         hasShownRestoreToastRef.current = false; // Reset restore toast flag
         hasRestoredGlobal = false; // Reset global flag
-        console.log('🗑️ Cleared forgot password state');
     };
 
     // 🔧 Validate token when entering step 3
@@ -536,14 +530,12 @@ const ForgotPassword = () => {
 
     // 🔄 Handle back to step 1 (change phone number)
     const handleBackToStep1 = async () => {
-        console.log('🔄 User requested to go back to step 1');
 
         // Clear server-side OTP for current phone number
         if (phoneNumber) {
             try {
                 await clearServerOTP(phoneNumber);
             } catch (error) {
-                console.log('Failed to clear server OTP (non-critical):', error);
             }
         }
 

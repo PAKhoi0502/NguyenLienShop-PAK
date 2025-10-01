@@ -28,19 +28,18 @@ export const clearCookie = (name, path = '/', domain = null) => {
     // Approach 4: Clear with root path
     document.cookie = `${name}=; expires=${expiredDate}; path=`;
 
-    console.log(`✅ Cookie ${name} cleared with multiple approaches`);
 };
 
 /**
  * 🧹 Clear all authentication cookies
  */
 export const clearAuthCookies = () => {
-    
+
     const authCookieNames = ['authToken', 'refreshToken', 'authFlag']; // ✅ Include authFlag
-    
+
     authCookieNames.forEach(cookieName => {
         clearCookie(cookieName);
-        
+
         // Also try clearing with different domains
         const currentDomain = window.location.hostname;
         if (currentDomain !== 'localhost') {
@@ -48,7 +47,7 @@ export const clearAuthCookies = () => {
             clearCookie(cookieName, '/', '.' + currentDomain);
         }
     });
-    
+
 };/**
  * 🔍 Get cookie value by name
  * @param {string} name - Cookie name
@@ -70,11 +69,9 @@ export const getCookie = (name) => {
  * 📊 Debug: List all cookies
  */
 export const debugCookies = () => {
-    console.log('🍪 Current cookies:');
     const cookies = document.cookie.split(';').map(cookie => cookie.trim());
     cookies.forEach(cookie => {
         if (cookie) {
-            console.log(`  - ${cookie}`);
         }
     });
 
@@ -82,9 +79,6 @@ export const debugCookies = () => {
     const authToken = getCookie('authToken');
     const refreshToken = getCookie('refreshToken');
 
-    console.log('🔍 Auth cookies status:');
-    console.log(`  - authToken: ${authToken ? 'EXISTS' : 'NOT FOUND'}`);
-    console.log(`  - refreshToken: ${refreshToken ? 'EXISTS' : 'NOT FOUND'}`);
 
     return {
         allCookies: cookies,

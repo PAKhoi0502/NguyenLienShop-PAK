@@ -22,12 +22,12 @@ const useAuth = () => {
    const checkCookieAuth = useCallback(async () => {
       const now = Date.now();
 
-      // Don't check auth if on public pages
+      // Don't check auth if on public pages - but don't force set false
       const publicPaths = ['/login', '/register', '/forgot-password'];
       const currentPath = window.location.pathname;
 
       if (publicPaths.some(path => currentPath === path || currentPath.startsWith(path))) {
-         setCookieAuth({ isAuthenticated: false });
+         // Don't update cookieAuth state, just skip the check
          setIsLoading(false);
          return;
       }
@@ -49,7 +49,6 @@ const useAuth = () => {
          const authData = await checkAuthStatus();
          setCookieAuth(authData);
       } catch (error) {
-         console.log('Cookie auth check failed:', error);
          setCookieAuth({ isAuthenticated: false });
       } finally {
          setIsLoading(false);
@@ -64,7 +63,6 @@ const useAuth = () => {
    // Separate effect for handling force refresh
    useEffect(() => {
       if (forceRefresh > 0) {
-         console.log('🔧 useAuth: Force refresh triggered:', forceRefresh);
          checkCookieAuth();
       }
    }, [forceRefresh, checkCookieAuth]);
@@ -89,7 +87,6 @@ const useAuth = () => {
    // Listen for external auth changes
    useEffect(() => {
       const unsubscribe = addAuthListener(() => {
-         // console.log('🔧 useAuth: Received auth change notification');
          setForceRefresh(prev => prev + 1);
       });
       return unsubscribe;
@@ -109,7 +106,7 @@ const useAuth = () => {
 
    // Priority logic:
    // 1. Redux state (immediate after login) - ALWAYS PRIORITIZE THIS
-   // 2. Cookie auth (persistent across sessions)  
+   // 2. Cookie auth (persistent across sessions) - ONLY if Redux doesn't explicitly say false
    // 3. localStorage (fallback during transition)
 
    let isAuthenticated, effectiveRoleId, effectiveAdminInfo;
@@ -124,24 +121,26 @@ const useAuth = () => {
       isAuthenticated = true;
       effectiveRoleId = adminInfo.roleId?.toString();
       effectiveAdminInfo = adminInfo;
-      // console.log('🔧 useAuth: Using Redux state', { isLoggedIn, adminInfo });
+   } else if (!isLoggedIn) {
+      // 🔧 FIX: If Redux explicitly says not logged in, always return false
+      // This prevents cookies from overriding Redux logout state
+      isAuthenticated = false;
+      effectiveRoleId = null;
+      effectiveAdminInfo = null;
    } else if (cookieAuth?.isAuthenticated) {
-      // Use cookie auth (persistent sessions)
+      // Use cookie auth (persistent sessions) - only if Redux doesn't explicitly say false
       isAuthenticated = true;
       effectiveRoleId = cookieAuth.user?.roleId?.toString();
       effectiveAdminInfo = cookieAuth.user;
-      // console.log('🔧 useAuth: Using cookie auth', { cookieAuth });
    } else if (token && roleId) {
       // Fallback to localStorage (transition period)
       isAuthenticated = true;
       effectiveRoleId = roleId;
       effectiveAdminInfo = adminInfo;
-      // console.log('🔧 useAuth: Using localStorage fallback', { token: !!token, roleId });
    } else {
       isAuthenticated = false;
       effectiveRoleId = null;
       effectiveAdminInfo = null;
-      // console.log('🔧 useAuth: No authentication found');
    }
 
    return {

@@ -12,7 +12,6 @@ const OtpVerification = ({
     title = "register.otp.title",
     description = "register.otp.description"
 }) => {
-    console.log('📱 [OTP COMPONENT] Loaded with phone:', phoneNumber);
     const intl = useIntl();
 
     const [otpCode, setOtpCode] = useState(['', '', '', '', '', '']);
@@ -46,17 +45,14 @@ const OtpVerification = ({
 
     const handleSendOTP = useCallback(async () => {
         if (otpSent || otpSentRef.current) {
-            console.log('📱 [OTP SEND] OTP already sent, skipping... otpSent:', otpSent, 'otpSentRef:', otpSentRef.current);
             return;
         }
 
-        console.log('📱 [OTP SEND] Starting OTP send process');
         setResendLoading(true);
         otpSentRef.current = true; // Set ref immediately to prevent concurrent calls
 
         try {
             const result = await sendOTP(phoneNumber);
-            console.log('📱 [OTP SEND] Result:', result);
             if (result.success) {
                 toast(<CustomToast
                     type="success"
@@ -98,13 +94,10 @@ const OtpVerification = ({
         setResendLoading(false);
     }, [phoneNumber, otpSent, intl]); // Dependencies include phoneNumber, otpSent, and intl
     useEffect(() => {
-        console.log('📱 [OTP USEEFFECT] Effect running - otpSent:', otpSent, 'otpSentRef:', otpSentRef.current, 'phoneNumber:', phoneNumber);
 
         if (!otpSent && !otpSentRef.current && phoneNumber) {
-            console.log('📱 [OTP USEEFFECT] Sending OTP for phone:', phoneNumber, 'otpSent:', otpSent, 'otpSentRef:', otpSentRef.current);
             handleSendOTP();
         } else {
-            console.log('📱 [OTP USEEFFECT] Skipping OTP send - already sent or no phone number');
         }
     }, [phoneNumber, handleSendOTP, otpSent]); // Include all dependencies
 

@@ -115,7 +115,7 @@ const InfoCategory = ({ productId: propProductId }) => {
             >
                <FormattedMessage id="body_admin.product_management.info_category_of_product.delete_category" defaultMessage="Xóa danh mục" />
             </button>
-            <button className="btn-back" onClick={() => navigate('/admin/product-category-management/product-management')}>
+            <button className="btn-back" onClick={() => navigate(-1)}>
                <FormattedMessage id="body_admin.product_management.info_category_of_product.back" defaultMessage="Quay lại" />
             </button>
          </div>

@@ -30,7 +30,7 @@ const Login = () => {
       // Check for logout success parameter and show toast
       const params = new URLSearchParams(location.search);
       const logoutSuccess = params.get('logoutSuccess');
-      
+
       if (logoutSuccess === 'true') {
          // Show logout success toast
          toast(
@@ -42,7 +42,7 @@ const Login = () => {
             />,
             { closeButton: false, type: "success" }
          );
-         
+
          // Clean up URL by removing the parameter
          const newUrl = new URL(window.location);
          newUrl.searchParams.delete('logoutSuccess');
@@ -169,7 +169,6 @@ const Login = () => {
    // 🔧 Handle form submission (Enter key support)
    const handleSubmit = (e) => {
       e.preventDefault(); // Prevent page reload
-      console.log('🔧 Form submitted via Enter key or button click');
       if (!loading) {
          handleLogin();
       }

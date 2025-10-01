@@ -300,7 +300,7 @@
    // ==============================================
    .action-buttons {
       display: flex;
-      gap: spacing(2);
+      gap: spacing(4);
       flex-wrap: wrap;
       justify-content: center;
 
@@ -313,7 +313,7 @@
    .btn-action {
       @include button-base;
       padding: spacing(2) spacing(3);
-      font-size: font-size(xs);
+      font-size: font-size(lg);
       font-weight: font-weight(medium);
       border-radius: border-radius(md);
       transition: all 0.3s ease;
@@ -337,61 +337,73 @@
 
       // Detail button (Blue)
       &.btn-detail {
-         background: linear-gradient(135deg, #3b82f6, #2563eb);
+         background: linear-gradient(135deg, #8EC5FF, #155DFC);
          color: color(white);
          border: 1px solid #2563eb;
 
          &:hover {
-            background: linear-gradient(135deg, #2563eb, #1d4ed8);
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+            background: linear-gradient(135deg, #162456, #155DFC);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
          }
       }
 
       // Update button (Green)
       &.btn-update {
-         background: linear-gradient(135deg, #22c55e, #16a34a);
+         background: linear-gradient(135deg, #7BF1A8, #2AA63E);
          color: color(white);
          border: 1px solid #16a34a;
 
          &:hover {
-            background: linear-gradient(135deg, #16a34a, #15803d);
-            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+            background: linear-gradient(135deg, #032E15, #2AA63E);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
          }
       }
 
       // Add Category button (Orange)
       &.btn-add-category {
-         background: linear-gradient(135deg, #f97316, #ea580c);
+         background: linear-gradient(135deg, #FFB86A, #F54927);
          color: color(white);
          border: 1px solid #ea580c;
 
          &:hover {
-            background: linear-gradient(135deg, #ea580c, #dc2626);
-            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
-         }
-      }
-
-      // Toggle Active button (Purple)
-      &.btn-toggle {
-         background: linear-gradient(135deg, #8b5cf6, #7c3aed) !important;
-         color: color(white) !important;
-         border: 1px solid #7c3aed !important;
-
-         &:hover {
-            background: linear-gradient(135deg, #7c3aed, #6d28d9) !important;
-            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3) !important;
+            background: linear-gradient(135deg, #441306, #F54927);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
          }
       }
 
       // Delete button (Red)
       &.btn-delete {
-         background: linear-gradient(135deg, #ef4444, #dc2626);
+         background: linear-gradient(135deg, #FFA2A2, #E7180B);
          color: color(white);
          border: 1px solid #dc2626;
 
          &:hover {
-            background: linear-gradient(135deg, #dc2626, #b91c1c);
-            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+            background: linear-gradient(135deg, #460809, #E7180B);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+         }
+      }
+
+      // Activate button (White with black text)
+      &.btn-activate {
+         background: linear-gradient(135deg, #C4B4FF, #9810FA);
+         color: color(white);
+         border: 1px solid #AD46FF;
+
+         &:hover {
+            background: linear-gradient(135deg, #3C0366, #9810FA);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+         }
+      }
+
+      // Deactivate button (Gray)
+      &.btn-deactivate {
+         background: linear-gradient(135deg, #6A7282, #314158);
+         color: color(white);
+         border: 1px solid #4b5563;
+
+         &:hover {
+            background: linear-gradient(135deg, #020618, #314158);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
          }
       }
    }
@@ -592,4 +604,52 @@
 
 .status-cell {
    font-size: 1.5rem;
+}
+
+// ==============================================
+// 🔗 PRODUCT NAME LINK STYLES
+// ==============================================
+.product-name-link {
+   cursor: pointer;
+   color: #2563eb;
+   text-decoration: underline;
+   transition: all 0.3s ease;
+   font-weight: bold;
+
+   &:hover {
+      color: #1d4ed8;
+      text-decoration: none;
+      transform: scale(1.02);
+   }
+
+   &:active {
+      color: #1e40af;
+      transform: scale(0.98);
+   }
+
+   // Dark theme support
+   .product-manager-container.dark & {
+      color: #60a5fa;
+
+      &:hover {
+         color: #93c5fd;
+      }
+
+      &:active {
+         color: #3b82f6;
+      }
+   }
+}
+
+.product-name-link {
+   color: #ffffff !important;
+   text-decoration: none !important;
+   transition: none !important;
+   transform: none !important;
+
+   &:hover {
+      color: #78ffae !important;
+      text-decoration: none !important;
+      transform: none !important;
+   }
 }

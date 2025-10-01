@@ -30,7 +30,6 @@ instance.interceptors.request.use(
         // � SECURITY: Disable localStorage token completely for security
         // const token = localStorage.getItem('token');
         // if (token) {
-        //     console.log('⚠️ Using localStorage token (transitional)');
         //     config.headers['Authorization'] = `Bearer ${token}`;
         // }
 
@@ -55,7 +54,6 @@ instance.interceptors.response.use(
 
         // 🔄 Auto-refresh token logic
         if (shouldRefreshToken(error)) {
-            console.log('🔄 Access token expired, attempting refresh...');
 
             try {
                 // Store refresh attempt for debugging

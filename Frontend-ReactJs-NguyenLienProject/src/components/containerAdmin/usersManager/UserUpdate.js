@@ -159,7 +159,7 @@ const UserUpdate = () => {
                <button
                   type="button"
                   className="btn-cancel"
-                  onClick={() => navigate('/admin/account-management/user-management')}
+                  onClick={() => navigate(-1)}
                   disabled={loading}
                >
                   <FormattedMessage id="body_admin.account_management.user_manager.update_user.cancel" defaultMessage="Hủy" />

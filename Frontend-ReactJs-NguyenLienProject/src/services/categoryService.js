@@ -442,3 +442,94 @@ export const deleteProductForCategory = async (categoryId, productIds) => {
       };
    }
 };
+
+// Lấy số lượng sản phẩm trong tất cả danh mục
+export const getProductCountForAllCategories = async () => {
+   try {
+      const response = await instance.get('api/admin/product-count-all-categories', {
+         headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+         }
+      });
+
+      if (!response || !response.data) {
+         return { errCode: -1, errMessage: 'Không nhận được dữ liệu từ server' };
+      }
+
+      if (response.data.errCode === 0) {
+         return {
+            errCode: 0,
+            data: response.data.data,
+            errMessage: 'OK'
+         };
+      }
+
+      return {
+         errCode: response.data.errCode,
+         errMessage: response.data.errMessage || 'Lỗi khi lấy số lượng sản phẩm'
+      };
+
+   } catch (error) {
+      if (error.response) {
+         if (error.response.status === 401) {
+            return { errCode: 401, errMessage: 'Không có quyền truy cập' };
+         }
+         if (error.response.status === 500) {
+            return { errCode: -1, errMessage: 'Lỗi server' };
+         }
+      }
+
+      return {
+         errCode: -1,
+         errMessage: error.response?.data?.errMessage || 'Lỗi khi lấy số lượng sản phẩm'
+      };
+   }
+};
+
+// Lấy số lượng sản phẩm trong danh mục cụ thể
+export const getProductCountByCategoryId = async (categoryId) => {
+   try {
+      if (!categoryId) {
+         return { errCode: 1, errMessage: 'ID danh mục không hợp lệ' };
+      }
+
+      const response = await instance.get('api/admin/product-count-by-category', {
+         params: { categoryId },
+         headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+         }
+      });
+
+      if (!response || !response.data) {
+         return { errCode: -1, errMessage: 'Không nhận được dữ liệu từ server' };
+      }
+
+      if (response.data.errCode === 0) {
+         return {
+            errCode: 0,
+            data: response.data.data,
+            errMessage: 'OK'
+         };
+      }
+
+      return {
+         errCode: response.data.errCode,
+         errMessage: response.data.errMessage || 'Lỗi khi lấy số lượng sản phẩm'
+      };
+
+   } catch (error) {
+      if (error.response) {
+         if (error.response.status === 401) {
+            return { errCode: 401, errMessage: 'Không có quyền truy cập' };
+         }
+         if (error.response.status === 500) {
+            return { errCode: -1, errMessage: 'Lỗi server' };
+         }
+      }
+
+      return {
+         errCode: -1,
+         errMessage: error.response?.data?.errMessage || 'Lỗi khi lấy số lượng sản phẩm'
+      };
+   }
+};

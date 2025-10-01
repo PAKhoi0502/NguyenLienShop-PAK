@@ -55,6 +55,11 @@ const Breadcrumb = ({ topOffset = 100 }) => {
       if (name === 'info-category') return 'Thông tin danh mục sản phẩm';
       if (name === 'add-category') return 'Thêm danh mục sản phẩm';
       if (name === 'delete-category') return 'Xóa danh mục sản phẩm';
+      if (name === 'category-create') return 'Tạo danh mục sản phẩm';
+      if (name === 'category-update') return 'Chỉnh sửa danh mục sản phẩm';
+      if (name === 'category-detail') return 'Chi tiết danh mục sản phẩm';
+      if (name === 'info-product') return 'Thông tin sản phẩm';
+      if (name === 'category-management') return 'Quản lý danh mục sản phẩm';
 
       if (pathnames.includes('user-detail') && index === pathnames.length - 1) {
          return "Thông tin người dùng";

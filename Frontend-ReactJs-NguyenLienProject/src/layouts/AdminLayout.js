@@ -25,7 +25,6 @@ const AdminLayout = ({ children }) => {
       return 'dashboard'; // default
    };
 
-   // console.log('🔧 AdminLayout render:', { isAuthenticated, isAdmin, isLoading });
 
    // Show loading while checking authentication
    if (isLoading) {
@@ -43,7 +42,6 @@ const AdminLayout = ({ children }) => {
    }
 
    if (!isAuthenticated || !isAdmin) {
-      console.log('AdminLayout: Unauthorized access', { isAuthenticated, isAdmin });
       return <Navigate to="/" replace />;
    }
 

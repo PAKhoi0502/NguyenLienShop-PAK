@@ -16,8 +16,8 @@ const CategoryActive = ({ category, onSuccess }) => {
                type={type}
                titleId={intl.formatMessage({
                   id: type === "success"
-                     ? "category.activate.activate_success_title"
-                     : "category.activate.activate_error_title"
+                     ? "body_admin.category_management.activate.activate_success_title"
+                     : "body_admin.category_management.activate.activate_error_title"
                })}
                message={message}
                time={new Date()}
@@ -29,7 +29,7 @@ const CategoryActive = ({ category, onSuccess }) => {
 
    const handleToggleActive = async () => {
       if (!category || !category.id) {
-         showToast("error", intl.formatMessage({ id: 'admin.delete.not_found' }));
+         showToast("error", intl.formatMessage({ id: 'body_admin.category_management.delete.not_found' }));
          return;
       }
 
@@ -37,15 +37,15 @@ const CategoryActive = ({ category, onSuccess }) => {
 
       const confirm = await Swal.fire({
          title: isActive
-            ? intl.formatMessage({ id: 'category.activate.confirm_title_1', defaultMessage: 'Bật hiển thị danh mục?' })
-            : intl.formatMessage({ id: 'category.deactivate.confirm_title_1', defaultMessage: 'Ẩn danh mục?' }),
-         html: `<strong>${category.nameCategory || intl.formatMessage({ id: 'category.activate.no_name', defaultMessage: 'Không có tên danh mục' })}</strong><br>ID: ${category.id}`,
+            ? intl.formatMessage({ id: 'body_admin.category_management.activate.confirm_title_1', defaultMessage: 'Bật hiển thị danh mục?' })
+            : intl.formatMessage({ id: 'body_admin.category_management.deactivate.confirm_title_1', defaultMessage: 'Ẩn danh mục?' }),
+         html: `<strong>${category.nameCategory || intl.formatMessage({ id: 'body_admin.category_management.activate.no_name', defaultMessage: 'Không có tên danh mục' })}</strong><br>ID: ${category.id}`,
          icon: isActive ? 'question' : 'warning',
          showCancelButton: true,
          confirmButtonText: isActive
-            ? intl.formatMessage({ id: 'category.activate.confirm_button_1', defaultMessage: 'Bật hiển thị' })
-            : intl.formatMessage({ id: 'category.deactivate.confirm_button_1', defaultMessage: 'Ẩn danh mục' }),
-         cancelButtonText: intl.formatMessage({ id: 'admin.delete.cancel_button', defaultMessage: 'Hủy' })
+            ? intl.formatMessage({ id: 'body_admin.category_management.activate.confirm_button_1', defaultMessage: 'Bật hiển thị' })
+            : intl.formatMessage({ id: 'body_admin.category_management.deactivate.confirm_button_1', defaultMessage: 'Ẩn danh mục' }),
+         cancelButtonText: intl.formatMessage({ id: 'body_admin.category_management.cancel_button', defaultMessage: 'Hủy' })
       });
 
       if (!confirm.isConfirmed) return;
@@ -54,16 +54,16 @@ const CategoryActive = ({ category, onSuccess }) => {
          const res = await getActiveCategories(category.id, isActive);
 
          if (res.errCode === 0) {
-            showToast("success", res.message || 'Cập nhật trạng thái danh mục thành công');
+            showToast("success", res.message || intl.formatMessage({ id: 'body_admin.category_management.activate.success', defaultMessage: 'Cập nhật trạng thái danh mục thành công' }));
             if (typeof onSuccess === 'function') {
                onSuccess(category.id, { ...category, isActive });
             }
          } else {
-            showToast("error", res.errMessage || 'Lỗi khi cập nhật trạng thái danh mục');
+            showToast("error", res.errMessage || intl.formatMessage({ id: 'body_admin.category_management.activate.error', defaultMessage: 'Lỗi khi cập nhật trạng thái danh mục' }));
          }
       } catch (error) {
          console.error('Lỗi khi gọi API cập nhật trạng thái danh mục:', error);
-         showToast("error", 'Lỗi khi gọi API');
+         showToast("error", intl.formatMessage({ id: 'body_admin.category_management.activate.error', defaultMessage: 'Lỗi khi gọi API' }));
       }
    };
 
@@ -74,8 +74,8 @@ const CategoryActive = ({ category, onSuccess }) => {
             onClick={handleToggleActive}
          >
             {category.isActive
-               ? intl.formatMessage({ id: 'category.deactivate.button', defaultMessage: 'Ẩn' })
-               : intl.formatMessage({ id: 'category.activate.button', defaultMessage: 'Hiển thị' })}
+               ? intl.formatMessage({ id: 'body_admin.category_management.deactivate.button', defaultMessage: 'Ẩn' })
+               : intl.formatMessage({ id: 'body_admin.category_management.activate.button', defaultMessage: 'Hiển thị' })}
          </button>
       </div>
    );

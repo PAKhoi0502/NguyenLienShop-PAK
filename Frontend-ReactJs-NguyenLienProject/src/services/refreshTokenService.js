@@ -11,7 +11,6 @@ export const refreshAccessToken = async () => {
       const response = await axios.post('/api/auth/refresh');
 
       if (response.errCode === 0) {
-         console.log('✅ Access token refreshed successfully');
          return {
             success: true,
             accessToken: response.token,
@@ -19,7 +18,6 @@ export const refreshAccessToken = async () => {
             data: response.data
          };
       } else {
-         console.log('❌ Failed to refresh token:', response.errMessage);
          return {
             success: false,
             error: response.errMessage || 'Failed to refresh token'
@@ -56,7 +54,6 @@ export const handleTokenRefreshAndRetry = async (originalRequest) => {
    try {
       // Prevent infinite loops
       if (originalRequest._retry) {
-         console.log('⚠️ Already retried, preventing infinite loop');
          // Clean up retry flag and reject to stop the loop
          delete originalRequest._retry;
          return Promise.reject(new Error('Token refresh loop prevented'));
@@ -64,7 +61,6 @@ export const handleTokenRefreshAndRetry = async (originalRequest) => {
 
       // Check if already redirecting to prevent multiple redirects
       if (window.location.pathname === '/login') {
-         console.log('⚠️ Already on login page, skipping refresh');
          return Promise.reject(new Error('Already on login page'));
       }
 
@@ -74,13 +70,11 @@ export const handleTokenRefreshAndRetry = async (originalRequest) => {
       const refreshResult = await refreshAccessToken();
 
       if (refreshResult.success) {
-         console.log('🔄 Token refreshed, retrying original request');
          // Clean up retry flag on successful refresh
          delete originalRequest._retry;
          // Retry the original request
          return axios(originalRequest);
       } else {
-         console.log('❌ Token refresh failed, redirecting to login');
          // Clean up retry flag
          delete originalRequest._retry;
 
@@ -128,7 +122,6 @@ export const getRefreshTokenStatus = () => {
 export const clearRefreshTokenData = () => {
    localStorage.removeItem('lastRefreshAttempt');
    localStorage.removeItem('refreshFailureCount');
-   console.log('🧹 Refresh token debugging data cleared');
 };
 
 const refreshTokenService = {

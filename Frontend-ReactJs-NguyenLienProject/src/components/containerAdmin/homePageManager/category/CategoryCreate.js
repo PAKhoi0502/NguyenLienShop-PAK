@@ -96,7 +96,7 @@ const CategoryCreate = () => {
                <button
                   type="button"
                   className="btn-cancel"
-                  onClick={() => navigate('/admin/product-category-management/category-management')}
+                  onClick={() => navigate(-1)}
                   disabled={loading}
                >
                   <FormattedMessage id="category.create.cancel" defaultMessage="Hủy" />
