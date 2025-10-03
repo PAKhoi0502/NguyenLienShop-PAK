@@ -89,8 +89,18 @@ const InfoCategory = ({ productId: propProductId }) => {
             <ul>
                {categories.map((cat) => (
                   <li key={cat.id}>
-                     <strong>{cat.nameCategory}</strong>
-                     {cat.description && <span> - {cat.description}</span>}
+                     <div className="category-info">
+                        <strong>{cat.nameCategory}</strong>
+                        {cat.description && <span className="description"> - {cat.description}</span>}
+                     </div>
+                     <div className="category-status">
+                        <span className={`status-badge ${cat.isActive ? 'active' : 'inactive'}`}>
+                           {cat.isActive ?
+                              <FormattedMessage id="body_admin.product_management.info_category_of_product.status_active" defaultMessage="Đang hiển thị" /> :
+                              <FormattedMessage id="body_admin.product_management.info_category_of_product.status_inactive" defaultMessage="Đã ẩn" />
+                           }
+                        </span>
+                     </div>
                   </li>
                ))}
             </ul>

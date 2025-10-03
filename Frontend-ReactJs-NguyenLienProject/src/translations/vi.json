@@ -887,6 +887,8 @@
             "activate_button": "Hiển thị",
             "delete_button": "Xóa",
             "title_head": "Quản lý sản phẩm",
+            "status_active": "Đang hiển thị ✅",
+            "status_inactive": "Đã ẩn ❌",
             "create": {
                 "loading": "Đang tạo...",
                 "error": "Tạo sản phẩm thất bại!",
@@ -1005,6 +1007,8 @@
                 }
             },
             "info_category_of_product": {
+                "status_active": "Đang hiển thị",
+                "status_inactive": "Đã ẩn",
                 "title": "Thông tin danh mục sản phẩm",
                 "subtitle": "Quản lý danh mục sản phẩm của sản phẩm",
                 "add_category": "Thêm danh mục",
@@ -1214,7 +1218,22 @@
             "status": "Hiển thị",
             "actions": "Hành động",
             "cancel_button": "Hủy",
+            "status_active": "Đang hiển thị ✅",
+            "status_inactive": "Đã ẩn ❌",
             "deactivate": {
+                "not_found": "Không tìm thấy danh mục",
+                "not_found_message": "Danh mục không tồn tại hoặc đã bị xóa",
+                "update_blocked": "Vui lòng ẩn danh mục trước khi cập nhật",
+                "no_category_id": "Không có ID danh mục",
+                "load_categories_error": "Không thể tải danh mục",
+                "load_data_error": "Lỗi khi tải dữ liệu",
+                "no_categories": "Không có danh mục nào",
+                "hint": {
+                    "title": "Hướng dẫn: Cập nhật trạng thái danh mục.",
+                    "select": "Chọn ít nhất một danh mục từ danh sách bên dưới.",
+                    "multiple": "Có thể chọn nhiều danh mục cùng lúc.",
+                    "existing": "Chỉ hiển thị các danh mục chưa được gán cho sản phẩm này."
+                },
                 "button": "Ẩn",
                 "confirm_title_1": "Bật hiển thị danh mục?",
                 "confirm_title_2": "Ẩn danh mục?",
@@ -1223,9 +1242,24 @@
                 "no_name": "Không có tên danh mục",
                 "success": "Cập nhật trạng thái danh mục thành công",
                 "error": "Lỗi khi cập nhật trạng thái danh mục",
-                "error_api": "Lỗi khi gọi API"
+                "error_api": "Lỗi khi gọi API",
+                "deactivate_success_title": "Thành công",
+                "deactivate_error_title": "Lỗi"
             },
             "activate": {
+                "not_found": "Không tìm thấy danh mục",
+                "not_found_message": "Danh mục không tồn tại hoặc đã bị xóa",
+                "update_blocked": "Vui lòng ẩn danh mục trước khi cập nhật",
+                "no_category_id": "Không có ID danh mục",
+                "load_categories_error": "Không thể tải danh mục",
+                "load_data_error": "Lỗi khi tải dữ liệu",
+                "no_categories": "Không có danh mục nào",
+                "hint": {
+                    "title": "Hướng dẫn: Cập nhật trạng thái danh mục.",
+                    "select": "Chọn ít nhất một danh mục từ danh sách bên dưới.",
+                    "multiple": "Có thể chọn nhiều danh mục cùng lúc.",
+                    "existing": "Chỉ hiển thị các danh mục chưa được gán cho sản phẩm này."
+                },
                 "button": "Hiển thị",
                 "confirm_title_1": "Bật hiển thị danh mục?",
                 "confirm_title_2": "Ẩn danh mục?",
@@ -1234,7 +1268,9 @@
                 "no_name": "Không có tên danh mục",
                 "success": "Cập nhật trạng thái danh mục thành công",
                 "error": "Lỗi khi cập nhật trạng thái danh mục",
-                "error_api": "Lỗi khi gọi API"
+                "error_api": "Lỗi khi gọi API",
+                "activate_success_title": "Thành công",
+                "activate_error_title": "Lỗi"
             },
             "delete": {
                 "button": "Xóa",
@@ -1247,7 +1283,9 @@
                 "cancel_button": "Hủy",
                 "success": "Xóa danh mục thành công",
                 "error": "Lỗi khi xóa danh mục",
-                "error_api": "Lỗi khi gọi API"
+                "error_api": "Lỗi khi gọi API",
+                "delete_success_title": "Thành công",
+                "delete_error_title": "Lỗi"
             },
             "detail_category": {
                 "edit_button": "Cập nhật danh mục",
@@ -1282,6 +1320,49 @@
                 "product_create": "Tạo sản phẩm",
                 "product_activate": "Kích hoạt sản phẩm",
                 "product_deactivate": "Vô hiệu hóa sản phẩm"
+            },
+            "create": {
+                "success_title": "Thành công",
+                "error_title": "Lỗi",
+                "title": "Tạo danh mục",
+                "name": "Tên danh mục",
+                "description": "Mô tả",
+                "submit": "Tạo danh mục",
+                "cancel": "Hủy",
+                "missing_fields": "Vui lòng nhập tên danh mục.",
+                "success": "Tạo danh mục thành công",
+                "error": "Không thể tạo danh mục",
+                "server_error": "Lỗi server khi tạo danh mục",
+                "create_success_title": "Thành công",
+                "create_error_title": "Lỗi",
+                "loading": "Đang tạo...",
+                "hint": {
+                    "title": "Hướng dẫn: Điền thông tin danh mục.",
+                    "name": "Tên danh mục là bắt buộc.",
+                    "optional": "Mô tả là tùy chọn."
+                }
+            },
+            "update_category": {
+                "success_title": "Thành công",
+                "error_title": "Lỗi",
+                "title": "Cập nhật danh mục",
+                "name": "Tên danh mục",
+                "description": "Mô tả",
+                "submit": "Cập nhật danh mục",
+                "cancel": "Hủy",
+                "missing_fields": "Vui lòng nhập tên danh mục.",
+                "success": "Cập nhật danh mục thành công",
+                "error": "Không thể cập nhật danh mục",
+                "server_error": "Lỗi server khi cập nhật danh mục",
+                "update_success_title": "Thành công",
+                "update_error_title": "Lỗi",
+                "loading": "Đang cập nhật...",
+                "loading_submit": "Đang cập nhật...",
+                "hint": {
+                    "title": "Hướng dẫn: Cập nhật thông tin danh mục.",
+                    "name": "Tên danh mục là bắt buộc.",
+                    "optional": "Mô tả là tùy chọn."
+                }
             },
             "no_name": "Không có tên danh mục",
             "blocked_active": "Không thể xóa danh mục đang hoạt động"

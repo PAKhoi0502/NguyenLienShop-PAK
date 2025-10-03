@@ -180,7 +180,13 @@ const ProductManager = () => {
                                  </span>
                               </td>
                               <td style={{ fontSize: '1rem', fontWeight: 'bold' }}>{product.dimensions || intl.formatMessage({ id: 'body_admin.product_management.empty_dimensions', defaultMessage: 'Không có' })}</td>
-                              <td className="status-cell" style={{ cursor: 'default' }}>{product.isActive ? '✅' : '❌'}</td>
+                              <td className="status-cell" style={{ cursor: 'default' }}>
+                                 {product.isActive ? (
+                                    <FormattedMessage id="body_admin.product_management.status_active" defaultMessage="Đang hiển thị ✅" />
+                                 ) : (
+                                    <FormattedMessage id="body_admin.product_management.status_inactive" defaultMessage="Đã ẩn ❌" />
+                                 )}
+                              </td>
                               <td>
                                  <div className="action-buttons">
                                     <button

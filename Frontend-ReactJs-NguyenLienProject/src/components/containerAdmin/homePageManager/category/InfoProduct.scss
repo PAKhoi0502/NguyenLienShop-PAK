@@ -1,0 +1,439 @@
+// ==============================================
+// 📦 INFO PRODUCT STYLES (Green Theme)
+// ==============================================
+
+@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
+
+.info-product {
+    min-height: 65vh;
+    padding: spacing(8) spacing(6);
+    background: linear-gradient(135deg, #f0fdf4 0%, color(white) 50%, #ecfdf5 100%);
+
+    @include mobile-only {
+        padding: spacing(6) spacing(4);
+    }
+
+    // ==============================================
+    // 📋 HEADER & TITLE
+    // ==============================================
+    h3 {
+        font-size: font-size(3xl);
+        font-weight: font-weight(bold);
+        color: #d97706;
+        margin: 0 0 spacing(6) 0;
+        text-align: center;
+        position: relative;
+
+        &::before {
+            margin-right: spacing(2);
+            font-size: font-size(2xl);
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 350px;
+            height: 4px;
+            background: linear-gradient(90deg, #d97706, #b45309);
+            border-radius: border-radius(full);
+        }
+
+        @include mobile-only {
+            font-size: font-size(2xl);
+        }
+    }
+
+    // ==============================================
+    // 📝 LOADING & ERROR STATES
+    // ==============================================
+    p {
+        color: #6b7280;
+        font-size: font-size(base);
+        text-align: center;
+        padding: spacing(4);
+        margin: spacing(4) 0;
+
+        &.error-message {
+            color: #dc2626;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: border-radius(md);
+            padding: spacing(4);
+
+            &::before {
+                content: '⚠️ ';
+                margin-right: spacing(1);
+            }
+        }
+    }
+
+    // ==============================================
+    // 📑 PRODUCTS LIST
+    // ==============================================
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: spacing(4) 0;
+        background: color(white);
+        border-radius: border-radius(lg);
+        border: 1px solid #bbf7d0;
+        overflow: hidden;
+        box-shadow: shadow(md);
+
+        li {
+            padding: spacing(4);
+            border-bottom: 1px solid #bbf7d0;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            gap: spacing(1);
+
+            &:last-child {
+                border-bottom: none;
+            }
+
+            &:hover {
+                background: #f0fdf4;
+                transform: translateX(4px);
+            }
+
+            &::before {
+                margin-right: spacing(3);
+                font-size: font-size(lg);
+                align-self: flex-start;
+            }
+
+            strong {
+                color: #d97706;
+                font-weight: font-weight(semibold);
+                font-size: font-size(base);
+                display: flex;
+                align-items: center;
+
+                &::before {
+                    margin-right: spacing(2);
+                    font-size: font-size(base);
+                }
+            }
+
+            span {
+                color: #6b7280;
+                font-size: font-size(sm);
+                margin-left: spacing(6);
+                font-style: italic;
+
+                &:first-of-type {
+                    margin-left: spacing(6);
+                }
+            }
+
+            // Price styling
+            span:nth-of-type(2) {
+                color: #d97706;
+                font-weight: font-weight(medium);
+
+                &::before {
+                    margin-right: spacing(1);
+                }
+            }
+
+            // Status styling
+            span:last-of-type {
+                font-weight: font-weight(medium);
+                padding: spacing(1) spacing(2);
+                border-radius: border-radius(sm);
+                margin-left: spacing(6);
+                display: inline-block;
+                width: fit-content;
+
+                &:contains("Hoạt động") {
+                    background: #dcfce7;
+                    color: #d97706;
+                    border: 1px solid #bbf7d0;
+                }
+
+                &:contains("Không hoạt động") {
+                    background: #fef2f2;
+                    color: #dc2626;
+                    border: 1px solid #fecaca;
+                }
+            }
+        }
+    }
+
+    // ==============================================
+    // 🎯 ACTION BUTTONS
+    // ==============================================
+    .product-actions {
+        display: flex;
+        gap: spacing(4);
+        justify-content: center;
+        margin-top: spacing(6);
+        flex-wrap: wrap;
+
+        @include mobile-only {
+            flex-direction: column;
+            gap: spacing(3);
+        }
+
+        .btn {
+            @include button-base;
+            padding: spacing(4) spacing(8);
+            border-radius: border-radius(lg);
+            font-weight: font-weight(semibold);
+            font-size: font-size(base);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 150px;
+
+            @include mobile-only {
+                min-width: auto;
+                padding: spacing(4) spacing(6);
+            }
+
+            &:hover:not(:disabled) {
+                transform: translateY(-2px);
+                box-shadow: shadow(lg);
+            }
+
+            &:active:not(:disabled) {
+                transform: translateY(0);
+            }
+
+            &:disabled {
+                opacity: 0.6;
+                cursor: not-allowed;
+                transform: none !important;
+                box-shadow: none !important;
+            }
+
+            &.btn-primary {
+                background: linear-gradient(135deg, #22c55e, #16a34a);
+                color: color(white);
+                border: 1px solid #16a34a;
+
+                &:hover:not(:disabled) {
+                    background: linear-gradient(135deg, #16a34a, #15803d);
+                    box-shadow: 0 8px 24px rgba(34, 197, 94, 0.3);
+                }
+
+                &::after {
+                    margin-left: spacing(2);
+                }
+            }
+
+            &.btn-danger {
+                background: linear-gradient(135deg, #ef4444, #dc2626);
+                color: color(white);
+                border: 1px solid #dc2626;
+
+                &:hover:not(:disabled) {
+                    background: linear-gradient(135deg, #dc2626, #b91c1c);
+                    box-shadow: 0 8px 24px rgba(239, 68, 68, 0.3);
+                }
+
+                &::after {
+                    margin-left: spacing(2);
+                }
+            }
+
+            &.btn-secondary {
+                background: linear-gradient(135deg, #6b7280, #4b5563);
+                color: color(white);
+                border: 1px solid #4b5563;
+
+                &:hover:not(:disabled) {
+                    background: linear-gradient(135deg, #4b5563, #374151);
+                    box-shadow: 0 8px 24px rgba(107, 114, 128, 0.3);
+                }
+            }
+        }
+
+        .btn-back {
+            background: linear-gradient(135deg, #6b7280, #4b5563);
+            color: color(white);
+            padding: spacing(4) spacing(8);
+            border-radius: border-radius(lg);
+            font-weight: font-weight(semibold);
+            font-size: font-size(base);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 150px;
+
+            @include mobile-only {
+                min-width: auto;
+                padding: spacing(4) spacing(6);
+            }
+
+            &:hover:not(:disabled) {
+                background: linear-gradient(135deg, #4b5563, #374151);
+                transform: translateY(-2px);
+                box-shadow: 0 8px 24px rgba(107, 114, 128, 0.3);
+            }
+
+            &::before {
+                content: '← ';
+                margin-right: spacing(1);
+            }
+        }
+    }
+
+    // ==============================================
+    // 🎭 MODAL STYLES
+    // ==============================================
+    .modal-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        animation: fade-in 0.3s ease-out;
+
+        .modal-content {
+            background: color(white);
+            padding: spacing(8);
+            border-radius: border-radius(xl);
+            box-shadow: shadow(2xl);
+            max-width: 90vw;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slide-up 0.3s ease-out;
+
+            @include mobile-only {
+                padding: spacing(6);
+                margin: spacing(4);
+            }
+
+            .btn {
+                margin-top: spacing(4);
+            }
+        }
+    }
+
+    // ==============================================
+    // 🎭 ANIMATIONS
+    // ==============================================
+    animation: fade-in 0.6s ease-out;
+
+    @keyframes fade-in {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slide-up {
+        from {
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    // ==============================================
+    // 📱 RESPONSIVE DESIGN
+    // ==============================================
+    @include tablet-only {
+        padding: spacing(6);
+
+        .product-actions {
+            .btn {
+                padding: spacing(3) spacing(4);
+                font-size: font-size(sm);
+            }
+        }
+    }
+
+    @include mobile-only {
+        ul li {
+            padding: spacing(3);
+            flex-direction: column;
+            align-items: flex-start;
+
+            strong {
+                font-size: font-size(sm);
+            }
+
+            span {
+                margin-left: spacing(4);
+                font-size: font-size(xs);
+            }
+        }
+    }
+}
+
+// ==============================================
+// 🌙 DARK MODE SUPPORT
+// ==============================================
+@media (prefers-color-scheme: dark) {
+    .info-product {
+        background: linear-gradient(135deg, #92400e 0%, color(gray-900) 50%, #b45309 100%);
+
+        h3 {
+            color: #ffcbaa;
+        }
+
+        p {
+            color: #9ca3af;
+
+            &.error-message {
+                background: #2d1b1b;
+                border-color: #7f1d1d;
+                color: #fca5a5;
+            }
+        }
+
+        ul {
+            background: color(gray-800);
+            border-color: #f97316;
+
+            li {
+                border-color: #f97316;
+
+                &:hover {
+                    background: #92400e;
+                }
+
+                strong {
+                    color: #ffcbaa;
+                }
+
+                span {
+                    color: #f3f4f6;
+
+                    &:nth-of-type(2) {
+                        color: #f97316;
+                    }
+                }
+            }
+        }
+
+        .modal-bg {
+            .modal-content {
+                background: color(gray-900);
+                color: color(gray-200);
+            }
+        }
+    }
+}

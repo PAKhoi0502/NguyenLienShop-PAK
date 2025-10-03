@@ -29,7 +29,7 @@ const CategoryActive = ({ category, onSuccess }) => {
 
    const handleToggleActive = async () => {
       if (!category || !category.id) {
-         showToast("error", intl.formatMessage({ id: 'body_admin.category_management.delete.not_found' }));
+         showToast("error", intl.formatMessage({ id: 'body_admin.category_management.activate.not_found' }));
          return;
       }
 

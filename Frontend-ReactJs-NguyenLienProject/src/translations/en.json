@@ -884,6 +884,8 @@
             "activate_button": "Activate",
             "delete_button": "Delete",
             "title_head": "Product Management",
+            "status_active": "Active ✅",
+            "status_inactive": "Hidden ❌",
             "create": {
                 "create_blocked": "Product creation feature is blocked.",
                 "create_blocked_message": "Please fill in all required fields (name, price, stock)",
@@ -1002,6 +1004,8 @@
                 }
             },
             "info_category_of_product": {
+                "status_active": "Active",
+                "status_inactive": "Inactive",
                 "title": "Product Category Information",
                 "subtitle": "Manage product categories of product",
                 "add_category": "Add Category",
@@ -1212,7 +1216,22 @@
             "status": "Display",
             "actions": "Actions",
             "cancel_button": "Cancel",
+            "status_active": "Active ✅",
+            "status_inactive": "Hidden ❌",
             "deactivate": {
+                "not_found": "Category not found",
+                "not_found_message": "Category does not exist or has been deleted",
+                "update_blocked": "Please hide the category before updating",
+                "no_category_id": "No category ID",
+                "load_categories_error": "Unable to load categories",
+                "load_data_error": "Error loading data",
+                "no_categories": "No categories",
+                "hint": {
+                    "title": "Guide: Update category status.",
+                    "select": "Select at least one category from the list below.",
+                    "multiple": "Multiple categories can be selected at once.",
+                    "existing": "Only display categories that have not been assigned to this product."
+                },
                 "button": "Hide",
                 "confirm_title_1": "Activate category display?",
                 "confirm_title_2": "Hide category?",
@@ -1221,9 +1240,24 @@
                 "no_name": "No category name",
                 "success": "Update category status successfully",
                 "error": "Error while updating category status",
-                "error_api": "Error while calling API"
+                "error_api": "Error while calling API",
+                "deactivate_success_title": "Success",
+                "deactivate_error_title": "Error"
             },
             "activate": {
+                "not_found": "Category not found",
+                "not_found_message": "Category does not exist or has been deleted",
+                "update_blocked": "Please hide the category before updating",
+                "no_category_id": "No category ID",
+                "load_categories_error": "Unable to load categories",
+                "load_data_error": "Error loading data",
+                "no_categories": "No categories",
+                "hint": {
+                    "title": "Guide: Update category status.",
+                    "select": "Select at least one category from the list below.",
+                    "multiple": "Multiple categories can be selected at once.",
+                    "existing": "Only display categories that have not been assigned to this product."
+                },
                 "button": "Display",
                 "confirm_title_1": "Activate category display?",
                 "confirm_title_2": "Hide category?",
@@ -1232,7 +1266,9 @@
                 "no_name": "No category name",
                 "success": "Update category status successfully",
                 "error": "Error while updating category status",
-                "error_api": "Error while calling API"
+                "error_api": "Error while calling API",
+                "activate_success_title": "Success",
+                "activate_error_title": "Error"
             },
             "delete": {
                 "button": "Delete",
@@ -1245,7 +1281,9 @@
                 "cancel_button": "Cancel",
                 "success": "Category deleted successfully",
                 "error": "Error while deleting category",
-                "error_api": "Error while calling API"
+                "error_api": "Error while calling API",
+                "delete_success_title": "Success",
+                "delete_error_title": "Error"
             },
             "detail_category": {
                 "edit_button": "Update Category",
@@ -1280,6 +1318,49 @@
                 "product_create": "Product Create",
                 "product_activate": "Product Activate",
                 "product_deactivate": "Product Deactivate"
+            },
+            "create": {
+                "success_title": "Success",
+                "error_title": "Error",
+                "title": "Create Category",
+                "name": "Category Name",
+                "description": "Description",
+                "submit": "Create Category",
+                "cancel": "Cancel",
+                "missing_fields": "Please fill in all required fields (name, price, stock)",
+                "success": "Create category successfully",
+                "error": "Create category failed",
+                "server_error": "Server error while creating category",
+                "create_success_title": "Success",
+                "create_error_title": "Error",
+                "loading": "Creating...",
+                "hint": {
+                    "title": "Guide: Create category information.",
+                    "name": "Category name is required.",
+                    "optional": "Description is optional."
+                }
+            },
+            "update_category": {
+                "success_title": "Success",
+                "error_title": "Error",
+                "title": "Update Category",
+                "name": "Category Name",
+                "description": "Description",
+                "submit": "Update Category",
+                "cancel": "Cancel",
+                "missing_fields": "Please fill in all required fields (name, price, stock)",
+                "success": "Update category successfully",
+                "error": "Update category failed",
+                "server_error": "Server error while updating category",
+                "update_success_title": "Success",
+                "update_error_title": "Error",
+                "loading": "Updating...",
+                "loading_submit": "Updating...",
+                "hint": {
+                    "title": "Guide: Update category information.",
+                    "name": "Category name is required.",
+                    "optional": "Description is optional."
+                }
             },
             "no_name": "No category name",
             "blocked_active": "Cannot delete an active category. Please deactivate it first."

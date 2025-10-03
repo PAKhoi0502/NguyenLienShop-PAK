@@ -189,7 +189,13 @@ const CategoryManager = () => {
                                     {productCounts[category.id] || 0}
                                  </span>
                               </td>
-                              <td className="status-cell" style={{ cursor: 'default' }}>{category.isActive ? '✅' : '❌'}</td>
+                              <td className="status-cell" style={{ cursor: 'default' }}>
+                                 {category.isActive ? (
+                                    <FormattedMessage id="body_admin.category_management.status_active" defaultMessage="Đang hiển thị ✅" />
+                                 ) : (
+                                    <FormattedMessage id="body_admin.category_management.status_inactive" defaultMessage="Đã ẩn ❌" />
+                                 )}
+                              </td>
                               <td>
                                  <div className="action-buttons">
                                     <button

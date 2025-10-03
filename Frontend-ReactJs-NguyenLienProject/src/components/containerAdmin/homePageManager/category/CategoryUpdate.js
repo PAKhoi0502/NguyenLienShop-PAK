@@ -5,6 +5,7 @@ import { useIntl, FormattedMessage } from 'react-intl';
 import { getCategoryById, updateCategory } from '../../../../services/categoryService.js';
 import CustomToast from '../../../../components/CustomToast';
 import HintBox from '../../../../components/HintBox';
+import './CategoryUpdate.scss';
 
 const CategoryUpdate = () => {
    const [nameCategory, setNameCategory] = useState('');
@@ -21,7 +22,7 @@ const CategoryUpdate = () => {
             <CustomToast
                {...props}
                type={type}
-               titleId={type === 'success' ? 'category.update.success_title' : 'category.update.error_title'}
+               titleId={type === 'success' ? 'body_admin.category_management.update_category.success_title' : 'body_admin.category_management.update_category.error_title'}
                message={message}
                time={new Date()}
             />
@@ -38,37 +39,31 @@ const CategoryUpdate = () => {
             setNameCategory(nameCategory || '');
             setDescription(description || '');
          } else {
-            const errorMessage = res.errMessage || intl.formatMessage({ id: 'category.update.fetch_error', defaultMessage: 'Không thể tải thông tin danh mục' });
+            const errorMessage = res.errMessage || intl.formatMessage({ id: 'body_admin.category_management.update_category.fetch_error', defaultMessage: 'Không thể tải thông tin danh mục' });
             showToast('error', errorMessage);
-            navigate('/admin/product-category-management/category-management');
+            navigate(-1);
          }
       } catch (err) {
-         const errorMessage = err.response?.data?.errMessage || intl.formatMessage({ id: 'category.update.server_error', defaultMessage: 'Lỗi server khi tải danh mục' });
+         const errorMessage = err.response?.data?.errMessage || intl.formatMessage({ id: 'body_admin.category_management.update_category.server_error', defaultMessage: 'Lỗi server khi tải danh mục' });
          showToast('error', errorMessage);
-         navigate('/admin/product-category-management/category-management');
+         navigate(-1);
       } finally {
          setFetching(false);
       }
    };
 
    useEffect(() => {
-      fetchCategory();
+      if (id) {
+         fetchCategory();
+      }
    }, [id]);
 
    const handleSubmit = async (e) => {
       e.preventDefault();
       setLoading(true);
 
-      const token = localStorage.getItem('token');
-      if (!token) {
-         showToast('error', intl.formatMessage({ id: 'category.update.no_token', defaultMessage: 'Vui lòng đăng nhập lại' }));
-         navigate('/login');
-         setLoading(false);
-         return;
-      }
-
       if (!nameCategory) {
-         showToast('error', intl.formatMessage({ id: 'category.update.missing_fields', defaultMessage: 'Vui lòng nhập tên danh mục' }));
+         showToast('error', intl.formatMessage({ id: 'body_admin.category_management.update_category.missing_fields', defaultMessage: 'Vui lòng nhập tên danh mục' }));
          setLoading(false);
          return;
       }
@@ -82,13 +77,13 @@ const CategoryUpdate = () => {
       try {
          const res = await updateCategory(data);
          if (res && res.errCode === 0) {
-            showToast('success', intl.formatMessage({ id: 'category.update.success', defaultMessage: 'Cập nhật danh mục thành công' }));
-            navigate('/admin/product-category-management/category-management');
+            showToast('success', intl.formatMessage({ id: 'body_admin.category_management.update_category.success', defaultMessage: 'Cập nhật danh mục thành công' }));
+            navigate(-1);
          } else {
-            showToast('error', res.errMessage || intl.formatMessage({ id: 'category.update.error', defaultMessage: 'Không thể cập nhật danh mục' }));
+            showToast('error', res.errMessage || intl.formatMessage({ id: 'body_admin.category_management.update_category.error', defaultMessage: 'Không thể cập nhật danh mục' }));
          }
       } catch (err) {
-         showToast('error', intl.formatMessage({ id: 'category.update.server_error', defaultMessage: 'Lỗi server khi cập nhật danh mục' }));
+         showToast('error', intl.formatMessage({ id: 'body_admin.category_management.update_category.server_error', defaultMessage: 'Lỗi server khi cập nhật danh mục' }));
       } finally {
          setLoading(false);
       }
@@ -99,21 +94,21 @@ const CategoryUpdate = () => {
          <HintBox
             content={
                <div>
-                  <p><FormattedMessage id="category.hint.title" defaultMessage="Hướng dẫn: Cập nhật thông tin danh mục." /></p>
+                  <p><FormattedMessage id="body_admin.category_management.update_category.hint.title" defaultMessage="Hướng dẫn: Cập nhật thông tin danh mục." /></p>
                   <ul style={{ textAlign: 'left', paddingLeft: '1rem', marginTop: '0.5rem' }}>
-                     <li><FormattedMessage id="category.hint.name" defaultMessage="Tên danh mục là bắt buộc." /></li>
-                     <li><FormattedMessage id="category.hint.optional" defaultMessage="Mô tả là tùy chọn." /></li>
+                     <li><FormattedMessage id="body_admin.category_management.update_category.hint.name" defaultMessage="Tên danh mục là bắt buộc." /></li>
+                     <li><FormattedMessage id="body_admin.category_management.update_category.hint.optional" defaultMessage="Mô tả là tùy chọn." /></li>
                   </ul>
                </div>
             }
          />
-         <h1><FormattedMessage id="category.update.title" defaultMessage="Cập nhật danh mục" /></h1>
+         <h1><FormattedMessage id="body_admin.category_management.update_category.title" defaultMessage="Cập nhật danh mục" /></h1>
          {fetching ? (
-            <p className="category-loading"><FormattedMessage id="category.update.loading" defaultMessage="Đang tải thông tin danh mục..." /></p>
+            <p className="category-loading"><FormattedMessage id="body_admin.category_management.update_category.loading" defaultMessage="Đang tải thông tin danh mục..." /></p>
          ) : (
             <form onSubmit={handleSubmit} className="category-update-form">
                <div className="form-group">
-                  <label><FormattedMessage id="category.update.name" defaultMessage="Tên danh mục:" /> <span style={{ color: 'red' }}>*</span></label>
+                  <label><FormattedMessage id="body_admin.category_management.update_category.name" defaultMessage="Tên danh mục:" /> <span style={{ color: 'red' }}>*</span></label>
                   <input
                      type="text"
                      value={nameCategory}
@@ -122,7 +117,7 @@ const CategoryUpdate = () => {
                   />
                </div>
                <div className="form-group">
-                  <label><FormattedMessage id="category.update.description" defaultMessage="Mô tả:" /></label>
+                  <label><FormattedMessage id="body_admin.category_management.update_category.description" defaultMessage="Mô tả:" /></label>
                   <textarea
                      value={description}
                      onChange={(e) => setDescription(e.target.value)}
@@ -130,7 +125,7 @@ const CategoryUpdate = () => {
                </div>
                <div className="form-actions">
                   <button className="btn-submit" type="submit" disabled={loading}>
-                     {loading ? <FormattedMessage id="category.update.loading_submit" defaultMessage="Đang cập nhật..." /> : <FormattedMessage id="category.update.submit" defaultMessage="Cập nhật danh mục" />}
+                     {loading ? <FormattedMessage id="body_admin.category_management.update_category.loading_submit" defaultMessage="Đang cập nhật..." /> : <FormattedMessage id="body_admin.category_management.update_category.submit" defaultMessage="Cập nhật danh mục" />}
                   </button>
                   <button
                      type="button"
@@ -138,7 +133,7 @@ const CategoryUpdate = () => {
                      onClick={() => navigate(-1)}
                      disabled={loading}
                   >
-                     <FormattedMessage id="category.update.cancel" defaultMessage="Hủy" />
+                     <FormattedMessage id="body_admin.category_management.update_category.cancel" defaultMessage="Hủy" />
                   </button>
                </div>
             </form>
