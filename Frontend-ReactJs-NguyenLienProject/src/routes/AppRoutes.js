@@ -103,6 +103,7 @@ const AppRoutes = () => (
          <Route path="/admin/product-category-management/product-management/delete-category/:id" element={<PrivateRoute role="1" element={() => <AdminLayout><DeleteCategory /></AdminLayout>} />} />
 
 
+
          {/* --- Admin - Quản lý danh mục sản phẩm --- */}
          <Route path="/admin/product-category-management/category-management" element={<PrivateRoute role="1" element={() => <AdminLayout><CategoryManager /></AdminLayout>} />} />
          <Route path="/admin/product-category-management/category-management/category-create" element={<PrivateRoute role="1" element={() => <AdminLayout><CategoryCreate /></AdminLayout>} />} />

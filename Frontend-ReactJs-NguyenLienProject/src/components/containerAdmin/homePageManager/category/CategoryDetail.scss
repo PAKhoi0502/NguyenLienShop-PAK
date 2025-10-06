@@ -365,45 +365,124 @@
         }
 
         .card-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: spacing(4);
             background: #f9fafb;
             padding: spacing(6);
             border-top: 1px solid #e5e7eb;
 
-            .btn-edit {
-                background: linear-gradient(135deg, #05DF72, #032E15);
-                color: color(white);
-                border: 1px solid #05DF72;
-                padding: spacing(4) spacing(10);
-                font-size: font-size(base);
-                font-weight: font-weight(semibold);
-                border-radius: border-radius(lg);
-                transition: all 0.3s ease;
+            .action-buttons {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                gap: spacing(3);
+                justify-content: center;
 
-                &:hover {
-                    background: linear-gradient(135deg, #032E15, #05DF72);
-                    transform: translateY(-2px);
-                    box-shadow: 0 8px 24px rgba(0, 255, 119, 0.5);
+                @media (max-width: 768px) {
+                    grid-template-columns: 1fr;
+                    gap: spacing(2);
                 }
-            }
 
-            .btn-back {
-                background: linear-gradient(135deg, #020618, #45556C);
-                color: color(white);
-                border: 1px solid #45556C;
-                padding: spacing(4) spacing(10);
-                font-size: font-size(base);
-                font-weight: font-weight(semibold);
-                border-radius: border-radius(lg);
-                transition: all 0.3s ease;
+                .btn-action {
+                    border: none;
+                    padding: spacing(3) spacing(4);
+                    border-radius: border-radius(lg);
+                    font-weight: font-weight(semibold);
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                    font-size: font-size(sm);
+                    text-align: center;
+                    min-height: 48px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
 
-                &:hover {
-                    background: linear-gradient(135deg, #45556C, #020618);
-                    transform: translateY(-2px);
-                    box-shadow: 0 8px 24px rgba(208, 228, 255, 0.5);
+                    &:hover:not(:disabled) {
+                        transform: translateY(-2px);
+                        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+                    }
+
+                    &:active:not(:disabled) {
+                        transform: translateY(-1px);
+                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                    }
+
+                    &:disabled {
+                        opacity: 0.6;
+                        cursor: not-allowed;
+                        transform: none !important;
+                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+                    }
+
+                    // Activate button (Show Category)
+                    &.btn-activate {
+                        background: linear-gradient(135deg, #10b981, #047857);
+                        color: white;
+                        border: 1px solid #059669;
+
+                        &:hover:not(:disabled) {
+                            background: linear-gradient(135deg, #059669, #065f46);
+                            border-color: #047857;
+                        }
+                    }
+
+                    // Deactivate button (Hide Category)
+                    &.btn-deactivate {
+                        background: linear-gradient(135deg, #f59e0b, #d97706);
+                        color: white;
+                        border: 1px solid #d97706;
+
+                        &:hover:not(:disabled) {
+                            background: linear-gradient(135deg, #d97706, #b45309);
+                            border-color: #b45309;
+                        }
+                    }
+
+                    // Manage Products button
+                    &.btn-add-category {
+                        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+                        color: white;
+                        border: 1px solid #2563eb;
+
+                        &:hover:not(:disabled) {
+                            background: linear-gradient(135deg, #2563eb, #1e40af);
+                            border-color: #1d4ed8;
+                        }
+                    }
+
+                    // Delete button
+                    &.btn-delete {
+                        background: linear-gradient(135deg, #ef4444, #dc2626);
+                        color: white;
+                        border: 1px solid #dc2626;
+
+                        &:hover:not(:disabled) {
+                            background: linear-gradient(135deg, #dc2626, #b91c1c);
+                            border-color: #b91c1c;
+                        }
+                    }
+
+                    // Update button
+                    &.btn-update {
+                        background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+                        color: white;
+                        border: 1px solid #7c3aed;
+
+                        &:hover:not(:disabled) {
+                            background: linear-gradient(135deg, #7c3aed, #6d28d9);
+                            border-color: #6d28d9;
+                        }
+                    }
+
+                    // Back button
+                    &.btn-back {
+                        background: linear-gradient(135deg, #6b7280, #4b5563);
+                        color: white;
+                        border: 1px solid #4b5563;
+
+                        &:hover:not(:disabled) {
+                            background: linear-gradient(135deg, #4b5563, #374151);
+                            border-color: #374151;
+                        }
+                    }
                 }
             }
 
@@ -627,6 +706,51 @@
             .card-footer {
                 background: color(gray-700);
                 border-top-color: color(gray-600);
+
+                .action-buttons {
+                    .btn-action {
+                        &:disabled {
+                            opacity: 0.4;
+                        }
+
+                        // Dark mode specific adjustments
+                        &.btn-activate {
+                            &:hover:not(:disabled) {
+                                box-shadow: 0 6px 12px rgba(16, 185, 129, 0.3);
+                            }
+                        }
+
+                        &.btn-deactivate {
+                            &:hover:not(:disabled) {
+                                box-shadow: 0 6px 12px rgba(245, 158, 11, 0.3);
+                            }
+                        }
+
+                        &.btn-add-category {
+                            &:hover:not(:disabled) {
+                                box-shadow: 0 6px 12px rgba(59, 130, 246, 0.3);
+                            }
+                        }
+
+                        &.btn-delete {
+                            &:hover:not(:disabled) {
+                                box-shadow: 0 6px 12px rgba(239, 68, 68, 0.3);
+                            }
+                        }
+
+                        &.btn-update {
+                            &:hover:not(:disabled) {
+                                box-shadow: 0 6px 12px rgba(139, 92, 246, 0.3);
+                            }
+                        }
+
+                        &.btn-back {
+                            &:hover:not(:disabled) {
+                                box-shadow: 0 6px 12px rgba(107, 114, 128, 0.3);
+                            }
+                        }
+                    }
+                }
             }
         }
     }

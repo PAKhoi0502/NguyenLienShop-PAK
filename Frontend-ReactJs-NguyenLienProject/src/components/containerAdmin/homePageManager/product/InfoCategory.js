@@ -15,6 +15,12 @@ const InfoCategory = ({ productId: propProductId }) => {
    const [loading, setLoading] = useState(true);
    const [error, setError] = useState(null);
 
+   const handleCategoryClick = (categoryId) => {
+      if (!categoryId) return;
+
+      navigate(`/admin/product-category-management/category-management/category-detail/${categoryId}`);
+   };
+
    useEffect(() => {
       const fetchData = async () => {
          if (!productId) {
@@ -86,11 +92,20 @@ const InfoCategory = ({ productId: propProductId }) => {
          ) : error ? (
             <p className="error-message">{error}</p>
          ) : categories && categories.length > 0 ? (
-            <ul>
+            <ul className="categories-list">
                {categories.map((cat) => (
-                  <li key={cat.id}>
+                  <li key={cat.id} className="category-item">
                      <div className="category-info">
-                        <strong>{cat.nameCategory}</strong>
+                        <strong
+                           className="category-name-link"
+                           onClick={() => handleCategoryClick(cat.id)}
+                           title={intl.formatMessage({
+                              id: 'body_admin.product_management.info_category_of_product.click_to_detail',
+                              defaultMessage: 'Nhấp để xem chi tiết danh mục'
+                           })}
+                        >
+                           {cat.nameCategory}
+                        </strong>
                         {cat.description && <span className="description"> - {cat.description}</span>}
                      </div>
                      <div className="category-status">

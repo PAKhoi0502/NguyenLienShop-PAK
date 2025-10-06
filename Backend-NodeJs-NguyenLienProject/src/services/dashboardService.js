@@ -167,9 +167,47 @@ let getProductCategoryStats = async () => {
    }
 };
 
+// Lấy thống kê homepage (banner stats)
+let getHomepageStats = async () => {
+   try {
+      console.log('🔍 Starting getHomepageStats...');
+      console.log('🖼️ Banner model available:', !!db.Banner);
+
+      // Đếm tổng số banners
+      const totalBanners = await db.Banner.count();
+      console.log('📊 Total banners:', totalBanners);
+
+      // Đếm số banners đang active (isActive = true)
+      const activeBanners = await db.Banner.count({
+         where: { isActive: true }
+      });
+      console.log('✅ Active banners:', activeBanners);
+
+      // Đếm số banners inactive
+      const inactiveBanners = totalBanners - activeBanners;
+
+      const result = {
+         errCode: 0,
+         data: {
+            totalBanners,
+            activeBanners,
+            inactiveBanners
+         },
+         message: 'Lấy thống kê homepage thành công'
+      };
+
+      console.log('🎯 Final homepage stats result:', JSON.stringify(result, null, 2));
+      return result;
+   } catch (err) {
+      console.error('Error in getHomepageStats:', err);
+      throw new Error('Lỗi khi lấy thống kê homepage');
+   }
+};
+
 export default {
    getDashboardStats,
    getAccountStats,
    getAccountCountStats,
-   getProductCategoryStats
+   getProductCategoryStats,
+   getHomepageStats
 };

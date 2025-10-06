@@ -175,7 +175,7 @@
 
       th {
          padding: spacing(4);
-         text-align: left;
+         text-align: center;
          font-weight: font-weight(semibold);
          font-size: font-size(sm);
          color: #7f1d1d;
@@ -201,8 +201,9 @@
          }
 
          td {
-            color: color(gray-700);
+            color: #ffffff;
             border-bottom: 1px solid #fee2e2;
+            text-align: center;
          }
       }
    }
@@ -216,8 +217,54 @@
 
    // Cell styling
    .cell-na {
-      color: #9ca3af;
+      color: #909191;
       font-style: italic;
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-size: 0.8rem !important;
+      position: relative;
+
+
+      &::before {
+         margin-right: 4px;
+         font-size: 0.8rem;
+      }
+   }
+
+   .phone-number-cell {
+      padding: 4px 8px;
+      font-weight: 600;
+      color: #ffffff;
+      position: relative;
+      transition: all 0.3s ease;
+
+      &:hover {
+         transform: translateY(-1px);
+      }
+
+      &::before {
+         content: '📞';
+         margin-right: 2px;
+         font-size: 0.9rem;
+      }
+
+      // Clickable phone number styling
+      span {
+         cursor: pointer;
+         transition: all 0.2s ease;
+         border-radius: 4px;
+         padding: 2px 4px;
+         display: inline-block;
+
+         &:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: scale(1.05);
+         }
+
+         &:active {
+            transform: scale(0.95);
+         }
+      }
    }
 }
 
@@ -225,16 +272,17 @@
 // 🏷️ ADMIN SPECIFIC BADGES
 // ==============================================
 .role-admin {
+   font-weight: bold !important;
    @include status-badge(error);
    text-transform: uppercase;
    font-weight: font-weight(semibold);
    background: linear-gradient(135deg, #fee2e2, #fecaca);
    color: #7f1d1d;
    border: 1px solid #fca5a5;
+   padding: 0.25rem 1.5rem;
 
    &::before {
       content: '👑';
-      margin-right: spacing(1);
    }
 }
 
@@ -243,8 +291,9 @@
 // ==============================================
 .admin-table .action-buttons {
    display: flex;
-   gap: spacing(2);
+   gap: spacing(3);
    flex-wrap: wrap;
+   justify-content: center;
 
    @include mobile-only {
       flex-direction: column;
@@ -253,26 +302,59 @@
 
    .btn-action {
       @include button-base;
-      @include button-size(sm);
-      font-size: font-size(xs);
+      padding: spacing(2) spacing(3);
+      font-size: font-size(lg);
+      font-weight: font-weight(medium);
+      border-radius: border-radius(md);
+      transition: all 0.3s ease;
+      min-width: 80px;
+      text-align: center;
+
+      @include mobile-only {
+         padding: spacing(2);
+         font-size: font-size(2xs);
+         min-width: auto;
+      }
+
+      &:hover {
+         transform: translateY(-2px);
+         box-shadow: shadow(md);
+      }
+
+      &:active {
+         transform: translateY(0);
+      }
 
       &.btn-user-detail {
-         background: linear-gradient(135deg, #fef2f2, #fee2e2);
-         color: #7f1d1d;
-         border: 1px solid #fca5a5;
+         background: linear-gradient(135deg, #8EC5FF, #155DFC);
+         color: color(white);
+         border: 1px solid #2563eb;
 
          &:hover {
-            background: linear-gradient(135deg, #fee2e2, #fecaca);
-            border-color: #f87171;
+            background: linear-gradient(135deg, #162456, #155DFC);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
          }
       }
 
       &.btn-update {
-         background: linear-gradient(135deg, #dc2626, #b91c1c);
+         background: linear-gradient(135deg, #7BF1A8, #2AA63E);
          color: color(white);
+         border: 1px solid #16a34a;
 
          &:hover {
-            background: linear-gradient(135deg, #b91c1c, #991b1b);
+            background: linear-gradient(135deg, #032E15, #2AA63E);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+         }
+      }
+
+      &.btn-delete {
+         background: linear-gradient(135deg, #FFA2A2, #E7180B);
+         color: color(white);
+         border: 1px solid #dc2626;
+
+         &:hover {
+            background: linear-gradient(135deg, #460809, #E7180B);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
          }
       }
    }
@@ -386,7 +468,6 @@
       tbody {
          tr {
             td {
-               color: color(gray-300);
                border-color: color(gray-700);
             }
 
@@ -398,8 +479,9 @@
    }
 
    .role-admin {
+      font-size: 1rem;
       background: linear-gradient(135deg, #7f1d1d, #991b1b);
-      color: #fca5a5;
+      color: #ffffff;
       border-color: #dc2626;
    }
 }

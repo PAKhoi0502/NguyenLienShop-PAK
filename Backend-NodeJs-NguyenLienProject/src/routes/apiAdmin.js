@@ -13,6 +13,7 @@ router.get('/dashboard-stats', verifyToken, isRole(1), dashboardController.handl
 router.get('/account-stats', verifyToken, isRole(1), dashboardController.handleGetAccountStats);
 router.get('/account-count-stats', verifyToken, isRole(1), dashboardController.handleGetAccountCountStats);
 router.get('/product-category-stats', verifyToken, isRole(1), dashboardController.handleGetProductCategoryStats);
+router.get('/homepage-stats', verifyToken, isRole(1), dashboardController.handleGetHomepageStats);
 
 // Count routes - Đếm số lượng sản phẩm/danh mục
 router.get('/product-count-by-category', verifyToken, isRole(1), countController.handleGetProductCountByCategoryId);

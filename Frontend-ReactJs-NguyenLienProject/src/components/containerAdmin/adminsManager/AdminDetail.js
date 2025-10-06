@@ -31,8 +31,16 @@ const AdminDetail = () => {
       navigate(`/admin/account-management/admin-management/admin-update/${id}`);
    };
 
-   if (loading) return <div className="admin-detail-loading">{intl.formatMessage({ id: 'body_admin.account_management.admin_manager.detail_admin.loading' })}</div>;
-   if (!user) return <div className="admin-detail-error">{intl.formatMessage({ id: 'body_admin.account_management.admin_manager.detail_admin.not_found' })}</div>;
+   if (loading) return (
+      <div className="admin-detail-loading">
+         <FormattedMessage id="body_admin.account_management.admin_manager.detail_admin.loading" defaultMessage="Đang tải dữ liệu..." />
+      </div>
+   )
+   if (!user) return (
+      <div className="admin-detail-error">
+         <FormattedMessage id="body_admin.account_management.admin_manager.detail_admin.not_found" defaultMessage="Không tìm thấy quản trị viên" />
+      </div>
+   );
 
    return (
       <div className="admin-detail-container">
@@ -48,17 +56,17 @@ const AdminDetail = () => {
             <div><strong><FormattedMessage id="body_admin.account_management.admin_manager.detail_admin.birthday" defaultMessage="Ngày sinh" />:</strong> {user.birthday || intl.formatMessage({ id: 'body_admin.account_management.admin_manager.detail_admin.empty' })}</div>
             <div><strong><FormattedMessage id="body_admin.account_management.admin_manager.detail_admin.gender" defaultMessage="Giới tính" />:</strong> {
                user.gender === 'M'
-                  ? intl.formatMessage({ id: 'body_admin.account_management.admin_manager.gender_admin.male' })
+                  ? intl.formatMessage({ id: 'body_admin.account_management.admin_manager.gender_admin.male', defaultMessage: 'Nam' })
                   : user.gender === 'F'
-                     ? intl.formatMessage({ id: 'body_admin.account_management.admin_manager.gender_admin.female' })
+                     ? intl.formatMessage({ id: 'body_admin.account_management.admin_manager.gender_admin.female', defaultMessage: 'Nữ' })
                      : user.gender === 'O'
-                        ? intl.formatMessage({ id: 'body_admin.account_management.admin_manager.gender_admin.other' })
-                        : intl.formatMessage({ id: 'body_admin.account_management.admin_manager.gender_admin.unselected' })
+                        ? intl.formatMessage({ id: 'body_admin.account_management.admin_manager.gender_admin.other', defaultMessage: 'Khác' })
+                        : intl.formatMessage({ id: 'body_admin.account_management.admin_manager.gender_admin.unselected', defaultMessage: 'Chưa chọn' })
             }</div>
             <div><strong><FormattedMessage id="body_admin.account_management.admin_manager.detail_admin.role" defaultMessage="Vai trò" />:</strong> {
                user.roleId === 1
-                  ? intl.formatMessage({ id: 'body_admin.account_management.admin_manager.role_admin.admin' })
-                  : intl.formatMessage({ id: 'body_admin.account_management.admin_manager.role_admin.user' })
+                  ? intl.formatMessage({ id: 'body_admin.account_management.admin_manager.role_admin.admin', defaultMessage: 'Quản trị viên' })
+                  : intl.formatMessage({ id: 'body_admin.account_management.admin_manager.role_admin.user', defaultMessage: 'Người dùng' })
             }</div>
          </div>
 

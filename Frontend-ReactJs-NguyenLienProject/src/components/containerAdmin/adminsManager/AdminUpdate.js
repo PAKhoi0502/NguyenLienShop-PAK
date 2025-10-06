@@ -84,6 +84,22 @@ const AdminUpdate = () => {
 
    const validate = () => {
       if (!id) return intl.formatMessage({ id: 'body_admin.account_management.admin_manager.update_admin.missing_id' });
+
+      // Validate userName
+      if (!form.userName || form.userName.trim().length === 0) {
+         return intl.formatMessage({ id: 'body_admin.account_management.admin_manager.update_admin.error.username_required', defaultMessage: 'Biệt danh là bắt buộc.' });
+      }
+
+      if (form.userName.trim().length <= 6) {
+         return intl.formatMessage({ id: 'body_admin.account_management.admin_manager.update_admin.error.username_too_short', defaultMessage: 'Biệt danh phải có ít nhất 6 ký tự.' });
+      }
+
+      // Check for special characters (only allow letters, numbers, underscore, hyphen)
+      const specialCharRegex = /[^a-zA-Z0-9_-]/;
+      if (specialCharRegex.test(form.userName.trim())) {
+         return intl.formatMessage({ id: 'body_admin.account_management.admin_manager.update_admin.error.username_special_chars', defaultMessage: 'Biệt danh không được chứa ký tự đặc biệt.' });
+      }
+
       return '';
    };
 
@@ -156,7 +172,7 @@ const AdminUpdate = () => {
                   name="userName"
                   value={form.userName}
                   onChange={handleChange}
-                  placeholder={intl.formatMessage({ id: 'body_admin.account_management.admin_manager.update_admin.username_placeholder' })}
+                  placeholder={intl.formatMessage({ id: 'body_admin.account_management.admin_manager.update_admin.username_placeholder', defaultMessage: 'Nhập biệt danh (trên 6 ký tự, không ký tự đặc biệt)' })}
                   disabled={loading}
                />
             </div>
@@ -235,7 +251,7 @@ const AdminUpdate = () => {
                <button
                   type="button"
                   className="btn-cancel"
-                  onClick={() => navigate('/admin/account-management/admin-management')}
+                  onClick={() => navigate(-1)}
                   disabled={loading}
                >
                   <FormattedMessage id="body_admin.account_management.admin_manager.update_admin.cancel" defaultMessage="Hủy" />

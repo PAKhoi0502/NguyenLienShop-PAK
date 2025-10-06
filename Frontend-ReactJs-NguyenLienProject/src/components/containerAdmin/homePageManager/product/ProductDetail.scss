@@ -319,13 +319,134 @@
 
       .card-footer {
          display: flex;
-         justify-content: space-between;
+         justify-content: center;
          align-items: center;
          gap: spacing(4);
          background: #f9fafb;
          padding: spacing(6);
          border-top: 1px solid #e5e7eb;
 
+         .action-buttons {
+            display: flex;
+            gap: spacing(4);
+            flex-wrap: wrap;
+            justify-content: center;
+
+            @include mobile-only {
+               flex-direction: column;
+               gap: spacing(3);
+               width: 100%;
+            }
+         }
+
+         .btn-action {
+            @include button-base;
+            padding: spacing(3) spacing(6);
+            font-size: font-size(sm);
+            font-weight: font-weight(semibold);
+            border-radius: border-radius(lg);
+            transition: all 0.3s ease;
+            min-width: 140px;
+            text-align: center;
+            cursor: pointer;
+
+            @include mobile-only {
+               padding: spacing(3) spacing(4);
+               font-size: font-size(xs);
+               min-width: auto;
+               width: 100%;
+            }
+
+            &:hover:not(:disabled) {
+               transform: translateY(-2px);
+               box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            }
+
+            &:active:not(:disabled) {
+               transform: translateY(0);
+            }
+
+            &:disabled {
+               opacity: 0.6;
+               cursor: not-allowed;
+               transform: none !important;
+               box-shadow: none !important;
+            }
+
+            // Activate button (Purple)
+            &.btn-activate {
+               background: linear-gradient(135deg, #C4B4FF, #9810FA);
+               color: color(white);
+               border: 1px solid #AD46FF;
+
+               &:hover:not(:disabled) {
+                  background: linear-gradient(135deg, #3C0366, #9810FA);
+                  box-shadow: 0 8px 24px rgba(196, 180, 255, 0.4);
+               }
+            }
+
+            // Deactivate button (Gray)
+            &.btn-deactivate {
+               background: linear-gradient(135deg, #6A7282, #314158);
+               color: color(white);
+               border: 1px solid #4b5563;
+
+               &:hover:not(:disabled) {
+                  background: linear-gradient(135deg, #020618, #314158);
+                  box-shadow: 0 8px 24px rgba(106, 114, 130, 0.4);
+               }
+            }
+
+            // Add Category button (Orange)
+            &.btn-add-category {
+               background: linear-gradient(135deg, #FFB86A, #F54927);
+               color: color(white);
+               border: 1px solid #ea580c;
+
+               &:hover:not(:disabled) {
+                  background: linear-gradient(135deg, #441306, #F54927);
+                  box-shadow: 0 8px 24px rgba(255, 184, 106, 0.4);
+               }
+            }
+
+            // Delete button (Red)
+            &.btn-delete {
+               background: linear-gradient(135deg, #FFA2A2, #E7180B);
+               color: color(white);
+               border: 1px solid #dc2626;
+
+               &:hover:not(:disabled) {
+                  background: linear-gradient(135deg, #460809, #E7180B);
+                  box-shadow: 0 8px 24px rgba(255, 162, 162, 0.4);
+               }
+            }
+
+            // Update button (Green)
+            &.btn-update {
+               background: linear-gradient(135deg, #7BF1A8, #2AA63E);
+               color: color(white);
+               border: 1px solid #16a34a;
+
+               &:hover:not(:disabled) {
+                  background: linear-gradient(135deg, #032E15, #2AA63E);
+                  box-shadow: 0 8px 24px rgba(123, 241, 168, 0.4);
+               }
+            }
+
+            // Back button (Blue)
+            &.btn-back {
+               background: linear-gradient(135deg, #8EC5FF, #155DFC);
+               color: color(white);
+               border: 1px solid #2563eb;
+
+               &:hover:not(:disabled) {
+                  background: linear-gradient(135deg, #162456, #155DFC);
+                  box-shadow: 0 8px 24px rgba(142, 197, 255, 0.4);
+               }
+            }
+         }
+
+         // Legacy button styles for backward compatibility
          .btn-edit {
             background: linear-gradient(135deg, #05DF72, #032E15);
             color: color(white);
@@ -611,6 +732,62 @@
          .card-footer {
             background: color(gray-700);
             border-top-color: color(gray-600);
+
+            .btn-action {
+               &.btn-activate {
+                  background: linear-gradient(135deg, #7c3aed, #5b21b6);
+                  border-color: #7c3aed;
+
+                  &:hover:not(:disabled) {
+                     background: linear-gradient(135deg, #4c1d95, #7c3aed);
+                  }
+               }
+
+               &.btn-deactivate {
+                  background: linear-gradient(135deg, #4b5563, #374151);
+                  border-color: #4b5563;
+
+                  &:hover:not(:disabled) {
+                     background: linear-gradient(135deg, #1f2937, #374151);
+                  }
+               }
+
+               &.btn-add-category {
+                  background: linear-gradient(135deg, #ea580c, #c2410c);
+                  border-color: #ea580c;
+
+                  &:hover:not(:disabled) {
+                     background: linear-gradient(135deg, #9a3412, #c2410c);
+                  }
+               }
+
+               &.btn-delete {
+                  background: linear-gradient(135deg, #dc2626, #b91c1c);
+                  border-color: #dc2626;
+
+                  &:hover:not(:disabled) {
+                     background: linear-gradient(135deg, #991b1b, #b91c1c);
+                  }
+               }
+
+               &.btn-update {
+                  background: linear-gradient(135deg, #16a34a, #15803d);
+                  border-color: #16a34a;
+
+                  &:hover:not(:disabled) {
+                     background: linear-gradient(135deg, #14532d, #15803d);
+                  }
+               }
+
+               &.btn-back {
+                  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+                  border-color: #2563eb;
+
+                  &:hover:not(:disabled) {
+                     background: linear-gradient(135deg, #1e40af, #1d4ed8);
+                  }
+               }
+            }
          }
       }
    }

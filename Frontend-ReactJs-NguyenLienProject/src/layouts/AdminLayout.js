@@ -15,16 +15,21 @@ const AdminLayout = ({ children }) => {
       const path = location.pathname;
       if (path.includes('dashboard') || path === '/admin') {
          return 'dashboard';
+      } else if (path.includes('admin-management')) {
+         return 'admin';
+      } else if (path.includes('user-management')) {
+         return 'user';
       } else if (path.includes('account-management')) {
          return 'account';
       } else if (path.includes('product-category-management')) {
          return 'product';
+      } else if (path.includes('banner-management')) {
+         return 'banner';
       } else if (path.includes('homepage-management')) {
          return 'homepage';
       }
       return 'dashboard'; // default
    };
-
 
    // Show loading while checking authentication
    if (isLoading) {

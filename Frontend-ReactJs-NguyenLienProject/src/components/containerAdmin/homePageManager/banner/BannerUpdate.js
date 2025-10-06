@@ -35,6 +35,12 @@ const BannerUpdate = () => {
    const handleSubmit = async (e) => {
       e.preventDefault();
 
+      // Validation
+      if (!banner.title.trim()) {
+         toast.error('Vui lòng nhập tiêu đề banner');
+         return;
+      }
+
       setLoading(true);
 
       try {

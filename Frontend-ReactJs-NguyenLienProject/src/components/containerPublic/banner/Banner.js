@@ -50,17 +50,31 @@ const Banner = () => {
    }, []);
 
    if (loading) {
-      return <div className="banner-container">{intl.formatMessage({ id: 'body_public.banner.loading', defaultMessage: 'Đang tải banner...' })}</div>;
+      return (
+         <div className="banner-container">
+            <div className="banner-loading">
+               {intl.formatMessage({ id: 'body_public.banner.loading', defaultMessage: 'Đang tải banner...' })}
+            </div>
+         </div>
+      );
    }
 
    if (error) {
-      return <div className="banner-container">{error}</div>;
+      return (
+         <div className="banner-container">
+            <div className="banner-error">
+               {error}
+            </div>
+         </div>
+      );
    }
 
    return (
       <div className="banner-container">
          {bannerList.length === 0 ? (
-            <p>{intl.formatMessage({ id: 'body_public.banner.no_active_banners', defaultMessage: 'Không có banner đang kích hoạt' })}</p>
+            <div className="banner-empty">
+               <p>{intl.formatMessage({ id: 'body_public.banner.no_active_banners', defaultMessage: 'Không có banner đang kích hoạt' })}</p>
+            </div>
          ) : (
             <Swiper
                modules={[Autoplay]}
@@ -76,8 +90,20 @@ const Banner = () => {
                         style={{
                            backgroundImage: `url(http://localhost:8080${item.imageUrl})`
                         }}
-
+                        onClick={() => {
+                           if (item.link) {
+                              window.open(item.link, '_blank');
+                           }
+                        }}
                      >
+                        {item.title && (
+                           <div className="banner-content">
+                              <h2 className="banner-title">{item.title}</h2>
+                              {item.subtitle && (
+                                 <p className="banner-subtitle">{item.subtitle}</p>
+                              )}
+                           </div>
+                        )}
                      </div>
                   </SwiperSlide>
                ))}

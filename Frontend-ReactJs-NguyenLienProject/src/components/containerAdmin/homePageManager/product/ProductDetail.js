@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { toast } from 'react-toastify';
-import { getProductById } from '../../../../services/productService.js';
+import Swal from 'sweetalert2';
+import { getProductById, deleteProduct, getActiveProducts } from '../../../../services/productService.js';
+import CustomToast from '../../../CustomToast';
 import './ProductDetail.scss';
 
 const ProductDetail = () => {
@@ -12,6 +14,22 @@ const ProductDetail = () => {
    const [product, setProduct] = useState(null);
    const [loading, setLoading] = useState(true);
    const [error, setError] = useState(null);
+   const [isUpdating, setIsUpdating] = useState(false);
+
+   const showToast = (type, message) => {
+      toast(
+         (props) => (
+            <CustomToast
+               {...props}
+               type={type}
+               titleId={type === 'error' ? 'body_admin.product_management.error_title' : 'body_admin.product_management.success_title'}
+               message={message}
+               time={new Date()}
+            />
+         ),
+         { closeButton: false, type }
+      );
+   };
 
    useEffect(() => {
       const fetchProduct = async () => {
@@ -61,7 +79,7 @@ const ProductDetail = () => {
 
    const handleEdit = () => {
       if (product?.isActive) {
-         toast.error(intl.formatMessage({
+         showToast('error', intl.formatMessage({
             id: 'body_admin.product_management.detail_product.update_blocked',
             defaultMessage: 'Vui lòng ẩn sản phẩm trước khi cập nhật',
          }));
@@ -69,6 +87,369 @@ const ProductDetail = () => {
       }
 
       navigate(`/admin/product-category-management/product-management/product-update/${id}`);
+   };
+
+   const handleToggleActive = async () => {
+      if (!product?.id) {
+         showToast('error', intl.formatMessage({
+            id: 'body_admin.product_management.detail_product.not_found',
+            defaultMessage: 'Sản phẩm không được tìm thấy'
+         }));
+         return;
+      }
+
+      const newActiveStatus = !product.isActive;
+      const actionText = newActiveStatus ? 'hiện' : 'ẩn';
+      const actionTextUpper = newActiveStatus ? 'HIỆN' : 'ẨN';
+
+      // Step 1: Basic confirmation
+      const confirmFirst = await Swal.fire({
+         title: intl.formatMessage({
+            id: `body_admin.product_management.detail_product.toggle_confirm_title_1`,
+            defaultMessage: `Xác nhận ${actionText} sản phẩm`
+         }),
+         html: `<strong>${product.nameProduct || intl.formatMessage({
+            id: 'body_admin.product_management.detail_product.no_name',
+            defaultMessage: 'Không có tên sản phẩm'
+         })}</strong><br>ID: ${product.id}<br><br>
+         <div style="color: ${newActiveStatus ? '#16a34a' : '#dc2626'}; font-weight: 600;">
+            ${newActiveStatus ? intl.formatMessage({
+            id: 'body_admin.product_management.detail_product.toggle_confirm_text_1',
+            defaultMessage: 'Sản phẩm sẽ được hiển thị trên trang chủ'
+         }) : intl.formatMessage({
+            id: 'body_admin.product_management.detail_product.toggle_confirm_text_2',
+            defaultMessage: 'Sản phẩm sẽ bị ẩn khỏi trang chủ'
+         })}
+         </div>`,
+         icon: newActiveStatus ? 'success' : 'warning',
+         showCancelButton: true,
+         confirmButtonText: intl.formatMessage({
+            id: 'body_admin.product_management.detail_product.toggle_confirm_button_1',
+            defaultMessage: 'Tiếp tục'
+         }),
+         cancelButtonText: intl.formatMessage({
+            id: 'body_admin.product_management.detail_product.cancel_button',
+            defaultMessage: 'Hủy'
+         })
+      });
+
+      if (!confirmFirst.isConfirmed) return;
+
+      // Step 2: Second confirmation
+      const confirmSecond = await Swal.fire({
+         title: intl.formatMessage({
+            id: `body_admin.product_management.detail_product.toggle_confirm_title_2`,
+            defaultMessage: `Bạn chắc chắn muốn ${actionText}?`
+         }),
+         text: intl.formatMessage({
+            id: `body_admin.product_management.detail_product.toggle_confirm_text_2`,
+            defaultMessage: newActiveStatus
+               ? 'Sản phẩm sẽ hiển thị cho tất cả khách hàng!'
+               : 'Sản phẩm sẽ bị ẩn khỏi trang chủ!'
+         }),
+         icon: newActiveStatus ? 'question' : 'warning',
+         showCancelButton: true,
+         confirmButtonText: intl.formatMessage({
+            id: `body_admin.product_management.detail_product.toggle_confirm_button_2`,
+            defaultMessage: newActiveStatus ? intl.formatMessage({
+               id: 'body_admin.product_management.detail_product.activate_button'
+            }) : intl.formatMessage({
+               id: 'body_admin.product_management.detail_product.deactivate_button'
+            })
+         }),
+         cancelButtonText: intl.formatMessage({
+            id: 'body_admin.product_management.detail_product.cancel_button',
+            defaultMessage: 'Hủy'
+         })
+      });
+
+      if (!confirmSecond.isConfirmed) return;
+
+      // Step 3: Text confirmation - Type exact phrase
+      const confirmText = await Swal.fire({
+         title: intl.formatMessage({
+            id: 'body_admin.product_management.detail_product.toggle_security_title',
+            defaultMessage: 'Xác nhận bảo mật'
+         }),
+         html: `
+            <div style="text-align: left; margin: 20px 0;">
+               <p style="margin-bottom: 15px; color: ${newActiveStatus ? '#16a34a' : '#ef4444'}; font-weight: 600;">
+                  ${intl.formatMessage({
+            id: `body_admin.product_management.detail_product.toggle_security_warning`,
+            defaultMessage: newActiveStatus
+               ? intl.formatMessage({
+                  id: 'body_admin.product_management.detail_product.toggle_security_warning_1_text',
+                  defaultMessage: 'Sản phẩm sẽ được hiển thị trên trang chủ!'
+               }) : intl.formatMessage({
+                  id: 'body_admin.product_management.detail_product.toggle_security_warning_2_text',
+                  defaultMessage: 'Sản phẩm sẽ bị ẩn khỏi trang chủ!'
+               })
+         })}
+               </p>
+               <p style="margin-bottom: 10px; color: #374151;">
+                  ${intl.formatMessage({
+            id: 'body_admin.product_management.detail_product.toggle_security_confirm_text',
+            defaultMessage: 'Sản phẩm'
+         })}: <strong style="color: #dc2626;">${product.nameProduct || intl.formatMessage({
+            id: 'body_admin.product_management.detail_product.no_name',
+            defaultMessage: intl.formatMessage({
+               id: 'body_admin.product_management.detail_product.no_name',
+               defaultMessage: 'Không có tên sản phẩm'
+            })
+         })}</strong>
+               </p>
+               <p style="margin-bottom: 15px; color: #374151;">
+                  ${intl.formatMessage({
+            id: 'body_admin.product_management.detail_product.toggle_security_type_exact',
+            defaultMessage: 'Nhập chính xác cụm từ'
+         })}: <code style="background: #f3f4f6; padding: 2px 6px; border-radius: 4px; color: #dc2626; font-weight: 600;">${actionTextUpper} SẢN PHẨM</code>
+               </p>
+            </div>
+         `,
+         input: 'text',
+         inputPlaceholder: intl.formatMessage({
+            id: 'body_admin.product_management.detail_product.toggle_security_placeholder',
+            defaultMessage: 'Nhập cụm từ xác nhận...'
+         }),
+         icon: newActiveStatus ? 'success' : 'warning',
+         showCancelButton: true,
+         confirmButtonText: intl.formatMessage({
+            id: 'body_admin.product_management.detail_product.toggle_security_continue',
+            defaultMessage: `Tiếp tục ${actionText}`
+         }),
+         cancelButtonText: intl.formatMessage({
+            id: 'body_admin.product_management.detail_product.cancel_button',
+            defaultMessage: 'Hủy'
+         }),
+         inputValidator: (value) => {
+            const expectedPhrase = `${actionTextUpper} SẢN PHẨM`;
+            if (value !== expectedPhrase) {
+               return intl.formatMessage({
+                  id: 'body_admin.product_management.detail_product.toggle_security_error',
+                  defaultMessage: intl.formatMessage({
+                     id: 'body_admin.product_management.detail_product.toggle_security_error_message',
+                     defaultMessage: 'Cụm từ không chính xác. Vui lòng nhập đúng cụm từ được yêu cầu.'
+                  })
+               });
+            }
+         },
+         customClass: {
+            popup: 'swal-toggle-step3',
+            input: 'swal-text-input'
+         }
+      });
+
+      if (!confirmText.isConfirmed) return;
+
+      setIsUpdating(true);
+      try {
+         const result = await getActiveProducts(product.id, newActiveStatus);
+
+         if (result.errCode === 0) {
+            setProduct({ ...product, isActive: newActiveStatus });
+            showToast('success',
+               result.errMessage || intl.formatMessage({
+                  id: `body_admin.product_management.detail_product.${newActiveStatus ? 'activated' : 'deactivated'}`,
+                  defaultMessage: newActiveStatus ? intl.formatMessage({
+                     id: 'body_admin.product_management.detail_product.activated',
+                     defaultMessage: 'Hiện sản phẩm thành công'
+                  }) : intl.formatMessage({
+                     id: 'body_admin.product_management.detail_product.deactivated',
+                     defaultMessage: 'Ẩn sản phẩm thành công'
+                  })
+               })
+            );
+         } else {
+            showToast('error', result.errMessage || intl.formatMessage({
+               id: `body_admin.product_management.detail_product.toggle_failed`,
+               defaultMessage: newActiveStatus ? intl.formatMessage({
+                  id: 'body_admin.product_management.detail_product.activated_failed',
+                  defaultMessage: 'Hiện sản phẩm thất bại'
+               }) : intl.formatMessage({
+                  id: 'body_admin.product_management.detail_product.deactivated_failed',
+                  defaultMessage: 'Ẩn sản phẩm thất bại'
+               })
+            }));
+         }
+      } catch (error) {
+         console.error('Toggle active error:', error);
+         showToast('error', intl.formatMessage({
+            id: 'body_admin.product_management.detail_product.toggle_error',
+            defaultMessage: intl.formatMessage({
+               id: 'body_admin.product_management.detail_product.toggle_error',
+               defaultMessage: 'Có lỗi xảy ra khi cập nhật trạng thái'
+            })
+         }));
+      } finally {
+         setIsUpdating(false);
+      }
+   };
+
+   const handleDelete = async () => {
+      if (!product || !product.id) {
+         showToast('error', intl.formatMessage({
+            id: 'body_admin.product_management.delete_product.not_found',
+            defaultMessage: 'Sản phẩm không được tìm thấy'
+         }));
+         return;
+      }
+
+      if (product.isActive) {
+         showToast('error', intl.formatMessage({
+            id: 'body_admin.product_management.delete_product.blocked_active',
+            defaultMessage: 'Không thể xóa sản phẩm đang hoạt động'
+         }));
+         return;
+      }
+
+      // Step 1: Basic confirmation
+      const confirmFirst = await Swal.fire({
+         title: intl.formatMessage({
+            id: 'body_admin.product_management.delete_product.confirm_title_1',
+            defaultMessage: 'Xác nhận xóa sản phẩm'
+         }),
+         html: `<strong>${product.nameProduct || intl.formatMessage({
+            id: 'body_admin.product_management.delete_product.no_name',
+            defaultMessage: 'Không có tên sản phẩm'
+         })}</strong><br>ID: ${product.id}`,
+         icon: 'warning',
+         showCancelButton: true,
+         confirmButtonText: intl.formatMessage({
+            id: 'body_admin.product_management.delete_product.confirm_button_1',
+            defaultMessage: 'Tiếp tục'
+         }),
+         cancelButtonText: intl.formatMessage({
+            id: 'body_admin.product_management.delete_product.cancel_button',
+            defaultMessage: 'Hủy'
+         })
+      });
+
+      if (!confirmFirst.isConfirmed) return;
+
+      // Step 2: Second confirmation
+      const confirmSecond = await Swal.fire({
+         title: intl.formatMessage({
+            id: 'body_admin.product_management.delete_product.confirm_title_2',
+            defaultMessage: 'Bạn chắc chắn muốn xóa?'
+         }),
+         text: intl.formatMessage({
+            id: 'body_admin.product_management.delete_product.confirm_text_2',
+            defaultMessage: 'Hành động này không thể hoàn tác!'
+         }),
+         icon: 'question',
+         showCancelButton: true,
+         confirmButtonText: intl.formatMessage({
+            id: 'body_admin.product_management.delete_product.confirm_button_2',
+            defaultMessage: 'Xóa'
+         }),
+         cancelButtonText: intl.formatMessage({
+            id: 'body_admin.product_management.delete_product.cancel_button',
+            defaultMessage: 'Hủy'
+         })
+      });
+
+      if (!confirmSecond.isConfirmed) return;
+
+      // Step 3: Text confirmation - Type exact phrase
+      const confirmText = await Swal.fire({
+         title: intl.formatMessage({
+            id: 'body_admin.product_management.delete_product.security_title',
+            defaultMessage: 'Xác nhận bảo mật'
+         }),
+         html: `
+            <div style="text-align: left; margin: 20px 0;">
+               <p style="margin-bottom: 15px; color: #ef4444; font-weight: 600;">
+                  ${intl.formatMessage({
+            id: 'body_admin.product_management.delete_product.security_warning',
+            defaultMessage: 'Cảnh báo: Hành động này sẽ xóa vĩnh viễn sản phẩm!'
+         })}
+               </p>
+               <p style="margin-bottom: 10px; color: #374151;">
+                  ${intl.formatMessage({
+            id: 'body_admin.product_management.delete_product.security_confirm_text',
+            defaultMessage: 'Sản phẩm cần xóa'
+         })}: <strong style="color: #dc2626;">${product.nameProduct || intl.formatMessage({
+            id: 'body_admin.product_management.delete_product.no_name',
+            defaultMessage: 'Không có tên sản phẩm'
+         })}</strong>
+               </p>
+               <p style="margin-bottom: 15px; color: #374151;">
+                  ${intl.formatMessage({
+            id: 'body_admin.product_management.delete_product.security_type_exact',
+            defaultMessage: 'Nhập chính xác cụm từ'
+         })}: <code style="background: #f3f4f6; padding: 2px 6px; border-radius: 4px; color: #dc2626; font-weight: 600;">${intl.formatMessage({
+            id: 'body_admin.product_management.delete_product.security_phrase',
+            defaultMessage: 'XÓA SẢN PHẨM'
+         })}</code>
+               </p>
+            </div>
+         `,
+         input: 'text',
+         inputPlaceholder: intl.formatMessage({
+            id: 'body_admin.product_management.delete_product.security_placeholder',
+            defaultMessage: 'Nhập cụm từ xác nhận...'
+         }),
+         icon: 'warning',
+         showCancelButton: true,
+         confirmButtonText: intl.formatMessage({
+            id: 'body_admin.product_management.delete_product.security_continue',
+            defaultMessage: 'Tiếp tục xóa'
+         }),
+         cancelButtonText: intl.formatMessage({
+            id: 'body_admin.product_management.delete_product.cancel_button',
+            defaultMessage: 'Hủy'
+         }),
+         inputValidator: (value) => {
+            const expectedPhrase = intl.formatMessage({
+               id: 'body_admin.product_management.delete_product.security_phrase',
+               defaultMessage: 'XÓA SẢN PHẨM'
+            });
+            if (value !== expectedPhrase) {
+               return intl.formatMessage({
+                  id: 'body_admin.product_management.delete_product.security_error',
+                  defaultMessage: 'Cụm từ không chính xác. Vui lòng nhập đúng cụm từ được yêu cầu.'
+               });
+            }
+         },
+         customClass: {
+            popup: 'swal-delete-step3',
+            input: 'swal-text-input'
+         }
+      });
+
+      if (!confirmText.isConfirmed) return;
+
+      setIsUpdating(true);
+      try {
+         const result = await deleteProduct(product.id);
+
+         if (result.errCode === 0) {
+            showToast('success',
+               result.errMessage || intl.formatMessage({
+                  id: 'body_admin.product_management.delete_product.success',
+                  defaultMessage: 'Xóa sản phẩm thành công'
+               })
+            );
+            setTimeout(() => navigate('/admin/product-category-management/product-management'), 1500);
+         } else {
+            showToast('error', result.errMessage || intl.formatMessage({
+               id: 'body_admin.product_management.delete_product.failed',
+               defaultMessage: 'Xóa sản phẩm thất bại'
+            }));
+         }
+      } catch (error) {
+         console.error('Delete product error:', error);
+         showToast('error', error.response?.data?.errMessage || intl.formatMessage({
+            id: 'body_admin.product_management.delete_product.error',
+            defaultMessage: 'Lỗi khi xóa sản phẩm'
+         }));
+      } finally {
+         setIsUpdating(false);
+      }
+   };
+
+   const handleManageCategories = () => {
+      navigate('/admin/product-category-management/product-management/info-category', { state: { productId: id } });
    };
 
    const handleCategoryClick = (categoryId) => {
@@ -299,12 +680,51 @@ const ProductDetail = () => {
             </div>
 
             <div className="card-footer">
-               <button className="btn-edit" onClick={handleEdit}>
-                  <FormattedMessage id="body_admin.product_management.detail_product.edit_button" defaultMessage="Cập nhật sản phẩm" />
-               </button>
-               <button className="btn-back" onClick={() => navigate(-1)}>
-                  <FormattedMessage id="body_admin.product_management.detail_product.back_button" defaultMessage="Quay lại" />
-               </button>
+               <div className="action-buttons">
+                  <button
+                     className={`btn-action ${product.isActive ? 'btn-deactivate' : 'btn-activate'}`}
+                     onClick={handleToggleActive}
+                     disabled={isUpdating}
+                  >
+                     {product.isActive ? (
+                        <FormattedMessage id="body_admin.product_management.detail_product.hide_product" defaultMessage="Ẩn sản phẩm" />
+                     ) : (
+                        <FormattedMessage id="body_admin.product_management.detail_product.show_product" defaultMessage="Hiện sản phẩm" />
+                     )}
+                  </button>
+
+                  <button
+                     className="btn-action btn-add-category"
+                     onClick={handleManageCategories}
+                     disabled={isUpdating}
+                  >
+                     <FormattedMessage id="body_admin.product_management.detail_product.manage_categories" defaultMessage="Quản lý danh mục" />
+                  </button>
+
+                  <button
+                     className="btn-action btn-delete"
+                     onClick={handleDelete}
+                     disabled={isUpdating}
+                  >
+                     <FormattedMessage id="body_admin.product_management.detail_product.delete_product" defaultMessage="Xóa sản phẩm" />
+                  </button>
+
+                  <button
+                     className="btn-action btn-update"
+                     onClick={handleEdit}
+                     disabled={isUpdating}
+                  >
+                     <FormattedMessage id="body_admin.product_management.detail_product.edit_button" defaultMessage="Cập nhật sản phẩm" />
+                  </button>
+
+                  <button
+                     className="btn-action btn-back"
+                     onClick={() => navigate(-1)}
+                     disabled={isUpdating}
+                  >
+                     <FormattedMessage id="body_admin.product_management.detail_product.back_button" defaultMessage="Quay lại" />
+                  </button>
+               </div>
             </div>
          </div>
       </div>

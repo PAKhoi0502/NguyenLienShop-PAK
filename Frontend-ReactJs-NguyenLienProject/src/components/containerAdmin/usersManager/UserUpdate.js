@@ -45,6 +45,22 @@ const UserUpdate = () => {
 
    const validate = () => {
       if (!id) return intl.formatMessage({ id: "body_admin.account_management.user_manager.update_user.error.missing_id" });
+
+      // Validate userName
+      if (!form.userName || form.userName.trim().length === 0) {
+         return intl.formatMessage({ id: "body_admin.account_management.user_manager.update_user.error.username_required", defaultMessage: "Biệt danh là bắt buộc." });
+      }
+
+      if (form.userName.trim().length <= 6) {
+         return intl.formatMessage({ id: "body_admin.account_management.user_manager.update_user.error.username_too_short", defaultMessage: "Biệt danh phải có ít nhất 6 ký tự." });
+      }
+
+      // Check for special characters (only allow letters, numbers, underscore, hyphen)
+      const specialCharRegex = /[^a-zA-Z0-9_-]/;
+      if (specialCharRegex.test(form.userName.trim())) {
+         return intl.formatMessage({ id: "body_admin.account_management.user_manager.update_user.error.username_special_chars", defaultMessage: "Biệt danh không được chứa ký tự đặc biệt." });
+      }
+
       return '';
    };
 
@@ -115,7 +131,7 @@ const UserUpdate = () => {
                   name="userName"
                   value={form.userName}
                   onChange={handleChange}
-                  placeholder={intl.formatMessage({ id: "body_admin.account_management.user_manager.update_user.placeholder.username", defaultMessage: "Nhập biệt danh" })}
+                  placeholder={intl.formatMessage({ id: "body_admin.account_management.user_manager.update_user.placeholder.username", defaultMessage: "Nhập biệt danh (trên 6 ký tự, không ký tự đặc biệt)" })}
                   disabled={loading}
                />
             </div>

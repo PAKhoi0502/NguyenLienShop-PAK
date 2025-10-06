@@ -96,13 +96,33 @@ export const getProductCategoryStats = async () => {
          }
       });
 
-
       if (response.data && response.data.errCode === 0) {
          return { errCode: 0, data: response.data.data };
       } else {
          return { errCode: -1, errMessage: 'Lỗi khi lấy thống kê sản phẩm và danh mục' };
       }
    } catch (error) {
+      console.error('getProductCategoryStats error:', error);
+      return { errCode: -1, errMessage: 'Lỗi kết nối server' };
+   }
+};
+
+// Lấy thống kê homepage (banner, etc.)
+export const getHomepageStats = async () => {
+   try {
+      const response = await instance.get('/api/admin/homepage-stats', {
+         headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+         }
+      });
+
+      if (response.data && response.data.errCode === 0) {
+         return { errCode: 0, data: response.data.data };
+      } else {
+         return { errCode: -1, errMessage: response.data?.errMessage || 'Lỗi khi lấy thống kê homepage' };
+      }
+   } catch (error) {
+      console.error('getHomepageStats error:', error);
       return { errCode: -1, errMessage: 'Lỗi kết nối server' };
    }
 };
@@ -111,7 +131,8 @@ const dashboardService = {
    getDashboardStats,
    getAccountStats,
    getAccountCountStats,
-   getProductCategoryStats
+   getProductCategoryStats,
+   getHomepageStats
 };
 
 export default dashboardService;

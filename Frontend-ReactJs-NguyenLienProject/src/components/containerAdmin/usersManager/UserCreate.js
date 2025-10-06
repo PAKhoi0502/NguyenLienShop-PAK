@@ -275,7 +275,7 @@ const UserCreate = () => {
                      <button
                         type="button"
                         className="btn-cancel"
-                        onClick={() => navigate('/admin/account-management/user-management')}
+                        onClick={() => navigate(-1)}
                         disabled={loading}
                      >
                         {intl.formatMessage({ id: 'body_admin.account_management.user_manager.create.cancel_button' })}

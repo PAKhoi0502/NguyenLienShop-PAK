@@ -1,6 +1,7 @@
 import { getProductsByCategoryId } from '../../../../services/categoryService';
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useIntl, FormattedMessage } from 'react-intl';
 import AddProduct from './AddProduct';
 import DeleteProduct from './DeleteProduct';
 import './InfoProduct.scss';
@@ -8,12 +9,19 @@ import './InfoProduct.scss';
 const InfoProduct = ({ categoryId: propCategoryId }) => {
    const location = useLocation();
    const navigate = useNavigate();
+   const intl = useIntl();
    const categoryId = propCategoryId || location.state?.categoryId;
    const [products, setProducts] = useState([]);
    const [loading, setLoading] = useState(true);
    const [error, setError] = useState(null);
    const [showAdd, setShowAdd] = useState(false);
    const [showDelete, setShowDelete] = useState(false);
+
+   const handleProductClick = (productId) => {
+      if (!productId) return;
+
+      navigate(`/admin/product-category-management/product-management/product-detail/${productId}`);
+   };
 
    useEffect(() => {
       const fetchProducts = async () => {
@@ -53,13 +61,28 @@ const InfoProduct = ({ categoryId: propCategoryId }) => {
          ) : error ? (
             <p className="error-message">{error}</p>
          ) : products && products.length > 0 ? (
-            <ul>
+            <ul className="products-list">
                {products.map((prod) => (
-                  <li key={prod.id}>
-                     <strong>{prod.nameProduct}</strong>
-                     {prod.description && <span> - {prod.description}</span>}
-                     {prod.price && <span> - Giá: {prod.price} VNĐ</span>}
-                     <span> - Trạng thái: {prod.isActive ? 'Hoạt động' : 'Không hoạt động'}</span>
+                  <li key={prod.id} className="product-item">
+                     <div className="product-info">
+                        <strong
+                           className="product-name-link"
+                           onClick={() => handleProductClick(prod.id)}
+                           title={intl.formatMessage({
+                              id: 'body_admin.category_management.info_product.click_to_detail',
+                              defaultMessage: 'Nhấp để xem chi tiết sản phẩm'
+                           })}
+                        >
+                           {prod.nameProduct}
+                        </strong>
+                        {prod.description && <span className="description"> - {prod.description}</span>}
+                        {prod.price && <span className="price"> - Giá: {prod.price.toLocaleString()} VNĐ</span>}
+                     </div>
+                     <div className="product-status">
+                        <span className={`status-badge ${prod.isActive ? 'active' : 'inactive'}`}>
+                           {prod.isActive ? 'Hoạt động' : 'Không hoạt động'}
+                        </span>
+                     </div>
                   </li>
                ))}
             </ul>
@@ -69,13 +92,13 @@ const InfoProduct = ({ categoryId: propCategoryId }) => {
 
          <div className="product-actions">
             <button className="btn btn-primary" onClick={() => setShowAdd(true)}>
-               Thêm sản phẩm
+               <FormattedMessage id="body_admin.category_management.info_product.add_product" defaultMessage="Thêm sản phẩm" />
             </button>
             <button className="btn btn-danger" onClick={() => setShowDelete(true)}>
-               Xóa sản phẩm
+               <FormattedMessage id="body_admin.category_management.info_product.delete_product" defaultMessage="Xóa sản phẩm" />
             </button>
             <button className="btn-back" onClick={() => navigate(-1)}>
-               Quay lại
+               <FormattedMessage id="body_admin.category_management.info_product.back" defaultMessage="Quay lại" />
             </button>
          </div>
 
@@ -84,7 +107,9 @@ const InfoProduct = ({ categoryId: propCategoryId }) => {
             <div className="modal-bg">
                <div className="modal-content">
                   <AddProduct />
-                  <button className="btn btn-secondary" onClick={() => setShowAdd(false)} >Đóng</button>
+                  <button className="btn btn-secondary" onClick={() => setShowAdd(false)}>
+                     <FormattedMessage id="body_admin.category_management.info_product.close" defaultMessage="Đóng" />
+                  </button>
                </div>
             </div>
          )}
@@ -92,7 +117,9 @@ const InfoProduct = ({ categoryId: propCategoryId }) => {
             <div className="modal-bg">
                <div className="modal-content">
                   <DeleteProduct />
-                  <button className="btn btn-secondary" onClick={() => setShowDelete(false)} >Đóng</button>
+                  <button className="btn btn-secondary" onClick={() => setShowDelete(false)}>
+                     <FormattedMessage id="body_admin.category_management.info_product.close" defaultMessage="Đóng" />
+                  </button>
                </div>
             </div>
          )}

@@ -119,6 +119,15 @@
          margin-bottom: 0;
       }
 
+      @include mobile-only {
+         flex-direction: column;
+         padding: spacing(3);
+
+         &:hover {
+            transform: none;
+         }
+      }
+
       strong {
          color: #1e3a8a;
          font-weight: font-weight(semibold);
@@ -391,28 +400,44 @@
       border-color: #2563eb;
 
       >div {
-         background: linear-gradient(135deg, color(gray-700), color(gray-600));
-         border-left-color: #3b82f6;
+         border-color: color(gray-700);
 
          &:hover {
-            background: linear-gradient(135deg, #1e3a8a, #1e40af);
+            background-color: #7f1d1d;
          }
 
          strong {
-            color: #93c5fd;
-
-            &::after {
-               background-color: color(gray-500);
-            }
+            color: #0ea5e9;
          }
 
-         span:not(strong) {
-            color: color(gray-200);
+         em {
+            background: linear-gradient(135deg, color(gray-700), color(gray-600));
+            border-color: color(gray-500);
+            color: color(gray-300);
+         }
+      }
 
-            &.missing-data,
-            &.hidden-data {
-               color: color(gray-400);
-            }
+      // ID field dark mode
+      >div:first-child {
+         background: linear-gradient(135deg, #7f1d1d, #991b1b);
+         border-color: #2563eb;
+
+         strong {
+            color: #0ea5e9;
+         }
+      }
+
+      // Role field dark mode
+      >div:last-child {
+         background: linear-gradient(135deg, color(gray-700), color(gray-600));
+         border-color: color(gray-500);
+
+         strong {
+            color: #10b981;
+         }
+
+         &:hover {
+            background: linear-gradient(135deg, color(gray-600), color(gray-500));
          }
       }
    }

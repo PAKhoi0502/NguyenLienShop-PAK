@@ -12,19 +12,38 @@ const BannerCreate = () => {
    const [subtitle, setSubtitle] = useState('');
    const [link, setLink] = useState('');
    const [image, setImage] = useState(null);
+   const [imagePreview, setImagePreview] = useState(null);
    const [loading, setLoading] = useState(false);
    const navigate = useNavigate();
    const intl = useIntl();
 
    const handleSubmit = async (e) => {
       e.preventDefault();
+
+      // Validation
+      if (!image) {
+         showToast("error", intl.formatMessage({
+            id: 'banner.create.no_image',
+            defaultMessage: 'Vui lòng chọn ảnh banner'
+         }));
+         return;
+      }
+
+      if (!title.trim()) {
+         showToast("error", intl.formatMessage({
+            id: 'banner.create.no_title',
+            defaultMessage: 'Vui lòng nhập tiêu đề banner'
+         }));
+         return;
+      }
+
       setLoading(true);
 
       const formData = new FormData();
       formData.append('image', image);
-      formData.append('title', title);
-      formData.append('subtitle', subtitle);
-      formData.append('link', link);
+      formData.append('title', title.trim());
+      formData.append('subtitle', subtitle.trim());
+      formData.append('link', link.trim());
       formData.append('isActive', 0);
 
       try {
@@ -44,7 +63,37 @@ const BannerCreate = () => {
    };
 
    const handleImageChange = (e) => {
-      setImage(e.target.files[0]);
+      const file = e.target.files[0];
+      if (file) {
+         // Validate file type
+         const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+         if (!allowedTypes.includes(file.type)) {
+            showToast("error", intl.formatMessage({
+               id: 'banner.create.invalid_file_type',
+               defaultMessage: 'Chỉ chấp nhận file ảnh (JPG, PNG, WebP)'
+            }));
+            return;
+         }
+
+         // Validate file size (max 5MB)
+         const maxSize = 5 * 1024 * 1024; // 5MB
+         if (file.size > maxSize) {
+            showToast("error", intl.formatMessage({
+               id: 'banner.create.file_too_large',
+               defaultMessage: 'Kích thước file không được vượt quá 5MB'
+            }));
+            return;
+         }
+
+         setImage(file);
+
+         // Create preview
+         const reader = new FileReader();
+         reader.onload = (e) => {
+            setImagePreview(e.target.result);
+         };
+         reader.readAsDataURL(file);
+      }
    };
 
    const showToast = (type, message) => {
@@ -91,6 +140,15 @@ const BannerCreate = () => {
                   onChange={handleImageChange}
                   required
                />
+               {imagePreview && (
+                  <div className="image-preview">
+                     <img
+                        src={imagePreview}
+                        alt="Preview"
+                        style={{ maxWidth: '300px', maxHeight: '200px', marginTop: '10px' }}
+                     />
+                  </div>
+               )}
             </div>
             <div className="form-group">
                <label><FormattedMessage id="banner.create.title_label" defaultMessage="Title:" /></label>

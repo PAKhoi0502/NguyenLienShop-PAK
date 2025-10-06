@@ -108,15 +108,15 @@ const UserManager = () => {
                <table className="user-table">
                   <thead>
                      <tr>
-                        <th>ID</th>
-                        <th><FormattedMessage id="body_admin.account_management.user_manager.username" defaultMessage="Tên người dùng" /></th>
-                        <th><FormattedMessage id="body_admin.account_management.user_manager.fullname" defaultMessage="Họ và tên" /></th>
-                        <th>Email</th>
-                        <th className="hide-mobile"><FormattedMessage id="body_admin.account_management.user_manager.phone" defaultMessage="Số điện thoại" /></th>
-                        <th className="hide-mobile"><FormattedMessage id="body_admin.account_management.user_manager.gender" defaultMessage="Giới tính" /></th>
-                        <th className="hide-mobile"><FormattedMessage id="body_admin.account_management.user_manager.birthday" defaultMessage="Ngày sinh" /></th>
-                        <th><FormattedMessage id="body_admin.account_management.user_manager.role" defaultMessage="Vai trò" /></th>
-                        <th><FormattedMessage id="body_admin.account_management.user_manager.actions" defaultMessage="Hành động" /></th>
+                        <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }}>ID</th>
+                        <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }}><FormattedMessage id="body_admin.account_management.user_manager.username" defaultMessage="Tên người dùng" /></th>
+                        <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }}><FormattedMessage id="body_admin.account_management.user_manager.fullname" defaultMessage="Họ và tên" /></th>
+                        <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }}>Email</th>
+                        <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }} className="hide-mobile"><FormattedMessage id="body_admin.account_management.user_manager.phone" defaultMessage="Số điện thoại" /></th>
+                        <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }} className="hide-mobile"><FormattedMessage id="body_admin.account_management.user_manager.gender" defaultMessage="Giới tính" /></th>
+                        <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }} className="hide-mobile"><FormattedMessage id="body_admin.account_management.user_manager.birthday" defaultMessage="Ngày sinh" /></th>
+                        <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }}><FormattedMessage id="body_admin.account_management.user_manager.role" defaultMessage="Vai trò" /></th>
+                        <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }}><FormattedMessage id="body_admin.account_management.user_manager.actions" defaultMessage="Hành động" /></th>
                      </tr>
                   </thead>
                   <tbody>
@@ -129,14 +129,26 @@ const UserManager = () => {
                      ) : (
                         filteredUsers.map(user => (
                            <tr key={user.id}>
-                              <td>{user.id}</td>
-                              <td className={user.userName ? "" : "cell-na"}>{user.userName || "N/A"}</td>
-                              <td className={user.fullName ? "" : "cell-na"}>{user.fullName || "N/A"}</td>
-                              <td className={user.email ? "" : "cell-na"}>{user.email || "N/A"}</td>
-                              <td className={user.phoneNumber ? "hide-mobile" : "hide-mobile cell-na"}>{user.phoneNumber || "N/A"}</td>
-                              <td className={user.gender ? "hide-mobile" : "hide-mobile cell-na"}>{user.gender || "N/A"}</td>
-                              <td className={user.birthday ? "hide-mobile" : "hide-mobile cell-na"}>{user.birthday || "N/A"}</td>
-                              <td>
+                              <td style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>{user.id}</td>
+                              <td style={{ fontSize: '1.1rem', fontWeight: 'bold' }} className={user.userName ? "" : "cell-na"}>{user.userName || "N/A"}</td>
+                              <td style={{ fontSize: '1.1rem', fontWeight: 'bold' }} className={user.fullName ? "" : "cell-na"}>{user.fullName || "N/A"}</td>
+                              <td style={{ fontSize: '1.1rem', fontWeight: 'bold' }} className={user.email ? "" : "cell-na"}>{user.email || "N/A"}</td>
+                              <td style={{ fontSize: '1.1rem', fontWeight: 'bold' }} className={user.phoneNumber ? "hide-mobile phone-number-cell" : "hide-mobile cell-na"}>
+                                 {user.phoneNumber ? (
+                                    <span
+                                       style={{ cursor: 'pointer' }}
+                                       onClick={() => handleGetUserProfile(user)}
+                                       title="Click để xem chi tiết"
+                                    >
+                                       {user.phoneNumber}
+                                    </span>
+                                 ) : (
+                                    "N/A"
+                                 )}
+                              </td>
+                              <td style={{ fontSize: '1.1rem', fontWeight: 'bold' }} className={user.gender ? "hide-mobile" : "hide-mobile cell-na"}>{user.gender || "N/A"}</td>
+                              <td style={{ fontSize: '1.1rem', fontWeight: 'bold' }} className={user.birthday ? "hide-mobile" : "hide-mobile cell-na"}>{user.birthday || "N/A"}</td>
+                              <td style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>
                                  <span className={user.roleId === 1 ? "role-admin" : "role-user"}>
                                     {user.roleId === 1
                                        ? intl.formatMessage({ id: 'body_admin.account_management.user_manager.role.admin' })

@@ -177,6 +177,26 @@
                margin-bottom: spacing(1);
             }
 
+            .category-name-link {
+               color: #2563eb;
+               text-decoration: underline;
+               cursor: pointer;
+               transition: all 0.3s ease;
+               font-weight: font-weight(semibold);
+
+               &:hover {
+                  color: #1d4ed8;
+                  text-decoration: none;
+                  transform: translateY(-1px);
+                  text-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+               }
+
+               &:active {
+                  transform: translateY(0);
+                  color: #1e40af;
+               }
+            }
+
             .description {
                color: #6b7280;
                font-size: font-size(sm);
@@ -477,6 +497,19 @@
             .category-info {
                strong {
                   color: #bbf7d0;
+               }
+
+               .category-name-link {
+                  color: #60a5fa;
+
+                  &:hover {
+                     color: #93c5fd;
+                     text-shadow: 0 2px 4px rgba(96, 165, 250, 0.3);
+                  }
+
+                  &:active {
+                     color: #3b82f6;
+                  }
                }
 
                .description {
