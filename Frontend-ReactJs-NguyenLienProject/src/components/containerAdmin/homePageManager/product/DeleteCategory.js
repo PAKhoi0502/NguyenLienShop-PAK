@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
+import Swal from 'sweetalert2';
 import CustomToast from '../../../../components/CustomToast';
 import HintBox from '../../../../components/HintBox';
 import { toast } from 'react-toastify';
@@ -11,7 +12,8 @@ const DeleteCategory = () => {
    const navigate = useNavigate();
    const location = useLocation();
    const intl = useIntl();
-   const productId = location.state?.productId;
+   const { id } = useParams();
+   const productId = id || location.state?.productId;
    const [categories, setCategories] = useState([]);
    const [selectedCategories, setSelectedCategories] = useState([]);
    const [loading, setLoading] = useState(false);
@@ -44,6 +46,73 @@ const DeleteCategory = () => {
          toast(<CustomToast type="error" message={intl.formatMessage({ id: 'body_admin.product_management.delete_category_of_product.select_at_least_one', defaultMessage: 'Vui lòng chọn ít nhất một danh mục để xóa' })} time={new Date()} />);
          return;
       }
+
+      // Get selected category names for display
+      const selectedCategoryNames = categories
+         .filter(cat => selectedCategories.includes(cat.id))
+         .map(cat => cat.nameCategory)
+         .join(', ');
+
+      // Step 1: Initial Confirmation
+      const confirmFirst = await Swal.fire({
+         title: intl.formatMessage({ id: 'body_admin.product_management.delete_category_of_product.confirm_title_1', defaultMessage: 'Xác nhận xóa danh mục khỏi sản phẩm' }),
+         html: `<strong>Danh mục được chọn:</strong> ${selectedCategoryNames}<br><strong>Số lượng:</strong> ${selectedCategories.length} danh mục`,
+         icon: 'warning',
+         showCancelButton: true,
+         confirmButtonText: intl.formatMessage({ id: 'body_admin.product_management.delete_category_of_product.confirm_button_1', defaultMessage: 'Tiếp tục' }),
+         cancelButtonText: intl.formatMessage({ id: 'body_admin.product_management.delete_category_of_product.cancel_button', defaultMessage: 'Hủy' })
+      });
+
+      if (!confirmFirst.isConfirmed) return;
+
+      // Step 2: Secondary Confirmation
+      const confirmSecond = await Swal.fire({
+         title: intl.formatMessage({ id: 'body_admin.product_management.delete_category_of_product.confirm_title_2', defaultMessage: 'Bạn chắc chắn muốn xóa?' }),
+         text: intl.formatMessage({ id: 'body_admin.product_management.delete_category_of_product.confirm_text_2', defaultMessage: 'Các danh mục sẽ được gỡ bỏ khỏi sản phẩm này!' }),
+         icon: 'question',
+         showCancelButton: true,
+         confirmButtonText: intl.formatMessage({ id: 'body_admin.product_management.delete_category_of_product.confirm_button_2', defaultMessage: 'Xóa' }),
+         cancelButtonText: intl.formatMessage({ id: 'body_admin.product_management.delete_category_of_product.cancel_button', defaultMessage: 'Hủy' })
+      });
+
+      if (!confirmSecond.isConfirmed) return;
+
+      // Step 3: Text confirmation - Type exact phrase
+      const confirmText = await Swal.fire({
+         title: intl.formatMessage({ id: 'body_admin.product_management.delete_category_of_product.security_title', defaultMessage: 'Xác nhận bảo mật' }),
+         html: `
+            <div style="text-align: left; margin: 20px 0;">
+               <p style="margin-bottom: 15px; color: #ef4444; font-weight: 600;">
+                  ${intl.formatMessage({ id: 'body_admin.product_management.delete_category_of_product.security_warning', defaultMessage: 'Cảnh báo: Hành động này sẽ gỡ bỏ danh mục khỏi sản phẩm!' })}
+               </p>
+               <p style="margin-bottom: 10px; color: #374151;">
+                  ${intl.formatMessage({ id: 'body_admin.product_management.delete_category_of_product.security_confirm_text', defaultMessage: 'Danh mục sẽ được xóa' })}: <strong style="color: #dc2626;">${selectedCategoryNames}</strong>
+               </p>
+               <p style="margin-bottom: 15px; color: #374151;">
+                  ${intl.formatMessage({ id: 'body_admin.product_management.delete_category_of_product.security_type_exact', defaultMessage: 'Nhập chính xác cụm từ' })}: <code style="background: #f3f4f6; padding: 2px 6px; border-radius: 4px; color: #dc2626; font-weight: 600;">${intl.formatMessage({ id: 'body_admin.product_management.delete_category_of_product.security_phrase', defaultMessage: 'XÓA DANH MỤC KHỎI SẢN PHẨM' })}</code>
+               </p>
+            </div>
+         `,
+         input: 'text',
+         inputPlaceholder: intl.formatMessage({ id: 'body_admin.product_management.delete_category_of_product.security_placeholder', defaultMessage: 'Nhập cụm từ xác nhận...' }),
+         icon: 'warning',
+         showCancelButton: true,
+         confirmButtonText: intl.formatMessage({ id: 'body_admin.product_management.delete_category_of_product.security_continue', defaultMessage: 'Tiếp tục xóa' }),
+         cancelButtonText: intl.formatMessage({ id: 'body_admin.product_management.delete_category_of_product.cancel_button', defaultMessage: 'Hủy' }),
+         inputValidator: (value) => {
+            const expectedPhrase = intl.formatMessage({ id: 'body_admin.product_management.delete_category_of_product.security_phrase', defaultMessage: 'XÓA DANH MỤC KHỎI SẢN PHẨM' });
+            if (value !== expectedPhrase) {
+               return intl.formatMessage({ id: 'body_admin.product_management.delete_category_of_product.security_error', defaultMessage: 'Cụm từ không chính xác. Vui lòng nhập đúng cụm từ được yêu cầu.' });
+            }
+         },
+         customClass: {
+            popup: 'swal-delete-step3',
+            input: 'swal-text-input'
+         }
+      });
+
+      if (!confirmText.isConfirmed) return;
+
       setLoading(true);
       try {
          const res = await deleteCategoryForProduct(productId, selectedCategories);
@@ -62,7 +131,7 @@ const DeleteCategory = () => {
    };
 
    return (
-      <div className="add-product-category admin-page">
+      <div className="delete-product-category admin-page">
          <HintBox
             content={
                <div>

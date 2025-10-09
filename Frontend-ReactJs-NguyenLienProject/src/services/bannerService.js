@@ -25,6 +25,29 @@ export const getAllBanners = async () => {
    return res.data;
 };
 
+export const getBannerById = async (id) => {
+   try {
+      const res = await instance.get(`/api/admin/banner/${id}`);
+      if (res.data && res.data.errCode === 0) {
+         return { errCode: 0, banner: res.data.banner };
+      } else {
+         return { errCode: -1, errMessage: res.data?.errMessage || 'Không thể lấy thông tin banner' };
+      }
+   } catch (err) {
+      console.error('getBannerById error:', err);
+      const errorMessage = err?.response?.data?.errMessage || 'Lỗi khi lấy thông tin banner';
+      const errorStatus = err?.response?.status || 500;
+
+      if (errorStatus === 404) {
+         return { errCode: 404, errMessage: 'Không tìm thấy banner.' };
+      }
+      if (errorStatus === 403) {
+         return { errCode: 403, errMessage: 'Bạn không có quyền xem thông tin banner.' };
+      }
+      return { errCode: -1, errMessage: errorMessage };
+   }
+};
+
 export const getActiveBanners = async () => {
    try {
       const res = await instance.get('/api/admin/banner-active');

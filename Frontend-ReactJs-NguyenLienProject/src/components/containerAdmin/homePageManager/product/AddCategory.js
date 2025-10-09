@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
+import Swal from 'sweetalert2';
 import CustomToast from '../../../../components/CustomToast';
 import HintBox from '../../../../components/HintBox';
 import { toast } from 'react-toastify';
@@ -11,7 +12,8 @@ const AddCategory = () => {
    const navigate = useNavigate();
    const location = useLocation();
    const intl = useIntl();
-   const productId = location.state?.productId;
+   const { id } = useParams();
+   const productId = id || location.state?.productId;
    const [availableCategories, setAvailableCategories] = useState([]);
    const [existingCategoryIds, setExistingCategoryIds] = useState([]);
    const [selectedCategories, setSelectedCategories] = useState([]);
@@ -89,6 +91,72 @@ const AddCategory = () => {
          return;
       }
 
+      // Get selected category names for display
+      const selectedCategoryNames = availableCategories
+         .filter(cat => selectedCategories.includes(cat.id))
+         .map(cat => cat.nameCategory)
+         .join(', ');
+
+      // Step 1: Initial Confirmation
+      const confirmFirst = await Swal.fire({
+         title: intl.formatMessage({ id: 'body_admin.product_management.add_category_of_product.confirm_title_1', defaultMessage: 'Xác nhận thêm danh mục vào sản phẩm' }),
+         html: `<strong>${intl.formatMessage({ id: 'body_admin.product_management.add_category_of_product.confirm_text_1', defaultMessage: 'Danh mục được chọn:' })}</strong> ${selectedCategoryNames}<br><strong>${intl.formatMessage({ id: 'body_admin.product_management.add_category_of_product.confirm_text_2', defaultMessage: 'Số lượng:' })}</strong> ${selectedCategories.length} ${intl.formatMessage({ id: 'body_admin.product_management.add_category_of_product.confirm_text_3', defaultMessage: 'danh mục' })}`,
+         icon: 'warning',
+         showCancelButton: true,
+         confirmButtonText: intl.formatMessage({ id: 'body_admin.product_management.add_category_of_product.confirm_button_1', defaultMessage: 'Tiếp tục' }),
+         cancelButtonText: intl.formatMessage({ id: 'body_admin.product_management.add_category_of_product.cancel_button', defaultMessage: 'Hủy' })
+      });
+
+      if (!confirmFirst.isConfirmed) return;
+
+      // Step 2: Secondary Confirmation
+      const confirmSecond = await Swal.fire({
+         title: intl.formatMessage({ id: 'body_admin.product_management.add_category_of_product.confirm_title_2', defaultMessage: 'Bạn chắc chắn muốn thêm?' }),
+         text: intl.formatMessage({ id: 'body_admin.product_management.add_category_of_product.confirm_text_3', defaultMessage: 'Các danh mục sẽ được thêm vào sản phẩm này!' }),
+         icon: 'question',
+         showCancelButton: true,
+         confirmButtonText: intl.formatMessage({ id: 'body_admin.product_management.add_category_of_product.confirm_button_2', defaultMessage: 'Thêm' }),
+         cancelButtonText: intl.formatMessage({ id: 'body_admin.product_management.add_category_of_product.cancel_button', defaultMessage: 'Hủy' })
+      });
+
+      if (!confirmSecond.isConfirmed) return;
+
+      // Step 3: Text confirmation - Type exact phrase
+      const confirmText = await Swal.fire({
+         title: intl.formatMessage({ id: 'body_admin.product_management.add_category_of_product.security_title', defaultMessage: 'Xác nhận bảo mật' }),
+         html: `
+            <div style="text-align: left; margin: 20px 0;">
+               <p style="margin-bottom: 15px; color: #ef4444; font-weight: 600;">
+                  ${intl.formatMessage({ id: 'body_admin.product_management.add_category_of_product.security_warning', defaultMessage: 'Cảnh báo: Hành động này sẽ thêm danh mục vào sản phẩm!' })}
+               </p>
+               <p style="margin-bottom: 10px; color: #374151;">
+                  ${intl.formatMessage({ id: 'body_admin.product_management.add_category_of_product.security_confirm_text', defaultMessage: 'Danh mục sẽ được thêm' })}: <strong style="color: #dc2626;">${selectedCategoryNames}</strong>
+               </p>
+               <p style="margin-bottom: 15px; color: #374151;">
+                  ${intl.formatMessage({ id: 'body_admin.product_management.add_category_of_product.security_type_exact', defaultMessage: 'Nhập chính xác cụm từ' })}: <code style="background: #f3f4f6; padding: 2px 6px; border-radius: 4px; color: #dc2626; font-weight: 600;">${intl.formatMessage({ id: 'body_admin.product_management.add_category_of_product.security_phrase', defaultMessage: 'THÊM DANH MỤC VÀO SẢN PHẨM' })}</code>
+               </p>
+            </div>
+         `,
+         input: 'text',
+         inputPlaceholder: intl.formatMessage({ id: 'body_admin.product_management.add_category_of_product.security_placeholder', defaultMessage: 'Nhập cụm từ xác nhận...' }),
+         icon: 'warning',
+         showCancelButton: true,
+         confirmButtonText: intl.formatMessage({ id: 'body_admin.product_management.add_category_of_product.security_continue', defaultMessage: 'Tiếp tục thêm' }),
+         cancelButtonText: intl.formatMessage({ id: 'body_admin.product_management.add_category_of_product.cancel_button', defaultMessage: 'Hủy' }),
+         inputValidator: (value) => {
+            const expectedPhrase = intl.formatMessage({ id: 'body_admin.product_management.add_category_of_product.security_phrase', defaultMessage: 'THÊM DANH MỤC VÀO SẢN PHẨM' });
+            if (value !== expectedPhrase) {
+               return intl.formatMessage({ id: 'body_admin.product_management.add_category_of_product.security_error', defaultMessage: 'Cụm từ không chính xác. Vui lòng nhập đúng cụm từ được yêu cầu.' });
+            }
+         },
+         customClass: {
+            popup: 'swal-add-step3',
+            input: 'swal-text-input'
+         }
+      });
+
+      if (!confirmText.isConfirmed) return;
+
       setLoading(true);
 
       try {
@@ -123,7 +191,7 @@ const AddCategory = () => {
    };
 
    return (
-      <div className="add-product-category admin-page">
+      <div className="add-product-category-component admin-page">
          <HintBox
             content={
                <div>

@@ -16,8 +16,8 @@ const BannerActive = ({ banner, onSuccess }) => {
                type={type}
                titleId={intl.formatMessage({
                   id: type === "success"
-                     ? "banner.activate.activate_success_title"
-                     : "banner.activate.activate_error_title"
+                     ? "body_admin.banner.activate.activate_success_title"
+                     : "body_admin.banner.activate.activate_error_title"
                })}
                message={message}
                time={new Date()}
@@ -35,23 +35,23 @@ const BannerActive = ({ banner, onSuccess }) => {
 
       if (banner.isActive) {
          const confirmFirst = await Swal.fire({
-            title: intl.formatMessage({ id: 'banner.deactivate.confirm_title_1' }),
-            html: `<strong>${banner.title || intl.formatMessage({ id: 'banner.deactivate.no_title' })} (${banner.subtitle || 'N/A'})</strong><br>ID: ${banner.id}`,
+            title: intl.formatMessage({ id: 'body_admin.banner.deactivate.confirm_title_1' }),
+            html: `<strong>${banner.title || intl.formatMessage({ id: 'body_admin.banner.deactivate.no_title' })} (${banner.subtitle || 'N/A'})</strong><br>ID: ${banner.id}`,
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: intl.formatMessage({ id: 'banner.deactivate.confirm_button_1' }),
-            cancelButtonText: intl.formatMessage({ id: 'admin.delete.cancel_button' })
+            confirmButtonText: intl.formatMessage({ id: 'body_admin.banner.deactivate.confirm_button_1' }),
+            cancelButtonText: intl.formatMessage({ id: 'body_admin.banner.deactivate.cancel_button' })
          });
 
          if (!confirmFirst.isConfirmed) return;
 
          const confirmSecond = await Swal.fire({
-            title: intl.formatMessage({ id: 'banner.deactivate.confirm_title_2' }),
-            text: intl.formatMessage({ id: 'banner.deactivate.confirm_text_2' }),
+            title: intl.formatMessage({ id: 'body_admin.banner.deactivate.confirm_title_2' }),
+            text: intl.formatMessage({ id: 'body_admin.banner.deactivate.confirm_text_2' }),
             icon: 'question',
             showCancelButton: true,
-            confirmButtonText: intl.formatMessage({ id: 'banner.deactivate.confirm_button_2' }),
-            cancelButtonText: intl.formatMessage({ id: 'admin.delete.cancel_button' })
+            confirmButtonText: intl.formatMessage({ id: 'body_admin.banner.deactivate.confirm_button_2' }),
+            cancelButtonText: intl.formatMessage({ id: 'body_admin.banner.deactivate.cancel_button' })
          });
 
          if (!confirmSecond.isConfirmed) return;
@@ -67,41 +67,41 @@ const BannerActive = ({ banner, onSuccess }) => {
             });
 
             if (res.errCode === 0) {
-               showToast("success", res.errMessage || intl.formatMessage({ id: 'banner.deactivate.success' }));
+               showToast("success", res.errMessage || intl.formatMessage({ id: 'body_admin.banner.deactivate.success' }));
                if (typeof onSuccess === 'function') {
                   onSuccess(banner.id, { ...banner, isActive: false, order: 0 });
                }
             } else {
-               showToast("error", res.errMessage || intl.formatMessage({ id: 'banner.deactivate.failed' }));
+               showToast("error", res.errMessage || intl.formatMessage({ id: 'body_admin.banner.deactivate.failed' }));
             }
          } catch (error) {
             console.error('Deactivate error:', error);
-            showToast("error", error.errMessage || intl.formatMessage({ id: 'banner.deactivate.error' }));
+            showToast("error", error.errMessage || intl.formatMessage({ id: 'body_admin.banner.deactivate.error' }));
          }
       } else {
          // Xác nhận bật banner và nhập số thứ tự
          const { value: order } = await Swal.fire({
-            title: intl.formatMessage({ id: 'banner.activate.confirm_title_1' }),
-            html: `<strong>${banner.title || intl.formatMessage({ id: 'banner.activate.no_title' })} (${banner.subtitle || 'N/A'})</strong><br>ID: ${banner.id}<br><br>
-                   ${intl.formatMessage({ id: 'banner.activate.order_input' })}`,
+            title: intl.formatMessage({ id: 'body_admin.banner.activate.confirm_title_1' }),
+            html: `<strong>${banner.title || intl.formatMessage({ id: 'body_admin.banner.activate.no_title' })} (${banner.subtitle || 'N/A'})</strong><br>ID: ${banner.id}<br><br>
+                   ${intl.formatMessage({ id: 'body_admin.banner.activate.order_input' })}`,
             input: 'number',
-            inputLabel: intl.formatMessage({ id: 'banner.activate.order_label' }),
-            inputPlaceholder: intl.formatMessage({ id: 'banner.activate.order_placeholder' }),
+            inputLabel: intl.formatMessage({ id: 'body_admin.banner.activate.order_label' }),
+            inputPlaceholder: intl.formatMessage({ id: 'body_admin.banner.activate.order_placeholder' }),
             inputAttributes: { min: 1, step: 1 },
             showCancelButton: true,
-            confirmButtonText: intl.formatMessage({ id: 'banner.activate.confirm_button_1' }),
-            cancelButtonText: intl.formatMessage({ id: 'admin.delete.cancel_button' }),
+            confirmButtonText: intl.formatMessage({ id: 'body_admin.banner.activate.confirm_button_1' }),
+            cancelButtonText: intl.formatMessage({ id: 'body_admin.banner.deactivate.cancel_button' }),
             inputValidator: async (value) => {
                if (!value || value <= 0) {
-                  return intl.formatMessage({ id: 'banner.activate.order_invalid' });
+                  return intl.formatMessage({ id: 'body_admin.banner.activate.order_invalid' });
                }
                try {
                   const activeBanners = await getActiveBanners();
                   if (activeBanners.some(b => b.order === parseInt(value))) {
-                     return intl.formatMessage({ id: 'banner.activate.order_duplicate' });
+                     return intl.formatMessage({ id: 'body_admin.banner.activate.order_duplicate' });
                   }
                } catch (error) {
-                  return intl.formatMessage({ id: 'banner.activate.order_error' });
+                  return intl.formatMessage({ id: 'body_admin.banner.activate.order_error' });
                }
             }
          });
@@ -119,16 +119,16 @@ const BannerActive = ({ banner, onSuccess }) => {
             });
 
             if (res.errCode === 0) {
-               showToast("success", res.errMessage || intl.formatMessage({ id: 'banner.activate.success' }));
+               showToast("success", res.errMessage || intl.formatMessage({ id: 'body_admin.banner.activate.success' }));
                if (typeof onSuccess === 'function') {
                   onSuccess(banner.id, { ...banner, isActive: true, order: parseInt(order) });
                }
             } else {
-               showToast("error", res.errMessage || intl.formatMessage({ id: 'banner.activate.failed' }));
+               showToast("error", res.errMessage || intl.formatMessage({ id: 'body_admin.banner.activate.failed' }));
             }
          } catch (error) {
             console.error('Activate error:', error);
-            showToast("error", error.errMessage || intl.formatMessage({ id: 'banner.activate.error' }));
+            showToast("error", error.errMessage || intl.formatMessage({ id: 'body_admin.banner.activate.error' }));
          }
       }
    };
@@ -140,8 +140,8 @@ const BannerActive = ({ banner, onSuccess }) => {
             onClick={handleToggleActive}
          >
             {banner.isActive
-               ? intl.formatMessage({ id: 'banner.deactivate.button' })
-               : intl.formatMessage({ id: 'banner.activate.button' })}
+               ? intl.formatMessage({ id: 'body_admin.banner.deactivate.button' })
+               : intl.formatMessage({ id: 'body_admin.banner.activate.button' })}
          </button>
       </div>
    );

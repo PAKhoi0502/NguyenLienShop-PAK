@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useIntl, FormattedMessage } from 'react-intl';
+import Swal from 'sweetalert2';
 import { getProductById, updateProduct } from '../../../../services/productService.js';
 import CustomToast from '../../../../components/CustomToast';
 import HintBox from '../../../../components/HintBox';
@@ -89,12 +90,10 @@ const ProductUpdate = () => {
 
    const handleSubmit = async (e) => {
       e.preventDefault();
-      setLoading(true);
 
       // Kiểm tra dữ liệu bắt buộc
       if (!nameProduct || !price || !stock) {
          showToast('error', intl.formatMessage({ id: 'body_admin.product_management.update_product.missing_fields', defaultMessage: 'Vui lòng nhập đầy đủ các trường bắt buộc (tên, giá, số lượng tồn kho)' }));
-         setLoading(false);
          return;
       }
 
@@ -102,7 +101,6 @@ const ProductUpdate = () => {
       const priceValue = parseFloat(price);
       if (isNaN(priceValue) || priceValue <= 0) {
          showToast('error', intl.formatMessage({ id: 'body_admin.product_management.update_product.price_invalid', defaultMessage: 'Giá sản phẩm phải lớn hơn 0' }));
-         setLoading(false);
          return;
       }
 
@@ -111,12 +109,10 @@ const ProductUpdate = () => {
          const discountValue = parseFloat(discountPrice);
          if (isNaN(discountValue) || discountValue < 0) {
             showToast('error', intl.formatMessage({ id: 'body_admin.product_management.update_product.discount_invalid', defaultMessage: 'Giá khuyến mãi phải lớn hơn hoặc bằng 0' }));
-            setLoading(false);
             return;
          }
          if (discountValue >= priceValue) {
             showToast('error', intl.formatMessage({ id: 'body_admin.product_management.update_product.discount_higher', defaultMessage: 'Giá khuyến mãi phải nhỏ hơn giá gốc' }));
-            setLoading(false);
             return;
          }
       }
@@ -125,9 +121,70 @@ const ProductUpdate = () => {
       const stockValue = parseInt(stock);
       if (isNaN(stockValue) || stockValue < 0 || !Number.isInteger(parseFloat(stock))) {
          showToast('error', intl.formatMessage({ id: 'body_admin.product_management.update_product.stock_invalid', defaultMessage: 'Số lượng tồn kho phải là số nguyên dương' }));
-         setLoading(false);
          return;
       }
+
+      // Step 1: Initial Confirmation
+      const confirmFirst = await Swal.fire({
+         title: intl.formatMessage({ id: 'body_admin.product_management.update_product.confirm_title_1', defaultMessage: 'Xác nhận cập nhật sản phẩm' }),
+         html: `<strong>${nameProduct || intl.formatMessage({ id: 'body_admin.product_management.update_product.no_product_name', defaultMessage: 'Không có tên sản phẩm' })}</strong><br>ID: ${id}`,
+         icon: 'warning',
+         showCancelButton: true,
+         confirmButtonText: intl.formatMessage({ id: 'body_admin.product_management.update_product.confirm_button_1', defaultMessage: 'Tiếp tục' }),
+         cancelButtonText: intl.formatMessage({ id: 'body_admin.product_management.update_product.cancel_button', defaultMessage: 'Hủy' })
+      });
+
+      if (!confirmFirst.isConfirmed) return;
+
+      // Step 2: Secondary Confirmation
+      const confirmSecond = await Swal.fire({
+         title: intl.formatMessage({ id: 'body_admin.product_management.update_product.confirm_title_2', defaultMessage: 'Bạn chắc chắn muốn cập nhật?' }),
+         text: intl.formatMessage({ id: 'body_admin.product_management.update_product.confirm_text_2', defaultMessage: 'Thông tin sản phẩm sẽ được thay đổi!' }),
+         icon: 'question',
+         showCancelButton: true,
+         confirmButtonText: intl.formatMessage({ id: 'body_admin.product_management.update_product.confirm_button_2', defaultMessage: 'Cập nhật' }),
+         cancelButtonText: intl.formatMessage({ id: 'body_admin.product_management.update_product.cancel_button', defaultMessage: 'Hủy' })
+      });
+
+      if (!confirmSecond.isConfirmed) return;
+
+      // Step 3: Text confirmation - Type exact phrase
+      const confirmText = await Swal.fire({
+         title: intl.formatMessage({ id: 'body_admin.product_management.update_product.security_title', defaultMessage: 'Xác nhận bảo mật' }),
+         html: `
+            <div style="text-align: left; margin: 20px 0;">
+               <p style="margin-bottom: 15px; color: #ef4444; font-weight: 600;">
+                  ${intl.formatMessage({ id: 'body_admin.product_management.update_product.security_warning', defaultMessage: 'Cảnh báo: Hành động này sẽ cập nhật thông tin sản phẩm!' })}
+               </p>
+               <p style="margin-bottom: 10px; color: #374151;">
+                  ${intl.formatMessage({ id: 'body_admin.product_management.update_product.security_confirm_text', defaultMessage: 'Sản phẩm cần cập nhật' })}: <strong style="color: #dc2626;">${nameProduct || intl.formatMessage({ id: 'body_admin.product_management.update_product.no_product_name', defaultMessage: 'Không có tên sản phẩm' })}</strong>
+               </p>
+               <p style="margin-bottom: 15px; color: #374151;">
+                  ${intl.formatMessage({ id: 'body_admin.product_management.update_product.security_type_exact', defaultMessage: 'Nhập chính xác cụm từ' })}: <code style="background: #f3f4f6; padding: 2px 6px; border-radius: 4px; color: #dc2626; font-weight: 600;">${intl.formatMessage({ id: 'body_admin.product_management.update_product.security_phrase', defaultMessage: 'CẬP NHẬT SẢN PHẨM' })}</code>
+               </p>
+            </div>
+         `,
+         input: 'text',
+         inputPlaceholder: intl.formatMessage({ id: 'body_admin.product_management.update_product.security_placeholder', defaultMessage: 'Nhập cụm từ xác nhận...' }),
+         icon: 'warning',
+         showCancelButton: true,
+         confirmButtonText: intl.formatMessage({ id: 'body_admin.product_management.update_product.security_continue', defaultMessage: 'Tiếp tục cập nhật' }),
+         cancelButtonText: intl.formatMessage({ id: 'body_admin.product_management.update_product.cancel_button', defaultMessage: 'Hủy' }),
+         inputValidator: (value) => {
+            const expectedPhrase = intl.formatMessage({ id: 'body_admin.product_management.update_product.security_phrase', defaultMessage: 'CẬP NHẬT SẢN PHẨM' });
+            if (value !== expectedPhrase) {
+               return intl.formatMessage({ id: 'body_admin.product_management.update_product.security_error', defaultMessage: 'Cụm từ không chính xác. Vui lòng nhập đúng cụm từ được yêu cầu.' });
+            }
+         },
+         customClass: {
+            popup: 'swal-update-step3',
+            input: 'swal-text-input'
+         }
+      });
+
+      if (!confirmText.isConfirmed) return;
+
+      setLoading(true);
 
       const data = {
          id,

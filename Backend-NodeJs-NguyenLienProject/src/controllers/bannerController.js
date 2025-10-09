@@ -69,6 +69,31 @@ let handleDeleteBanner = async (req, res) => {
    }
 };
 
+let handleGetBannerById = async (req, res) => {
+   try {
+      const { id } = req.params;
+
+      if (!id) {
+         return res.status(400).json({ errCode: 1, errMessage: 'ID banner là bắt buộc' });
+      }
+
+      const banner = await homePageService.getBannerById(id);
+
+      if (!banner) {
+         return res.status(404).json({ errCode: 1, errMessage: 'Không tìm thấy banner' });
+      }
+
+      res.status(200).json({
+         errCode: 0,
+         errMessage: 'Lấy thông tin banner thành công',
+         banner: banner
+      });
+   } catch (err) {
+      console.error('Error in handleGetBannerById:', err.message, err.stack);
+      res.status(500).json({ errCode: -1, errMessage: 'Lỗi khi lấy thông tin banner: ' + err.message });
+   }
+};
+
 let handleGetActiveBanners = async (req, res) => {
    try {
       const banners = await homePageService.getActiveBanners();
@@ -81,6 +106,7 @@ let handleGetActiveBanners = async (req, res) => {
 
 export default {
    handleGetBanners: handleGetBanners,
+   handleGetBannerById: handleGetBannerById,
    handleCreateBanner: handleCreateBanner,
    handleUpdateBanner: handleUpdateBanner,
    handleDeleteBanner: handleDeleteBanner,

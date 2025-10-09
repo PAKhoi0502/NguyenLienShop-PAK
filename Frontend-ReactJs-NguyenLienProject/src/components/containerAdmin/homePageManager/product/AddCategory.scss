@@ -5,7 +5,7 @@
 @import '../../../../styles/variables';
 @import '../../../../styles/mixins';
 
-.add-product-category.admin-page {
+.add-product-category-component.admin-page {
    min-height: 65vh !important;
    padding: spacing(8) spacing(6);
    background: linear-gradient(135deg, #f0fdf4 0%, color(white) 50%, #ecfdf5 100%);
@@ -99,7 +99,6 @@
          }
 
          &::before {
-            content: '🏷️';
             font-size: font-size(xl);
             margin-right: spacing(2);
          }
@@ -248,7 +247,6 @@
 
             // Icon before text
             &::before {
-               content: '🏷️';
                margin-right: spacing(2);
                font-size: font-size(sm);
             }
@@ -427,7 +425,7 @@
                color: #bbf7d0;
 
                &:hover {
-                  background: #14532d;
+                  background: #08301d;
                   border-color: #22c55e;
                }
 

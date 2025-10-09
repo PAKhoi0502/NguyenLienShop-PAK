@@ -1,21 +1,21 @@
 // ==============================================
-// 🗑️ DELETE CATEGORY STYLES (Green Theme)
+// 🗑️ DELETE PRODUCT STYLES (Orange Theme)
 // ==============================================
 
 @import '../../../../styles/variables';
 @import '../../../../styles/mixins';
 
-.delete-product-category.admin-page {
+.delete-category-product.admin-page {
     min-height: 65vh !important;
     padding: spacing(8) spacing(6);
-    background: linear-gradient(135deg, #f0fdf4 0%, color(white) 50%, #ecfdf5 100%);
+    background: linear-gradient(135deg, #fef2f2 0%, color(white) 50%, #fee2e2 100%);
 
     @include mobile-only {
         padding: spacing(6) spacing(4);
     }
 
     // ==============================================
-    // 🎭 MODAL VERSION - When used inside InfoCategory modal
+    // 🎭 MODAL VERSION - When used inside InfoProduct modal
     // ==============================================
     .modal-content & {
         min-height: auto !important;
@@ -33,7 +33,7 @@
         border-radius: border-radius(xl);
         padding: spacing(8);
         box-shadow: shadow(lg);
-        border: 1px solid #bbf7d0;
+        border: 1px solid #fed7aa;
         position: relative;
         overflow: hidden;
 
@@ -62,7 +62,7 @@
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(90deg, #22c55e, #16a34a, #15803d);
+            background: linear-gradient(90deg, #f97316, #ea580c, #c2410c);
             border-radius: border-radius(xl) border-radius(xl) 0 0;
         }
 
@@ -72,7 +72,7 @@
         h2 {
             font-size: font-size(2xl);
             font-weight: font-weight(bold);
-            color: #14532d;
+            color: #c2410c;
             margin: 0 0 spacing(8) 0;
             text-align: center;
             position: relative;
@@ -83,7 +83,6 @@
                 font-size: font-size(xl);
                 margin: 0 0 spacing(6) 0;
                 padding-top: 0;
-
 
                 @include mobile-only {
                     font-size: font-size(lg);
@@ -99,7 +98,7 @@
                 transform: translateX(-50%);
                 width: 280px;
                 height: 4px;
-                background: linear-gradient(90deg, #22c55e, #16a34a);
+                background: linear-gradient(90deg, #f97316, #ea580c);
                 border-radius: border-radius(full);
             }
 
@@ -109,105 +108,73 @@
         }
 
         // ==============================================
-        // 📋 CATEGORY LIST
+        // 📋 PRODUCT LIST
         // ==============================================
-        .category-list {
-            margin-bottom: spacing(8);
+        .product-list {
             max-height: 400px;
             overflow-y: auto;
-            padding: spacing(2);
-            border: 1px solid #bbf7d0;
+            padding: spacing(4);
+            border: 1px solid #fed7aa;
             border-radius: border-radius(lg);
-            background: #f0fdf4;
+            background: #fef3c7;
+            margin-bottom: spacing(8);
 
-            @include mobile-only {
-                max-height: 300px;
-            }
-
-            // Modal version adjustments
-            .modal-content & {
-                max-height: 300px !important;
-                margin-bottom: spacing(6) !important;
-
-                @include mobile-only {
-                    max-height: 250px !important;
-                    margin-bottom: spacing(4) !important;
-                }
-            }
-
-            // Custom scrollbar
+            // Scrollbar styling
             &::-webkit-scrollbar {
                 width: 8px;
             }
 
             &::-webkit-scrollbar-track {
-                background: #fee2e2;
-                border-radius: border-radius(full);
+                background: #fef3c7;
+                border-radius: border-radius(sm);
             }
 
             &::-webkit-scrollbar-thumb {
-                background: #22c55e;
-                border-radius: border-radius(full);
+                background: #f97316;
+                border-radius: border-radius(sm);
 
                 &:hover {
-                    background: #16a34a;
+                    background: #ea580c;
                 }
             }
 
-            .category-item {
+            .product-item {
                 display: flex;
                 align-items: center;
                 padding: spacing(4);
                 margin-bottom: spacing(2);
                 background: color(white);
-                border-radius: border-radius(lg);
-                border: 1px solid #bbf7d0;
+                border: 1px solid #fed7aa;
+                border-radius: border-radius(md);
                 cursor: pointer;
                 transition: all 0.3s ease;
                 position: relative;
-                overflow: hidden;
 
                 &:last-child {
                     margin-bottom: 0;
                 }
 
                 &:hover {
-                    background: #f0fdf4;
-                    border-color: #bbf7d0;
-                    transform: translateX(4px);
-                    box-shadow: 0 4px 16px rgba(239, 68, 68, 0.15);
-                }
-
-                // Modal version adjustments
-                .modal-content & {
-                    padding: spacing(3) !important;
-
-                    &:hover {
-                        background: #fef2f2 !important;
-                        border-color: #bbf7d0 !important;
-                    }
-
-                    @include mobile-only {
-                        padding: spacing(2) !important;
-                    }
+                    background: #fef3c7;
+                    border-color: #f97316;
+                    transform: translateY(-2px);
+                    box-shadow: shadow(md);
                 }
 
                 // Checkbox styling
                 input[type="checkbox"] {
+                    margin-right: spacing(3);
                     width: 20px;
                     height: 20px;
-                    margin-right: spacing(3);
-                    cursor: pointer;
-                    appearance: none;
-                    border: 2px solid #16a34a;
+                    border: 2px solid #f97316;
                     border-radius: border-radius(sm);
                     background: color(white);
                     position: relative;
                     transition: all 0.2s ease;
 
                     &:checked {
-                        background: linear-gradient(135deg, #22c55e, #16a34a);
-                        border-color: #15803d;
+                        background: linear-gradient(135deg, #f97316, #ea580c);
+                        border-color: #c2410c;
 
                         &::after {
                             content: '';
@@ -225,15 +192,15 @@
                     }
 
                     &:hover {
-                        border-color: #22c55e;
-                        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+                        border-color: #f97316;
+                        box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
                     }
                 }
 
                 // Label text
                 font-size: font-size(base);
                 font-weight: font-weight(medium);
-                color: #16a34a;
+                color: #ea580c;
                 user-select: none;
 
                 // Hover ripple effect
@@ -245,7 +212,7 @@
                     width: 0;
                     height: 0;
                     border-radius: 50%;
-                    background: rgba(34, 197, 94, 0.1);
+                    background: rgba(249, 115, 22, 0.1);
                     transform: translate(-50%, -50%);
                     transition: width 0.3s ease, height 0.3s ease;
                 }
@@ -277,38 +244,26 @@
 
             @include mobile-only {
                 flex-direction: column;
+                gap: spacing(3);
             }
 
             .btn {
-                @include button-base;
-                padding: spacing(4) spacing(8);
-                border-radius: border-radius(lg);
-                font-weight: font-weight(semibold);
-                font-size: font-size(base);
+                padding: spacing(3) spacing(6);
                 border: none;
+                border-radius: border-radius(lg);
+                font-size: font-size(base);
+                font-weight: font-weight(medium);
                 cursor: pointer;
                 transition: all 0.3s ease;
-                min-width: 140px;
+                text-decoration: none;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                min-width: 120px;
 
                 @include mobile-only {
-                    padding: spacing(4) spacing(6);
-                    min-width: auto;
-                }
-
-                &:hover:not(:disabled) {
-                    transform: translateY(-2px);
-                    box-shadow: shadow(lg);
-                }
-
-                &:active:not(:disabled) {
-                    transform: translateY(0);
-                }
-
-                &:disabled {
-                    opacity: 0.6;
-                    cursor: not-allowed;
-                    transform: none !important;
-                    box-shadow: none !important;
+                    padding: spacing(3) spacing(4);
+                    font-size: font-size(sm);
                 }
 
                 &.btn-danger {
@@ -387,37 +342,37 @@
 // 🌙 DARK MODE SUPPORT
 // ==============================================
 @media (prefers-color-scheme: dark) {
-    .delete-product-category.admin-page {
-        background: linear-gradient(135deg, #14532d 0%, color(gray-900) 50%, #166534 100%);
+    .delete-category-product.admin-page {
+        background: linear-gradient(135deg, #7f1d1d 0%, color(gray-900) 50%, #991b1b 100%);
 
         .form-container {
             background: color(gray-800);
-            border-color: #22c55e;
+            border-color: #f97316;
 
             h2 {
-                color: #bbf7d0;
+                color: #fed7aa;
             }
 
-            .category-list {
-                background: #14532d;
-                border-color: #22c55e;
+            .product-list {
+                background: #92400e;
+                border-color: #f97316;
 
                 &::-webkit-scrollbar-track {
                     background: color(gray-700);
                 }
 
-                .category-item {
+                .product-item {
                     background: color(gray-800);
-                    border-color: #22c55e;
-                    color: #bbf7d0;
+                    border-color: #f97316;
+                    color: #fed7aa;
 
                     &:hover {
-                        background: #08301d;
-                        border-color: #22c55e;
+                        background: #3e2819;
+                        border-color: #f97316;
                     }
 
                     input[type="checkbox"] {
-                        border-color: #16a34a;
+                        border-color: #f97316;
                     }
                 }
 

@@ -1,21 +1,18 @@
 import { getProductsByCategoryId } from '../../../../services/categoryService';
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
-import AddProduct from './AddProduct';
-import DeleteProduct from './DeleteProduct';
 import './InfoProduct.scss';
 
 const InfoProduct = ({ categoryId: propCategoryId }) => {
    const location = useLocation();
    const navigate = useNavigate();
    const intl = useIntl();
-   const categoryId = propCategoryId || location.state?.categoryId;
+   const { id } = useParams();
+   const categoryId = propCategoryId || id || location.state?.categoryId;
    const [products, setProducts] = useState([]);
    const [loading, setLoading] = useState(true);
    const [error, setError] = useState(null);
-   const [showAdd, setShowAdd] = useState(false);
-   const [showDelete, setShowDelete] = useState(false);
 
    const handleProductClick = (productId) => {
       if (!productId) return;
@@ -50,14 +47,14 @@ const InfoProduct = ({ categoryId: propCategoryId }) => {
          }
       };
       fetchProducts();
-   }, [categoryId, showAdd, showDelete]);
+   }, [categoryId]);
 
    return (
       <div className="info-product">
          <h3>Sản phẩm trong danh mục</h3>
 
          {loading ? (
-            <p>Đang tải sản phẩm...</p>
+            <p>{intl.formatMessage({ id: 'body_admin.category_management.info_product.loading', defaultMessage: 'Đang tải sản phẩm...' })}</p>
          ) : error ? (
             <p className="error-message">{error}</p>
          ) : products && products.length > 0 ? (
@@ -87,14 +84,18 @@ const InfoProduct = ({ categoryId: propCategoryId }) => {
                ))}
             </ul>
          ) : (
-            <p>Không có sản phẩm nào</p>
+            <p>{intl.formatMessage({ id: 'body_admin.category_management.info_product.no_product', defaultMessage: 'Không có sản phẩm nào' })}</p>
          )}
 
          <div className="product-actions">
-            <button className="btn btn-primary" onClick={() => setShowAdd(true)}>
+            <button className="btn btn-primary" onClick={() => navigate(`/admin/product-category-management/category-management/info-product/${categoryId}/add-product`, {
+               state: { categoryId: categoryId }
+            })}>
                <FormattedMessage id="body_admin.category_management.info_product.add_product" defaultMessage="Thêm sản phẩm" />
             </button>
-            <button className="btn btn-danger" onClick={() => setShowDelete(true)}>
+            <button className="btn btn-danger" onClick={() => navigate(`/admin/product-category-management/category-management/info-product/${categoryId}/delete-product`, {
+               state: { categoryId: categoryId }
+            })}>
                <FormattedMessage id="body_admin.category_management.info_product.delete_product" defaultMessage="Xóa sản phẩm" />
             </button>
             <button className="btn-back" onClick={() => navigate(-1)}>
@@ -102,27 +103,6 @@ const InfoProduct = ({ categoryId: propCategoryId }) => {
             </button>
          </div>
 
-         {/* Hiển thị popup hoặc trang thêm/xóa sản phẩm */}
-         {showAdd && (
-            <div className="modal-bg">
-               <div className="modal-content">
-                  <AddProduct />
-                  <button className="btn btn-secondary" onClick={() => setShowAdd(false)}>
-                     <FormattedMessage id="body_admin.category_management.info_product.close" defaultMessage="Đóng" />
-                  </button>
-               </div>
-            </div>
-         )}
-         {showDelete && (
-            <div className="modal-bg">
-               <div className="modal-content">
-                  <DeleteProduct />
-                  <button className="btn btn-secondary" onClick={() => setShowDelete(false)}>
-                     <FormattedMessage id="body_admin.category_management.info_product.close" defaultMessage="Đóng" />
-                  </button>
-               </div>
-            </div>
-         )}
       </div>
    );
 };

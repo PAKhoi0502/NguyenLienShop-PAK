@@ -1,6 +1,6 @@
 import { getCategoriesByProductId, getProductById } from '../../../../services/productService';
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import HintBox from '../../../../components/HintBox';
 import './InfoCategory.scss';
@@ -9,7 +9,8 @@ const InfoCategory = ({ productId: propProductId }) => {
    const location = useLocation();
    const navigate = useNavigate();
    const intl = useIntl();
-   const productId = propProductId || location.state?.productId;
+   const { id } = useParams();
+   const productId = propProductId || id || location.state?.productId;
    const [categories, setCategories] = useState([]);
    const [product, setProduct] = useState(null);
    const [loading, setLoading] = useState(true);
@@ -126,7 +127,7 @@ const InfoCategory = ({ productId: propProductId }) => {
          <div className="category-actions">
             <button
                className="btn btn-primary"
-               onClick={() => navigate(`/admin/product-category-management/product-management/add-category/${productId}`, {
+               onClick={() => navigate(`/admin/product-category-management/product-management/info-category/${productId}/add-category`, {
                   state: { productId: productId }
                })}
             >
@@ -134,7 +135,7 @@ const InfoCategory = ({ productId: propProductId }) => {
             </button>
             <button
                className="btn btn-danger"
-               onClick={() => navigate(`/admin/product-category-management/product-management/delete-category/${productId}`, {
+               onClick={() => navigate(`/admin/product-category-management/product-management/info-category/${productId}/delete-category`, {
                   state: { productId: productId }
                })}
             >

@@ -1,0 +1,632 @@
+// ==============================================
+// 🖼️ BANNER MANAGER STYLES (Gray Theme)
+// ==============================================
+
+@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
+
+.banner-manager-container {
+    min-height: 100vh;
+    padding: spacing(8) spacing(6);
+    background: linear-gradient(135deg, #f9fafb 0%, color(white) 50%, #f3f4f6 100%);
+
+    @include mobile-only {
+        padding: spacing(6) spacing(4);
+    }
+
+    // ==============================================
+    // 📋 HEADER & TOP SECTION
+    // ==============================================
+    .banner-manager-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: spacing(8);
+        padding: spacing(6);
+        background: linear-gradient(135deg, color(white) 0%, #f9fafb 100%);
+        border-radius: border-radius(xl);
+        box-shadow: shadow(lg);
+        border: 1px solid #d1d5db;
+
+        @include mobile-only {
+            flex-direction: column;
+            gap: spacing(4);
+            text-align: center;
+        }
+
+        .banner-title {
+            font-size: font-size(3xl);
+            font-weight: font-weight(bold);
+            color: #374151;
+            margin: 0;
+            position: relative;
+
+            &::before {
+                margin-right: spacing(2);
+                font-size: font-size(2xl);
+            }
+
+            @include mobile-only {
+                font-size: font-size(2xl);
+            }
+        }
+
+        .btn-create-banner {
+            @include button-base;
+            background: linear-gradient(135deg, #6b7280, #4b5563);
+            color: color(white);
+            border: 1px solid #6b7280;
+            padding: spacing(3) spacing(6);
+            font-size: font-size(base);
+            font-weight: font-weight(semibold);
+            border-radius: border-radius(lg);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: spacing(2);
+
+            &:hover {
+                background: linear-gradient(135deg, #4b5563, #374151);
+                transform: translateY(-2px);
+                box-shadow: 0 8px 24px rgba(107, 114, 128, 0.3);
+            }
+
+            &:active {
+                transform: translateY(0);
+            }
+
+            @include mobile-only {
+                padding: spacing(3) spacing(4);
+                font-size: font-size(sm);
+            }
+        }
+    }
+
+    // ==============================================
+    // 📋 LEGACY HEADER (for backward compatibility)
+    // ==============================================
+    h1 {
+        font-size: font-size(3xl);
+        font-weight: font-weight(bold);
+        color: #374151;
+        margin: 0 0 spacing(6) 0;
+        text-align: center;
+        position: relative;
+
+        &::before {
+            margin-right: spacing(2);
+            font-size: font-size(2xl);
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 4px;
+            background: linear-gradient(90deg, #6b7280, #4b5563);
+            border-radius: border-radius(full);
+        }
+    }
+
+    // ==============================================
+    // 🔍 FILTERS & SEARCH
+    // ==============================================
+    .banner-filters {
+        display: flex;
+        align-items: center;
+        gap: spacing(4);
+        margin-bottom: spacing(4);
+        padding: spacing(4);
+        background: color(white);
+        border-radius: border-radius(lg);
+        box-shadow: shadow(sm);
+        border: 1px solid #d1d5db;
+
+        @include mobile-only {
+            flex-direction: column;
+            align-items: stretch;
+            gap: spacing(3);
+        }
+
+        label {
+            font-weight: font-weight(semibold);
+            color: #374151;
+            white-space: nowrap;
+            margin-left: auto;
+
+            @include mobile-only {
+                margin-left: 0;
+            }
+        }
+
+        select {
+            padding: spacing(2) spacing(3);
+            border: 2px solid #d1d5db;
+            border-radius: border-radius(md);
+            background: color(white);
+            color: #374151;
+            font-size: font-size(sm);
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+
+            &:focus {
+                outline: none;
+                border-color: #6b7280;
+                box-shadow: 0 0 0 3px rgba(107, 114, 128, 0.1);
+            }
+
+            option {
+                padding: spacing(2);
+            }
+        }
+    }
+
+    .banner-search-bar {
+        margin-bottom: spacing(6);
+
+        input {
+            width: 100%;
+            padding: spacing(4);
+            border: 2px solid #d1d5db;
+            border-radius: border-radius(lg);
+            font-size: font-size(base);
+            background: color(white);
+            color: #374151;
+            transition: all 0.3s ease;
+
+            &::placeholder {
+                color: #9ca3af;
+            }
+
+            &:focus {
+                outline: none;
+                border-color: #6b7280;
+                box-shadow: 0 0 0 3px rgba(107, 114, 128, 0.1);
+                background: #f9fafb;
+            }
+
+            &:not(:placeholder-shown) {
+                background-color: #f3f4f6;
+                border-color: #9ca3af;
+            }
+        }
+    }
+
+    // ==============================================
+    // 📊 TABLE STYLING
+    // ==============================================
+    .banner-table-wrapper {
+        background: color(white);
+        border-radius: border-radius(xl);
+        box-shadow: shadow(lg);
+        overflow: hidden;
+        border: 1px solid #d1d5db;
+    }
+
+    .banner-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: font-size(sm);
+
+        @include mobile-only {
+            font-size: font-size(xs);
+        }
+
+        thead {
+            background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+
+            th {
+                padding: spacing(4);
+                text-align: center;
+                font-weight: font-weight(bold);
+                color: #374151;
+                border-bottom: 2px solid #6b7280;
+                position: sticky;
+                top: 0;
+                z-index: 10;
+
+                @include mobile-only {
+                    padding: spacing(3) spacing(2);
+                    font-size: font-size(xs);
+                }
+            }
+        }
+
+        tbody {
+            tr {
+                transition: all 0.3s ease;
+
+                &:nth-child(even) {
+                    background-color: #f9fafb;
+                }
+
+                &:hover {
+                    background-color: #f3f4f6;
+                    transform: scale(1.01);
+                    box-shadow: 0 4px 8px rgba(107, 114, 128, 0.1);
+                }
+
+                td {
+                    text-align: center;
+                    padding: spacing(4);
+                    border-bottom: 1px solid #e5e7eb;
+                    color: #374151;
+                    vertical-align: middle;
+
+                    @include mobile-only {
+                        padding: spacing(3) spacing(2);
+                        font-size: font-size(xs);
+                    }
+
+                    // Empty state styling
+                    &[colspan] {
+                        text-align: center;
+                        color: #9ca3af;
+                        font-style: italic;
+                        padding: spacing(8);
+                    }
+
+                    // Image styling
+                    img {
+                        border-radius: border-radius(md);
+                        border: 2px solid #e5e7eb;
+                        transition: all 0.3s ease;
+
+                        &:hover {
+                            border-color: #6b7280;
+                            transform: scale(1.05);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // ==============================================
+    // 🎯 ACTION BUTTONS
+    // ==============================================
+    .action-buttons {
+        display: flex;
+        gap: spacing(4);
+        flex-wrap: wrap;
+        justify-content: center;
+
+        @include mobile-only {
+            flex-direction: column;
+            gap: spacing(1);
+        }
+    }
+
+    .btn-action {
+        @include button-base;
+        padding: spacing(2) spacing(3);
+        font-size: font-size(lg);
+        font-weight: font-weight(medium);
+        border-radius: border-radius(md);
+        transition: all 0.3s ease;
+        min-width: 80px;
+        text-align: center;
+
+        @include mobile-only {
+            padding: spacing(2);
+            font-size: font-size(2xs);
+            min-width: auto;
+        }
+
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: shadow(md);
+        }
+
+        &:active {
+            transform: translateY(0);
+        }
+
+        &.btn-update {
+            background: linear-gradient(135deg, #7BF1A8, #2AA63E);
+            color: color(white);
+            border: 1px solid #16a34a;
+
+            &:hover {
+                background: linear-gradient(135deg, #032E15, #2AA63E);
+                box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+            }
+        }
+
+        &.btn-detail {
+            background: linear-gradient(135deg, #8EC5FF, #155DFC);
+            color: color(white);
+            border: 1px solid #2563eb;
+
+            &:hover {
+                background: linear-gradient(135deg, #162456, #155DFC);
+                box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+            }
+        }
+
+
+        // Delete button (Red)
+        &.btn-delete {
+            background: linear-gradient(135deg, #FFA2A2, #E7180B);
+            color: color(white);
+            border: 1px solid #dc2626;
+
+            &:hover {
+                background: linear-gradient(135deg, #460809, #E7180B);
+                box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+            }
+        }
+
+        // Activate button (Green)
+        &.btn-activate {
+            background: linear-gradient(135deg, #C4B4FF, #9810FA);
+            color: color(white);
+            border: 1px solid #AD46FF;
+
+            &:hover {
+                background: linear-gradient(135deg, #3C0366, #9810FA);
+                box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+            }
+        }
+
+        // Deactivate button (Gray)
+        &.btn-deactivate {
+            background: linear-gradient(135deg, #6A7282, #314158);
+            color: color(white);
+            border: 1px solid #4b5563;
+
+            &:hover {
+                background: linear-gradient(135deg, #020618, #314158);
+                box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+            }
+        }
+    }
+
+    // ==============================================
+    // 📱 LOADING & STATES
+    // ==============================================
+    .banner-loading {
+        text-align: center;
+        padding: spacing(8);
+        color: #6b7280;
+        font-size: font-size(lg);
+        font-weight: font-weight(medium);
+
+        &::before {
+            content: '⏳';
+            margin-right: spacing(2);
+            animation: spin 2s linear infinite;
+        }
+    }
+
+    @keyframes spin {
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    // ==============================================
+    // 🎭 RESPONSIVE DESIGN
+    // ==============================================
+    @include mobile-only {
+        .banner-table-wrapper {
+            overflow-x: auto;
+        }
+
+        .banner-table {
+            min-width: 600px;
+        }
+
+        .action-buttons {
+            min-width: 200px;
+        }
+    }
+
+    // ==============================================
+    // 🌙 DARK MODE SUPPORT
+    // ==============================================
+    @media (prefers-color-scheme: dark) {
+        background: linear-gradient(135deg, #374151 0%, color(gray-900) 50%, #4b5563 100%);
+
+        .banner-manager-top {
+            background: linear-gradient(135deg, color(gray-800) 0%, #374151 100%);
+            border-color: #6b7280;
+
+            .banner-title {
+                color: #d1d5db;
+            }
+
+            .btn-create-banner {
+                background: linear-gradient(135deg, #6b7280, #4b5563);
+                border-color: #6b7280;
+
+                &:hover {
+                    background: linear-gradient(135deg, #4b5563, #374151);
+                }
+            }
+        }
+
+        h1 {
+            color: #d1d5db;
+        }
+
+        .banner-filters {
+            background: color(gray-800);
+            border-color: #6b7280;
+
+            label {
+                color: #d1d5db;
+            }
+
+            select {
+                background: color(gray-700);
+                color: color(gray-200);
+                border-color: #6b7280;
+
+                &:focus {
+                    border-color: #9ca3af;
+                }
+            }
+        }
+
+        .banner-search-bar input {
+            background: color(gray-800);
+            color: color(gray-200);
+            border-color: #6b7280;
+
+            &:focus {
+                background: color(gray-700);
+                border-color: #9ca3af;
+            }
+
+            &:not(:placeholder-shown) {
+                background-color: color(gray-700);
+                border-color: #6b7280;
+            }
+        }
+
+        .banner-table-wrapper {
+            background: color(gray-800);
+            border-color: #6b7280;
+        }
+
+        .banner-table {
+            thead {
+                background: linear-gradient(135deg, #4b5563, #374151);
+
+                th {
+                    color: #d1d5db;
+                    border-bottom-color: #6b7280;
+                }
+            }
+
+            tbody {
+                tr {
+                    &:nth-child(even) {
+                        background-color: color(gray-700);
+                    }
+
+                    &:hover {
+                        background-color: #374151;
+                    }
+
+                    td {
+                        color: color(gray-200);
+                        border-bottom-color: color(gray-600);
+                        font-size: font-size(xl);
+
+                        img {
+                            border-color: #6b7280;
+
+                            &:hover {
+                                border-color: #9ca3af;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// ==============================================
+// 🖼️ BANNER IMAGE STYLES
+// ==============================================
+.banner-image {
+    max-width: 100px;
+    max-height: 60px;
+    object-fit: cover;
+    border-radius: border-radius(md);
+    border: 2px solid #e5e7eb;
+    transition: all 0.3s ease;
+
+    &:hover {
+        border-color: #6b7280;
+        transform: scale(1.05);
+    }
+}
+
+// ==============================================
+// 📊 STATUS STYLES
+// ==============================================
+.status-cell {
+    font-size: 1.1rem;
+    font-weight: font-weight(medium);
+
+    &.active {
+        color: #16a34a;
+    }
+
+    &.inactive {
+        color: #dc2626;
+    }
+}
+
+// ==============================================
+// 🎨 HINT BOX STYLES
+// ==============================================
+.hint-icon-wrapper {
+    margin: 0;
+    flex-shrink: 0;
+
+    .hint-icon {
+        font-size: font-size(xl);
+        min-width: 40px;
+        min-height: 40px;
+        padding: spacing(2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+
+        @include mobile-only {
+            font-size: font-size(lg);
+            min-width: 36px;
+            min-height: 36px;
+            padding: spacing(1);
+        }
+
+        &:hover {
+            transform: scale(1.1);
+            background: rgba(107, 114, 128, 0.2);
+            border-color: rgba(107, 114, 128, 0.5);
+        }
+    }
+}
+
+// ==============================================
+// 🔗 BANNER TITLE LINK STYLES
+// ==============================================
+.banner-title-link {
+    color: #ffffff !important;
+    text-decoration: none !important;
+    transition: none !important;
+    transform: none !important;
+
+    &:hover {
+        color: #c9c9c9 !important;
+        text-decoration: none !important;
+        transform: none !important;
+    }
+
+    // Dark theme support
+    .banner-manager-container.dark & {
+        color: #60a5fa;
+
+        &:hover {
+            color: #93c5fd;
+        }
+
+        &:active {
+            color: #3b82f6;
+        }
+    }
+}

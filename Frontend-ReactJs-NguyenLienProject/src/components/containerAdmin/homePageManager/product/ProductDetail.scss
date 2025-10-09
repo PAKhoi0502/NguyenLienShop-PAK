@@ -318,166 +318,131 @@
       }
 
       .card-footer {
-         display: flex;
-         justify-content: center;
-         align-items: center;
-         gap: spacing(4);
          background: #f9fafb;
          padding: spacing(6);
          border-top: 1px solid #e5e7eb;
 
          .action-buttons {
-            display: flex;
-            gap: spacing(4);
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: spacing(3);
             justify-content: center;
 
-            @include mobile-only {
-               flex-direction: column;
-               gap: spacing(3);
-               width: 100%;
+            @media (max-width: 768px) {
+               grid-template-columns: 1fr;
+               gap: spacing(2);
             }
-         }
 
-         .btn-action {
-            @include button-base;
-            padding: spacing(3) spacing(6);
-            font-size: font-size(sm);
-            font-weight: font-weight(semibold);
-            border-radius: border-radius(lg);
-            transition: all 0.3s ease;
-            min-width: 140px;
-            text-align: center;
-            cursor: pointer;
-
-            @include mobile-only {
+            .btn-action {
+               border: none;
                padding: spacing(3) spacing(4);
-               font-size: font-size(xs);
-               min-width: auto;
-               width: 100%;
-            }
-
-            &:hover:not(:disabled) {
-               transform: translateY(-2px);
-               box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-            }
-
-            &:active:not(:disabled) {
-               transform: translateY(0);
-            }
-
-            &:disabled {
-               opacity: 0.6;
-               cursor: not-allowed;
-               transform: none !important;
-               box-shadow: none !important;
-            }
-
-            // Activate button (Purple)
-            &.btn-activate {
-               background: linear-gradient(135deg, #C4B4FF, #9810FA);
-               color: color(white);
-               border: 1px solid #AD46FF;
+               border-radius: border-radius(lg);
+               font-weight: font-weight(semibold);
+               cursor: pointer;
+               transition: all 0.3s ease;
+               box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+               font-size: font-size(sm);
+               text-align: center;
+               min-height: 48px;
+               display: flex;
+               align-items: center;
+               justify-content: center;
 
                &:hover:not(:disabled) {
-                  background: linear-gradient(135deg, #3C0366, #9810FA);
-                  box-shadow: 0 8px 24px rgba(196, 180, 255, 0.4);
+                  transform: translateY(-2px);
+                  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
                }
-            }
 
-            // Deactivate button (Gray)
-            &.btn-deactivate {
-               background: linear-gradient(135deg, #6A7282, #314158);
-               color: color(white);
-               border: 1px solid #4b5563;
-
-               &:hover:not(:disabled) {
-                  background: linear-gradient(135deg, #020618, #314158);
-                  box-shadow: 0 8px 24px rgba(106, 114, 130, 0.4);
+               &:active:not(:disabled) {
+                  transform: translateY(-1px);
+                  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
                }
-            }
 
-            // Add Category button (Orange)
-            &.btn-add-category {
-               background: linear-gradient(135deg, #FFB86A, #F54927);
-               color: color(white);
-               border: 1px solid #ea580c;
-
-               &:hover:not(:disabled) {
-                  background: linear-gradient(135deg, #441306, #F54927);
-                  box-shadow: 0 8px 24px rgba(255, 184, 106, 0.4);
+               &:disabled {
+                  opacity: 0.6;
+                  cursor: not-allowed;
+                  transform: none !important;
+                  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
                }
-            }
 
-            // Delete button (Red)
-            &.btn-delete {
-               background: linear-gradient(135deg, #FFA2A2, #E7180B);
-               color: color(white);
-               border: 1px solid #dc2626;
+               // Activate button (Show Category)
+               &.btn-activate {
+                  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+                  color: white;
+                  border: 1px solid #7c3aed;
 
-               &:hover:not(:disabled) {
-                  background: linear-gradient(135deg, #460809, #E7180B);
-                  box-shadow: 0 8px 24px rgba(255, 162, 162, 0.4);
+                  &:hover:not(:disabled) {
+                     background: linear-gradient(135deg, #7c3aed, #6d28d9);
+                     border-color: #6d28d9;
+                     box-shadow: 0 8px 24px rgba(124, 56, 237, 0.6);
+                  }
+
                }
-            }
 
-            // Update button (Green)
-            &.btn-update {
-               background: linear-gradient(135deg, #7BF1A8, #2AA63E);
-               color: color(white);
-               border: 1px solid #16a34a;
+               // Deactivate button (Hide Category)
+               &.btn-deactivate {
+                  background: linear-gradient(135deg, #f59e0b, #d97706);
+                  color: white;
+                  border: 1px solid #d97706;
 
-               &:hover:not(:disabled) {
-                  background: linear-gradient(135deg, #032E15, #2AA63E);
-                  box-shadow: 0 8px 24px rgba(123, 241, 168, 0.4);
+                  &:hover:not(:disabled) {
+                     background: linear-gradient(135deg, #d97706, #b45309);
+                     border-color: #b45309;
+                     box-shadow: 0 8px 24px rgba(217, 119, 6, 0.6);
+                  }
                }
-            }
 
-            // Back button (Blue)
-            &.btn-back {
-               background: linear-gradient(135deg, #8EC5FF, #155DFC);
-               color: color(white);
-               border: 1px solid #2563eb;
+               // Manage Products button
+               &.btn-add-category {
+                  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+                  color: white;
+                  border: 1px solid #2563eb;
 
-               &:hover:not(:disabled) {
-                  background: linear-gradient(135deg, #162456, #155DFC);
-                  box-shadow: 0 8px 24px rgba(142, 197, 255, 0.4);
+                  &:hover:not(:disabled) {
+                     background: linear-gradient(135deg, #2563eb, #1e40af);
+                     border-color: #1d4ed8;
+                     box-shadow: 0 8px 24px rgba(21, 99, 235, 0.6);
+                  }
                }
-            }
-         }
 
-         // Legacy button styles for backward compatibility
-         .btn-edit {
-            background: linear-gradient(135deg, #05DF72, #032E15);
-            color: color(white);
-            border: 1px solid #05DF72;
-            padding: spacing(4) spacing(10);
-            font-size: font-size(base);
-            font-weight: font-weight(semibold);
-            border-radius: border-radius(lg);
-            transition: all 0.3s ease;
+               // Delete button
+               &.btn-delete {
+                  background: linear-gradient(135deg, #ef4444, #dc2626);
+                  color: white;
+                  border: 1px solid #dc2626;
 
-            &:hover {
-               background: linear-gradient(135deg, #032E15, #05DF72);
-               transform: translateY(-2px);
-               box-shadow: 0 8px 24px rgba(0, 255, 119, 0.5);
-            }
-         }
+                  &:hover:not(:disabled) {
+                     background: linear-gradient(135deg, #dc2626, #b91c1c);
+                     border-color: #b91c1c;
+                     box-shadow: 0 8px 24px rgba(220, 38, 38, 0.6);
+                  }
+               }
 
-         .btn-back {
-            background: linear-gradient(135deg, #020618, #45556C);
-            color: color(white);
-            border: 1px solid #45556C;
-            padding: spacing(4) spacing(10);
-            font-size: font-size(base);
-            font-weight: font-weight(semibold);
-            border-radius: border-radius(lg);
-            transition: all 0.3s ease;
+               // Update button
+               &.btn-update {
+                  background: linear-gradient(135deg, #10b981, #047857);
+                  color: white;
+                  border: 1px solid #059669;
 
-            &:hover {
-               background: linear-gradient(135deg, #45556C, #020618);
-               transform: translateY(-2px);
-               box-shadow: 0 8px 24px rgba(208, 228, 255, 0.5);
+                  &:hover:not(:disabled) {
+                     background: linear-gradient(135deg, #059669, #065f46);
+                     border-color: #047857;
+                     box-shadow: 0 8px 24px rgba(16, 185, 137, 0.6);
+                  }
+               }
+
+               // Back button
+               &.btn-back {
+                  background: linear-gradient(135deg, #6b7280, #4b5563);
+                  color: white;
+                  border: 1px solid #4b5563;
+
+                  &:hover:not(:disabled) {
+                     background: linear-gradient(135deg, #4b5563, #374151);
+                     border-color: #374151;
+                     box-shadow: 0 8px 24px rgba(98, 104, 112, 0.6);
+                  }
+               }
             }
          }
 

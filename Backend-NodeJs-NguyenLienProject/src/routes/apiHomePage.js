@@ -11,6 +11,7 @@ const router = express.Router();
 
 // Banner
 router.get('/banner-management', verifyToken, isRole(1), bannerController.handleGetBanners);
+router.get('/banner/:id', verifyToken, isRole(1), bannerController.handleGetBannerById); // detail
 router.post('/banner-create', verifyToken, isRole(1), upload.single('image'), bannerController.handleCreateBanner);
 router.put('/banner-update', verifyToken, isRole(1), bannerController.handleUpdateBanner);
 router.delete('/banner-delete', verifyToken, isRole(1), bannerController.handleDeleteBanner);

@@ -72,6 +72,15 @@ let deleteBanner = async (id) => {
    }
 };
 
+let getBannerById = async (id) => {
+   try {
+      const banner = await db.Banner.findByPk(id);
+      return banner;
+   } catch (err) {
+      throw new Error('Lỗi khi lấy thông tin banner');
+   }
+};
+
 let getActiveBanners = async () => {
    try {
       const banners = await db.Banner.findAll({
@@ -86,6 +95,7 @@ let getActiveBanners = async () => {
 
 export default {
    getBanners,
+   getBannerById,
    createBanner,
    updateBanner,
    deleteBanner,

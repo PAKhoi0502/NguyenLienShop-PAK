@@ -40,12 +40,13 @@ import AdminDetail from '../components/containerAdmin/adminsManager/AdminDetail'
 import BannerManager from '../components/containerAdmin/homePageManager/banner/BannerManager';
 import BannerCreate from '../components/containerAdmin/homePageManager/banner/BannerCreate';
 import BannerUpdate from '../components/containerAdmin/homePageManager/banner/BannerUpdate';
+import BannerDetail from '../components/containerAdmin/homePageManager/banner/BannerDetail';
 
 // //Admin - Quản lý product
 import { AddCategory, DeleteCategory, InfoCategory, ProductCreate, ProductDetail, ProductManager, ProductUpdate } from '../components/containerAdmin/homePageManager/product/index.js';
 
 // //Admin - Quản lý category
-import { CategoryManager, CategoryCreate, CategoryUpdate, CategoryDetail, InfoProduct } from '../components/containerAdmin/homePageManager/category/index.js';
+import { CategoryManager, CategoryCreate, CategoryUpdate, CategoryDetail, InfoProduct, AddProduct, DeleteProduct } from '../components/containerAdmin/homePageManager/category/index.js';
 
 
 // Wrapper
@@ -90,17 +91,16 @@ const AppRoutes = () => (
          <Route path="/admin/homepage-management/banner-management" element={<PrivateRoute role="1" element={() => <AdminLayout><BannerManager /></AdminLayout>} />} />
          <Route path="/admin/homepage-management/banner-management/banner-create" element={<PrivateRoute role="1" element={() => <AdminLayout><BannerCreate /></AdminLayout>} />} />
          <Route path="/admin/homepage-management/banner-management/banner-update/:id" element={<PrivateRoute role="1" element={() => <AdminLayout><BannerUpdate /></AdminLayout>} />} />
+         <Route path="/admin/homepage-management/banner-management/banner-detail/:id" element={<PrivateRoute role="1" element={() => <AdminLayout><BannerDetail /></AdminLayout>} />} />
 
          {/* --- Admin - Quản lý sản phẩm --- */}
          <Route path="/admin/product-category-management/product-management" element={<PrivateRoute role="1" element={() => <AdminLayout><ProductManager /></AdminLayout>} />} />
          <Route path="/admin/product-category-management/product-management/product-create" element={<PrivateRoute role="1" element={() => <AdminLayout><ProductCreate /></AdminLayout>} />} />
          <Route path="/admin/product-category-management/product-management/product-update/:id" element={<PrivateRoute role="1" element={() => <AdminLayout><ProductUpdate /></AdminLayout>} />} />
          <Route path="/admin/product-category-management/product-management/product-detail/:id" element={<PrivateRoute role="1" element={() => <AdminLayout><ProductDetail /></AdminLayout>} />} />
-         <Route path="/admin/product-category-management/product-management/add-category" element={<PrivateRoute role="1" element={() => <AdminLayout><AddCategory /></AdminLayout>} />} />
-         <Route path="/admin/product-category-management/product-management/delete-category" element={<PrivateRoute role="1" element={() => <AdminLayout><DeleteCategory /></AdminLayout>} />} />
-         <Route path="/admin/product-category-management/product-management/info-category" element={<PrivateRoute role="1" element={() => <AdminLayout><InfoCategory /></AdminLayout>} />} />
-         <Route path="/admin/product-category-management/product-management/add-category/:id" element={<PrivateRoute role="1" element={() => <AdminLayout><AddCategory /></AdminLayout>} />} />
-         <Route path="/admin/product-category-management/product-management/delete-category/:id" element={<PrivateRoute role="1" element={() => <AdminLayout><DeleteCategory /></AdminLayout>} />} />
+         <Route path="/admin/product-category-management/product-management/info-category/:id" element={<PrivateRoute role="1" element={() => <AdminLayout><InfoCategory /></AdminLayout>} />} />
+         <Route path="/admin/product-category-management/product-management/info-category/:id/add-category" element={<PrivateRoute role="1" element={() => <AdminLayout><AddCategory /></AdminLayout>} />} />
+         <Route path="/admin/product-category-management/product-management/info-category/:id/delete-category" element={<PrivateRoute role="1" element={() => <AdminLayout><DeleteCategory /></AdminLayout>} />} />
 
 
 
@@ -109,7 +109,9 @@ const AppRoutes = () => (
          <Route path="/admin/product-category-management/category-management/category-create" element={<PrivateRoute role="1" element={() => <AdminLayout><CategoryCreate /></AdminLayout>} />} />
          <Route path="/admin/product-category-management/category-management/category-update/:id" element={<PrivateRoute role="1" element={() => <AdminLayout><CategoryUpdate /></AdminLayout>} />} />
          <Route path="/admin/product-category-management/category-management/category-detail/:id" element={<PrivateRoute role="1" element={() => <AdminLayout><CategoryDetail /></AdminLayout>} />} />
-         <Route path="/admin/product-category-management/category-management/info-product" element={<PrivateRoute role="1" element={() => <AdminLayout><InfoProduct /></AdminLayout>} />} />
+         <Route path="/admin/product-category-management/category-management/info-product/:id" element={<PrivateRoute role="1" element={() => <AdminLayout><InfoProduct /></AdminLayout>} />} />
+         <Route path="/admin/product-category-management/category-management/info-product/:id/add-product" element={<PrivateRoute role="1" element={() => <AdminLayout><AddProduct /></AdminLayout>} />} />
+         <Route path="/admin/product-category-management/category-management/info-product/:id/delete-product" element={<PrivateRoute role="1" element={() => <AdminLayout><DeleteProduct /></AdminLayout>} />} />
          {/* --- Not Found --- */}
          <Route path="*" element={<NotFoundPage />} />
       </Routes>

@@ -330,6 +330,9 @@
                 "empty_link": "Link can be left blank."
             },
             "manager": {
+                "detail": "Detail",
+                "status_active": "Active ✅",
+                "status_inactive": "Inactive ❌",
                 "hint_title": "To update or delete a banner: you must first disable (showing X) it.",
                 "title_head": "Banner Management",
                 "create_button": "Create Banner",
@@ -352,6 +355,9 @@
                 "load_error": "Failed to load banner list."
             },
             "activate": {
+                "cancel_button": "Cancel",
+                "deactivate": "Deactivate",
+                "activate": "Activate",
                 "title": "Activate Banner",
                 "loading": "Activating...",
                 "success": "Banner activated successfully!",
@@ -375,6 +381,9 @@
                 "order_error": "Order number must be a number."
             },
             "deactivate": {
+                "cancel_button": "Cancel",
+                "deactivate": "Deactivate",
+                "activate": "Activate",
                 "title": "Deactivate Banner",
                 "loading": "Deactivating...",
                 "success": "Banner deactivated successfully!",
@@ -393,6 +402,10 @@
                 "deactivate_error_message": "An error occurred while deactivating the banner."
             },
             "create": {
+                "no_image": "Please select a banner image",
+                "no_title": "Please enter a banner title",
+                "invalid_file_type": "Only image files (JPG, PNG, WebP) are accepted",
+                "file_too_large": "File size must not exceed 5MB",
                 "title": "Create New Banner",
                 "image": "Image:",
                 "title_label": "Title:",
@@ -407,9 +420,26 @@
                 "error": "Failed to create banner",
                 "server_error": "Server error while creating banner",
                 "create_success_title": "Successfully",
-                "create_error_title": "Create Error!"
+                "create_error_title": "Create Error!",
+                "title_placeholder": "Enter banner title",
+                "subtitle_placeholder": "Enter banner subtitle (optional)",
+                "link_placeholder": "https://example.com (optional)"
             },
             "delete": {
+                "not_found": "Banner not found",
+                "security_title": "Security Confirmation",
+                "security_warning": "⚠️ This action cannot be undone!",
+                "security_confirm_text": "To confirm the deletion of the banner",
+                "security_type_exact": "Please enter exactly",
+                "security_phrase": "I WANT TO DELETE THIS BANNER",
+                "security_placeholder": "Enter confirmation phrase...",
+                "security_continue": "Continue",
+                "security_error": "Please enter exactly the phrase: \"I WANT TO DELETE THIS BANNER\"",
+                "title": "Delete Banner",
+                "loading": "Deleting...",
+                "cancel_button": "Cancel",
+                "deactivate": "Deactivate",
+                "activate": "Activate",
                 "confirm_title_1": "Are you sure you want to delete this banner?",
                 "confirm_button_1": "Yes, delete it",
                 "confirm_title_2": "Confirm Deletion",
@@ -423,6 +453,53 @@
                 "delete_success_title": "Successfully",
                 "delete_error_title": "Delete Error!",
                 "blocked_active": "Cannot delete an active banner. Please deactivate it first."
+            },
+            "detail": {
+                "empty": "No",
+                "timestamps": "Time",
+                "display_info": "Display Information",
+                "basic_info": "Basic Information",
+                "images": "Images",
+                "status_active": "Active ✅",
+                "status_inactive": "Inactive ❌",
+                "loading": "Loading data...",
+                "not_found": "Banner not found",
+                "title": "Banner Information",
+                "title_label": "Title",
+                "subtitle_label": "Subtitle",
+                "link_label": "Link",
+                "order_label": "Order",
+                "status_label": "Status",
+                "created_at": "Created At",
+                "updated_at": "Updated At",
+                "edit_button": "Update Information",
+                "back_button": "Back"
+            },
+            "update": {
+                "title": "Update Banner",
+                "image": "Current Image:",
+                "title_label": "Title:",
+                "subtitle_label": "Subtitle:",
+                "link_label": "Link:",
+                "status_label": "Status:",
+                "hint": "Please turn off “Display” to update content",
+                "loading": "Updating...",
+                "submit": "Update",
+                "cancel": "Cancel",
+                "no_title": "Please enter a banner title",
+                "load_error": "Failed to load banner",
+                "not_found": "Banner not found",
+                "error": "Failed to update banner",
+                "server_error": "Server error while updating banner",
+                "subtitle": "Subtitle",
+                "status_active": "Active",
+                "status_inactive": "Inactive",
+                "loading_data": "Loading data...",
+                "link": "Link:",
+                "cancel_button": "Cancel",
+                "error_title": "Error",
+                "success": "Banner updated successfully!",
+                "failed": "Failed to update banner"
             }
         },
         "account_management": {
@@ -1046,6 +1123,10 @@
                 }
             },
             "info_category_of_product": {
+                "no_product": "No product",
+                "add_product": "Add product",
+                "delete_product": "Delete product",
+                "click_to_detail": "Click to view product details",
                 "status_active": "Active",
                 "status_inactive": "Inactive",
                 "title": "Product Category Information",
@@ -1073,6 +1154,28 @@
                 "default_product": "product"
             },
             "add_category_of_product": {
+                "security_title": "Security Confirmation",
+                "security_warning": "Warning: This action will add category to product!",
+                "security_confirm_text": "Category will be added",
+                "security_type_exact": "Enter exact phrase",
+                "confirm_text_1": "Category selected:",
+                "confirm_text_3": "category",
+                "security_phrase": "ADD CATEGORY TO PRODUCT",
+                "security_error": "The phrase is incorrect. Please enter the exact phrase requested.",
+                "security_continue": "Continue adding",
+                "confirm_title_1": "Confirm adding category to product",
+                "confirm_button_1": "Continue",
+                "confirm_title_2": "Are you sure you want to add?",
+                "confirm_text_2": "The categories will be added to this product!",
+                "confirm_button_2": "Add",
+                "confirm_button_3": "Cancel",
+                "add_category": "Add Category",
+                "delete_category": "Delete Category",
+                "back": "Back",
+                "no_product": "No product",
+                "add_product": "Add product",
+                "delete_product": "Delete product",
+                "click_to_detail": "Click to view product details",
                 "success_title": "Success!",
                 "deleting": "Deleting...",
                 "title": "Add Product Category",
@@ -1523,11 +1626,13 @@
             },
             "homepage_dashboard": {
                 "total_banners": "Total Banners",
-                "active_banners": "Active Banners"
+                "active_banners": "Active Banners",
+                "inactive_banners": "Inactive Banners"
             },
             "banner_dashboard": {
                 "total_banners": "Total Banners",
-                "active_banners": "Active Banners"
+                "active_banners": "Active Banners",
+                "inactive_banners": "Inactive Banners"
             },
             "order_dashboard": {
                 "total_orders": "Total Orders",
@@ -1610,6 +1715,27 @@
                 "title": "Product Category Management",
                 "description": "Create, edit, and manage product categories"
             },
+            "stats": {
+                "total": "Total",
+                "active": "Active"
+            },
+            "action": {
+                "manage": "Manage"
+            }
+        },
+        "homepage_dashboard": {
+            "title": "Homepage Management",
+            "subtitle": "Manage banners and homepage content",
+            "total_banners": "Total Banners",
+            "active_banners": "Active Banners",
+            "total_products": "Total Products",
+            "active_products": "Active Products",
+            "total_categories": "Total Categories",
+            "active_categories": "Active Categories",
+            "banner_management": "Banner Management",
+            "banner_description": "Manage banners displayed on the homepage",
+            "homepage_settings": "Homepage Settings",
+            "homepage_settings_description": "Configure common settings for the homepage",
             "stats": {
                 "total": "Total",
                 "active": "Active"

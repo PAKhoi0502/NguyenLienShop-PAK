@@ -449,7 +449,7 @@ const ProductDetail = () => {
    };
 
    const handleManageCategories = () => {
-      navigate('/admin/product-category-management/product-management/info-category', { state: { productId: id } });
+      navigate(`/admin/product-category-management/product-management/info-category/${id}`);
    };
 
    const handleCategoryClick = (categoryId) => {

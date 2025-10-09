@@ -407,9 +407,7 @@ const CategoryDetail = () => {
    };
 
    const handleManageProducts = () => {
-      navigate('/admin/product-category-management/category-management/info-product', {
-         state: { categoryId: id }
-      });
+      navigate(`/admin/product-category-management/category-management/info-product/${id}`);
    };
 
    const handleProductClick = (productId) => {

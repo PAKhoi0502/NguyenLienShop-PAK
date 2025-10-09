@@ -5,6 +5,7 @@ import CustomToast from '../../../../components/CustomToast';
 import { createBanner } from '../../../../services/bannerService';
 import { useIntl, FormattedMessage } from 'react-intl';
 import HintBox from '../../../../components/HintBox';
+import './BannerCreate.scss';
 
 
 const BannerCreate = () => {
@@ -23,7 +24,7 @@ const BannerCreate = () => {
       // Validation
       if (!image) {
          showToast("error", intl.formatMessage({
-            id: 'banner.create.no_image',
+            id: 'body_admin.banner.create.no_image',
             defaultMessage: 'Vui lòng chọn ảnh banner'
          }));
          return;
@@ -31,7 +32,7 @@ const BannerCreate = () => {
 
       if (!title.trim()) {
          showToast("error", intl.formatMessage({
-            id: 'banner.create.no_title',
+            id: 'body_admin.banner.create.no_title',
             defaultMessage: 'Vui lòng nhập tiêu đề banner'
          }));
          return;
@@ -49,14 +50,14 @@ const BannerCreate = () => {
       try {
          const res = await createBanner(formData);
          if (res && res.errCode === 0) {
-            showToast("success", intl.formatMessage({ id: 'banner.create.success' }));
+            showToast("success", intl.formatMessage({ id: 'body_admin.banner.create.success' }));
             navigate('/admin/homepage-management/banner-management');
          } else {
-            showToast("error", res.errMessage || intl.formatMessage({ id: 'banner.create.error' }));
+            showToast("error", res.errMessage || intl.formatMessage({ id: 'body_admin.banner.create.error' }));
          }
       } catch (err) {
          console.error('Create banner error:', err);
-         showToast("error", intl.formatMessage({ id: 'banner.create.server_error' }));
+         showToast("error", intl.formatMessage({ id: 'body_admin.banner.create.server_error' }));
       } finally {
          setLoading(false);
       }
@@ -69,7 +70,7 @@ const BannerCreate = () => {
          const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
          if (!allowedTypes.includes(file.type)) {
             showToast("error", intl.formatMessage({
-               id: 'banner.create.invalid_file_type',
+               id: 'body_admin.banner.create.invalid_file_type',
                defaultMessage: 'Chỉ chấp nhận file ảnh (JPG, PNG, WebP)'
             }));
             return;
@@ -79,7 +80,7 @@ const BannerCreate = () => {
          const maxSize = 5 * 1024 * 1024; // 5MB
          if (file.size > maxSize) {
             showToast("error", intl.formatMessage({
-               id: 'banner.create.file_too_large',
+               id: 'body_admin.banner.create.file_too_large',
                defaultMessage: 'Kích thước file không được vượt quá 5MB'
             }));
             return;
@@ -102,7 +103,7 @@ const BannerCreate = () => {
             <CustomToast
                {...props}
                type={type}
-               titleId={type === "success" ? "banner.create.create_success_title" : "banner.create.create_error_title"}
+               titleId={type === "success" ? "body_admin.banner.create.create_success_title" : "body_admin.banner.create.create_error_title"}
                message={message}
                time={new Date()}
             />
@@ -116,24 +117,26 @@ const BannerCreate = () => {
          <HintBox
             content={
                <div>
-                  <p><FormattedMessage id="banner.hint.title" /></p>
+                  <p><FormattedMessage id="body_admin.banner.hint.title" /></p>
                   <ul style={{ textAlign: 'left', paddingLeft: '1rem', marginTop: '0.5rem' }}>
-                     <li><FormattedMessage id="banner.hint.desktop1" /></li>
-                     <li><FormattedMessage id="banner.hint.desktop2" /></li>
-                     <li><FormattedMessage id="banner.hint.mobile" /></li>
+                     <li><FormattedMessage id="body_admin.banner.hint.desktop1" /></li>
+                     <li><FormattedMessage id="body_admin.banner.hint.desktop2" /></li>
+                     <li><FormattedMessage id="body_admin.banner.hint.mobile" /></li>
                   </ul>
-                  <p><FormattedMessage id="banner.hint.empty_title" /></p>
-                  <p><FormattedMessage id="banner.hint.empty_subtitle" /></p>
-                  <p><FormattedMessage id="banner.hint.empty_link" /></p>
+                  <p><FormattedMessage id="body_admin.banner.hint.empty_title" /></p>
+                  <p><FormattedMessage id="body_admin.banner.hint.empty_subtitle" /></p>
+                  <p><FormattedMessage id="body_admin.banner.hint.empty_link" /></p>
                </div>
             }
          />
 
-
-         <h1><FormattedMessage id="banner.create.title" defaultMessage="Create New Banner" /></h1>
+         <h1><FormattedMessage id="body_admin.banner.create.title" defaultMessage="Tạo Banner Mới" /></h1>
          <form onSubmit={handleSubmit} className="banner-create-form">
             <div className="form-group">
-               <label><FormattedMessage id="banner.create.image" defaultMessage="Image:" /></label>
+               <label>
+                  <FormattedMessage id="body_admin.banner.create.image" defaultMessage="Hình ảnh:" />
+                  <span>*</span>
+               </label>
                <input
                   type="file"
                   accept="image/*"
@@ -145,38 +148,48 @@ const BannerCreate = () => {
                      <img
                         src={imagePreview}
                         alt="Preview"
-                        style={{ maxWidth: '300px', maxHeight: '200px', marginTop: '10px' }}
                      />
                   </div>
                )}
             </div>
+
             <div className="form-group">
-               <label><FormattedMessage id="banner.create.title_label" defaultMessage="Title:" /></label>
+               <label>
+                  <FormattedMessage id="body_admin.banner.create.title_label" defaultMessage="Tiêu đề:" />
+                  <span>*</span>
+               </label>
                <input
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
+                  placeholder={intl.formatMessage({ id: 'body_admin.banner.create.title_placeholder', defaultMessage: 'Nhập tiêu đề banner' })}
+                  required
                />
             </div>
+
             <div className="form-group">
-               <label><FormattedMessage id="banner.create.subtitle" defaultMessage="Subtitle:" /></label>
+               <label><FormattedMessage id="body_admin.banner.create.subtitle" defaultMessage="Phụ đề:" /></label>
                <input
                   type="text"
                   value={subtitle}
                   onChange={(e) => setSubtitle(e.target.value)}
+                  placeholder={intl.formatMessage({ id: 'body_admin.banner.create.subtitle_placeholder', defaultMessage: 'Nhập phụ đề banner (tùy chọn)' })}
                />
             </div>
+
             <div className="form-group">
-               <label><FormattedMessage id="banner.create.link" defaultMessage="Link:" /></label>
+               <label><FormattedMessage id="body_admin.banner.create.link" defaultMessage="Liên kết:" /></label>
                <input
-                  type="text"
+                  type="url"
                   value={link}
                   onChange={(e) => setLink(e.target.value)}
+                  placeholder={intl.formatMessage({ id: 'body_admin.banner.create.link_placeholder', defaultMessage: 'https://example.com (tùy chọn)' })}
                />
             </div>
+
             <div className="form-actions">
                <button className="btn-submit" type="submit" disabled={loading}>
-                  {loading ? <FormattedMessage id="banner.create.loading" defaultMessage="Creating..." /> : <FormattedMessage id="banner.create.submit" defaultMessage="Create Banner" />}
+                  {loading ? <FormattedMessage id="body_admin.banner.create.loading" defaultMessage="Đang tạo..." /> : <FormattedMessage id="body_admin.banner.create.submit" defaultMessage="Tạo Banner" />}
                </button>
                <button
                   type="button"
@@ -184,12 +197,11 @@ const BannerCreate = () => {
                   onClick={() => navigate('/admin/homepage-management/banner-management')}
                   disabled={loading}
                >
-                  <FormattedMessage id="banner.create.cancel" defaultMessage="Cancel" />
+                  <FormattedMessage id="body_admin.banner.create.cancel" defaultMessage="Hủy" />
                </button>
             </div>
          </form>
       </div>
-
    );
 
 };

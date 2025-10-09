@@ -10,6 +10,9 @@ const Breadcrumb = ({ topOffset = 100 }) => {
       .split('/')
       .filter(x => x && !/^\d+$/.test(x));
 
+   // Get the actual path segments including IDs for URL reconstruction
+   const fullPathSegments = location.pathname.split('/').filter(x => x);
+
    // Auto-detect if we're in admin area to adjust topOffset
    const isAdminArea = location.pathname.startsWith('/admin');
    const dynamicTopOffset = isAdminArea ? 0 : topOffset;
@@ -60,6 +63,8 @@ const Breadcrumb = ({ topOffset = 100 }) => {
       if (name === 'category-detail') return 'Chi tiết danh mục sản phẩm';
       if (name === 'info-product') return 'Thông tin sản phẩm';
       if (name === 'category-management') return 'Quản lý danh mục sản phẩm';
+      if (name === 'add-product') return 'Thêm sản phẩm';
+      if (name === 'delete-product') return 'Xóa sản phẩm';
 
       if (pathnames.includes('user-detail') && index === pathnames.length - 1) {
          return "Thông tin người dùng";
@@ -89,7 +94,27 @@ const Breadcrumb = ({ topOffset = 100 }) => {
       <nav className="breadcrumb" style={{ top: `${dynamicTopOffset}px`, position: 'sticky', zIndex: 999 }}>
          <Link to="/">Trang chủ</Link>
          {pathnames.map((name, index) => {
-            const routeTo = `/${pathnames.slice(0, index + 1).join('/')}`;
+            // Handle special cases where we need to include IDs in the URL
+            let routeTo = `/${pathnames.slice(0, index + 1).join('/')}`;
+
+            // Special handling for info-product breadcrumb
+            if (name === 'info-product' && index < pathnames.length - 1) {
+               // If we're on add-product or delete-product, we need to include the category ID
+               const categoryId = fullPathSegments.find(segment => /^\d+$/.test(segment));
+               if (categoryId) {
+                  routeTo = `/admin/product-category-management/category-management/info-product/${categoryId}`;
+               }
+            }
+
+            // Special handling for info-category breadcrumb
+            if (name === 'info-category' && index < pathnames.length - 1) {
+               // If we're on add-category or delete-category, we need to include the product ID
+               const productId = fullPathSegments.find(segment => /^\d+$/.test(segment));
+               if (productId) {
+                  routeTo = `/admin/product-category-management/product-management/info-category/${productId}`;
+               }
+            }
+
             const displayName = getBreadcrumbName(name, index);
             const isLast = index === pathnames.length - 1;
 

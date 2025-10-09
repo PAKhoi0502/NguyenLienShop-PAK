@@ -211,7 +211,7 @@ const ProductManager = () => {
                                     />
                                     <button
                                        className="btn-action btn-add-category"
-                                       onClick={() => navigate('/admin/product-category-management/product-management/info-category', { state: { productId: product.id } })}
+                                       onClick={() => navigate(`/admin/product-category-management/product-management/info-category/${product.id}`)}
                                     >
                                        <FormattedMessage id="body_admin.product_management.info_category" defaultMessage="Danh mục" />
                                     </button>

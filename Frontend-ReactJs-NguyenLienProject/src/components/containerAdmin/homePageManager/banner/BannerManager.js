@@ -7,6 +7,7 @@ import BannerActive from './BannerActive';
 import BannerDelete from './BannerDelete';
 import CustomToast from '../../../../components/CustomToast';
 import HintBox from '../../../../components/HintBox';
+import './BannerManager.scss';
 
 const BannerManager = () => {
    const [banners, setBanners] = useState([]);
@@ -23,7 +24,7 @@ const BannerManager = () => {
             <CustomToast
                {...props}
                type={type}
-               titleId={type === "error" ? "banner.manager.error_title" : "banner.manager.success_title"}
+               titleId={type === "error" ? "body_admin.banner.manager.error_title" : "body_admin.banner.manager.success_title"}
                message={message}
                time={new Date()}
             />
@@ -67,6 +68,10 @@ const BannerManager = () => {
       setFilteredBanners(filtered);
    }, [search, banners, filterStatus]);
 
+   const handleDetailClick = (banner) => {
+      navigate(`/admin/homepage-management/banner-management/banner-detail/${banner.id}`);
+   };
+
    const handleUpdateClick = (clickedBanner) => {
       const realBanner = banners.find(b => b.id === clickedBanner.id);
       if (realBanner?.isActive) {
@@ -84,61 +89,62 @@ const BannerManager = () => {
       <div className="banner-manager-container">
          <div className="banner-manager-top">
             <h1 className="banner-title">
-               <FormattedMessage id="banner.manager.title_head" defaultMessage="Quản lý banner" />
+               <FormattedMessage id="body_admin.banner.manager.title_head" defaultMessage="Quản lý banner" />
             </h1>
             <button
                className="btn-create-banner"
                onClick={() => navigate('/admin/homepage-management/banner-management/banner-create')}
             >
-               + <FormattedMessage id="banner.manager.create_button" defaultMessage="Tạo banner" />
+               + <FormattedMessage id="body_admin.banner.manager.create_button" defaultMessage="Tạo banner" />
             </button>
          </div>
 
          <div className="banner-filters">
-            <label><FormattedMessage id="banner.manager.filter_status" defaultMessage="Lọc trạng thái:" /></label>
+            <HintBox
+               content={
+                  <div>
+                     <p><FormattedMessage id="body_admin.banner.manager.hint_title" /></p>
+                  </div>
+               }
+            />
+            <label><FormattedMessage id="body_admin.banner.manager.filter_status" defaultMessage="Lọc trạng thái:" /></label>
             <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
-               <option value="all"><FormattedMessage id="banner.manager.filter_all" defaultMessage="Tất cả" /></option>
-               <option value="active"><FormattedMessage id="banner.manager.filter_active" defaultMessage="Đang hiển thị" /></option>
-               <option value="inactive"><FormattedMessage id="banner.manager.filter_inactive" defaultMessage="Đã ẩn" /></option>
+               <option value="all"><FormattedMessage id="body_admin.banner.manager.filter_all" defaultMessage="Tất cả" /></option>
+               <option value="active"><FormattedMessage id="body_admin.banner.manager.filter_active" defaultMessage="Đang hiển thị" /></option>
+               <option value="inactive"><FormattedMessage id="body_admin.banner.manager.filter_inactive" defaultMessage="Đã ẩn" /></option>
             </select>
          </div>
-         <HintBox
-            content={
-               <div>
-                  <p><FormattedMessage id="banner.manager.hint_title" /></p>
-               </div>
-            }
-         />
+
          <div className="banner-search-bar">
             <input
                type="text"
-               placeholder={intl.formatMessage({ id: 'banner.manager.search_placeholder', defaultMessage: 'Tìm theo tiêu đề, phụ đề, ID...' })}
+               placeholder={intl.formatMessage({ id: 'body_admin.banner.manager.search_placeholder', defaultMessage: 'Tìm theo tiêu đề, phụ đề, ID...' })}
                value={search}
                onChange={(e) => setSearch(e.target.value)}
             />
          </div>
 
          {loading ? (
-            <p className="banner-loading"><FormattedMessage id="banner.manager.loading" defaultMessage="Đang tải banner..." /></p>
+            <p className="banner-loading"><FormattedMessage id="body_admin.banner.manager.loading" defaultMessage="Đang tải banner..." /></p>
          ) : (
             <div className="banner-table-wrapper">
                <table className="banner-table">
                   <thead>
                      <tr>
-                        <th>ID</th>
-                        <th><FormattedMessage id="banner.manager.image" defaultMessage="Hình ảnh" /></th>
-                        <th><FormattedMessage id="banner.manager.title" defaultMessage="Tiêu đề" /></th>
-                        <th><FormattedMessage id="banner.manager.subtitle" defaultMessage="Phụ đề" /></th>
-                        <th><FormattedMessage id="banner.manager.order" defaultMessage="Thứ tự" /></th>
-                        <th><FormattedMessage id="banner.manager.status" defaultMessage="Hiển thị" /></th>
-                        <th><FormattedMessage id="banner.manager.actions" defaultMessage="Hành động" /></th>
+                        <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }}>ID</th>
+                        <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }}><FormattedMessage id="body_admin.banner.manager.image" defaultMessage="Hình ảnh" /></th>
+                        <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }}><FormattedMessage id="body_admin.banner.manager.title" defaultMessage="Tiêu đề" /></th>
+                        <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }}><FormattedMessage id="body_admin.banner.manager.subtitle" defaultMessage="Phụ đề" /></th>
+                        <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }}><FormattedMessage id="body_admin.banner.manager.order" defaultMessage="Thứ tự" /></th>
+                        <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }}><FormattedMessage id="body_admin.banner.manager.status" defaultMessage="Hiển thị" /></th>
+                        <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }}><FormattedMessage id="body_admin.banner.manager.actions" defaultMessage="Hành động" /></th>
                      </tr>
                   </thead>
                   <tbody>
                      {filteredBanners.length === 0 ? (
                         <tr>
                            <td colSpan={7} style={{ textAlign: 'center', color: '#888' }}>
-                              <FormattedMessage id="banner.manager.empty_body" defaultMessage="Không có banner nào phù hợp." />
+                              <FormattedMessage id="body_admin.banner.manager.empty_body" defaultMessage="Không có banner nào phù hợp." />
                            </td>
                         </tr>
                      ) : (
@@ -148,17 +154,45 @@ const BannerManager = () => {
                               <td>
                                  <img src={`http://localhost:8080${banner.imageUrl}`} alt="banner" width="100" />
                               </td>
-                              <td>{banner.title || ''}</td>
+                              <td>
+                                 <span
+                                    className="banner-title-link"
+                                    onClick={() => handleDetailClick(banner)}
+                                    title="Click để xem chi tiết"
+                                    style={{
+                                       cursor: 'pointer',
+                                       color: '#2563eb',
+                                       textDecoration: 'underline',
+                                       transition: 'color 0.3s ease'
+                                    }}
+                                    onMouseEnter={(e) => e.target.style.color = '#1d4ed8'}
+                                    onMouseLeave={(e) => e.target.style.color = '#2563eb'}
+                                 >
+                                    {banner.title || 'N/A'}
+                                 </span>
+                              </td>
                               <td>{banner.subtitle || ''}</td>
                               <td>{banner.order}</td>
-                              <td>{banner.isActive ? '✅' : '❌'}</td>
+                              <td className="status-cell" style={{ cursor: 'default' }}>
+                                 {banner.isActive ? (
+                                    <FormattedMessage id="body_admin.banner.manager.status_active" defaultMessage="Đang hiển thị ✅" />
+                                 ) : (
+                                    <FormattedMessage id="body_admin.banner.manager.status_inactive" defaultMessage="Đã ẩn ❌" />
+                                 )}
+                              </td>
                               <td>
                                  <div className="action-buttons">
+                                    <button
+                                       className="btn-action btn-detail"
+                                       onClick={() => handleDetailClick(banner)}
+                                    >
+                                       <FormattedMessage id="body_admin.banner.manager.detail" defaultMessage="Chi tiết" />
+                                    </button>
                                     <button
                                        className="btn-action btn-update"
                                        onClick={() => handleUpdateClick(banner)}
                                     >
-                                       <FormattedMessage id="banner.manager.update" defaultMessage="Cập nhật" />
+                                       <FormattedMessage id="body_admin.banner.manager.update" defaultMessage="Cập nhật" />
                                     </button>
                                     <BannerActive
                                        banner={banner}

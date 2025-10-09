@@ -3,6 +3,7 @@ import { getAdmins, updateAdmin } from '../../../services/adminService';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { toast } from 'react-toastify';
+import Swal from 'sweetalert2';
 import CustomToast from '../../../components/CustomToast';
 import './AdminUpdate.scss';
 
@@ -125,6 +126,67 @@ const AdminUpdate = () => {
          showToast("error", errMsg);
          return;
       }
+
+      // Step 1: Initial Confirmation
+      const confirmFirst = await Swal.fire({
+         title: intl.formatMessage({ id: 'body_admin.account_management.admin_manager.update_admin.confirm_title_1', defaultMessage: 'Xác nhận cập nhật quản trị viên' }),
+         html: `<strong>${form.userName || intl.formatMessage({ id: 'body_admin.account_management.admin_manager.update_admin.no_username', defaultMessage: 'Không có tên quản trị viên' })}</strong><br>ID: ${id}`,
+         icon: 'warning',
+         showCancelButton: true,
+         confirmButtonText: intl.formatMessage({ id: 'body_admin.account_management.admin_manager.update_admin.confirm_button_1', defaultMessage: 'Tiếp tục' }),
+         cancelButtonText: intl.formatMessage({ id: 'body_admin.account_management.admin_manager.update_admin.cancel_button', defaultMessage: 'Hủy' })
+      });
+
+      if (!confirmFirst.isConfirmed) return;
+
+      // Step 2: Secondary Confirmation
+      const confirmSecond = await Swal.fire({
+         title: intl.formatMessage({ id: 'body_admin.account_management.admin_manager.update_admin.confirm_title_2', defaultMessage: 'Bạn chắc chắn muốn cập nhật?' }),
+         text: intl.formatMessage({ id: 'body_admin.account_management.admin_manager.update_admin.confirm_text_2', defaultMessage: 'Thông tin quản trị viên sẽ được thay đổi!' }),
+         icon: 'question',
+         showCancelButton: true,
+         confirmButtonText: intl.formatMessage({ id: 'body_admin.account_management.admin_manager.update_admin.confirm_button_2', defaultMessage: 'Cập nhật' }),
+         cancelButtonText: intl.formatMessage({ id: 'body_admin.account_management.admin_manager.update_admin.cancel_button', defaultMessage: 'Hủy' })
+      });
+
+      if (!confirmSecond.isConfirmed) return;
+
+      // Step 3: Text confirmation - Type exact phrase
+      const confirmText = await Swal.fire({
+         title: intl.formatMessage({ id: 'body_admin.account_management.admin_manager.update_admin.security_title', defaultMessage: 'Xác nhận bảo mật' }),
+         html: `
+            <div style="text-align: left; margin: 20px 0;">
+               <p style="margin-bottom: 15px; color: #ef4444; font-weight: 600;">
+                  ${intl.formatMessage({ id: 'body_admin.account_management.admin_manager.update_admin.security_warning', defaultMessage: 'Cảnh báo: Hành động này sẽ cập nhật thông tin quản trị viên!' })}
+               </p>
+               <p style="margin-bottom: 10px; color: #374151;">
+                  ${intl.formatMessage({ id: 'body_admin.account_management.admin_manager.update_admin.security_confirm_text', defaultMessage: 'Quản trị viên cần cập nhật' })}: <strong style="color: #dc2626;">${form.userName || intl.formatMessage({ id: 'body_admin.account_management.admin_manager.update_admin.no_username', defaultMessage: 'Không có tên quản trị viên' })}</strong>
+               </p>
+               <p style="margin-bottom: 15px; color: #374151;">
+                  ${intl.formatMessage({ id: 'body_admin.account_management.admin_manager.update_admin.security_type_exact', defaultMessage: 'Nhập chính xác cụm từ' })}: <code style="background: #f3f4f6; padding: 2px 6px; border-radius: 4px; color: #dc2626; font-weight: 600;">${intl.formatMessage({ id: 'body_admin.account_management.admin_manager.update_admin.security_phrase', defaultMessage: 'CẬP NHẬT QUẢN TRỊ VIÊN' })}</code>
+               </p>
+            </div>
+         `,
+         input: 'text',
+         inputPlaceholder: intl.formatMessage({ id: 'body_admin.account_management.admin_manager.update_admin.security_placeholder', defaultMessage: 'Nhập cụm từ xác nhận...' }),
+         icon: 'warning',
+         showCancelButton: true,
+         confirmButtonText: intl.formatMessage({ id: 'body_admin.account_management.admin_manager.update_admin.security_continue', defaultMessage: 'Tiếp tục cập nhật' }),
+         cancelButtonText: intl.formatMessage({ id: 'body_admin.account_management.admin_manager.update_admin.cancel_button', defaultMessage: 'Hủy' }),
+         inputValidator: (value) => {
+            const expectedPhrase = intl.formatMessage({ id: 'body_admin.account_management.admin_manager.update_admin.security_phrase', defaultMessage: 'CẬP NHẬT QUẢN TRỊ VIÊN' });
+            if (value !== expectedPhrase) {
+               return intl.formatMessage({ id: 'body_admin.account_management.admin_manager.update_admin.security_error', defaultMessage: 'Cụm từ không chính xác. Vui lòng nhập đúng cụm từ được yêu cầu.' });
+            }
+         },
+         customClass: {
+            popup: 'swal-update-step3',
+            input: 'swal-text-input'
+         }
+      });
+
+      if (!confirmText.isConfirmed) return;
+
       setLoading(true);
 
       const submitData = {

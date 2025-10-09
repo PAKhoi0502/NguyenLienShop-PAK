@@ -220,9 +220,7 @@ const CategoryManager = () => {
                                     />
                                     <button
                                        className="btn-action btn-info-product btn-add-product"
-                                       onClick={() => navigate('/admin/product-category-management/category-management/info-product', {
-                                          state: { categoryId: category.id }
-                                       })}
+                                       onClick={() => navigate(`/admin/product-category-management/category-management/info-product/${category.id}`)}
                                     >
                                        <FormattedMessage id="body_admin.category_management.product" defaultMessage="Sản phẩm" />
                                     </button>

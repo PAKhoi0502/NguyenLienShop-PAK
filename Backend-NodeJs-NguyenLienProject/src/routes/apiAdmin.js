@@ -3,6 +3,7 @@ import adminController from '../controllers/adminController.js';
 import authController from '../controllers/authController.js';
 import dashboardController from '../controllers/dashboardController.js';
 import countController from '../controllers/countController.js';
+import announcementController from '../controllers/announcementController.js';
 import { verifyToken, isRole } from '../middlewares/authMiddleware.js';
 import validateBodyFields from '../middlewares/validateBodyFields.js';
 
@@ -34,5 +35,16 @@ router.put('/user-update', verifyToken, isRole(1), adminController.handleUpdateU
 
 // 🔒 Verify admin password for sensitive operations
 router.post('/verify-password', verifyToken, isRole(1), validateBodyFields(['password']), authController.handleVerifyPassword);
+
+// 📢 Announcement routes
+router.get('/announcement-management', verifyToken, isRole(1), announcementController.handleGetAnnouncements);
+router.get('/announcement/:id', verifyToken, isRole(1), announcementController.handleGetAnnouncementById);
+router.post('/announcement-create', verifyToken, isRole(1), announcementController.handleCreateAnnouncement);
+router.put('/announcement-update/:id', verifyToken, isRole(1), announcementController.handleUpdateAnnouncement);
+router.delete('/announcement-delete/:id', verifyToken, isRole(1), announcementController.handleDeleteAnnouncement);
+router.patch('/announcement-toggle/:id', verifyToken, isRole(1), announcementController.handleToggleAnnouncementStatus);
+router.get('/announcement-search', verifyToken, isRole(1), announcementController.handleSearchAnnouncements);
+router.get('/announcement-type/:type', verifyToken, isRole(1), announcementController.handleGetAnnouncementsByType);
+router.get('/announcement-position/:position', verifyToken, isRole(1), announcementController.handleGetAnnouncementsByPosition);
 
 export default router;

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getUsers } from '../../../services/adminService';
 import { FormattedMessage, useIntl } from 'react-intl';
+import UserDelete from './UserDelete';
 import './UserDetail.scss';
 
 const UserDetail = () => {
@@ -31,6 +32,11 @@ const UserDetail = () => {
       navigate(`/admin/account-management/user-management/user-update/${id}`);
    };
 
+   const handleDeleteSuccess = (userId) => {
+      // Navigate back to user management after successful deletion
+      navigate('/admin/account-management/user-management');
+   };
+
    if (loading) return (
       <div className="user-detail-loading">
          <FormattedMessage id="body_admin.account_management.user_manager.detail_user.loading" defaultMessage="Đang tải dữ liệu..." />
@@ -49,20 +55,20 @@ const UserDetail = () => {
          </h2>
          <div className="user-detail-content">
             <div><strong>ID:</strong> {user.id}</div>
-            <div><strong><FormattedMessage id="body_admin.account_management.user_manager.detail_user.username" defaultMessage="Biệt danh" />:</strong> {user.userName || intl.formatMessage({ id: 'body_admin.account_management.user_manager.detail_user.missing', defaultMessage: 'Chưa có' })}</div>
-            <div><strong><FormattedMessage id="body_admin.account_management.user_manager.detail_user.fullname" defaultMessage="Họ tên" />:</strong> {user.fullName || intl.formatMessage({ id: 'body_admin.account_management.user_manager.detail_user.missing' })}</div>
+            <div><strong><FormattedMessage id="body_admin.account_management.user_manager.detail_user.username" defaultMessage="Biệt danh" />:</strong> <span className={user.userName ? "" : "cell-na"}>{user.userName || "N/A"}</span></div>
+            <div><strong><FormattedMessage id="body_admin.account_management.user_manager.detail_user.fullname" defaultMessage="Họ tên" />:</strong> <span className={user.fullName ? "" : "cell-na"}>{user.fullName || "N/A"}</span></div>
             <div><strong><FormattedMessage id="body_admin.account_management.user_manager.detail_user.email" defaultMessage="Email" />:</strong> <em><FormattedMessage id="body_admin.account_management.user_manager.detail_user.hidden" defaultMessage="(Ẩn - cập nhật ở trang khác)" /></em></div>
             <div><strong><FormattedMessage id="body_admin.account_management.user_manager.detail_user.phone" defaultMessage="Số điện thoại" />:</strong> <em><FormattedMessage id="body_admin.account_management.user_manager.detail_user.hidden" /></em></div>
-            <div><strong><FormattedMessage id="body_admin.account_management.user_manager.detail_user.birthday" defaultMessage="Ngày sinh" />:</strong> {user.birthday || intl.formatMessage({ id: 'body_admin.account_management.user_manager.detail_user.missing' })}</div>
-            <div><strong><FormattedMessage id="body_admin.account_management.user_manager.detail_user.gender" defaultMessage="Giới tính" />:</strong> {
+            <div><strong><FormattedMessage id="body_admin.account_management.user_manager.detail_user.birthday" defaultMessage="Ngày sinh" />:</strong> <span className={user.birthday ? "" : "cell-na"}>{user.birthday || "N/A"}</span></div>
+            <div><strong><FormattedMessage id="body_admin.account_management.user_manager.detail_user.gender" defaultMessage="Giới tính" />:</strong> <span className={user.gender ? "" : "cell-na"}>{
                user.gender === 'M'
                   ? intl.formatMessage({ id: 'body_admin.account_management.user_manager.gender_user.male', defaultMessage: 'Nam' })
                   : user.gender === 'F'
                      ? intl.formatMessage({ id: 'body_admin.account_management.user_manager.gender_user.female', defaultMessage: 'Nữ' })
                      : user.gender === 'O'
                         ? intl.formatMessage({ id: 'body_admin.account_management.user_manager.gender_user.other', defaultMessage: 'Khác' })
-                        : intl.formatMessage({ id: 'body_admin.account_management.user_manager.gender_user.unknown', defaultMessage: 'Chưa chọn' })
-            }</div>
+                        : "N/A"
+            }</span></div>
             <div><strong><FormattedMessage id="body_admin.account_management.user_manager.detail_user.role" defaultMessage="Vai trò" />:</strong> {
                user.roleId === 1
                   ? intl.formatMessage({ id: 'body_admin.account_management.user_manager.role_user.admin', defaultMessage: 'Quản trị viên' })
@@ -74,6 +80,7 @@ const UserDetail = () => {
             <button className="btn-edit" onClick={handleEdit}>
                <FormattedMessage id="body_admin.account_management.user_manager.detail_user.edit_button" defaultMessage="Cập nhật thông tin" />
             </button>
+            <UserDelete user={user} onSuccess={handleDeleteSuccess} className="btn-delete" />
             <button className="btn-back" onClick={() => navigate(-1)}>
                <FormattedMessage id="body_admin.account_management.user_manager.detail_user.back_button" defaultMessage="Quay lại" />
             </button>

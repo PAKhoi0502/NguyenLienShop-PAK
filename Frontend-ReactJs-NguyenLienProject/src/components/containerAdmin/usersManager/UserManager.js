@@ -110,11 +110,8 @@ const UserManager = () => {
                      <tr>
                         <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }}>ID</th>
                         <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }}><FormattedMessage id="body_admin.account_management.user_manager.username" defaultMessage="Tên người dùng" /></th>
-                        <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }}><FormattedMessage id="body_admin.account_management.user_manager.fullname" defaultMessage="Họ và tên" /></th>
                         <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }}>Email</th>
                         <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }} className="hide-mobile"><FormattedMessage id="body_admin.account_management.user_manager.phone" defaultMessage="Số điện thoại" /></th>
-                        <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }} className="hide-mobile"><FormattedMessage id="body_admin.account_management.user_manager.gender" defaultMessage="Giới tính" /></th>
-                        <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }} className="hide-mobile"><FormattedMessage id="body_admin.account_management.user_manager.birthday" defaultMessage="Ngày sinh" /></th>
                         <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }}><FormattedMessage id="body_admin.account_management.user_manager.role" defaultMessage="Vai trò" /></th>
                         <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }}><FormattedMessage id="body_admin.account_management.user_manager.actions" defaultMessage="Hành động" /></th>
                      </tr>
@@ -122,7 +119,7 @@ const UserManager = () => {
                   <tbody>
                      {filteredUsers.length === 0 ? (
                         <tr>
-                           <td colSpan={9} style={{ textAlign: 'center', color: '#888' }}>
+                           <td colSpan={6} style={{ textAlign: 'center', color: '#888' }}>
                               <FormattedMessage id="body_admin.account_management.user_manager.empty" defaultMessage="Không có người dùng nào phù hợp." />
                            </td>
                         </tr>
@@ -131,7 +128,6 @@ const UserManager = () => {
                            <tr key={user.id}>
                               <td style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>{user.id}</td>
                               <td style={{ fontSize: '1.1rem', fontWeight: 'bold' }} className={user.userName ? "" : "cell-na"}>{user.userName || "N/A"}</td>
-                              <td style={{ fontSize: '1.1rem', fontWeight: 'bold' }} className={user.fullName ? "" : "cell-na"}>{user.fullName || "N/A"}</td>
                               <td style={{ fontSize: '1.1rem', fontWeight: 'bold' }} className={user.email ? "" : "cell-na"}>{user.email || "N/A"}</td>
                               <td style={{ fontSize: '1.1rem', fontWeight: 'bold' }} className={user.phoneNumber ? "hide-mobile phone-number-cell" : "hide-mobile cell-na"}>
                                  {user.phoneNumber ? (
@@ -146,8 +142,6 @@ const UserManager = () => {
                                     "N/A"
                                  )}
                               </td>
-                              <td style={{ fontSize: '1.1rem', fontWeight: 'bold' }} className={user.gender ? "hide-mobile" : "hide-mobile cell-na"}>{user.gender || "N/A"}</td>
-                              <td style={{ fontSize: '1.1rem', fontWeight: 'bold' }} className={user.birthday ? "hide-mobile" : "hide-mobile cell-na"}>{user.birthday || "N/A"}</td>
                               <td style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>
                                  <span className={user.roleId === 1 ? "role-admin" : "role-user"}>
                                     {user.roleId === 1

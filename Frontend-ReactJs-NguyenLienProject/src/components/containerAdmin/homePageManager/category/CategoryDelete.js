@@ -58,6 +58,42 @@ const CategoryDelete = ({ category }) => {
 
       if (!confirmSecond.isConfirmed) return;
 
+      // Step 3: Text confirmation - Type exact phrase (Category specific)
+      const confirmText = await Swal.fire({
+         title: intl.formatMessage({ id: 'body_admin.category_management.delete.security_title', defaultMessage: 'Xác nhận bảo mật' }),
+         html: `
+            <div style="text-align: left; margin: 20px 0;">
+               <p style="margin-bottom: 15px; color: #ef4444; font-weight: 600;">
+                  ${intl.formatMessage({ id: 'body_admin.category_management.delete.security_warning', defaultMessage: 'Cảnh báo: Hành động này sẽ xóa vĩnh viễn danh mục!' })}
+               </p>
+               <p style="margin-bottom: 10px; color: #374151;">
+                  ${intl.formatMessage({ id: 'body_admin.category_management.delete.security_confirm_text', defaultMessage: 'Danh mục cần xóa' })}: <strong style="color: #dc2626;">${category.nameCategory || intl.formatMessage({ id: 'body_admin.category_management.delete.no_name', defaultMessage: 'Không có tên danh mục' })}</strong>
+               </p>
+               <p style="margin-bottom: 15px; color: #374151;">
+                  ${intl.formatMessage({ id: 'body_admin.category_management.delete.security_type_exact', defaultMessage: 'Nhập chính xác cụm từ' })}: <code style="background: #f3f4f6; padding: 2px 6px; border-radius: 4px; color: #dc2626; font-weight: 600;">${intl.formatMessage({ id: 'body_admin.category_management.delete.security_phrase', defaultMessage: 'XÓA DANH MỤC' })}</code>
+               </p>
+            </div>
+         `,
+         input: 'text',
+         inputPlaceholder: intl.formatMessage({ id: 'body_admin.category_management.delete.security_placeholder', defaultMessage: 'Nhập cụm từ xác nhận...' }),
+         icon: 'warning',
+         showCancelButton: true,
+         confirmButtonText: intl.formatMessage({ id: 'body_admin.category_management.delete.security_continue', defaultMessage: 'Tiếp tục xóa' }),
+         cancelButtonText: intl.formatMessage({ id: 'body_admin.category_management.delete.cancel_button', defaultMessage: 'Hủy' }),
+         inputValidator: (value) => {
+            const expectedPhrase = intl.formatMessage({ id: 'body_admin.category_management.delete.security_phrase', defaultMessage: 'XÓA DANH MỤC' });
+            if (value !== expectedPhrase) {
+               return intl.formatMessage({ id: 'body_admin.category_management.delete.security_error', defaultMessage: 'Cụm từ không chính xác. Vui lòng nhập đúng cụm từ được yêu cầu.' });
+            }
+         },
+         customClass: {
+            popup: 'swal-delete-step3',
+            input: 'swal-text-input'
+         }
+      });
+
+      if (!confirmText.isConfirmed) return;
+
       try {
          const res = await deleteCategory(category.id);
          if (res.errCode === 0) {
