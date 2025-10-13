@@ -42,6 +42,13 @@ import BannerCreate from '../components/containerAdmin/homePageManager/banner/Ba
 import BannerUpdate from '../components/containerAdmin/homePageManager/banner/BannerUpdate';
 import BannerDetail from '../components/containerAdmin/homePageManager/banner/BannerDetail';
 
+// Admin - Quản lý thông báo
+import AnnouncementManager from '../components/containerAdmin/homePageManager/announcement/AnnouncementManager';
+import AnnouncementCreate from '../components/containerAdmin/homePageManager/announcement/AnnouncementCreate';
+import AnnouncementUpdate from '../components/containerAdmin/homePageManager/announcement/AnnouncementUpdate';
+import AnnouncementDetail from '../components/containerAdmin/homePageManager/announcement/AnnouncementDetail';
+
+
 // //Admin - Quản lý product
 import { AddCategory, DeleteCategory, InfoCategory, ProductCreate, ProductDetail, ProductManager, ProductUpdate } from '../components/containerAdmin/homePageManager/product/index.js';
 
@@ -112,6 +119,15 @@ const AppRoutes = () => (
          <Route path="/admin/product-category-management/category-management/info-product/:id" element={<PrivateRoute role="1" element={() => <AdminLayout><InfoProduct /></AdminLayout>} />} />
          <Route path="/admin/product-category-management/category-management/info-product/:id/add-product" element={<PrivateRoute role="1" element={() => <AdminLayout><AddProduct /></AdminLayout>} />} />
          <Route path="/admin/product-category-management/category-management/info-product/:id/delete-product" element={<PrivateRoute role="1" element={() => <AdminLayout><DeleteProduct /></AdminLayout>} />} />
+
+
+         {/* --- Admin - Quản lý thông báo --- */}
+         <Route path="/admin/homepage-management/announcement-management" element={<PrivateRoute role="1" element={() => <AdminLayout><AnnouncementManager /></AdminLayout>} />} />
+         <Route path="/admin/homepage-management/announcement-management/announcement-create" element={<PrivateRoute role="1" element={() => <AdminLayout><AnnouncementCreate /></AdminLayout>} />} />
+         <Route path="/admin/homepage-management/announcement-management/announcement-update/:id" element={<PrivateRoute role="1" element={() => <AdminLayout><AnnouncementUpdate /></AdminLayout>} />} />
+         <Route path="/admin/homepage-management/announcement-management/announcement-detail/:id" element={<PrivateRoute role="1" element={() => <AdminLayout><AnnouncementDetail /></AdminLayout>} />} />
+
+
          {/* --- Not Found --- */}
          <Route path="*" element={<NotFoundPage />} />
       </Routes>

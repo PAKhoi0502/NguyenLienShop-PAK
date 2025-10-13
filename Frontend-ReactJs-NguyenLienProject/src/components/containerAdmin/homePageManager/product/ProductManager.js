@@ -115,6 +115,7 @@ const ProductManager = () => {
                   </div>
                }
             />
+
             <label><FormattedMessage id="body_admin.product_management.filter_status" defaultMessage="Lọc trạng thái:" /></label>
             <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
                <option value="all"><FormattedMessage id="body_admin.product_management.filter_all" defaultMessage="Tất cả" /></option>
@@ -162,6 +163,7 @@ const ProductManager = () => {
                                  <span
                                     className="product-name-link"
                                     onClick={() => handleDetailClick(product)}
+                                    title={intl.formatMessage({ id: 'body_admin.product_management.detail_title', defaultMessage: 'Click để xem chi tiết' })}
                                     style={{
                                        cursor: 'pointer',
                                        color: '#2563eb',
@@ -174,6 +176,7 @@ const ProductManager = () => {
                                     {product.nameProduct || ''}
                                  </span>
                               </td>
+
                               <td>
                                  <span style={{ fontSize: '1rem', fontWeight: 'bold', cursor: 'default' }} className={`stock-badge ${(product.stock === 0 || product.stock === null) ? 'out-of-stock' : 'in-stock'}`}>
                                     {product.stock || 0}

@@ -1,0 +1,642 @@
+// ==============================================
+// 📦 announcement MANAGER STYLES (Green Theme)
+// ==============================================
+
+@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
+@import '../../../../components/common/IconRenderer.scss';
+
+.announcement-manager-container {
+    min-height: 100vh;
+    padding: spacing(8) spacing(6);
+    background: linear-gradient(135deg, #f0fdf4 0%, color(white) 50%, #ecfdf5 100%);
+
+    @include mobile-only {
+        padding: spacing(6) spacing(4);
+    }
+
+    // ==============================================
+    // 📋 HEADER & TOP SECTION
+    // ==============================================
+    .announcement-manager-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: spacing(8);
+        padding: spacing(6);
+        background: linear-gradient(135deg, color(white) 0%, #f0fdf4 100%);
+        border-radius: border-radius(xl);
+        box-shadow: shadow(lg);
+        border: 1px solid #bbf7d0;
+
+        @include mobile-only {
+            flex-direction: column;
+            gap: spacing(4);
+            text-align: center;
+        }
+
+        .announcement-title {
+            font-size: font-size(3xl);
+            font-weight: font-weight(bold);
+            color: #14532d;
+            margin: 0;
+            position: relative;
+
+            &::before {
+                margin-right: spacing(2);
+                font-size: font-size(2xl);
+            }
+
+            @include mobile-only {
+                font-size: font-size(2xl);
+            }
+        }
+
+        .btn-create-announcement {
+            @include button-base;
+            background: linear-gradient(135deg, #df63eb, #A813B7);
+            color: color(white);
+            border: 1px solid #A813B7;
+            padding: spacing(3) spacing(6);
+            font-size: font-size(base);
+            font-weight: font-weight(semibold);
+            border-radius: border-radius(lg);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: spacing(2);
+
+            &:hover {
+                background: linear-gradient(135deg, #A813B7, #4B004F);
+                transform: translateY(-2px);
+                box-shadow: 0 8px 24px rgba(180, 19, 173, 0.3);
+            }
+
+            &:active {
+                transform: translateY(0);
+            }
+
+            @include mobile-only {
+                padding: spacing(3) spacing(4);
+                font-size: font-size(sm);
+            }
+        }
+    }
+
+    // ==============================================
+    // 📋 LEGACY HEADER (for backward compatibility)
+    // ==============================================
+    h1 {
+        font-size: font-size(3xl);
+        font-weight: font-weight(bold);
+        color: #4B004F;
+        margin: 0 0 spacing(6) 0;
+        text-align: center;
+        position: relative;
+
+        &::before {
+            margin-right: spacing(2);
+            font-size: font-size(2xl);
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 260px;
+            height: 4px;
+            background: linear-gradient(90deg, #df63eb, #A813B7);
+            border-radius: border-radius(full);
+        }
+    }
+
+    // ==============================================
+    // 🔍 FILTERS & SEARCH
+    // ==============================================
+    .announcement-filters {
+        display: flex;
+        align-items: center;
+        gap: spacing(4);
+        margin-bottom: spacing(4);
+        padding: spacing(4);
+        background: color(white);
+        border-radius: border-radius(lg);
+        box-shadow: shadow(sm);
+        border: 1px solid #df63eb;
+
+        @include mobile-only {
+            flex-direction: column;
+            align-items: stretch;
+            gap: spacing(3);
+        }
+
+        // HintBox wrapper trong filter
+        .hint-icon-wrapper {
+            margin: 0;
+            flex-shrink: 0;
+        }
+
+        label {
+            font-weight: font-weight(semibold);
+            color: #4B004F;
+            white-space: nowrap;
+            margin-left: auto; // Đẩy label và select sang phải
+
+            @include mobile-only {
+                margin-left: 0;
+            }
+        }
+
+        select {
+            padding: spacing(2) spacing(3);
+            border: 2px solid #df63eb;
+            border-radius: border-radius(md);
+            background: color(white);
+            color: #374151;
+            font-size: font-size(sm);
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+
+            &:focus {
+                outline: none;
+                border-color: #df63eb;
+                box-shadow: 0 0 0 3px rgba(180, 19, 173, 0.1);
+            }
+
+            option {
+                padding: spacing(2);
+            }
+        }
+
+        // Mobile layout adjustment
+        @include mobile-only {
+            .hint-icon-wrapper {
+                align-self: flex-start;
+            }
+
+            label {
+                order: 1;
+            }
+
+            select {
+                order: 2;
+            }
+        }
+    }
+
+    .announcement-search-bar {
+        margin-bottom: spacing(6);
+
+        input {
+            width: 100%;
+            padding: spacing(4);
+            border: 2px solid #df63eb;
+            border-radius: border-radius(lg);
+            font-size: font-size(base);
+            background: color(white);
+            color: #374151;
+            transition: all 0.3s ease;
+
+            &::placeholder {
+                color: #9ca3af;
+            }
+
+            &:focus {
+                outline: none;
+                border-color: #df63eb;
+                box-shadow: 0 0 0 3px rgba(180, 19, 173, 0.1);
+                background: #f9fafb;
+            }
+
+            // Pink background when filled
+            &:not(:placeholder-shown) {
+                background-color: #fdf2f8;
+                border-color: #f9a8d4;
+            }
+        }
+    }
+
+    // ==============================================
+    // 📊 TABLE STYLING
+    // ==============================================
+    .announcement-table-wrapper {
+        background: color(white);
+        border-radius: border-radius(xl);
+        box-shadow: shadow(lg);
+        overflow: hidden;
+        border: 1px solid #df63eb;
+    }
+
+    .announcement-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: font-size(sm);
+
+        @include mobile-only {
+            font-size: font-size(xs);
+        }
+
+        thead {
+            background: linear-gradient(135deg, #df63eb, #A813B7);
+
+            th {
+                padding: spacing(4);
+                text-align: center;
+                font-weight: font-weight(bold);
+                color: #4B004F;
+                border-bottom: 2px solid #df63eb;
+                position: sticky;
+                top: 0;
+                z-index: 10;
+
+                @include mobile-only {
+                    padding: spacing(3) spacing(2);
+                    font-size: font-size(xs);
+                }
+            }
+        }
+
+        tbody {
+            tr {
+                transition: all 0.3s ease;
+
+                &:nth-child(even) {
+                    background-color: #df63eb;
+                }
+
+                &:hover {
+                    background-color: #df63eb;
+                    transform: scale(1.01);
+                    box-shadow: 0 4px 8px rgba(34, 197, 94, 0.1);
+                }
+
+                td {
+                    text-align: center;
+                    padding: spacing(4);
+                    border-bottom: 1px solid #e5e7eb;
+                    color: #374151;
+                    vertical-align: middle;
+
+                    @include mobile-only {
+                        padding: spacing(3) spacing(2);
+                        font-size: font-size(xs);
+                    }
+
+                    // Empty state styling
+                    &[colspan] {
+                        text-align: center;
+                        color: #9ca3af;
+                        font-style: italic;
+                        padding: spacing(8);
+                    }
+                }
+            }
+        }
+    }
+
+    // ==============================================
+    // 🎯 ACTION BUTTONS
+    // ==============================================
+    .action-buttons {
+        display: flex;
+        gap: spacing(4);
+        flex-wrap: wrap;
+        justify-content: center;
+
+        @include mobile-only {
+            flex-direction: column;
+            gap: spacing(1);
+        }
+    }
+
+    .btn-action {
+        @include button-base;
+        padding: spacing(2) spacing(3);
+        font-size: font-size(lg);
+        font-weight: font-weight(medium);
+        border-radius: border-radius(md);
+        transition: all 0.3s ease;
+        min-width: 80px;
+        text-align: center;
+
+        @include mobile-only {
+            padding: spacing(2);
+            font-size: font-size(2xs);
+            min-width: auto;
+        }
+
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: shadow(md);
+        }
+
+        &:active {
+            transform: translateY(0);
+        }
+
+        // Detail button (Blue)
+        &.btn-detail {
+            background: linear-gradient(135deg, #8EC5FF, #155DFC);
+            color: color(white);
+            border: 1px solid #2563eb;
+
+            &:hover {
+                background: linear-gradient(135deg, #162456, #155DFC);
+                box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+            }
+        }
+
+        // Update button (Green)
+        &.btn-update {
+            background: linear-gradient(135deg, #7BF1A8, #2AA63E);
+            color: color(white);
+            border: 1px solid #16a34a;
+
+            &:hover {
+                background: linear-gradient(135deg, #032E15, #2AA63E);
+                box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+            }
+        }
+
+        // Add Category button (Orange)
+        &.btn-add-category {
+            background: linear-gradient(135deg, #FFB86A, #F54927);
+            color: color(white);
+            border: 1px solid #ea580c;
+
+            &:hover {
+                background: linear-gradient(135deg, #441306, #F54927);
+                box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+            }
+        }
+
+        // Delete button (Red)
+        &.btn-delete {
+            background: linear-gradient(135deg, #FFA2A2, #E7180B);
+            color: color(white);
+            border: 1px solid #dc2626;
+
+            &:hover {
+                background: linear-gradient(135deg, #460809, #E7180B);
+                box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+            }
+        }
+
+        // Activate button (White with black text)
+        &.btn-activate {
+            background: linear-gradient(135deg, #C4B4FF, #9810FA);
+            color: color(white);
+            border: 1px solid #AD46FF;
+
+            &:hover {
+                background: linear-gradient(135deg, #3C0366, #9810FA);
+                box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+            }
+        }
+
+        // Deactivate button (Gray)
+        &.btn-deactivate {
+            background: linear-gradient(135deg, #6A7282, #314158);
+            color: color(white);
+            border: 1px solid #4b5563;
+
+            &:hover {
+                background: linear-gradient(135deg, #020618, #314158);
+                box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+            }
+        }
+    }
+
+    // ==============================================
+    // 📱 LOADING & STATES
+    // ==============================================
+    .announcement-loading {
+        text-align: center;
+        padding: spacing(8);
+        color: #df63eb;
+        font-size: font-size(lg);
+        font-weight: font-weight(medium);
+
+        &::before {
+            content: '⏳';
+            margin-right: spacing(2);
+            animation: spin 2s linear infinite;
+        }
+    }
+
+    @keyframes spin {
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    // ==============================================
+    // 🎭 RESPONSIVE DESIGN
+    // ==============================================
+    @include mobile-only {
+        .announcement-table-wrapper {
+            overflow-x: auto;
+        }
+
+        .announcement-table {
+            min-width: 600px;
+        }
+
+        .action-buttons {
+            min-width: 200px;
+        }
+    }
+
+    // ==============================================
+    // 🌙 DARK MODE SUPPORT
+    // ==============================================
+    @media (prefers-color-scheme: dark) {
+        background: linear-gradient(135deg, #4B004F 0%, color(gray-900) 50%, #A813B7 100%);
+
+        .announcement-manager-top {
+            background: linear-gradient(135deg, color(gray-800) 0%, #4B004F 100%);
+            border-color: #A813B7;
+
+            .announcement-title {
+                color: #F6CFFF;
+            }
+
+            .btn-create-announcement {
+                background: linear-gradient(135deg, #A813B7, #4B004F);
+                border-color: #A813B7;
+
+                &:hover {
+                    background: linear-gradient(135deg, #4B004F, #A813B7);
+                }
+            }
+        }
+
+        h1 {
+            color: #F6CFFF;
+        }
+
+        .announcement-filters {
+            background: color(gray-800);
+            border-color: #A813B7;
+
+            .hint-icon-wrapper .hint-icon {
+                background: rgba(251, 191, 36, 0.15);
+                border-color: rgba(251, 191, 36, 0.4);
+            }
+
+            label {
+                color: #F6CFFF;
+            }
+
+            select {
+                background: color(gray-700);
+                color: color(gray-200);
+                border-color: #df63eb;
+
+                &:focus {
+                    border-color: #df63eb;
+                }
+            }
+        }
+
+        .announcement-search-bar input {
+            background: color(gray-800);
+            color: color(gray-200);
+            border-color: #df63eb;
+
+            &:focus {
+                background: color(gray-700);
+                border-color: #df63eb;
+            }
+
+            &:not(:placeholder-shown) {
+                background-color: color(gray-700);
+                border-color: #df63eb;
+            }
+        }
+
+        .announcement-table-wrapper {
+            background: color(gray-800);
+            border-color: #df63eb;
+        }
+
+        .announcement-table {
+            thead {
+                background: linear-gradient(135deg, #df63eb, #A813B7);
+
+                th {
+                    color: #F6CFFF;
+                    border-bottom-color: #df63eb;
+                }
+            }
+
+            tbody {
+                tr {
+                    &:nth-child(even) {
+                        background-color: color(gray-700);
+                    }
+
+                    &:hover {
+                        background-color: #4B004F;
+                    }
+
+                    td {
+                        color: color(gray-200);
+                        border-bottom-color: color(gray-600);
+                    }
+                }
+            }
+        }
+    }
+}
+
+// ==============================================
+// 📊 STOCK BADGE STYLES
+// ==============================================
+.stock-badge {
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    display: inline-block;
+    min-width: 40px;
+    text-align: center;
+
+    &.in-stock {
+        background-color: #df63eb;
+        color: #f692ff;
+        border: 1px solid #df63eb;
+    }
+
+    &.out-of-stock {
+        background-color: #fef2f2;
+        color: #dc2626;
+        border: 1px solid #fecaca;
+        font-weight: 700;
+
+        &::after {
+            content: ' ❌';
+            font-size: 12px;
+            margin-left: 4px;
+        }
+    }
+
+    // Dark theme support
+    .announcement-manager-container.dark & {
+        &.in-stock {
+            background-color: #14532d;
+            color: #bbf7d0;
+            border-color: #22c55e;
+        }
+
+        &.out-of-stock {
+            background-color: #7f1d1d;
+            color: #fecaca;
+            border-color: #ef4444;
+        }
+    }
+}
+
+.status-cell {
+    font-size: 1.1rem;
+}
+
+// ==============================================
+// 🎯 ICON CELL STYLING
+// ==============================================
+.announcement-table {
+    // Icon cell styling
+    td:has(.icon-renderer) {
+        text-align: center;
+        vertical-align: middle;
+        padding: spacing(3);
+        
+        .icon-renderer {
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+}
+
+// ==============================================
+
+.announcement-title-link {
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.1rem;
+
+    &:hover {
+        transition: all 0.3s ease;
+        color: #de25eb;
+    }
+}

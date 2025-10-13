@@ -8,11 +8,14 @@ import logo from '../../assets/icon/footer/logo.png';
 import { toast } from 'react-toastify';
 import CustomToast from '../../components/CustomToast';
 import { FormattedMessage } from 'react-intl';
+import { getActiveAnnouncements } from '../../services/publicAnnouncementService';
 
 const HeaderPublic = forwardRef((props, ref) => {
    const [hideBanner, setHideBanner] = useState(false);
    const [showBanner, setShowBanner] = useState(true);
    const [showAccountMenu, setShowAccountMenu] = useState(false);
+   const [announcements, setAnnouncements] = useState([]);
+   const [loadingAnnouncements, setLoadingAnnouncements] = useState(true);
    const language = useSelector((state) => state.app.language);
    const dispatch = useDispatch();
    const navigate = useNavigate();
@@ -42,11 +45,45 @@ const HeaderPublic = forwardRef((props, ref) => {
       );
    };
 
-   const notifications = [
+   // Fallback notifications nếu không có data từ API
+   const fallbackNotifications = [
       'SALE UP 25% – Áp dụng từ hôm nay',
       'MUA 10 TẶNG 1 – Dành cho khách thân thiết',
       'Miễn phí vận chuyển toàn quốc',
    ];
+
+   // Fetch active announcements from API
+   useEffect(() => {
+      const fetchAnnouncements = async () => {
+         try {
+            const res = await getActiveAnnouncements();
+            if (res.errCode === 0 && res.announcements && res.announcements.length > 0) {
+               setAnnouncements(res.announcements);
+            } else {
+               // Sử dụng fallback notifications nếu không có data
+               setAnnouncements(fallbackNotifications.map((text, index) => ({
+                  id: `fallback-${index}`,
+                  title: text,
+                  content: '',
+                  icon: '🔔'
+               })));
+            }
+         } catch (error) {
+            console.error('Error fetching announcements:', error);
+            // Sử dụng fallback notifications khi có lỗi
+            setAnnouncements(fallbackNotifications.map((text, index) => ({
+               id: `fallback-${index}`,
+               title: text,
+               content: '',
+               icon: '🔔'
+            })));
+         } finally {
+            setLoadingAnnouncements(false);
+         }
+      };
+
+      fetchAnnouncements();
+   }, []);
 
    useEffect(() => {
       const handleClickOutside = (event) => {
@@ -62,13 +99,14 @@ const HeaderPublic = forwardRef((props, ref) => {
 
    return (
       <header ref={ref} className="main-header">
-         {showBanner && (
+         {showBanner && !loadingAnnouncements && announcements.length > 0 && (
             <div className={`top-banner ${hideBanner ? 'hide' : ''}`}>
                <div className="banner-marquee-wrapper">
                   <div className="banner-marquee">
-                     {notifications.map((text, index) => (
-                        <span key={index} className="marquee-item">
-                           🔔 {text}
+                     {announcements.map((announcement) => (
+                        <span key={announcement.id} className="marquee-item">
+                           {announcement.icon} {announcement.title}
+                           {announcement.content && ` - ${announcement.content}`}
                         </span>
                      ))}
                   </div>

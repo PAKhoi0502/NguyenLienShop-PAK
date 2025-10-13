@@ -3,6 +3,7 @@ import express from 'express';
 import bannerController from '../controllers/bannerController.js';
 import productController from '../controllers/productController.js';
 import categoryController from '../controllers/categoryController.js';
+import announcementController from '../controllers/announcementController.js';
 
 import { verifyToken, isRole } from '../middlewares/authMiddleware.js';
 import upload from '../middlewares/uploadMiddleware.js';
@@ -40,5 +41,17 @@ router.post('/product-add-category', verifyToken, isRole(1), productController.h
 router.post('/product-delete-category', verifyToken, isRole(1), productController.handleDeleteCategoryForProduct); //delete category
 router.get('/get-category', verifyToken, isRole(1), productController.handleGetCategoriesByProductId); // info product
 router.get('/products-get-all', verifyToken, isRole(1), productController.handleGetAllProducts); //get all products to add category
+
+// 📢 Announcement Management
+router.get('/announcement-management', verifyToken, isRole(1), announcementController.handleGetAnnouncements);
+router.get('/announcement/:id', verifyToken, isRole(1), announcementController.handleGetAnnouncementById);
+router.post('/announcement-create', verifyToken, isRole(1), announcementController.handleCreateAnnouncement);
+router.put('/announcement-update/:id', verifyToken, isRole(1), announcementController.handleUpdateAnnouncement);
+router.delete('/announcement-delete/:id', verifyToken, isRole(1), announcementController.handleDeleteAnnouncement);
+router.patch('/announcement-toggle/:id', verifyToken, isRole(1), announcementController.handleToggleAnnouncementStatus);
+router.get('/announcement-search', verifyToken, isRole(1), announcementController.handleSearchAnnouncements);
+router.get('/announcement-type/:type', verifyToken, isRole(1), announcementController.handleGetAnnouncementsByType);
+router.get('/announcement-position/:position', verifyToken, isRole(1), announcementController.handleGetAnnouncementsByPosition);
+router.get('/announcement-active', verifyToken, isRole(1), announcementController.handleGetActiveAnnouncements);
 
 export default router;
