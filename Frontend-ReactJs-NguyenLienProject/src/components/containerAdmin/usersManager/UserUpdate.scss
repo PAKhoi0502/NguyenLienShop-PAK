@@ -28,12 +28,6 @@
    position: relative;
 
    // User update icon effect
-   &::before {
-      content: '👥✏️';
-      display: block;
-      font-size: font-size(3xl);
-      margin-bottom: spacing(2);
-   }
 
    // Decorative underline
    &::after {
@@ -81,15 +75,6 @@
    }
 
    // Edit watermark
-   &::after {
-      content: '✏️';
-      position: absolute;
-      top: spacing(4);
-      right: spacing(4);
-      font-size: font-size(2xl);
-      opacity: 0.1;
-      z-index: 0;
-   }
 
    @include mobile-only {
       padding: spacing(4);

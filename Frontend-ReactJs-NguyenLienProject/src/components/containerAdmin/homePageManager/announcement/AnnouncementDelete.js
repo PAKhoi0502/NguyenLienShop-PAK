@@ -3,13 +3,14 @@ import { useIntl, FormattedMessage } from 'react-intl';
 import { deleteAnnouncement } from '../../../../services/announcementService';
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 import CustomToast from '../../../../components/CustomToast';
-import IconRenderer from '../../../../components/common/IconRenderer';
 import './AnnouncementDelete.scss';
 
 const AnnouncementDelete = ({ announcement, onSuccess }) => {
     const [loading, setLoading] = useState(false);
     const intl = useIntl();
+    const navigate = useNavigate();
 
     const handleDelete = async () => {
         if (loading) return;
@@ -23,7 +24,7 @@ const AnnouncementDelete = ({ announcement, onSuccess }) => {
             return;
         }
 
-        // Check if announcement is active - cannot delete active announcements
+        // Check if announcement is active - cannot delete active announcements (same logic as Product)
         if (announcement.isActive) {
             showToast('error', intl.formatMessage({
                 id: 'body_admin.announcement.delete.blocked_active',
@@ -218,9 +219,11 @@ const AnnouncementDelete = ({ announcement, onSuccess }) => {
                     defaultMessage: 'Thông báo đã được xóa khỏi hệ thống'
                 }));
 
-                // Call success callback
+                // Call success callback or navigate refresh (similar to Product logic)
                 if (onSuccess) {
                     onSuccess(announcement.id);
+                } else {
+                    setTimeout(() => navigate(0), 1500);
                 }
             } else {
                 // Handle specific error codes
@@ -287,19 +290,13 @@ const AnnouncementDelete = ({ announcement, onSuccess }) => {
 
     return (
         <button
-            className={`btn-action btn-delete ${loading ? 'loading' : ''} ${announcement?.isActive ? 'disabled' : ''}`}
+            className={`btn-action btn-delete ${loading ? 'loading' : ''}`}
             onClick={handleDelete}
-            disabled={loading || !announcement?.id || announcement?.isActive}
-            title={announcement?.isActive ?
-                intl.formatMessage({
-                    id: 'body_admin.announcement.delete.tooltip_active',
-                    defaultMessage: 'Không thể xóa thông báo đang hiển thị'
-                }) :
-                intl.formatMessage({
-                    id: 'body_admin.announcement.delete.tooltip',
-                    defaultMessage: 'Click để xóa thông báo'
-                })
-            }
+            disabled={loading || !announcement?.id}
+            title={intl.formatMessage({
+                id: 'body_admin.announcement.delete.tooltip',
+                defaultMessage: 'Click để xóa thông báo'
+            })}
         >
             {loading ? (
                 <>

@@ -2,7 +2,7 @@ import React from 'react';
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
 import { useIntl } from 'react-intl';
-import { toggleAnnouncementStatus, updateAnnouncement, getAnnouncements } from '../../../../services/announcementService';
+import { updateAnnouncement, getAnnouncements } from '../../../../services/announcementService';
 import CustomToast from '../../../../components/CustomToast';
 
 const AnnouncementActive = ({ announcement, onSuccess }) => {
@@ -16,8 +16,8 @@ const AnnouncementActive = ({ announcement, onSuccess }) => {
                     type={type}
                     titleId={intl.formatMessage({
                         id: type === "success"
-                            ? "body_admin.announcement.activate.activate_success_title"
-                            : "body_admin.announcement.activate.activate_error_title"
+                            ? "body_admin.announcement_management.activate.activate_success_title"
+                            : "body_admin.announcement_management.activate.activate_error_title"
                     })}
                     message={message}
                     time={new Date()}
@@ -34,13 +34,16 @@ const AnnouncementActive = ({ announcement, onSuccess }) => {
         }
 
         if (announcement.isActive) {
+            const hasExpiryDate = announcement.endDate && announcement.endDate !== null;
+
             const confirmFirst = await Swal.fire({
                 title: intl.formatMessage({
                     id: 'body_admin.announcement.deactivate.confirm_title_1',
                     defaultMessage: 'Xác nhận ẩn thông báo'
                 }),
                 html: `<strong>${announcement.title || intl.formatMessage({ id: 'body_admin.announcement.deactivate.no_title', defaultMessage: 'Không có tiêu đề' })}</strong><br>ID: ${announcement.id}<br><br>
-                       <span style="color: #f59e0b;">⚠️ Thông báo sẽ không hiển thị trên giao diện người dùng</span>`,
+                       <span style="color: #f59e0b;">⚠️ Thông báo sẽ không hiển thị trên giao diện người dùng</span>
+                       ${hasExpiryDate ? `<br><br><span style="color: #ef4444; font-weight: bold;">⚠️ CẢNH BÁO: Thông báo này có thiết lập thời gian hết hạn. Khi ẩn đi, thời gian hết hạn sẽ bị xóa và cần thiết lập lại khi hiển thị.</span>` : ''}`,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: intl.formatMessage({
@@ -62,10 +65,11 @@ const AnnouncementActive = ({ announcement, onSuccess }) => {
                     id: 'body_admin.announcement.deactivate.confirm_title_2',
                     defaultMessage: 'Lần xác nhận cuối'
                 }),
-                text: intl.formatMessage({
+                html: `${intl.formatMessage({
                     id: 'body_admin.announcement.deactivate.confirm_text_2',
                     defaultMessage: 'Bạn có chắc chắn muốn ẩn thông báo này không?'
-                }),
+                })}
+                ${hasExpiryDate ? `<br><br><span style="color: #ef4444; font-weight: bold;">Thời gian hết hạn hiện tại sẽ bị xóa!</span>` : ''}`,
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonText: intl.formatMessage({
@@ -83,13 +87,21 @@ const AnnouncementActive = ({ announcement, onSuccess }) => {
             if (!confirmSecond.isConfirmed) return;
 
             try {
-                const res = await toggleAnnouncementStatus(announcement.id);
+                // Khi ẩn thông báo, xóa expiry date
+                const res = await updateAnnouncement(announcement.id, {
+                    title: announcement.title || null,
+                    content: announcement.content || null,
+                    icon: announcement.icon || null,
+                    priority: announcement.priority || 1,
+                    isActive: false,
+                    endDate: null  // Xóa expiry date khi ẩn
+                });
 
                 if (res.errCode === 0) {
                     showToast("success", res.errMessage || intl.formatMessage({
                         id: 'body_admin.announcement.deactivate.success',
                         defaultMessage: 'Thông báo đã được ẩn thành công'
-                    }));
+                    }) + (hasExpiryDate ? ' (Thời gian hết hạn đã bị xóa)' : ''));
                     if (typeof onSuccess === 'function') {
                         onSuccess(announcement.id, res.announcement);
                     }
@@ -107,18 +119,29 @@ const AnnouncementActive = ({ announcement, onSuccess }) => {
                 }));
             }
         } else {
-            // Xác nhận kích hoạt thông báo và nhập độ ưu tiên
-            const { value: priority } = await Swal.fire({
+            // Xác nhận kích hoạt thông báo và nhập độ ưu tiên + expiry date
+            const { value: formData } = await Swal.fire({
                 title: intl.formatMessage({
                     id: 'body_admin.announcement.activate.confirm_title_1',
                     defaultMessage: 'Xác nhận kích hoạt thông báo'
                 }),
                 html: `<strong>${announcement.title || intl.formatMessage({ id: 'body_admin.announcement.activate.no_title', defaultMessage: 'Không có tiêu đề' })}</strong><br>ID: ${announcement.id}<br><br>
-                       ${intl.formatMessage({ id: 'body_admin.announcement.activate.priority_input', defaultMessage: 'Nhập độ ưu tiên cho thông báo (1 = cao nhất, 5 = thấp nhất):' })}`,
-                input: 'number',
-                inputLabel: intl.formatMessage({ id: 'body_admin.announcement.activate.priority_label', defaultMessage: 'Độ ưu tiên' }),
-                inputPlaceholder: intl.formatMessage({ id: 'body_admin.announcement.activate.priority_placeholder', defaultMessage: 'Nhập số từ 1-5' }),
-                inputAttributes: { min: 1, max: 5, step: 1 },
+                       <div style="text-align: left; margin: 15px 0;">
+                           <label style="display: block; margin-bottom: 8px; font-weight: bold;">
+                               ${intl.formatMessage({ id: 'body_admin.announcement.activate.priority_label', defaultMessage: 'Độ ưu tiên' })} (1-5):
+                           </label>
+                           <input id="priority" type="number" min="1" max="5" step="1" placeholder="Nhập số từ 1-5" 
+                                  style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 15px;">
+                           
+                           <label style="display: block; margin-bottom: 8px; font-weight: bold;">
+                               ${intl.formatMessage({ id: 'body_admin.announcement.activate.expiry_date_label', defaultMessage: 'Thời gian hết hạn' })} (tùy chọn):
+                           </label>
+                           <input id="expiryDate" type="datetime-local" 
+                                  style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                           <small style="color: #666; font-size: 0.85em; margin-top: 5px; display: block;">
+                               ${intl.formatMessage({ id: 'body_admin.announcement.activate.expiry_date_help', defaultMessage: 'Để trống nếu muốn hiển thị vĩnh viễn' })}
+                           </small>
+                       </div>`,
                 showCancelButton: true,
                 confirmButtonText: intl.formatMessage({
                     id: 'body_admin.announcement.activate.confirm_button_1',
@@ -130,43 +153,68 @@ const AnnouncementActive = ({ announcement, onSuccess }) => {
                 }),
                 confirmButtonColor: '#10b981',
                 cancelButtonColor: '#6b7280',
-                inputValidator: async (value) => {
-                    if (!value || value < 1 || value > 5) {
-                        return intl.formatMessage({
+                preConfirm: async () => {
+                    const priority = document.getElementById('priority').value;
+                    const expiryDate = document.getElementById('expiryDate').value;
+
+                    if (!priority || priority < 1 || priority > 5) {
+                        Swal.showValidationMessage(intl.formatMessage({
                             id: 'body_admin.announcement.activate.priority_invalid',
                             defaultMessage: 'Độ ưu tiên phải từ 1-5'
-                        });
+                        }));
+                        return false;
                     }
+
+                    // Kiểm tra expiry date không được ở quá khứ
+                    if (expiryDate) {
+                        const selectedDate = new Date(expiryDate);
+                        const currentDate = new Date();
+                        if (selectedDate <= currentDate) {
+                            Swal.showValidationMessage(intl.formatMessage({
+                                id: 'body_admin.announcement.activate.expiry_date_invalid',
+                                defaultMessage: 'Thời gian hết hạn phải ở tương lai'
+                            }));
+                            return false;
+                        }
+                    }
+
                     try {
                         const activeAnnouncements = await getAnnouncements();
                         if (activeAnnouncements.errCode === 0) {
                             const activeList = activeAnnouncements.announcements.filter(ann => ann.isActive);
-                            if (activeList.some(ann => ann.priority === parseInt(value))) {
-                                return intl.formatMessage({
+                            if (activeList.some(ann => ann.priority === parseInt(priority))) {
+                                Swal.showValidationMessage(intl.formatMessage({
                                     id: 'body_admin.announcement.activate.priority_duplicate',
                                     defaultMessage: 'Độ ưu tiên này đã được sử dụng bởi thông báo khác'
-                                });
+                                }));
+                                return false;
                             }
                         }
                     } catch (error) {
-                        return intl.formatMessage({
+                        Swal.showValidationMessage(intl.formatMessage({
                             id: 'body_admin.announcement.activate.priority_error',
                             defaultMessage: 'Lỗi khi kiểm tra độ ưu tiên'
-                        });
+                        }));
+                        return false;
                     }
+
+                    return {
+                        priority: parseInt(priority),
+                        expiryDate: expiryDate || null
+                    };
                 }
             });
 
-            if (!priority) return;
+            if (!formData) return;
 
             try {
                 const res = await updateAnnouncement(announcement.id, {
                     title: announcement.title || null,
                     content: announcement.content || null,
                     icon: announcement.icon || null,
-                    priority: parseInt(priority),
+                    priority: formData.priority,
                     isActive: true,
-                    endDate: announcement.endDate || null
+                    endDate: formData.expiryDate
                 });
 
                 if (res.errCode === 0) {

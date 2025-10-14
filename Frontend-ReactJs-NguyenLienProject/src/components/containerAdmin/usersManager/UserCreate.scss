@@ -28,12 +28,7 @@
    position: relative;
 
    // User creation icon effect
-   &::before {
-      content: '👥➕';
-      display: block;
-      font-size: font-size(3xl);
-      margin-bottom: spacing(2);
-   }
+
 
    // Decorative underline
    &::after {
@@ -42,8 +37,9 @@
       bottom: -spacing(2);
       left: 50%;
       transform: translateX(-50%);
-      width: 80px;
-      height: 3px;
+      width: 15rem !important;
+      height: 4px !important;
+      top: 2.3rem !important;
       background: linear-gradient(135deg, #2563eb, #1d4ed8);
       border-radius: border-radius(full);
    }
@@ -203,13 +199,13 @@
    .btn-cancel {
       @include button-base;
       @include button-size(lg);
-      background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+      background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
       color: #475569;
       border: 1px solid #cbd5e1;
       min-width: 120px;
 
       &:hover:not(:disabled) {
-         background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+         background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
          border-color: #94a3b8;
          transform: translateY(-1px);
       }
@@ -550,7 +546,6 @@
 
    // Icon animation
    &::after {
-      content: '⏱️';
       position: absolute;
       top: spacing(1);
       right: spacing(3);

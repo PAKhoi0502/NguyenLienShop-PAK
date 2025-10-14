@@ -53,5 +53,6 @@ router.get('/announcement-search', verifyToken, isRole(1), announcementControlle
 router.get('/announcement-type/:type', verifyToken, isRole(1), announcementController.handleGetAnnouncementsByType);
 router.get('/announcement-position/:position', verifyToken, isRole(1), announcementController.handleGetAnnouncementsByPosition);
 router.get('/announcement-active', verifyToken, isRole(1), announcementController.handleGetActiveAnnouncements);
+router.post('/announcement-check-expired', verifyToken, isRole(1), announcementController.handleCheckExpiredAnnouncements);
 
 export default router;

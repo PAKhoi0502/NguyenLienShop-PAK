@@ -28,12 +28,6 @@
    position: relative;
 
    // Admin creation icon effect
-   &::before {
-      content: '🛡️➕';
-      display: block;
-      font-size: font-size(3xl);
-      margin-bottom: spacing(2);
-   }
 
    // Decorative underline
    &::after {
@@ -42,8 +36,9 @@
       bottom: -spacing(2);
       left: 50%;
       transform: translateX(-50%);
-      width: 80px;
-      height: 3px;
+      width: 15rem !important;
+      height: 4px !important;
+      top: 2.5rem !important;
       background: linear-gradient(135deg, #dc2626, #b91c1c);
       border-radius: border-radius(full);
    }

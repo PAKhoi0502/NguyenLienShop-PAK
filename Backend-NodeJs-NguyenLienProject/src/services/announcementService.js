@@ -213,6 +213,63 @@ let searchAnnouncements = async (searchTerm) => {
     }
 };
 
+// ==============================================
+// 📢 GET ANNOUNCEMENT COUNT
+// ==============================================
+let getAnnouncementCount = async () => {
+    try {
+        const count = await db.Announcement.count();
+        return count;
+    } catch (err) {
+        throw new Error('Lỗi khi đếm tổng số thông báo');
+    }
+};
+
+// ==============================================
+// 📢 CHECK AND UPDATE EXPIRED ANNOUNCEMENTS
+// ==============================================
+let checkAndUpdateExpiredAnnouncements = async () => {
+    try {
+        const now = new Date();
+
+        // Tìm tất cả announcements đã hết hạn nhưng vẫn đang active
+        const expiredAnnouncements = await db.Announcement.findAll({
+            where: {
+                endDate: {
+                    [db.Sequelize.Op.lt]: now // endDate < now
+                },
+                isActive: true
+            }
+        });
+
+        if (expiredAnnouncements.length > 0) {
+            // Tự động vô hiệu hóa các announcements hết hạn
+            await db.Announcement.update(
+                { isActive: false },
+                {
+                    where: {
+                        endDate: {
+                            [db.Sequelize.Op.lt]: now
+                        },
+                        isActive: true
+                    }
+                }
+            );
+
+            console.log(`✅ Đã vô hiệu hóa ${expiredAnnouncements.length} thông báo hết hạn`);
+        }
+
+        return {
+            errCode: 0,
+            message: 'Kiểm tra thông báo hết hạn thành công',
+            expiredCount: expiredAnnouncements.length
+        };
+    } catch (err) {
+        console.error('Error checking expired announcements:', err);
+        throw new Error('Lỗi khi kiểm tra thông báo hết hạn');
+    }
+};
+
 export default {
     getAnnouncements,
     getAnnouncementById,
@@ -223,5 +280,7 @@ export default {
     getActiveAnnouncements,
     getAnnouncementsByType,
     getAnnouncementsByPosition,
-    searchAnnouncements
+    searchAnnouncements,
+    getAnnouncementCount,
+    checkAndUpdateExpiredAnnouncements
 };

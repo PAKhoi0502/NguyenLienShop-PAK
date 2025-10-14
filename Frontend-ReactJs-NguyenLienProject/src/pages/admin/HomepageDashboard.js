@@ -145,14 +145,6 @@ const HomepageDashboard = () => {
                      <FormattedMessage id="dashboard.homepage_dashboard.total_announcements" defaultMessage="Tổng thông báo" />
                   </span>
                </div>
-               <div className="quick-stat">
-                  <span className="quick-stat__number">
-                     {loading ? '...' : homepageStats.inactiveAnnouncements}
-                  </span>
-                  <span className="quick-stat__label">
-                     <FormattedMessage id="dashboard.homepage_dashboard.inactive_announcements" defaultMessage="Thông báo ẩn" />
-                  </span>
-               </div>
             </div>
          </div>
 

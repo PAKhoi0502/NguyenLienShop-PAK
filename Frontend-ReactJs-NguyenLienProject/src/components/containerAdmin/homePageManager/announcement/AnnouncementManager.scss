@@ -611,12 +611,13 @@
 // 🎯 ICON CELL STYLING
 // ==============================================
 .announcement-table {
+
     // Icon cell styling
     td:has(.icon-renderer) {
         text-align: center;
         vertical-align: middle;
         padding: spacing(3);
-        
+
         .icon-renderer {
             margin: 0 auto;
             display: flex;

@@ -5,6 +5,9 @@ import announcementService from '../services/announcementService.js';
 // ==============================================
 let handleGetAnnouncements = async (req, res) => {
     try {
+        // Auto-check và vô hiệu hóa announcements hết hạn trước khi lấy danh sách
+        await announcementService.checkAndUpdateExpiredAnnouncements();
+
         const announcements = await announcementService.getAnnouncements();
         res.status(200).json({
             errCode: 0,
@@ -260,6 +263,40 @@ let handleSearchAnnouncements = async (req, res) => {
     }
 };
 
+// ==============================================
+// 📢 GET ANNOUNCEMENT COUNT
+// ==============================================
+let handleGetAnnouncementCount = async (req, res) => {
+    try {
+        const count = await announcementService.getAnnouncementCount();
+        res.status(200).json({
+            errCode: 0,
+            errMessage: 'Lấy tổng số thông báo thành công',
+            count: count
+        });
+    } catch (err) {
+        console.error('Error in handleGetAnnouncementCount:', err.message, err.stack);
+        res.status(500).json({ errCode: -1, errMessage: 'Lỗi khi đếm tổng số thông báo: ' + err.message });
+    }
+};
+
+// ==============================================
+// 📢 CHECK EXPIRED ANNOUNCEMENTS
+// ==============================================
+let handleCheckExpiredAnnouncements = async (req, res) => {
+    try {
+        const result = await announcementService.checkAndUpdateExpiredAnnouncements();
+        res.status(200).json({
+            errCode: 0,
+            errMessage: result.message,
+            expiredCount: result.expiredCount
+        });
+    } catch (err) {
+        console.error('Error in handleCheckExpiredAnnouncements:', err.message, err.stack);
+        res.status(500).json({ errCode: -1, errMessage: 'Lỗi khi kiểm tra thông báo hết hạn: ' + err.message });
+    }
+};
+
 export default {
     handleGetAnnouncements,
     handleGetAnnouncementById,
@@ -270,5 +307,7 @@ export default {
     handleGetActiveAnnouncements,
     handleGetAnnouncementsByType,
     handleGetAnnouncementsByPosition,
-    handleSearchAnnouncements
+    handleSearchAnnouncements,
+    handleGetAnnouncementCount,
+    handleCheckExpiredAnnouncements
 };

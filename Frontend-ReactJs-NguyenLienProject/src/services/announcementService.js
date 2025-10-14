@@ -185,7 +185,7 @@ export const toggleAnnouncementStatus = async (id) => {
 // ==============================================
 export const getActiveAnnouncements = async () => {
     try {
-        const res = await instance.get('/api/public-homepage/announcements/active');
+        const res = await instance.get('/api/admin/announcement-active');
         if (res.data && res.data.errCode === 0) {
             return { errCode: 0, announcements: res.data.announcements };
         } else {
@@ -203,7 +203,7 @@ export const getActiveAnnouncements = async () => {
 // ==============================================
 export const searchAnnouncements = async (query) => {
     try {
-        const res = await instance.get(`/api/admin/announcement-search?keyword=${encodeURIComponent(query)}`);
+        const res = await instance.get(`/api/admin/announcement-search?q=${encodeURIComponent(query)}`);
         if (res.data && res.data.errCode === 0) {
             return { errCode: 0, announcements: res.data.announcements };
         } else {
@@ -248,6 +248,29 @@ export const getAnnouncementsByPosition = async (position) => {
     } catch (err) {
         console.error('getAnnouncementsByPosition error:', err);
         const errorMessage = err?.response?.data?.errMessage || 'Lỗi khi lấy thông báo theo vị trí';
+        return { errCode: -1, errMessage: errorMessage };
+    }
+};
+
+// ==============================================
+// 📢 GET ANNOUNCEMENT COUNT (Admin Stats)
+// ==============================================
+export const getAnnouncementCount = async () => {
+    try {
+        const res = await instance.get('/api/admin/announcement-stats');
+        if (res.data && res.data.errCode === 0) {
+            return { errCode: 0, count: res.data.count };
+        } else {
+            return { errCode: -1, errMessage: res.data?.errMessage || 'Không thể lấy tổng số thông báo' };
+        }
+    } catch (err) {
+        console.error('getAnnouncementCount error:', err);
+        const errorMessage = err?.response?.data?.errMessage || 'Lỗi khi lấy tổng số thông báo';
+        const errorStatus = err?.response?.status || 500;
+
+        if (errorStatus === 403) {
+            return { errCode: 403, errMessage: 'Bạn không có quyền xem thống kê thông báo.' };
+        }
         return { errCode: -1, errMessage: errorMessage };
     }
 };

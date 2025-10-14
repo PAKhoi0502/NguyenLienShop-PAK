@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import * as actions from "../../store/actions";
 import './FooterAdmin.scss';
 import { dashboardService, adminService } from '../../services';
+import { getAnnouncementCount } from '../../services/announcementService';
 
 class Footer extends Component {
    constructor(props) {
@@ -29,12 +30,19 @@ class Footer extends Component {
          homepageStats: {
             totalBanners: 0,
             activeBanners: 0,
-            inactiveBanners: 0
+            inactiveBanners: 0,
+            totalAnnouncements: 0
+         },
+         announcementStats: {
+            totalAnnouncements: 0,
+            activeAnnouncements: 0,
+            inactiveAnnouncements: 0
          },
          isLoadingProductStats: false,
          isLoadingDashboardStats: false,
          isLoadingAccountStats: false,
-         isLoadingHomepageStats: false
+         isLoadingHomepageStats: false,
+         isLoadingAnnouncementStats: false
       };
    }
 
@@ -50,6 +58,8 @@ class Footer extends Component {
          this.loadHomepageStats();
       } else if (this.props.statsType === 'banner') {
          this.loadHomepageStats();
+      } else if (this.props.statsType === 'announcement') {
+         this.loadAnnouncementStats();
       } else if (this.props.statsType === 'admin') {
          this.loadAccountStats();
       } else if (this.props.statsType === 'user') {
@@ -70,6 +80,8 @@ class Footer extends Component {
             this.loadHomepageStats();
          } else if (this.props.statsType === 'banner') {
             this.loadHomepageStats();
+         } else if (this.props.statsType === 'announcement') {
+            this.loadAnnouncementStats();
          } else if (this.props.statsType === 'admin') {
             this.loadAccountStats();
          } else if (this.props.statsType === 'user') {
@@ -164,7 +176,8 @@ class Footer extends Component {
                homepageStats: {
                   totalBanners: response.data?.totalBanners || 0,
                   activeBanners: response.data?.activeBanners || 0,
-                  inactiveBanners: response.data?.inactiveBanners || 0
+                  inactiveBanners: response.data?.inactiveBanners || 0,
+                  totalAnnouncements: response.data?.totalAnnouncements || 0
                },
                isLoadingHomepageStats: false
             });
@@ -175,6 +188,39 @@ class Footer extends Component {
       } catch (error) {
          console.error('Error loading homepage stats:', error);
          this.setState({ isLoadingHomepageStats: false });
+      }
+   }
+
+   loadAnnouncementStats = async () => {
+      try {
+         this.setState({ isLoadingAnnouncementStats: true });
+
+         // Lấy tổng số announcement
+         const countResponse = await getAnnouncementCount();
+
+         // Lấy homepage stats để có active/inactive announcements
+         const homepageResponse = await dashboardService.getHomepageStats();
+
+         if (countResponse.errCode === 0 && homepageResponse.errCode === 0) {
+            const totalAnnouncements = countResponse.count || 0;
+            const activeAnnouncements = homepageResponse.data?.activeAnnouncements || 0;
+            const inactiveAnnouncements = totalAnnouncements - activeAnnouncements;
+
+            this.setState({
+               announcementStats: {
+                  totalAnnouncements,
+                  activeAnnouncements,
+                  inactiveAnnouncements
+               },
+               isLoadingAnnouncementStats: false
+            });
+         } else {
+            console.error('Error loading announcement stats');
+            this.setState({ isLoadingAnnouncementStats: false });
+         }
+      } catch (error) {
+         console.error('Error loading announcement stats:', error);
+         this.setState({ isLoadingAnnouncementStats: false });
       }
    }
 
@@ -261,6 +307,11 @@ class Footer extends Component {
                   value: finalStats.totalBanners || 0,
                   labelId: "footer_admin.dashboard.homepage_dashboard.total_banners",
                   defaultMessage: "Tổng banner"
+               },
+               {
+                  value: finalStats.totalAnnouncements || 0,
+                  labelId: "footer_admin.dashboard.homepage_dashboard.total_announcements",
+                  defaultMessage: "Tổng thông báo"
                }
             ]
          };
@@ -322,6 +373,28 @@ class Footer extends Component {
                }
             ]
          };
+      } else if (statsType === 'announcement') {
+         // Announcement management stats: Tổng thông báo, đang hoạt động, không hoạt động
+         const { announcementStats } = this.state;
+         return {
+            stats: [
+               {
+                  value: announcementStats.totalAnnouncements || 0,
+                  labelId: "footer_admin.dashboard.announcement_dashboard.total_announcements",
+                  defaultMessage: "Tổng thông báo"
+               },
+               {
+                  value: announcementStats.activeAnnouncements || 0,
+                  labelId: "footer_admin.dashboard.announcement_dashboard.active_announcements",
+                  defaultMessage: "Đang hoạt động"
+               },
+               {
+                  value: announcementStats.inactiveAnnouncements || 0,
+                  labelId: "footer_admin.dashboard.announcement_dashboard.inactive_announcements",
+                  defaultMessage: "Không hoạt động"
+               }
+            ]
+         };
       }
 
       // Default fallback
@@ -336,7 +409,7 @@ class Footer extends Component {
 
    render() {
       const { stats } = this.getStatsData();
-      const { isLoadingDashboardStats, isLoadingAccountStats, isLoadingProductStats, isLoadingHomepageStats } = this.state;
+      const { isLoadingDashboardStats, isLoadingAccountStats, isLoadingProductStats, isLoadingHomepageStats, isLoadingAnnouncementStats } = this.state;
       const { statsType } = this.props;
 
       const showLoading = (statsType === 'dashboard' && isLoadingDashboardStats) ||
@@ -344,6 +417,7 @@ class Footer extends Component {
          (statsType === 'product' && isLoadingProductStats) ||
          (statsType === 'homepage' && isLoadingHomepageStats) ||
          (statsType === 'banner' && isLoadingHomepageStats) ||
+         (statsType === 'announcement' && isLoadingAnnouncementStats) ||
          (statsType === 'admin' && isLoadingAccountStats) ||
          (statsType === 'user' && isLoadingAccountStats) ||
          this.props.isLoading;

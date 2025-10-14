@@ -25,6 +25,8 @@ const AdminLayout = ({ children }) => {
          return 'product';
       } else if (path.includes('banner-management')) {
          return 'banner';
+      } else if (path.includes('announcement-management')) {
+         return 'announcement';
       } else if (path.includes('homepage-management')) {
          return 'homepage';
       }
