@@ -18,7 +18,7 @@ const AnnouncementDelete = ({ announcement, onSuccess }) => {
         // Validate announcement data
         if (!announcement || !announcement.id) {
             showToast('error', intl.formatMessage({
-                id: 'body_admin.announcement.delete.invalid_data',
+                id: 'body_admin.announcement_management.delete.invalid_data',
                 defaultMessage: 'Dữ liệu thông báo không hợp lệ'
             }));
             return;
@@ -27,7 +27,7 @@ const AnnouncementDelete = ({ announcement, onSuccess }) => {
         // Check if announcement is active - cannot delete active announcements (same logic as Product)
         if (announcement.isActive) {
             showToast('error', intl.formatMessage({
-                id: 'body_admin.announcement.delete.blocked_active',
+                id: 'body_admin.announcement_management.delete.blocked_active',
                 defaultMessage: 'Không thể xóa thông báo đang hiển thị. Vui lòng ẩn thông báo trước khi xóa.'
             }));
             return;
@@ -37,41 +37,59 @@ const AnnouncementDelete = ({ announcement, onSuccess }) => {
         const confirmResult = await Swal.fire({
             icon: 'warning',
             title: intl.formatMessage({
-                id: 'body_admin.announcement.delete.confirm_title',
+                id: 'body_admin.announcement_management.delete.confirm_title',
                 defaultMessage: 'Xác nhận xóa thông báo'
             }),
             html: `
                 <div style="text-align: left; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
                     <div style="background: #fef3cd; border: 1px solid #fbbf24; border-radius: 8px; padding: 12px; margin-bottom: 16px;">
                         <p style="margin: 0; color: #92400e; font-weight: 600;">⚠️ ${intl.formatMessage({
-                id: 'body_admin.announcement.delete.confirm_message',
+                id: 'body_admin.announcement_management.delete.confirm_message',
                 defaultMessage: 'Bạn có chắc chắn muốn xóa thông báo này?'
             })}</p>
                     </div>
                     <div style="background: #f8f9fa; border-radius: 6px; padding: 12px; border-left: 4px solid #dc2626;">
                         <p style="margin: 4px 0; color: #374151;"><strong>${intl.formatMessage({
-                id: 'body_admin.announcement.delete.id_label',
+                id: 'body_admin.announcement_management.delete.id_label',
                 defaultMessage: 'ID:'
             })}</strong> <span style="color: #dc2626; font-weight: 600;">#${announcement.id}</span></p>
                         <p style="margin: 4px 0; color: #374151;"><strong>${intl.formatMessage({
-                id: 'body_admin.announcement.delete.title_label',
+                id: 'body_admin.announcement_management.delete.title_label',
                 defaultMessage: 'Tiêu đề:'
-            })}</strong> ${announcement.title || 'N/A'}</p>
+            })}</strong> ${announcement.title || intl.formatMessage({
+                id: 'body_admin.announcement_management.delete.no_title',
+                defaultMessage: 'N/A'
+            })}</p>
                         <p style="margin: 4px 0; color: #374151;"><strong>${intl.formatMessage({
-                id: 'body_admin.announcement.delete.icon_label',
+                id: 'body_admin.announcement_management.delete.icon_label',
                 defaultMessage: 'Icon:'
             })}</strong> <span style="font-size: 1.2rem;">${announcement.icon || '📢'}</span></p>
-                        ${announcement.isActive ? '<p style="margin: 4px 0; color: #059669;"><strong>Trạng thái:</strong> <span style="background: #d1fae5; color: #065f46; padding: 2px 8px; border-radius: 4px; font-size: 0.85em;">Đang hoạt động</span></p>' : '<p style="margin: 4px 0; color: #6b7280;"><strong>Trạng thái:</strong> <span style="background: #f3f4f6; color: #6b7280; padding: 2px 8px; border-radius: 4px; font-size: 0.85em;">Đã ẩn</span></p>'}
+                        ${announcement.isActive ?
+                    `<p style="margin: 4px 0; color: #059669;"><strong>${intl.formatMessage({
+                        id: 'body_admin.announcement_management.delete.status_label',
+                        defaultMessage: 'Trạng thái:'
+                    })}</strong> <span style="background: #d1fae5; color: #065f46; padding: 2px 8px; border-radius: 4px; font-size: 0.85em;">${intl.formatMessage({
+                        id: 'body_admin.announcement_management.delete.status_active',
+                        defaultMessage: 'Đang hoạt động'
+                    })}</span></p>` :
+                    `<p style="margin: 4px 0; color: #6b7280;"><strong>${intl.formatMessage({
+                        id: 'body_admin.announcement_management.delete.status_label',
+                        defaultMessage: 'Trạng thái:'
+                    })}</strong> <span style="background: #f3f4f6; color: #6b7280; padding: 2px 8px; border-radius: 4px; font-size: 0.85em;">${intl.formatMessage({
+                        id: 'body_admin.announcement_management.delete.status_inactive',
+                        defaultMessage: 'Đã ẩn'
+                    })}</span></p>`
+                }
                     </div>
                 </div>
             `,
             showCancelButton: true,
             confirmButtonText: intl.formatMessage({
-                id: 'body_admin.announcement.delete.confirm_button',
+                id: 'body_admin.announcement_management.delete.confirm_button',
                 defaultMessage: 'Có, xóa thông báo!'
             }),
             cancelButtonText: intl.formatMessage({
-                id: 'body_admin.announcement.delete.cancel_button',
+                id: 'body_admin.announcement_management.delete.cancel_button',
                 defaultMessage: 'Hủy'
             }),
             confirmButtonColor: '#dc2626',
@@ -94,7 +112,7 @@ const AnnouncementDelete = ({ announcement, onSuccess }) => {
         const secondConfirmResult = await Swal.fire({
             icon: 'error',
             title: intl.formatMessage({
-                id: 'body_admin.announcement.delete.second_confirm_title',
+                id: 'body_admin.announcement_management.delete.second_confirm_title',
                 defaultMessage: 'Xác nhận lần cuối'
             }),
             html: `
@@ -102,11 +120,11 @@ const AnnouncementDelete = ({ announcement, onSuccess }) => {
                     <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: 16px; margin: 16px 0;">
                         <div style="font-size: 48px; margin-bottom: 8px;">🚨</div>
                         <p style="margin: 0; color: #dc2626; font-weight: 600; font-size: 16px;">${intl.formatMessage({
-                id: 'body_admin.announcement.delete.second_confirm_message',
+                id: 'body_admin.announcement_management.delete.second_confirm_message',
                 defaultMessage: 'Hành động này không thể hoàn tác!'
             })}</p>
                         <p style="margin: 8px 0 0 0; color: #7f1d1d; font-size: 14px;">${intl.formatMessage({
-                id: 'body_admin.announcement.delete.second_confirm_detail',
+                id: 'body_admin.announcement_management.delete.second_confirm_detail',
                 defaultMessage: 'Dữ liệu sẽ bị xóa vĩnh viễn khỏi hệ thống'
             })}</p>
                     </div>
@@ -114,11 +132,11 @@ const AnnouncementDelete = ({ announcement, onSuccess }) => {
             `,
             showCancelButton: true,
             confirmButtonText: intl.formatMessage({
-                id: 'body_admin.announcement.delete.second_confirm_button',
+                id: 'body_admin.announcement_management.delete.second_confirm_button',
                 defaultMessage: 'Xóa vĩnh viễn'
             }),
             cancelButtonText: intl.formatMessage({
-                id: 'body_admin.announcement.delete.second_cancel_button',
+                id: 'body_admin.announcement_management.delete.second_cancel_button',
                 defaultMessage: 'Không, hủy bỏ'
             }),
             confirmButtonColor: '#dc2626',
@@ -141,14 +159,14 @@ const AnnouncementDelete = ({ announcement, onSuccess }) => {
         const { value: securityText } = await Swal.fire({
             icon: 'warning',
             title: intl.formatMessage({
-                id: 'body_admin.announcement.delete.security_title',
+                id: 'body_admin.announcement_management.delete.security_title',
                 defaultMessage: 'Xác nhận bảo mật cuối cùng'
             }),
             html: `
                 <div style="text-align: left; margin-bottom: 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
                     <div style="background: #fff7ed; border: 1px solid #fed7aa; border-radius: 8px; padding: 12px; margin-bottom: 16px;">
                         <p style="margin: 0; color: #9a3412; font-weight: 600;">🔐 ${intl.formatMessage({
-                id: 'body_admin.announcement.delete.security_message',
+                id: 'body_admin.announcement_management.delete.security_message',
                 defaultMessage: 'Để xóa thông báo này, vui lòng nhập:'
             })}</p>
                     </div>
@@ -157,29 +175,32 @@ const AnnouncementDelete = ({ announcement, onSuccess }) => {
                     </div>
                     <div style="background: #f9fafb; border-radius: 6px; padding: 12px; border-left: 4px solid #dc2626;">
                         <p style="margin: 4px 0; color: #374151; font-weight: 600;">${intl.formatMessage({
-                id: 'body_admin.announcement.delete.security_info',
+                id: 'body_admin.announcement_management.delete.security_info',
                 defaultMessage: 'Thông báo sẽ bị xóa:'
             })}</p>
                         <p style="margin: 4px 0; color: #6b7280;">• ID: <strong>#${announcement.id}</strong></p>
                         <p style="margin: 4px 0; color: #6b7280;">• ${intl.formatMessage({
-                id: 'body_admin.announcement.delete.title_label',
+                id: 'body_admin.announcement_management.delete.title_label',
                 defaultMessage: 'Tiêu đề:'
-            })} <strong>${announcement.title || 'N/A'}</strong></p>
+            })} <strong>${announcement.title || intl.formatMessage({
+                id: 'body_admin.announcement_management.delete.no_title',
+                defaultMessage: 'N/A'
+            })}</strong></p>
                     </div>
                 </div>
             `,
             input: 'text',
             inputPlaceholder: intl.formatMessage({
-                id: 'body_admin.announcement.delete.security_placeholder',
+                id: 'body_admin.announcement_management.delete.security_placeholder',
                 defaultMessage: 'Nhập "XÓA THÔNG BÁO" để xác nhận'
             }),
             showCancelButton: true,
             confirmButtonText: intl.formatMessage({
-                id: 'body_admin.announcement.delete.security_confirm_button',
+                id: 'body_admin.announcement_management.delete.security_confirm_button',
                 defaultMessage: 'Xóa thông báo'
             }),
             cancelButtonText: intl.formatMessage({
-                id: 'body_admin.announcement.delete.security_cancel_button',
+                id: 'body_admin.announcement_management.delete.security_cancel_button',
                 defaultMessage: 'Hủy'
             }),
             confirmButtonColor: '#dc2626',
@@ -196,7 +217,7 @@ const AnnouncementDelete = ({ announcement, onSuccess }) => {
             inputValidator: (value) => {
                 if (!value || value.trim() !== 'XÓA THÔNG BÁO') {
                     return intl.formatMessage({
-                        id: 'body_admin.announcement.delete.security_phrase',
+                        id: 'body_admin.announcement_management.delete.security_phrase',
                         defaultMessage: 'Vui lòng nhập chính xác "XÓA THÔNG BÁO"'
                     });
                 }
@@ -215,7 +236,7 @@ const AnnouncementDelete = ({ announcement, onSuccess }) => {
             if (res.errCode === 0) {
                 // Show success message with toast
                 showToast('success', intl.formatMessage({
-                    id: 'body_admin.announcement.delete.success_message',
+                    id: 'body_admin.announcement_management.delete.success_message',
                     defaultMessage: 'Thông báo đã được xóa khỏi hệ thống'
                 }));
 
@@ -228,23 +249,23 @@ const AnnouncementDelete = ({ announcement, onSuccess }) => {
             } else {
                 // Handle specific error codes
                 let errorMessage = res.errMessage || intl.formatMessage({
-                    id: 'body_admin.announcement.delete.error_message',
+                    id: 'body_admin.announcement_management.delete.error_message',
                     defaultMessage: 'Không thể xóa thông báo'
                 });
 
                 if (res.errCode === 404) {
                     errorMessage = intl.formatMessage({
-                        id: 'body_admin.announcement.delete.not_found',
+                        id: 'body_admin.announcement_management.delete.not_found',
                         defaultMessage: 'Không tìm thấy thông báo'
                     });
                 } else if (res.errCode === 403) {
                     errorMessage = intl.formatMessage({
-                        id: 'body_admin.announcement.delete.no_permission',
+                        id: 'body_admin.announcement_management.delete.no_permission',
                         defaultMessage: 'Bạn không có quyền xóa thông báo này'
                     });
                 } else if (res.errCode === 409) {
                     errorMessage = intl.formatMessage({
-                        id: 'body_admin.announcement.delete.in_use',
+                        id: 'body_admin.announcement_management.delete.in_use',
                         defaultMessage: 'Không thể xóa thông báo đang được sử dụng'
                     });
                 }
@@ -256,13 +277,13 @@ const AnnouncementDelete = ({ announcement, onSuccess }) => {
 
             // Handle network errors
             let errorMessage = intl.formatMessage({
-                id: 'body_admin.announcement.delete.network_error',
+                id: 'body_admin.announcement_management.delete.network_error',
                 defaultMessage: 'Lỗi kết nối. Vui lòng thử lại'
             });
 
             if (err.response?.status === 401) {
                 errorMessage = intl.formatMessage({
-                    id: 'body_admin.announcement.delete.unauthorized',
+                    id: 'body_admin.announcement_management.delete.unauthorized',
                     defaultMessage: 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại'
                 });
             }
@@ -279,7 +300,7 @@ const AnnouncementDelete = ({ announcement, onSuccess }) => {
                 <CustomToast
                     {...props}
                     type={type}
-                    titleId={type === "success" ? "body_admin.announcement.delete.success_title" : "body_admin.announcement.delete.error_title"}
+                    titleId={type === "success" ? "body_admin.announcement_management.delete.success_title" : "body_admin.announcement_management.delete.error_title"}
                     message={message}
                     time={new Date()}
                 />
@@ -294,17 +315,17 @@ const AnnouncementDelete = ({ announcement, onSuccess }) => {
             onClick={handleDelete}
             disabled={loading || !announcement?.id}
             title={intl.formatMessage({
-                id: 'body_admin.announcement.delete.tooltip',
+                id: 'body_admin.announcement_management.delete.tooltip',
                 defaultMessage: 'Click để xóa thông báo'
             })}
         >
             {loading ? (
                 <>
                     <span className="spinner"></span>
-                    <FormattedMessage id="body_admin.announcement.delete.loading" defaultMessage="Đang xóa..." />
+                    <FormattedMessage id="body_admin.announcement_management.delete.loading" defaultMessage="Đang xóa..." />
                 </>
             ) : (
-                <FormattedMessage id="body_admin.announcement.delete.button" defaultMessage="Xóa" />
+                <FormattedMessage id="body_admin.announcement_management.delete.button" defaultMessage="Xóa" />
             )}
         </button>
     );

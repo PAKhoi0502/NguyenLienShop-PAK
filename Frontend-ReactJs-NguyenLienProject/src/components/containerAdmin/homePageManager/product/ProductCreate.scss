@@ -189,8 +189,8 @@
 
             // Filled state
             input:not(:placeholder-shown)+.unit {
-               background: linear-gradient(135deg, #f9a8d4, #ec4899);
-               border-color: #ec4899;
+               background: linear-gradient(135deg, #16a34a, #15803d);
+               border-color: #15803d;
             }
 
             // Invalid state
@@ -538,8 +538,8 @@
                }
 
                input:not(:placeholder-shown)+.unit {
-                  background: linear-gradient(135deg, #f9a8d4, #ec4899);
-                  border-color: #ec4899;
+                  background: linear-gradient(135deg, #16a34a, #15803d);
+                  border-color: #15803d;
                }
 
                input:invalid+.unit {

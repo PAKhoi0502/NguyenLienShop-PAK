@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
@@ -16,11 +16,11 @@ const AnnouncementManager = () => {
     const [search, setSearch] = useState('');
     const [loading, setLoading] = useState(true);
     const [filterStatus, setFilterStatus] = useState('all');
-    const [filterType, setFilterType] = useState('all');
+    const [filterType] = useState('all');
     const navigate = useNavigate();
     const intl = useIntl();
 
-    const showToast = (type, message) => {
+    const showToast = useCallback((type, message) => {
         toast(
             (props) => (
                 <CustomToast
@@ -33,7 +33,7 @@ const AnnouncementManager = () => {
             ),
             { closeButton: false, type }
         );
-    };
+    }, []);
 
     // Helper function to check if announcement is expired
     const isAnnouncementExpired = (announcement) => {
@@ -45,7 +45,7 @@ const AnnouncementManager = () => {
 
     // Helper function to format date display
     const formatDate = (dateString) => {
-        if (!dateString) return 'Không giới hạn';
+        if (!dateString) return intl.formatMessage({ id: 'body_admin.announcement_management.manager.unlimited', defaultMessage: 'Không giới hạn' });
         const date = new Date(dateString);
         return date.toLocaleDateString('vi-VN', {
             day: '2-digit',
@@ -56,13 +56,16 @@ const AnnouncementManager = () => {
         });
     };
 
-    const fetchAnnouncements = async () => {
+    const fetchAnnouncements = useCallback(async () => {
         try {
             const res = await getAnnouncements();
             if (res.errCode === 0) {
                 setAnnouncements(Array.isArray(res.announcements) ? res.announcements : []);
             } else {
-                showToast("error", res.errMessage || 'Không thể tải danh sách thông báo');
+                showToast("error", res.errMessage || intl.formatMessage({
+                    id: 'body_admin.announcement_management.manager.load_error_fallback',
+                    defaultMessage: 'Không thể tải danh sách thông báo'
+                }));
             }
         } catch (err) {
             console.error('Fetch announcements error:', err);
@@ -70,11 +73,11 @@ const AnnouncementManager = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [intl, showToast]);
 
     useEffect(() => {
         fetchAnnouncements();
-    }, []);
+    }, [fetchAnnouncements]);
 
     useEffect(() => {
         const keyword = search.trim().toLowerCase();
@@ -224,7 +227,10 @@ const AnnouncementManager = () => {
                                                 onClick={() => handleDetailClick(announcement)}
                                                 title={intl.formatMessage({ id: 'body_admin.announcement_management.manager.detail_title', defaultMessage: 'Click để xem chi tiết' })}
                                             >
-                                                {announcement.title || 'N/A'}
+                                                {announcement.title || intl.formatMessage({
+                                                    id: 'body_admin.announcement_management.manager.no_title',
+                                                    defaultMessage: 'N/A'
+                                                })}
                                             </span>
                                         </td>
 
@@ -262,13 +268,16 @@ const AnnouncementManager = () => {
                                             </span>
                                         </td>
                                         <td>
-                                            <div style={{ fontSize: '0.9rem' }}>
+                                            <div style={{ fontSize: '1rem' }}>
                                                 <div style={{ color: isAnnouncementExpired(announcement) ? '#ef4444' : '#6b7280' }}>
                                                     {formatDate(announcement.endDate)}
                                                 </div>
                                                 {isAnnouncementExpired(announcement) && (
-                                                    <div style={{ color: '#ef4444', fontSize: '0.8rem', fontWeight: 'bold' }}>
-                                                        ⚠️ Đã hết hạn
+                                                    <div style={{ color: '#ef4444', fontSize: '1rem', fontWeight: 'bold' }}>
+                                                        {intl.formatMessage({
+                                                            id: 'body_admin.announcement_management.manager.expired_label',
+                                                            defaultMessage: '⚠️ Đã hết hạn'
+                                                        })}
                                                     </div>
                                                 )}
                                             </div>

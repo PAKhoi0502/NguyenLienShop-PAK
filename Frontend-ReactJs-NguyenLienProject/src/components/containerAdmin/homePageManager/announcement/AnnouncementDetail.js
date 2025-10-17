@@ -55,7 +55,7 @@ const AnnouncementDetail = () => {
                 <CustomToast
                     {...props}
                     type={type}
-                    titleId={type === "success" ? "body_admin.announcement.detail.success_title" : "body_admin.announcement.detail.error_title"}
+                    titleId={type === "success" ? "body_admin.announcement_management.detail.success_title" : "body_admin.announcement_management.detail.error_title"}
                     message={message}
                     time={new Date()}
                 />
@@ -103,8 +103,8 @@ const AnnouncementDetail = () => {
                 setAnnouncement(res.announcement);
                 showToast("success",
                     res.announcement.isActive
-                        ? intl.formatMessage({ id: 'body_admin.announcement.detail.activated', defaultMessage: 'Thông báo đã được kích hoạt' })
-                        : intl.formatMessage({ id: 'body_admin.announcement.detail.deactivated', defaultMessage: 'Thông báo đã được ẩn' })
+                        ? intl.formatMessage({ id: 'body_admin.announcement_management.detail.activated', defaultMessage: 'Thông báo đã được kích hoạt' })
+                        : intl.formatMessage({ id: 'body_admin.announcement_management.detail.deactivated', defaultMessage: 'Thông báo đã được ẩn' })
                 );
             } else {
                 showToast("error", res.errMessage || 'Không thể thay đổi trạng thái thông báo');
@@ -123,7 +123,7 @@ const AnnouncementDetail = () => {
         // Validation
         if (!title.trim()) {
             showToast("error", intl.formatMessage({
-                id: 'body_admin.announcement.detail.no_title',
+                id: 'body_admin.announcement_management.detail.no_title',
                 defaultMessage: 'Vui lòng nhập tiêu đề thông báo'
             }));
             return;
@@ -146,7 +146,7 @@ const AnnouncementDetail = () => {
                 setAnnouncement(res.announcement);
                 setIsEditing(false);
                 showToast("success", intl.formatMessage({
-                    id: 'body_admin.announcement.detail.updated',
+                    id: 'body_admin.announcement_management.detail.updated',
                     defaultMessage: 'Cập nhật thông báo thành công'
                 }));
             } else {
@@ -212,7 +212,7 @@ const AnnouncementDetail = () => {
     };
 
     const formatDate = (dateString) => {
-        if (!dateString) return 'Không có';
+        if (!dateString) return intl.formatMessage({ id: 'body_admin.announcement_management.detail.no_date', defaultMessage: 'Không có' });
         return new Date(dateString).toLocaleString('vi-VN');
     };
 
@@ -226,7 +226,7 @@ const AnnouncementDetail = () => {
             <div className="announcement-detail-container">
                 <div className="loading-state">
                     <div className="loading-spinner"></div>
-                    <p><FormattedMessage id="body_admin.announcement.detail.loading" defaultMessage="Đang tải thông tin thông báo..." /></p>
+                    <p><FormattedMessage id="body_admin.announcement_management.detail.loading" defaultMessage="Đang tải thông tin thông báo..." /></p>
                 </div>
             </div>
         );
@@ -237,8 +237,8 @@ const AnnouncementDetail = () => {
             <div className="announcement-detail-container">
                 <div className="error-state">
                     <div className="error-icon">❓</div>
-                    <h2><FormattedMessage id="body_admin.announcement.detail.not_found_title" defaultMessage="Không tìm thấy thông báo" /></h2>
-                    <p><FormattedMessage id="body_admin.announcement.detail.not_found" defaultMessage="Thông báo không tồn tại hoặc đã bị xóa" /></p>
+                    <h2><FormattedMessage id="body_admin.announcement_management.detail.not_found_title" defaultMessage="Không tìm thấy thông báo" /></h2>
+                    <p><FormattedMessage id="body_admin.announcement_management.detail.not_found" defaultMessage="Thông báo không tồn tại hoặc đã bị xóa" /></p>
                     <button
                         className="btn btn-primary"
                         onClick={() => navigate('/admin/homepage-management/announcement-management')}
@@ -255,26 +255,26 @@ const AnnouncementDetail = () => {
             <HintBox
                 content={
                     <div>
-                        <p><FormattedMessage id="body_admin.announcement.detail.hint.title" defaultMessage="Chi tiết thông báo:" /></p>
+                        <p><FormattedMessage id="body_admin.announcement_management.detail.hint.title" defaultMessage="Chi tiết thông báo:" /></p>
                         <ul style={{ textAlign: 'left', paddingLeft: '1rem', marginTop: '0.5rem' }}>
-                            <li><FormattedMessage id="body_admin.announcement.detail.hint.view_info" defaultMessage="Xem thông tin chi tiết thông báo" /></li>
-                            <li><FormattedMessage id="body_admin.announcement.detail.hint.edit_mode" defaultMessage="Click 'Chỉnh sửa' để cập nhật thông tin" /></li>
-                            <li><FormattedMessage id="body_admin.announcement.detail.hint.toggle_status" defaultMessage="Sử dụng nút 'Kích hoạt/Ẩn' để thay đổi trạng thái hiển thị" /></li>
-                            <li><FormattedMessage id="body_admin.announcement.detail.hint.priority" defaultMessage="Độ ưu tiên quyết định thứ tự hiển thị (1 = cao nhất)" /></li>
+                            <li><FormattedMessage id="body_admin.announcement_management.detail.hint.view_info" defaultMessage="Xem thông tin chi tiết thông báo" /></li>
+                            <li><FormattedMessage id="body_admin.announcement_management.detail.hint.edit_mode" defaultMessage="Click 'Chỉnh sửa' để cập nhật thông tin" /></li>
+                            <li><FormattedMessage id="body_admin.announcement_management.detail.hint.toggle_status" defaultMessage="Sử dụng nút 'Kích hoạt/Ẩn' để thay đổi trạng thái hiển thị" /></li>
+                            <li><FormattedMessage id="body_admin.announcement_management.detail.hint.priority" defaultMessage="Độ ưu tiên quyết định thứ tự hiển thị (1 = cao nhất)" /></li>
                         </ul>
                     </div>
                 }
             />
 
             <h1>
-                <FormattedMessage id="body_admin.announcement.detail.title" defaultMessage="Thông tin thông báo" />
+                <FormattedMessage id="body_admin.announcement_management.detail.title" defaultMessage="Thông tin thông báo" />
             </h1>
 
             <div className="announcement-detail-card">
                 <div className="card-header">
                     <h2>
-                        <IconRenderer icon={announcement.icon || '📢'} size="xlarge" className="mr-3" />
-                        {announcement.title || intl.formatMessage({ id: 'body_admin.announcement.detail.no_title', defaultMessage: 'Không có tiêu đề' })}
+                        <IconRenderer icon={announcement.icon || '📢'} size="0.5rem" className="mr-3" />
+                        {announcement.title || intl.formatMessage({ id: 'body_admin.announcement_management.detail.no_title', defaultMessage: 'Không có tiêu đề' })}
                     </h2>
                     <div className="announcement-id">ID: {announcement.id}</div>
                 </div>
@@ -282,10 +282,10 @@ const AnnouncementDetail = () => {
                 <div className="card-body">
                     <div className="detail-grid">
                         <div className="detail-section">
-                            <h3 className="basic-info"><FormattedMessage id="body_admin.announcement.detail.basic_info" defaultMessage="Thông tin cơ bản" /></h3>
+                            <h3 className="basic-info"><FormattedMessage id="body_admin.announcement_management.detail.basic_info" defaultMessage="Thông tin cơ bản" /></h3>
 
                             <div className="detail-item">
-                                <span className="label"><FormattedMessage id="body_admin.announcement.detail.icon" defaultMessage="Biểu tượng" />:</span>
+                                <span className="label"><FormattedMessage id="body_admin.announcement_management.detail.icon" defaultMessage="Biểu tượng" />:</span>
                                 <span className="value">
                                     {isEditing ? (
                                         <select
@@ -306,7 +306,7 @@ const AnnouncementDetail = () => {
                             </div>
 
                             <div className="detail-item">
-                                <span className="label"><FormattedMessage id="body_admin.announcement.detail.title" defaultMessage="Tiêu đề" />:</span>
+                                <span className="label"><FormattedMessage id="body_admin.announcement_management.detail.title_label" defaultMessage="Tiêu đề" />:</span>
                                 <span className="value">
                                     {isEditing ? (
                                         <input
@@ -322,7 +322,7 @@ const AnnouncementDetail = () => {
                             </div>
 
                             <div className="detail-item">
-                                <span className="label"><FormattedMessage id="body_admin.announcement.detail.content" defaultMessage="Nội dung" />:</span>
+                                <span className="label"><FormattedMessage id="body_admin.announcement_management.detail.content" defaultMessage="Nội dung" />:</span>
                                 <span className="value description">
                                     {isEditing ? (
                                         <textarea
@@ -332,17 +332,17 @@ const AnnouncementDetail = () => {
                                             style={{ width: '100%', padding: '4px 8px', border: '1px solid #ccc', borderRadius: '4px' }}
                                         />
                                     ) : (
-                                        announcement.content || intl.formatMessage({ id: 'body_admin.announcement.detail.no_content', defaultMessage: 'Không có nội dung' })
+                                        announcement.content || intl.formatMessage({ id: 'body_admin.announcement_management.detail.no_content', defaultMessage: 'Không có nội dung' })
                                     )}
                                 </span>
                             </div>
                         </div>
 
                         <div className="detail-section">
-                            <h3 className="settings-info"><FormattedMessage id="body_admin.announcement.detail.settings" defaultMessage="Cài đặt" /></h3>
+                            <h3 className="settings-info"><FormattedMessage id="body_admin.announcement_management.detail.settings" defaultMessage="Cài đặt" /></h3>
 
                             <div className="detail-item">
-                                <span className="label"><FormattedMessage id="body_admin.announcement.detail.type" defaultMessage="Loại" />:</span>
+                                <span className="label"><FormattedMessage id="body_admin.announcement_management.detail.type" defaultMessage="Loại" />:</span>
                                 <span className="value">
                                     <span
                                         className="type-badge"
@@ -361,7 +361,7 @@ const AnnouncementDetail = () => {
                             </div>
 
                             <div className="detail-item">
-                                <span className="label"><FormattedMessage id="body_admin.announcement.detail.priority" defaultMessage="Độ ưu tiên" />:</span>
+                                <span className="label"><FormattedMessage id="body_admin.announcement_management.detail.priority" defaultMessage="Độ ưu tiên" />:</span>
                                 <span className="value">
                                     {isEditing ? (
                                         <select
@@ -397,20 +397,20 @@ const AnnouncementDetail = () => {
                             </div>
 
                             <div className="detail-item">
-                                <span className="label"><FormattedMessage id="body_admin.announcement.detail.status" defaultMessage="Trạng thái" />:</span>
+                                <span className="label"><FormattedMessage id="body_admin.announcement_management.detail.status" defaultMessage="Trạng thái" />:</span>
                                 <span className="value">
                                     <span className={`badge ${announcement.isActive ? 'active' : 'inactive'}`}>
                                         {announcement.isActive ? (
-                                            <FormattedMessage id="body_admin.announcement.detail.status_active" defaultMessage="Đang hiển thị" />
+                                            <FormattedMessage id="body_admin.announcement_management.detail.status_active" defaultMessage="Đang hiển thị" />
                                         ) : (
-                                            <FormattedMessage id="body_admin.announcement.detail.status_inactive" defaultMessage="Đã ẩn" />
+                                            <FormattedMessage id="body_admin.announcement_management.detail.status_inactive" defaultMessage="Đã ẩn" />
                                         )}
                                     </span>
                                 </span>
                             </div>
 
                             <div className="detail-item">
-                                <span className="label"><FormattedMessage id="body_admin.announcement.detail.end_date" defaultMessage="Hết hạn" />:</span>
+                                <span className="label"><FormattedMessage id="body_admin.announcement_management.detail.end_date" defaultMessage="Hết hạn" />:</span>
                                 <span className="value">
                                     {isEditing ? (
                                         <input
@@ -432,31 +432,31 @@ const AnnouncementDetail = () => {
                         </div>
 
                         <div className="detail-section">
-                            <h3 className="timestamps"><FormattedMessage id="body_admin.announcement.detail.metadata" defaultMessage="Thông tin hệ thống" /></h3>
+                            <h3 className="timestamps"><FormattedMessage id="body_admin.announcement_management.detail.metadata" defaultMessage="Thông tin hệ thống" /></h3>
 
                             <div className="detail-item">
-                                <span className="label"><FormattedMessage id="body_admin.announcement.detail.created_at" defaultMessage="Ngày tạo" />:</span>
+                                <span className="label"><FormattedMessage id="body_admin.announcement_management.detail.created_at" defaultMessage="Ngày tạo" />:</span>
                                 <span className="value">{formatDate(announcement.createdAt)}</span>
                             </div>
 
                             <div className="detail-item">
-                                <span className="label"><FormattedMessage id="body_admin.announcement.detail.updated_at" defaultMessage="Cập nhật lần cuối" />:</span>
+                                <span className="label"><FormattedMessage id="body_admin.announcement_management.detail.updated_at" defaultMessage="Cập nhật lần cuối" />:</span>
                                 <span className="value">{formatDate(announcement.updatedAt)}</span>
                             </div>
 
                             <div className="detail-item">
-                                <span className="label"><FormattedMessage id="body_admin.announcement.detail.position" defaultMessage="Vị trí" />:</span>
+                                <span className="label"><FormattedMessage id="body_admin.announcement_management.detail.position" defaultMessage="Vị trí" />:</span>
                                 <span className="value">{announcement.position || 'top'}</span>
                             </div>
 
                             <div className="detail-item">
-                                <span className="label"><FormattedMessage id="body_admin.announcement.detail.dismissible" defaultMessage="Có thể đóng" />:</span>
+                                <span className="label"><FormattedMessage id="body_admin.announcement_management.detail.dismissible" defaultMessage="Có thể đóng" />:</span>
                                 <span className="value">{announcement.isDismissible ? 'Có' : 'Không'}</span>
                             </div>
                         </div>
 
                         <div className="detail-section">
-                            <h3 className="preview-info"><FormattedMessage id="body_admin.announcement.detail.preview" defaultMessage="Xem trước" /></h3>
+                            <h3 className="preview-info"><FormattedMessage id="body_admin.announcement_management.detail.preview" defaultMessage="Xem trước" /></h3>
 
                             <div className="detail-item">
                                 <span className="value">
@@ -471,10 +471,10 @@ const AnnouncementDetail = () => {
                                         }}
                                     >
                                         <strong style={{ fontSize: '1.1rem' }}>
-                                            <IconRenderer 
-                                                icon={isEditing ? icon : announcement.icon || '📢'} 
-                                                size="medium" 
-                                                className="mr-2" 
+                                            <IconRenderer
+                                                icon={isEditing ? icon : announcement.icon || '📢'}
+                                                size="medium"
+                                                className="mr-2"
                                             />
                                             {isEditing ? title : announcement.title}
                                             {(isEditing ? content : announcement.content) && ` - ${isEditing ? content : announcement.content}`}
@@ -482,7 +482,7 @@ const AnnouncementDetail = () => {
                                         {announcement.endDate && (
                                             <div style={{ fontSize: '0.875rem', marginTop: '8px', opacity: 0.8 }}>
                                                 <FormattedMessage
-                                                    id="body_admin.announcement.detail.expires_on"
+                                                    id="body_admin.announcement_management.detail.expires_on"
                                                     defaultMessage="Hết hạn: {date}"
                                                     values={{ date: formatDate(announcement.endDate) }}
                                                 />
@@ -505,9 +505,9 @@ const AnnouncementDetail = () => {
                                     disabled={updating}
                                 >
                                     {updating ? (
-                                        <FormattedMessage id="body_admin.announcement.detail.saving" defaultMessage="Đang lưu..." />
+                                        <FormattedMessage id="body_admin.announcement_management.detail.saving" defaultMessage="Đang lưu..." />
                                     ) : (
-                                        <FormattedMessage id="body_admin.announcement.detail.save" defaultMessage="Lưu thay đổi" />
+                                        <FormattedMessage id="body_admin.announcement_management.detail.save" defaultMessage="Lưu thay đổi" />
                                     )}
                                 </button>
 
@@ -516,13 +516,13 @@ const AnnouncementDetail = () => {
                                     onClick={handleCancel}
                                     disabled={updating}
                                 >
-                                    <FormattedMessage id="body_admin.announcement.detail.cancel" defaultMessage="Hủy" />
+                                    <FormattedMessage id="body_admin.announcement_management.detail.cancel" defaultMessage="Hủy" />
                                 </button>
                             </>
                         ) : (
                             <>
                                 <button className="btn-action btn-update" onClick={handleEdit}>
-                                    <FormattedMessage id="body_admin.announcement.detail.edit_button" defaultMessage="Chỉnh sửa" />
+                                    <FormattedMessage id="body_admin.announcement_management.detail.edit_button" defaultMessage="Chỉnh sửa" />
                                 </button>
 
                                 <AnnouncementActive announcement={announcement} onSuccess={handleActiveSuccess} />
@@ -532,7 +532,7 @@ const AnnouncementDetail = () => {
                         )}
 
                         <button className="btn-action btn-back" onClick={() => navigate('/admin/homepage-management/announcement-management')}>
-                            <FormattedMessage id="body_admin.announcement.detail.back_button" defaultMessage="Quay lại" />
+                            <FormattedMessage id="body_admin.announcement_management.detail.back_button" defaultMessage="Quay lại" />
                         </button>
                     </div>
                 </div>

@@ -39,6 +39,7 @@ let createProduct = async (data) => {
       dimensions,
       slug,
       stock,
+      saleQuantity,
       isNew,
       isBestSeller
    } = data;
@@ -53,6 +54,7 @@ let createProduct = async (data) => {
       dimensions,
       slug: generatedSlug,
       stock,
+      saleQuantity: saleQuantity || 1,
       isNew: !!isNew,
       isBestSeller: !!isBestSeller,
       isActive: false
@@ -100,7 +102,7 @@ let updateProduct = async (id, updateData) => {
    const product = await db.Product.findByPk(id);
    if (!product) return { errCode: 1, errMessage: 'Không tìm thấy sản phẩm' };
 
-   const allowedFields = ['nameProduct', 'description', 'price', 'discountPrice', 'dimensions', 'stock', 'isNew', 'isBestSeller'];
+   const allowedFields = ['nameProduct', 'description', 'price', 'discountPrice', 'dimensions', 'stock', 'saleQuantity', 'isNew', 'isBestSeller'];
    const filteredData = {};
 
    for (const key of allowedFields) {

@@ -15,6 +15,7 @@ const ProductCreate = () => {
    const [length, setLength] = useState('');
    const [width, setWidth] = useState('');
    const [stock, setStock] = useState('');
+   const [saleQuantity, setSaleQuantity] = useState('1');
    const [loading, setLoading] = useState(false);
    const navigate = useNavigate();
    const intl = useIntl();
@@ -24,8 +25,8 @@ const ProductCreate = () => {
       setLoading(true);
 
       // Kiểm tra dữ liệu bắt buộc
-      if (!nameProduct || !price || !stock) {
-         showToast('error', intl.formatMessage({ id: 'body_admin.product_management.create.create_blocked', defaultMessage: 'Vui lòng nhập đầy đủ các trường bắt buộc (tên, giá, số lượng tồn kho)' }));
+      if (!nameProduct || !price || !stock || !saleQuantity) {
+         showToast('error', intl.formatMessage({ id: 'body_admin.product_management.create.create_blocked', defaultMessage: 'Vui lòng nhập đầy đủ các trường bắt buộc (tên, giá, số lượng tồn kho, số lượng đơn vị bán)' }));
          setLoading(false);
          return;
       }
@@ -61,6 +62,14 @@ const ProductCreate = () => {
          return;
       }
 
+      // Validation cho Sale Quantity
+      const saleQuantityValue = parseInt(saleQuantity);
+      if (isNaN(saleQuantityValue) || saleQuantityValue <= 0 || !Number.isInteger(parseFloat(saleQuantity))) {
+         showToast('error', intl.formatMessage({ id: 'body_admin.product_management.create.saleQuantity_invalid', defaultMessage: 'Số lượng đơn vị bán phải là số nguyên dương' }));
+         setLoading(false);
+         return;
+      }
+
       const data = {
          nameProduct,
          description: description || '',
@@ -68,6 +77,7 @@ const ProductCreate = () => {
          discountPrice: discountPrice || '',
          dimensions: length && width ? `${length} x ${width}` : '',
          stock,
+         saleQuantity: saleQuantity || 1,
          isActive: false // Mặc định sản phẩm mới không active
       };
 
@@ -123,6 +133,7 @@ const ProductCreate = () => {
                      <li><FormattedMessage id="body_admin.product_management.create.hint.name" defaultMessage="Tên sản phẩm là bắt buộc." /></li>
                      <li><FormattedMessage id="body_admin.product_management.create.hint.price" defaultMessage="Giá phải lớn hơn 0, số lượng tồn kho phải là số nguyên dương." /></li>
                      <li><FormattedMessage id="body_admin.product_management.create.hint.discount" defaultMessage="Giá khuyến mãi phải nhỏ hơn giá gốc (nếu có)." /></li>
+                     <li><FormattedMessage id="body_admin.product_management.create.hint.saleQuantity" defaultMessage="Số lượng đơn vị bán: số cái trong 1 combo/lần mua (VD: 50 cái/combo)." /></li>
                      <li><FormattedMessage id="body_admin.product_management.create.hint.optional" defaultMessage="Mô tả, chiều dài và chiều rộng là tùy chọn." /></li>
                   </ul>
                </div>
@@ -216,7 +227,22 @@ const ProductCreate = () => {
                      required
                      placeholder="VD: 5000"
                   />
-                  <span className="unit">cái</span>
+                  <span className="unit">{intl.formatMessage({ id: 'body_admin.product_management.create.unit', defaultMessage: 'cái' })}</span>
+               </div>
+            </div>
+            <div className="form-group">
+               <label><FormattedMessage id="body_admin.product_management.create.saleQuantity" defaultMessage="Số lượng đơn vị bán:" /> <span style={{ color: 'red' }}>*</span></label>
+               <div className="input-with-unit">
+                  <input
+                     type="number"
+                     value={saleQuantity}
+                     onChange={(e) => setSaleQuantity(e.target.value)}
+                     min="1"
+                     step="1"
+                     required
+                     placeholder="VD: 50"
+                  />
+                  <span className="unit">{intl.formatMessage({ id: 'body_admin.product_management.create.unit', defaultMessage: 'cái' })}</span>
                </div>
             </div>
             <div className="form-actions">

@@ -39,6 +39,12 @@ module.exports = (sequelize, DataTypes) => {
       dimensions: DataTypes.STRING,
       slug: DataTypes.STRING,
       stock: DataTypes.INTEGER,
+      saleQuantity: {
+         type: DataTypes.INTEGER,
+         allowNull: false,
+         defaultValue: 1,
+         comment: 'Số lượng trong 1 đơn vị bán (combo)'
+      },
       isNew: {
          type: DataTypes.BOOLEAN,
          defaultValue: false

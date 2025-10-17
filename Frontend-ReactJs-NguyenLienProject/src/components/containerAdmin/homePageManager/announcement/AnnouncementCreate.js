@@ -17,16 +17,76 @@ const AnnouncementCreate = () => {
 
     // Predefined emoji icons for selection
     const emojiIcons = [
-        { value: '📢', label: '📢 Thông báo chung' },
-        { value: 'ℹ️', label: 'ℹ️ Thông tin' },
-        { value: '✅', label: '✅ Thành công' },
-        { value: '⚠️', label: '⚠️ Cảnh báo' },
-        { value: '🎉', label: '🎉 Chúc mừng' },
-        { value: '🔧', label: '🔧 Bảo trì' },
-        { value: '🚀', label: '🚀 Cập nhật' },
-        { value: '🎁', label: '🎁 Khuyến mãi' },
-        { value: '💰', label: '💰 Giảm giá' },
-        { value: '❌', label: '❌ Lỗi' }
+        {
+            value: '📢',
+            label: `📢 ${intl.formatMessage({
+                id: 'body_admin.announcement_management.create.general_icon',
+                defaultMessage: 'Thông báo chung'
+            })}`
+        },
+        {
+            value: 'ℹ️',
+            label: `ℹ️ ${intl.formatMessage({
+                id: 'body_admin.announcement_management.create.info_icon',
+                defaultMessage: 'Thông tin'
+            })}`
+        },
+        {
+            value: '✅',
+            label: `✅ ${intl.formatMessage({
+                id: 'body_admin.announcement_management.create.success_icon',
+                defaultMessage: 'Thành công'
+            })}`
+        },
+        {
+            value: '⚠️',
+            label: `⚠️ ${intl.formatMessage({
+                id: 'body_admin.announcement_management.create.warning_icon',
+                defaultMessage: 'Cảnh báo'
+            })}`
+        },
+        {
+            value: '🎉',
+            label: `🎉 ${intl.formatMessage({
+                id: 'body_admin.announcement_management.create.celebration_icon',
+                defaultMessage: 'Chúc mừng'
+            })}`
+        },
+        {
+            value: '🔧',
+            label: `🔧 ${intl.formatMessage({
+                id: 'body_admin.announcement_management.create.maintenance_icon',
+                defaultMessage: 'Bảo trì'
+            })}`
+        },
+        {
+            value: '🚀',
+            label: `🚀 ${intl.formatMessage({
+                id: 'body_admin.announcement_management.create.update_icon',
+                defaultMessage: 'Cập nhật'
+            })}`
+        },
+        {
+            value: '🎁',
+            label: `🎁 ${intl.formatMessage({
+                id: 'body_admin.announcement_management.create.promotion_icon',
+                defaultMessage: 'Khuyến mãi'
+            })}`
+        },
+        {
+            value: '💰',
+            label: `💰 ${intl.formatMessage({
+                id: 'body_admin.announcement_management.create.discount_icon',
+                defaultMessage: 'Giảm giá'
+            })}`
+        },
+        {
+            value: '❌',
+            label: `❌ ${intl.formatMessage({
+                id: 'body_admin.announcement_management.create.error_icon',
+                defaultMessage: 'Lỗi'
+            })}`
+        }
     ];
 
     const handleSubmit = async (e) => {
@@ -35,7 +95,7 @@ const AnnouncementCreate = () => {
         // Validation
         if (!title.trim()) {
             showToast("error", intl.formatMessage({
-                id: 'body_admin.announcement_management_management.create.no_title',
+                id: 'body_admin.announcement_management.create.no_title',
                 defaultMessage: 'Vui lòng nhập tiêu đề thông báo'
             }));
             return;
@@ -123,11 +183,11 @@ const AnnouncementCreate = () => {
                     <div>
                         <p><FormattedMessage id="body_admin.announcement_management.create.hint.title" defaultMessage="Hướng dẫn tạo thông báo:" /></p>
                         <ul style={{ textAlign: 'left', paddingLeft: '1rem', marginTop: '0.5rem' }}>
-                            <li><FormattedMessage id="body_admin.announcement_management.create.hint.title_required" defaultMessage="Tiêu đề là bắt buộc, nội dung là tùy chọn" /></li>
-                            <li><FormattedMessage id="body_admin.announcement_management.create.hint.icon_select" defaultMessage="Chọn biểu tượng phù hợp với nội dung thông báo" /></li>
-                            <li><FormattedMessage id="body_admin.announcement_management.create.hint.default_hidden" defaultMessage="Thông báo được tạo ở trạng thái ẩn - sử dụng chức năng 'Hiển thị' để kích hoạt" /></li>
-                            <li><FormattedMessage id="body_admin.announcement_management.create.hint.format" defaultMessage="Format hiển thị: [Icon] Tiêu đề - Nội dung" /></li>
-                            <li><FormattedMessage id="body_admin.announcement_management.create.hint.auto_settings" defaultMessage="Các cài đặt khác (màu sắc, vị trí) sẽ được tự động thiết lập" /></li>
+                            <li><FormattedMessage id="body_admin.announcement_management.create.hint.1" defaultMessage="Tiêu đề là bắt buộc, nội dung là tùy chọn" /></li>
+                            <li><FormattedMessage id="body_admin.announcement_management.create.hint.2" defaultMessage="Chọn biểu tượng phù hợp với nội dung thông báo" /></li>
+                            <li><FormattedMessage id="body_admin.announcement_management.create.hint.3" defaultMessage="Thông báo được tạo ở trạng thái ẩn - sử dụng chức năng 'Hiển thị' để kích hoạt" /></li>
+                            <li><FormattedMessage id="body_admin.announcement_management.create.hint.4" defaultMessage="Format hiển thị: [Icon] Tiêu đề - Nội dung" /></li>
+                            <li><FormattedMessage id="body_admin.announcement_management.create.hint.5" defaultMessage="Các cài đặt khác (màu sắc, vị trí) sẽ được tự động thiết lập" /></li>
                         </ul>
                     </div>
                 }
@@ -156,7 +216,10 @@ const AnnouncementCreate = () => {
                             ))}
                         </select>
                         <small style={{ color: '#6b7280', fontSize: '0.875rem', marginTop: '4px', display: 'block' }}>
-                            Đã chọn: <span style={{ fontSize: '18px' }}>{icon}</span>
+                            {intl.formatMessage({
+                                id: 'body_admin.announcement_management.create.icon_selected',
+                                defaultMessage: 'Đã chọn:'
+                            })} <span style={{ fontSize: '18px' }}>{icon}</span>
                         </small>
                     </div>
 
@@ -198,15 +261,12 @@ const AnnouncementCreate = () => {
                         <div style={previewStyle}>
                             <strong>
                                 <span style={{ fontSize: '18px', marginRight: '8px' }}>{icon}</span>
-                                {title || 'Tiêu đề thông báo'}
+                                {title || intl.formatMessage({
+                                    id: 'body_admin.announcement_management.create.title_placeholder_preview',
+                                    defaultMessage: 'Tiêu đề thông báo'
+                                })}
                                 {content && ` - ${content}`}
                             </strong>
-                            <div style={{ fontSize: '0.875rem', marginTop: '4px', opacity: 0.8 }}>
-                                <FormattedMessage
-                                    id="body_admin.announcement_management.create.status_hidden"
-                                    defaultMessage="Trạng thái: Ẩn (sử dụng chức năng 'Hiển thị' để kích hoạt)"
-                                />
-                            </div>
                         </div>
                     </div>
                 </div>
