@@ -58,7 +58,7 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
         icon: {
-            type: DataTypes.ENUM('📢', 'ℹ️', '✅', '⚠️', '🎉', '🔧', '🚀', '🎁', '💰', '❌'),
+            type: DataTypes.STRING(10),
             allowNull: false,
             defaultValue: '📢',
             validate: {
@@ -89,8 +89,8 @@ module.exports = (sequelize, DataTypes) => {
                     msg: 'Độ ưu tiên phải lớn hơn hoặc bằng 1'
                 },
                 max: {
-                    args: [5],
-                    msg: 'Độ ưu tiên phải nhỏ hơn hoặc bằng 5'
+                    args: [10],
+                    msg: 'Độ ưu tiên phải nhỏ hơn hoặc bằng 10'
                 }
             }
         },

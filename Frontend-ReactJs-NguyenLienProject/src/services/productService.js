@@ -99,6 +99,7 @@ export const updateProduct = async (data) => {
          'discountPrice',
          'dimensions',
          'stock',
+         'saleQuantity',
          'isNew',
          'isBestSeller'
       ];

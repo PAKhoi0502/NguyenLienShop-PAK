@@ -159,6 +159,21 @@ const ProductCreate = () => {
                />
             </div>
             <div className="form-group">
+               <label><FormattedMessage id="body_admin.product_management.create.saleQuantity" defaultMessage="Số lượng đơn vị bán:" /> <span style={{ color: 'red' }}>*</span></label>
+               <div className="input-with-unit">
+                  <input
+                     type="number"
+                     value={saleQuantity}
+                     onChange={(e) => setSaleQuantity(e.target.value)}
+                     min="1"
+                     step="1"
+                     required
+                     placeholder="VD: 50"
+                  />
+                  <span className="unit">{intl.formatMessage({ id: 'body_admin.product_management.create.unit', defaultMessage: 'cái' })}</span>
+               </div>
+            </div>
+            <div className="form-group">
                <label><FormattedMessage id="body_admin.product_management.create.price" defaultMessage="Giá:" /> <span style={{ color: 'red' }}>*</span></label>
                <div className="input-with-unit">
                   <input
@@ -226,21 +241,6 @@ const ProductCreate = () => {
                      step="1"
                      required
                      placeholder="VD: 5000"
-                  />
-                  <span className="unit">{intl.formatMessage({ id: 'body_admin.product_management.create.unit', defaultMessage: 'cái' })}</span>
-               </div>
-            </div>
-            <div className="form-group">
-               <label><FormattedMessage id="body_admin.product_management.create.saleQuantity" defaultMessage="Số lượng đơn vị bán:" /> <span style={{ color: 'red' }}>*</span></label>
-               <div className="input-with-unit">
-                  <input
-                     type="number"
-                     value={saleQuantity}
-                     onChange={(e) => setSaleQuantity(e.target.value)}
-                     min="1"
-                     step="1"
-                     required
-                     placeholder="VD: 50"
                   />
                   <span className="unit">{intl.formatMessage({ id: 'body_admin.product_management.create.unit', defaultMessage: 'cái' })}</span>
                </div>

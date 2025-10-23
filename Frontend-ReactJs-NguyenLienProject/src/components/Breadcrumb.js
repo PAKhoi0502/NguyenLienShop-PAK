@@ -66,6 +66,11 @@ const Breadcrumb = ({ topOffset = 100 }) => {
       if (name === 'add-product') return 'Thêm sản phẩm';
       if (name === 'delete-product') return 'Xóa sản phẩm';
 
+      if (name === 'announcement-management') return 'Quản lý thông báo';
+      if (name === 'announcement-create') return 'Tạo thông báo';
+      if (name === 'announcement-update') return 'Chỉnh sửa thông báo';
+      if (name === 'announcement-detail') return 'Chi tiết thông báo';
+
       if (pathnames.includes('user-detail') && index === pathnames.length - 1) {
          return "Thông tin người dùng";
       }

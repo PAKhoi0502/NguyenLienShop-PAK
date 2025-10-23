@@ -16,6 +16,7 @@ const ProductUpdate = () => {
    const [length, setLength] = useState('');
    const [width, setWidth] = useState('');
    const [stock, setStock] = useState('');
+   const [saleQuantity, setSaleQuantity] = useState('1');
    const [isNew, setIsNew] = useState(false);
    const [isBestSeller, setIsBestSeller] = useState(false);
    const [loading, setLoading] = useState(false);
@@ -43,7 +44,7 @@ const ProductUpdate = () => {
       try {
          const res = await getProductById(id);
          if (res && res.errCode === 0 && res.product) {
-            const { nameProduct, description, price, discountPrice, dimensions, stock, isNew, isBestSeller } = res.product;
+            const { nameProduct, description, price, discountPrice, dimensions, stock, saleQuantity, isNew, isBestSeller } = res.product;
             setNameProduct(nameProduct || '');
             setDescription(description || '');
             setPrice(price ? price.toString() : '');
@@ -60,6 +61,7 @@ const ProductUpdate = () => {
             }
 
             setStock(stock ? stock.toString() : '');
+            setSaleQuantity(saleQuantity ? saleQuantity.toString() : '1');
             setIsNew(!!isNew);
             setIsBestSeller(!!isBestSeller);
          } else {
@@ -92,8 +94,8 @@ const ProductUpdate = () => {
       e.preventDefault();
 
       // Kiểm tra dữ liệu bắt buộc
-      if (!nameProduct || !price || !stock) {
-         showToast('error', intl.formatMessage({ id: 'body_admin.product_management.update_product.missing_fields', defaultMessage: 'Vui lòng nhập đầy đủ các trường bắt buộc (tên, giá, số lượng tồn kho)' }));
+      if (!nameProduct || !price || !stock || !saleQuantity) {
+         showToast('error', intl.formatMessage({ id: 'body_admin.product_management.update_product.missing_fields', defaultMessage: 'Vui lòng nhập đầy đủ các trường bắt buộc (tên, giá, số lượng tồn kho, số lượng đơn vị bán)' }));
          return;
       }
 
@@ -121,6 +123,13 @@ const ProductUpdate = () => {
       const stockValue = parseInt(stock);
       if (isNaN(stockValue) || stockValue < 0 || !Number.isInteger(parseFloat(stock))) {
          showToast('error', intl.formatMessage({ id: 'body_admin.product_management.update_product.stock_invalid', defaultMessage: 'Số lượng tồn kho phải là số nguyên dương' }));
+         return;
+      }
+
+      // Validation cho Sale Quantity
+      const saleQuantityValue = parseInt(saleQuantity);
+      if (isNaN(saleQuantityValue) || saleQuantityValue <= 0 || !Number.isInteger(parseFloat(saleQuantity))) {
+         showToast('error', intl.formatMessage({ id: 'body_admin.product_management.update_product.saleQuantity_invalid', defaultMessage: 'Số lượng đơn vị bán phải là số nguyên dương' }));
          return;
       }
 
@@ -194,6 +203,7 @@ const ProductUpdate = () => {
          discountPrice: discountPrice ? parseFloat(discountPrice) : null,
          dimensions: length && width ? `${length}x${width}` : '',
          stock: stockValue,
+         saleQuantity: saleQuantityValue,
          isNew, // Thêm isNew vào dữ liệu
          isBestSeller // Thêm isBestSeller vào dữ liệu
       };
@@ -330,6 +340,21 @@ const ProductUpdate = () => {
                         step="1"
                         required
                         placeholder="VD: 5000"
+                     />
+                     <span className="unit">cái</span>
+                  </div>
+               </div>
+               <div className="form-group">
+                  <label><FormattedMessage id="body_admin.product_management.update_product.saleQuantity" defaultMessage="Số lượng đơn vị bán:" /> <span style={{ color: 'red' }}>*</span></label>
+                  <div className="input-with-unit">
+                     <input
+                        type="number"
+                        value={saleQuantity}
+                        onChange={(e) => setSaleQuantity(e.target.value)}
+                        min="1"
+                        step="1"
+                        required
+                        placeholder="VD: 50"
                      />
                      <span className="unit">cái</span>
                   </div>

@@ -1,14 +1,18 @@
 .banner-container {
    width: 100%;
-   height: 60vh; // ↓ giảm từ 90vh xuống
-   min-height: 400px; // ↓ tùy bạn, có thể để 350px
-   max-height: none;
+   height: 60vh;
+   min-height: 400px;
+   max-height: 600px;
    position: relative;
    margin: 0;
+   overflow: hidden;
+   border-radius: 0 0 24px 24px;
+   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
 
    .swiper {
       width: 100%;
       height: 100%;
+      border-radius: inherit;
    }
 
    .banner-slide {
@@ -16,17 +20,138 @@
       height: 100%;
       background-size: cover;
       background-position: center;
+      background-repeat: no-repeat;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+
+      // Hiệu ứng hover zoom
+      &:hover {
+         transform: scale(1.02);
+
+         &::after {
+            opacity: 1;
+         }
+      }
+
+      // Overlay gradient tinh tế cho depth
+      &::before {
+         content: '';
+         position: absolute;
+         top: 0;
+         left: 0;
+         right: 0;
+         bottom: 0;
+         background: linear-gradient(45deg,
+               rgba(0, 0, 0, 0.1) 0%,
+               rgba(0, 0, 0, 0.05) 50%,
+               rgba(0, 0, 0, 0.15) 100%);
+         z-index: 1;
+         transition: opacity 0.3s ease;
+      }
+
+      // Overlay hover effect
+      &::after {
+         content: '';
+         position: absolute;
+         top: 0;
+         left: 0;
+         right: 0;
+         bottom: 0;
+         background: linear-gradient(135deg,
+               rgba(255, 255, 255, 0.1) 0%,
+               rgba(255, 255, 255, 0.05) 50%,
+               rgba(255, 255, 255, 0.1) 100%);
+         z-index: 2;
+         opacity: 0;
+         transition: opacity 0.3s ease;
+      }
+   }
+
+   // Loading state
+   .banner-loading {
       display: flex;
       align-items: center;
       justify-content: center;
+      height: 100%;
+      font-size: 1.2rem;
+      color: #666;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+   }
+
+   // Error state
+   .banner-error {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      font-size: 1.2rem;
+      color: #e74c3c;
+      background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+   }
+
+   // Empty state
+   .banner-empty {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+      p {
+         color: white;
+         font-size: 1.2rem;
+         text-align: center;
+         margin: 0;
+         padding: 2rem;
+         background: rgba(255, 255, 255, 0.1);
+         border-radius: 12px;
+         -webkit-backdrop-filter: blur(10px);
+         backdrop-filter: blur(10px);
+      }
+   }
+
+   // Swiper navigation dots customization
+   :global(.swiper-pagination) {
+      bottom: 20px !important;
+
+      :global(.swiper-pagination-bullet) {
+         width: 12px;
+         height: 12px;
+         background: rgba(255, 255, 255, 0.5);
+         opacity: 1;
+         transition: all 0.3s ease;
+
+         &:global(.swiper-pagination-bullet-active) {
+            background: white;
+            transform: scale(1.2);
+         }
+      }
    }
 
    @media screen and (max-width: 768px) {
-      height: 40vh; // ↓ cho nhỏ lại trên mobile
+      height: 50vh;
+      min-height: 300px;
+      border-radius: 0 0 16px 16px;
 
-      .banner-overlay {
-         padding: 1rem 1.5rem;
-
+      .banner-slide {
+         &:hover {
+            transform: none; // Disable hover effect on mobile
+         }
       }
+
+      .banner-loading,
+      .banner-error,
+      .banner-empty p {
+         font-size: 1rem;
+         padding: 1.5rem;
+      }
+   }
+
+   @media screen and (max-width: 480px) {
+      height: 45vh;
+      min-height: 250px;
+      border-radius: 0 0 12px 12px;
    }
 }

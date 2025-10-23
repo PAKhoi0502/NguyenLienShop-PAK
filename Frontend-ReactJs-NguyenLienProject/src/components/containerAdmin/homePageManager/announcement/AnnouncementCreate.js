@@ -167,14 +167,7 @@ const AnnouncementCreate = () => {
         );
     };
 
-    const previewStyle = {
-        backgroundColor: '#3b82f6',
-        color: '#ffffff',
-        padding: '12px 16px',
-        borderRadius: '8px',
-        margin: '8px 0',
-        border: '1px solid #e5e7eb'
-    };
+    // Preview style is now handled by CSS class
 
     return (
         <div className="announcement-create-container">
@@ -198,7 +191,6 @@ const AnnouncementCreate = () => {
             <form onSubmit={handleSubmit} className="announcement-create-form">
                 {/* Basic Information */}
                 <div className="form-section">
-                    <h3><FormattedMessage id="body_admin.announcement_management.create.basic_info" defaultMessage="Thông tin cơ bản" /></h3>
 
                     <div className="form-group">
                         <label>
@@ -207,7 +199,7 @@ const AnnouncementCreate = () => {
                         <select
                             value={icon}
                             onChange={(e) => setIcon(e.target.value)}
-                            style={{ fontSize: '16px', padding: '8px' }}
+                            className="icon-select"
                         >
                             {emojiIcons.map(iconOption => (
                                 <option key={iconOption.value} value={iconOption.value}>
@@ -215,11 +207,11 @@ const AnnouncementCreate = () => {
                                 </option>
                             ))}
                         </select>
-                        <small style={{ color: '#6b7280', fontSize: '0.875rem', marginTop: '4px', display: 'block' }}>
+                        <small>
                             {intl.formatMessage({
                                 id: 'body_admin.announcement_management.create.icon_selected',
                                 defaultMessage: 'Đã chọn:'
-                            })} <span style={{ fontSize: '18px' }}>{icon}</span>
+                            })} <span>{icon}</span>
                         </small>
                     </div>
 
@@ -258,9 +250,9 @@ const AnnouncementCreate = () => {
                     {/* Preview */}
                     <div className="form-group">
                         <label><FormattedMessage id="body_admin.announcement_management.create.preview" defaultMessage="Xem trước:" /></label>
-                        <div style={previewStyle}>
+                        <div className="preview-container">
                             <strong>
-                                <span style={{ fontSize: '18px', marginRight: '8px' }}>{icon}</span>
+                                <span>{icon}</span>
                                 {title || intl.formatMessage({
                                     id: 'body_admin.announcement_management.create.title_placeholder_preview',
                                     defaultMessage: 'Tiêu đề thông báo'

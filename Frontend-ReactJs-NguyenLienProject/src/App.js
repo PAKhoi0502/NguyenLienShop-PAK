@@ -51,7 +51,7 @@ function App() {
                         <AppRoutes />
 
                         {/* 🔍 Enhanced Debug Panel - Only in Development */}
-                        {process.env.NODE_ENV === 'development' && <AuthDebugSafe />}
+                        {/* {process.env.NODE_ENV === 'development' && <AuthDebugSafe />} */}
                     </CustomScrollbars>
 
                     {/* 📢 React Toastify - Legacy toast system */}

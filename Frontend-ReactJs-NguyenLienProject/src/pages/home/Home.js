@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import './Home.scss';
 
-import Banner from '../../components/containerPublic/banner/Banner';
-import BasicInfo from '../../components/containerPublic/banner/BasicInfo';
+import Banner from '../../components/containerPublic/Banner/Banner';
+import BasicInfo from '../../components/containerPublic/BasicInfo/BasicInfo';
 
 const Home = () => {
 

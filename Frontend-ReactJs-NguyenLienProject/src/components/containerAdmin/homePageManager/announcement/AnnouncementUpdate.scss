@@ -1,11 +1,11 @@
 // ==============================================
-// 📢 ANNOUNCEMENT CREATE STYLES (Pink Theme)
+// 📢 ANNOUNCEMENT UPDATE STYLES (Pink Theme)
 // ==============================================
 
 @import '../../../../styles/variables';
 @import '../../../../styles/mixins';
 
-.announcement-create-container {
+.announcement-update-container {
     min-height: 100vh;
     padding: spacing(8) spacing(6);
     background: linear-gradient(135deg, #fdf2f8 0%, #ffffff 50%, #fce7f3 100%);
@@ -50,7 +50,7 @@
     // ==============================================
     // 📝 FORM STYLING
     // ==============================================
-    .announcement-create-form {
+    .announcement-update-form {
         max-width: 800px;
         margin: 0 auto;
         background: #ffffff;
@@ -127,7 +127,7 @@
                     background: #f9fafb;
                 }
 
-                // Blue background when filled
+                // Pink background when filled
                 &:not(:placeholder-shown) {
                     background-color: #fdf2f8;
                     border-color: #f9a8d4;
@@ -159,20 +159,20 @@
                 padding-right: spacing(10);
 
                 &:focus {
-                    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%233b82f6' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+                    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23df63eb' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
                 }
             }
 
             small {
                 display: block;
                 margin-top: spacing(2);
-                color: #6b7280;
+                color: #4b5563;
                 font-size: font-size(sm);
                 font-style: italic;
 
                 span {
                     font-weight: font-weight(semibold);
-                    color: #3b82f6;
+                    color: #df63eb;
                 }
             }
 
@@ -180,13 +180,13 @@
             // 🎨 PREVIEW STYLING
             // ==============================================
             .preview-container {
-                background: #222;
+                background: linear-gradient(135deg, #df63eb, #A813B7);
                 color: #ffffff;
                 padding: spacing(4);
                 border-radius: border-radius(lg);
                 margin-top: spacing(2);
                 border: 2px solid #A813B7;
-                box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+                box-shadow: 0 4px 12px rgba(223, 99, 235, 0.2);
 
                 strong {
                     display: flex;
@@ -256,7 +256,7 @@
                 }
 
                 &:disabled {
-                    background: linear-gradient(135deg, #9ca3af, #6b7280);
+                    background: linear-gradient(135deg, #9ca3af, #4b5563);
                     border-color: #9ca3af;
 
                     &::before {
@@ -268,7 +268,7 @@
             }
 
             .btn-cancel {
-                background: linear-gradient(135deg, #6b7280, #4b5563);
+                background: linear-gradient(135deg, #4b5563, #4b5563);
                 color: #ffffff;
                 border: 1px solid #4b5563;
 
@@ -283,7 +283,7 @@
     // ==============================================
     // 🎭 ANIMATIONS
     // ==============================================
-    .announcement-create-form {
+    .announcement-update-form {
         animation: fade-in 0.6s ease-out;
     }
 
@@ -341,7 +341,7 @@
     // 📱 RESPONSIVE DESIGN
     // ==============================================
     @include mobile-only {
-        .announcement-create-form {
+        .announcement-update-form {
             .form-section {
                 margin-bottom: spacing(6);
 
@@ -382,14 +382,14 @@
             color: #F6CFFF;
         }
 
-        .announcement-create-form {
-            background: color(gray-800);
+        .announcement-update-form {
+            background: #374151;
             border-color: #df63eb;
 
             .form-section {
                 h3 {
                     color: #F6CFFF;
-                    border-bottom-color: #3b82f6;
+                    border-bottom-color: #df63eb;
                 }
             }
 
@@ -405,7 +405,7 @@
                 input,
                 textarea,
                 select {
-                    background: color(gray-700);
+                    background: #4b5563;
                     color: #e5e7eb;
                     border-color: #df63eb;
 
@@ -414,8 +414,8 @@
                     }
 
                     &:focus {
-                        background: color(gray-600);
-                        border-color: #2563eb;
+                        background: #4b5563;
+                        border-color: #A813B7;
                         box-shadow: 0 0 0 3px rgba(223, 99, 235, 0.2);
                     }
 
@@ -443,14 +443,14 @@
                 }
 
                 .preview-container {
-                    background: #222;
-                    border-color: #ffffff;
+                    background: linear-gradient(135deg, #df63eb, #A813B7);
+                    border-color: #A813B7;
                 }
             }
 
             .form-actions {
                 .btn-submit:disabled {
-                    background: linear-gradient(135deg, color(gray-600), color(gray-700));
+                    background: linear-gradient(135deg, #4b5563, #4b5563);
                     border-color: #4b5563;
                 }
             }

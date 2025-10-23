@@ -1,19 +1,22 @@
 'use strict';
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
-        // Sửa ENUM values cho icon column để hỗ trợ emoji đúng cách
+        // Change icon column from ENUM to VARCHAR to properly support emojis
         await queryInterface.changeColumn('Announcements', 'icon', {
-            type: Sequelize.ENUM('📢', 'ℹ️', '✅', '⚠️', '🎉', '🔧', '🚀', '🎁', '💰', '❌'),
+            type: Sequelize.STRING(10),
             allowNull: false,
-            defaultValue: '📢'
+            defaultValue: '📢',
+            charset: 'utf8mb4',
+            collate: 'utf8mb4_unicode_ci'
         });
-        
-        console.log('✅ Fixed announcement icon ENUM values for proper emoji support');
+
+        console.log('✅ Changed icon column from ENUM to VARCHAR for proper emoji support');
     },
 
     async down(queryInterface, Sequelize) {
-        // Rollback về ENUM cũ (nếu cần)
+        // Rollback to ENUM (if needed)
         await queryInterface.changeColumn('Announcements', 'icon', {
             type: Sequelize.ENUM('📢', 'ℹ️', '✅', '⚠️', '🎉', '🔧', '🚀', '🎁', '💰', '❌'),
             allowNull: false,
@@ -21,4 +24,3 @@ module.exports = {
         });
     }
 };
-

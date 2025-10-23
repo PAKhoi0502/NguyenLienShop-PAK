@@ -100,7 +100,14 @@ const AnnouncementManager = () => {
             return matchSearch && matchStatus && matchType;
         });
 
-        setFilteredAnnouncements(filtered);
+        // Sắp xếp filtered announcements theo priority mặc định (1=cao nhất, 5=thấp nhất)
+        const sorted = [...filtered].sort((a, b) => {
+            const priorityA = a.priority || 1;
+            const priorityB = b.priority || 1;
+            return priorityA - priorityB; // Sắp xếp tăng dần (1,2,3,4,5)
+        });
+
+        setFilteredAnnouncements(sorted);
     }, [search, announcements, filterStatus, filterType]);
 
     const handleDetailClick = (announcement) => {
@@ -119,25 +126,6 @@ const AnnouncementManager = () => {
         navigate(`/admin/homepage-management/announcement-management/announcement-update/${clickedAnnouncement.id}`);
     };
 
-    const getTypeLabel = (type) => {
-        const typeLabels = {
-            'info': intl.formatMessage({ id: 'body_admin.announcement_management.manager.type_info', defaultMessage: 'Thông tin' }),
-            'warning': intl.formatMessage({ id: 'body_admin.announcement_management.manager.type_warning', defaultMessage: 'Cảnh báo' }),
-            'success': intl.formatMessage({ id: 'body_admin.announcement_management.manager.type_success', defaultMessage: 'Thành công' }),
-            'error': intl.formatMessage({ id: 'body_admin.announcement_management.manager.type_error', defaultMessage: 'Lỗi' })
-        };
-        return typeLabels[type] || type;
-    };
-
-    const getTypeColor = (type) => {
-        const typeColors = {
-            'info': '#3b82f6',
-            'warning': '#f59e0b',
-            'success': '#10b981',
-            'error': '#ef4444'
-        };
-        return typeColors[type] || '#6b7280';
-    };
 
     return (
         <div className="announcement-manager-container">
@@ -176,6 +164,7 @@ const AnnouncementManager = () => {
                     <option value="active"><FormattedMessage id="body_admin.announcement_management.manager.filter_active" defaultMessage="Đang hiển thị" /></option>
                     <option value="inactive"><FormattedMessage id="body_admin.announcement_management.manager.filter_inactive" defaultMessage="Đã ẩn" /></option>
                 </select>
+
             </div>
 
             <div className="announcement-search-bar">
@@ -197,7 +186,6 @@ const AnnouncementManager = () => {
                                 <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }}>ID</th>
                                 <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }}><FormattedMessage id="body_admin.announcement_management.manager.icon" defaultMessage="Icon" /></th>
                                 <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }}><FormattedMessage id="body_admin.announcement_management.manager.title" defaultMessage="Tiêu đề" /></th>
-                                <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }}><FormattedMessage id="body_admin.announcement_management.manager.type" defaultMessage="Loại" /></th>
                                 <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }}><FormattedMessage id="body_admin.announcement_management.manager.priority" defaultMessage="Độ ưu tiên" /></th>
                                 <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }}><FormattedMessage id="body_admin.announcement_management.manager.expiry" defaultMessage="Thời gian kết thúc" /></th>
                                 <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }}><FormattedMessage id="body_admin.announcement_management.manager.status" defaultMessage="Hiển thị" /></th>
@@ -207,7 +195,7 @@ const AnnouncementManager = () => {
                         <tbody>
                             {filteredAnnouncements.length === 0 ? (
                                 <tr>
-                                    <td colSpan={8} style={{ textAlign: 'center', color: '#888' }}>
+                                    <td colSpan={7} style={{ textAlign: 'center', color: '#888' }}>
                                         <FormattedMessage id="body_admin.announcement_management.manager.empty_body" defaultMessage="Không có thông báo nào phù hợp." />
                                     </td>
                                 </tr>
@@ -233,27 +221,11 @@ const AnnouncementManager = () => {
                                                 })}
                                             </span>
                                         </td>
-
-                                        <td>
-                                            <span
-                                                className="announcement-type-badge"
-                                                style={{
-                                                    backgroundColor: getTypeColor(announcement.type),
-                                                    color: 'white',
-                                                    padding: '2px 8px',
-                                                    borderRadius: '12px',
-                                                    fontSize: '0.8rem',
-                                                    fontWeight: 'bold'
-                                                }}
-                                            >
-                                                {getTypeLabel(announcement.type)}
-                                            </span>
-                                        </td>
                                         <td>
                                             <span
                                                 className="priority-badge"
                                                 style={{
-                                                    backgroundColor: announcement.priority >= 4 ? '#ef4444' : announcement.priority >= 3 ? '#f59e0b' : '#10b981',
+                                                    backgroundColor: '#1b5829',
                                                     color: 'white',
                                                     padding: '2px 6px',
                                                     borderRadius: '50%',

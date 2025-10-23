@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/autoplay';
@@ -6,7 +6,7 @@ import { Autoplay } from 'swiper/modules';
 import { useIntl } from 'react-intl';
 import { toast } from 'react-toastify';
 import { publicBanner } from '../../../services/bannerService.js';
-import CustomToast from '../../../components/CustomToast';
+import CustomToast from '../../CustomToast.js';
 import './Banner.scss';
 
 const Banner = () => {
@@ -15,7 +15,7 @@ const Banner = () => {
    const [error, setError] = useState(null);
    const intl = useIntl();
 
-   const fetchActiveBanners = async () => {
+   const fetchActiveBanners = useCallback(async () => {
       try {
          setLoading(true);
          const res = await publicBanner();
@@ -43,11 +43,11 @@ const Banner = () => {
       } finally {
          setLoading(false);
       }
-   };
+   }, [intl]);
 
    useEffect(() => {
       fetchActiveBanners();
-   }, []);
+   }, [fetchActiveBanners]);
 
    if (loading) {
       return (
@@ -96,14 +96,6 @@ const Banner = () => {
                            }
                         }}
                      >
-                        {item.title && (
-                           <div className="banner-content">
-                              <h2 className="banner-title">{item.title}</h2>
-                              {item.subtitle && (
-                                 <p className="banner-subtitle">{item.subtitle}</p>
-                              )}
-                           </div>
-                        )}
                      </div>
                   </SwiperSlide>
                ))}

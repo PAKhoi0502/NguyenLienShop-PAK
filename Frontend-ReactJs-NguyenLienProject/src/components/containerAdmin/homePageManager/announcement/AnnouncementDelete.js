@@ -171,7 +171,7 @@ const AnnouncementDelete = ({ announcement, onSuccess }) => {
             })}</p>
                     </div>
                     <div style="background: #dc2626; color: white; padding: 8px 12px; border-radius: 6px; text-align: center; margin: 12px 0;">
-                        <span style="font-weight: bold; font-size: 16px; letter-spacing: 1px;">XÓA THÔNG BÁO</span>
+                        <span style="font-weight: bold; font-size: 16px; letter-spacing: 1px;">DELETE ANNOUNCEMENT</span>
                     </div>
                     <div style="background: #f9fafb; border-radius: 6px; padding: 12px; border-left: 4px solid #dc2626;">
                         <p style="margin: 4px 0; color: #374151; font-weight: 600;">${intl.formatMessage({
@@ -215,16 +215,16 @@ const AnnouncementDelete = ({ announcement, onSuccess }) => {
             focusConfirm: false,
             allowOutsideClick: false,
             inputValidator: (value) => {
-                if (!value || value.trim() !== 'XÓA THÔNG BÁO') {
+                if (!value || value.trim() !== 'DELETE ANNOUNCEMENT') {
                     return intl.formatMessage({
-                        id: 'body_admin.announcement_management.delete.security_phrase',
-                        defaultMessage: 'Vui lòng nhập chính xác "XÓA THÔNG BÁO"'
+                        id: 'body_admin.announcement_management.delete.security_error',
+                        defaultMessage: 'Cụm từ không chính xác. Vui lòng nhập đúng cụm từ được yêu cầu.'
                     });
                 }
             }
         });
 
-        if (!securityText || securityText.trim() !== 'XÓA THÔNG BÁO') {
+        if (!securityText || securityText.trim() !== 'DELETE ANNOUNCEMENT') {
             return;
         }
 

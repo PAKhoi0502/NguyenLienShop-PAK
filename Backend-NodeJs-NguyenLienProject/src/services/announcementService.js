@@ -74,7 +74,8 @@ let updateAnnouncement = async (id, data) => {
         if (data.content !== undefined) updateData.content = data.content;
         if (data.icon !== undefined) updateData.icon = data.icon;
         if (data.type !== undefined) updateData.type = data.type;
-        if (data.priority !== undefined) updateData.priority = data.priority;
+        // Chỉ cập nhật priority nếu không phải null (để tránh lỗi notNull violation)
+        if (data.priority !== undefined && data.priority !== null) updateData.priority = data.priority;
         if (data.isActive !== undefined) updateData.isActive = data.isActive;
         if (data.startDate !== undefined) updateData.startDate = data.startDate;
         if (data.endDate !== undefined) updateData.endDate = data.endDate;

@@ -16,6 +16,7 @@ const CategoryDetail = () => {
    const [loading, setLoading] = useState(true);
    const [error, setError] = useState(null);
    const [isUpdating, setIsUpdating] = useState(false);
+   const [showDescriptionModal, setShowDescriptionModal] = useState(false);
 
    const showToast = (type, message) => {
       toast(
@@ -31,6 +32,29 @@ const CategoryDetail = () => {
          { closeButton: false, type }
       );
    };
+
+   const toggleDescriptionModal = () => {
+      setShowDescriptionModal(!showDescriptionModal);
+   };
+
+   // Handle ESC key to close modal
+   useEffect(() => {
+      const handleEscKey = (event) => {
+         if (event.key === 'Escape' && showDescriptionModal) {
+            setShowDescriptionModal(false);
+         }
+      };
+
+      if (showDescriptionModal) {
+         document.addEventListener('keydown', handleEscKey);
+         document.body.style.overflow = 'hidden'; // Prevent background scroll
+      }
+
+      return () => {
+         document.removeEventListener('keydown', handleEscKey);
+         document.body.style.overflow = 'unset';
+      };
+   }, [showDescriptionModal]);
 
    useEffect(() => {
       const fetchCategoryData = async () => {
@@ -485,7 +509,19 @@ const CategoryDetail = () => {
                      </div>
                      <div className="detail-item">
                         <span className="label"><FormattedMessage id="body_admin.category_management.detail_category.description" defaultMessage="Mô tả" />:</span>
-                        <span className="value">{category.description || intl.formatMessage({ id: 'body_admin.category_management.detail_category.empty', defaultMessage: 'Không có' })}</span>
+                        <span className="value">
+                           {category.description ? (
+                              <span
+                                 className="description-link"
+                                 onClick={toggleDescriptionModal}
+                                 title={intl.formatMessage({ id: 'body_admin.category_management.detail_category.description_tooltip', defaultMessage: 'Click để xem mô tả đầy đủ' })}
+                              >
+                                 <FormattedMessage id="body_admin.category_management.detail_category.view_description" defaultMessage="Xem!" />
+                              </span>
+                           ) : (
+                              intl.formatMessage({ id: 'body_admin.category_management.detail_category.empty', defaultMessage: 'Không có' })
+                           )}
+                        </span>
                      </div>
                   </div>
                   <div className="detail-section">
@@ -512,7 +548,7 @@ const CategoryDetail = () => {
 
                      <div className="detail-item">
                         <span className="label"><FormattedMessage id="body_admin.category_management.detail_category.products_count" defaultMessage="Số sản phẩm" />:</span>
-                        <span className="value product-count">{products.length}</span>
+                        <span className="value product-count">{products.length}<span className="product-count-text"><FormattedMessage id="body_admin.category_management.detail_category.products_count_text" defaultMessage=" sản phẩm" /></span></span>
                      </div>
 
                      <div className="detail-item">
@@ -604,6 +640,35 @@ const CategoryDetail = () => {
                </div>
             </div>
          </div>
+
+         {/* Description Modal */}
+         {showDescriptionModal && (
+            <div className="description-modal">
+               <div className="modal-overlay" onClick={toggleDescriptionModal}>
+                  <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                     <div className="modal-header">
+                        <h3>
+                           <FormattedMessage
+                              id="body_admin.category_management.detail_category.title_description"
+                              defaultMessage="Mô tả danh mục"
+                           />
+                        </h3>
+                        <button className="close-btn" onClick={toggleDescriptionModal}>
+                           ×
+                        </button>
+                     </div>
+                     <div className="modal-body">
+                        <div className="description-content">
+                           {category.description || intl.formatMessage({
+                              id: 'body_admin.category_management.detail_category.no_description',
+                              defaultMessage: 'Không có mô tả'
+                           })}
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         )}
       </div>
    );
 };

@@ -15,6 +15,7 @@ const ProductDetail = () => {
    const [loading, setLoading] = useState(true);
    const [error, setError] = useState(null);
    const [isUpdating, setIsUpdating] = useState(false);
+   const [showDescriptionModal, setShowDescriptionModal] = useState(false);
 
    const showToast = (type, message) => {
       toast(
@@ -30,6 +31,29 @@ const ProductDetail = () => {
          { closeButton: false, type }
       );
    };
+
+   const toggleDescriptionModal = () => {
+      setShowDescriptionModal(!showDescriptionModal);
+   };
+
+   // Handle ESC key to close modal
+   useEffect(() => {
+      const handleEscKey = (event) => {
+         if (event.key === 'Escape' && showDescriptionModal) {
+            setShowDescriptionModal(false);
+         }
+      };
+
+      if (showDescriptionModal) {
+         document.addEventListener('keydown', handleEscKey);
+         document.body.style.overflow = 'hidden'; // Prevent background scroll
+      }
+
+      return () => {
+         document.removeEventListener('keydown', handleEscKey);
+         document.body.style.overflow = 'unset';
+      };
+   }, [showDescriptionModal]);
 
    useEffect(() => {
       const fetchProduct = async () => {
@@ -530,7 +554,19 @@ const ProductDetail = () => {
 
                      <div className="detail-item">
                         <span className="label"><FormattedMessage id="body_admin.product_management.detail_product.description" defaultMessage="Mô tả" />:</span>
-                        <span className="value description">{product.description || intl.formatMessage({ id: 'body_admin.product_management.detail_product.empty', defaultMessage: 'Không có' })}</span>
+                        <span className="value">
+                           {product.description ? (
+                              <span
+                                 className="description-link"
+                                 onClick={toggleDescriptionModal}
+                                 title={intl.formatMessage({ id: 'body_admin.product_management.detail_product.description_tooltip', defaultMessage: 'Click để xem mô tả đầy đủ' })}
+                              >
+                                 <FormattedMessage id="body_admin.product_management.detail_product.view_description" defaultMessage="Xem!" />
+                              </span>
+                           ) : (
+                              intl.formatMessage({ id: 'body_admin.product_management.detail_product.empty', defaultMessage: 'Không có' })
+                           )}
+                        </span>
                      </div>
 
                      <div className="detail-item">
@@ -559,6 +595,11 @@ const ProductDetail = () => {
                      <div className="detail-item">
                         <span className="label"><FormattedMessage id="body_admin.product_management.detail_product.stock" defaultMessage="Số lượng tồn kho" />:</span>
                         <span className="value stock">{product.stock || intl.formatMessage({ id: 'body_admin.product_management.detail_product.out_of_stock', defaultMessage: 'Hết hàng' })}</span>
+                     </div>
+
+                     <div className="detail-item">
+                        <span className="label"><FormattedMessage id="body_admin.product_management.detail_product.saleQuantity" defaultMessage="Số lượng đơn vị bán" />:</span>
+                        <span className="value unit">{product.saleQuantity || 1} {intl.formatMessage({ id: 'body_admin.product_management.detail_product.unit', defaultMessage: 'cái' })}<span className="unit-text"><FormattedMessage id="body_admin.product_management.detail_product.unit_text" defaultMessage="/1 số lượng mua" /></span></span>
                      </div>
 
                      <div className="detail-item">
@@ -727,6 +768,35 @@ const ProductDetail = () => {
                </div>
             </div>
          </div>
+
+         {/* Description Modal */}
+         {showDescriptionModal && (
+            <div className="description-modal">
+               <div className="modal-overlay" onClick={toggleDescriptionModal}>
+                  <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                     <div className="modal-header">
+                        <h3>
+                           <FormattedMessage
+                              id="body_admin.product_management.detail_product.title_description"
+                              defaultMessage="Mô tả sản phẩm"
+                           />
+                        </h3>
+                        <button className="close-btn" onClick={toggleDescriptionModal}>
+                           ×
+                        </button>
+                     </div>
+                     <div className="modal-body">
+                        <div className="description-content">
+                           {product.description || intl.formatMessage({
+                              id: 'body_admin.product_management.detail_product.no_description',
+                              defaultMessage: 'Không có mô tả'
+                           })}
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         )}
       </div>
    );
 };
