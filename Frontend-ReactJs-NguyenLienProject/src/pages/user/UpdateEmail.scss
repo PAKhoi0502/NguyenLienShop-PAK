@@ -1,0 +1,305 @@
+// ==============================================
+// 📧 UPDATE EMAIL - CONSISTENT DESIGN
+// ==============================================
+
+.update-email {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 40px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.4s ease-out;
+
+    @media (max-width: 768px) {
+        padding: 30px 20px;
+        box-shadow: none;
+        border-radius: 8px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 20px 15px;
+    }
+
+    // ==============================================
+    // 📝 TITLE
+    // ==============================================
+    &__title {
+        text-align: center;
+        font-size: 24px;
+        font-weight: 600;
+        color: #1f2937;
+        margin-bottom: 30px;
+        line-height: 1.2;
+
+        @media (max-width: 768px) {
+            font-size: 20px;
+            margin-bottom: 25px;
+        }
+
+        @media (max-width: 480px) {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+    }
+
+    // ==============================================
+    // 📧 CURRENT EMAIL DISPLAY
+    // ==============================================
+    &__current {
+        background: #f0f9ff;
+        border: 1px solid #bfdbfe;
+        border-radius: 8px;
+        padding: 16px;
+        margin-bottom: 20px;
+        font-size: 14px;
+        color: #1e40af;
+    }
+
+    &__current-label {
+        text-align: center;
+        margin-bottom: 12px;
+
+        strong {
+            font-weight: 600;
+            color: #1e3a8a;
+        }
+    }
+
+    // ==============================================
+    // ⚠️ WARNING MESSAGE
+    // ==============================================
+    &__warning {
+        background: #fef3c7;
+        border: 1px solid #fbbf24;
+        border-radius: 6px;
+        padding: 10px 12px;
+        margin-top: 12px;
+        font-size: 13px;
+        color: #92400e;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        text-align: center;
+
+        i {
+            margin-right: 8px;
+            color: #f59e0b;
+            font-size: 14px;
+        }
+    }
+
+    // ==============================================
+    // 📧 OTP INFO
+    // ==============================================
+    &__otp-info {
+        background: #f0f9ff;
+        border: 1px solid #bfdbfe;
+        border-radius: 8px;
+        padding: 12px 16px;
+        margin-bottom: 20px;
+        font-size: 14px;
+        color: #1e40af;
+        text-align: center;
+
+        strong {
+            font-weight: 600;
+            color: #1e3a8a;
+        }
+    }
+
+    // ==============================================
+    // 📋 FORM
+    // ==============================================
+    &__form {
+        width: 100%;
+    }
+
+    &__field {
+        margin-bottom: 24px;
+    }
+
+    &__label {
+        display: block;
+        font-size: 14px;
+        font-weight: 500;
+        color: #374151;
+        margin-bottom: 8px;
+    }
+
+    &__input {
+        width: 100%;
+        padding: 12px 16px;
+        font-size: 15px;
+        color: #1f2937;
+        background: #f9fafb;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        transition: all 0.3s;
+        font-family: inherit;
+
+        &:focus {
+            outline: none;
+            border-color: #3b82f6;
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        &:disabled {
+            background: #e5e7eb;
+            cursor: not-allowed;
+            color: #9ca3af;
+        }
+
+        &::placeholder {
+            color: #9ca3af;
+        }
+    }
+
+    &__password-wrapper {
+        position: relative;
+    }
+
+    &__eye-icon {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: #6b7280;
+        cursor: pointer;
+        font-size: 18px;
+        padding: 4px;
+        transition: color 0.3s;
+
+        &:hover {
+            color: #3b82f6;
+        }
+    }
+
+    &__info {
+        display: block;
+        margin-top: 6px;
+        font-size: 13px;
+        color: #6b7280;
+        line-height: 1.5;
+    }
+
+    &__warning {
+        display: block;
+        margin-top: 8px;
+        font-size: 13px;
+        color: #dc2626;
+        font-weight: 500;
+    }
+
+    // ==============================================
+    // ⏱️ TIMER
+    // ==============================================
+    &__timer {
+        text-align: center;
+        font-size: 14px;
+        color: #059669;
+        font-weight: 500;
+        margin-bottom: 16px;
+        padding: 8px;
+        background: #d1fae5;
+        border-radius: 6px;
+    }
+
+    // ==============================================
+    // 🎯 BUTTONS
+    // ==============================================
+    &__btn {
+        width: 100%;
+        padding: 12px 20px;
+        font-size: 15px;
+        font-weight: 600;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-family: inherit;
+        margin-top: 12px;
+
+        &:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        &--primary {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+
+            &:hover:not(:disabled) {
+                background: linear-gradient(135deg, #2563eb, #1e40af);
+                transform: translateY(-2px);
+                box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+            }
+
+            &:active:not(:disabled) {
+                transform: translateY(0);
+            }
+        }
+
+        &--outline {
+            background: white;
+            color: #3b82f6;
+            border: 1px solid #3b82f6;
+            margin-top: 8px;
+
+            &:hover:not(:disabled) {
+                background: #eff6ff;
+            }
+        }
+
+        &--link {
+            background: transparent;
+            color: #3b82f6;
+            text-decoration: underline;
+            padding: 8px;
+            font-size: 14px;
+            margin-top: 8px;
+
+            &:hover:not(:disabled) {
+                color: #1d4ed8;
+            }
+
+            &:disabled {
+                color: #9ca3af;
+                text-decoration: none;
+            }
+        }
+    }
+
+    // ==============================================
+    // 🎬 ACTIONS (Button Group)
+    // ==============================================
+    &__actions {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 16px;
+    }
+
+    // ==============================================
+    // 🎨 ANIMATIONS
+    // ==============================================
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+}

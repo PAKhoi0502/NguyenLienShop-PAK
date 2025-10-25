@@ -46,6 +46,12 @@ let updateUserProfile = async (userId, data) => {
       // Cập nhật thông tin
       user.userName = data.userName?.trim() || user.userName;
       user.fullName = data.fullName?.trim() || user.fullName;
+
+      // Cập nhật avatar
+      if (data.avatar) {
+         user.avatar = data.avatar;
+      }
+
       if (['M', 'F', 'O'].includes(data.gender)) {
          user.gender = data.gender;
       }

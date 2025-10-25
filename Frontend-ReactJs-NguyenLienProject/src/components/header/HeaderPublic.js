@@ -9,6 +9,8 @@ import { toast } from 'react-toastify';
 import CustomToast from '../../components/CustomToast';
 import { FormattedMessage } from 'react-intl';
 import Announcement from '../containerPublic/Announcement/Announcement';
+import LanguageSelect from "../../components/header/LanguageSelect";
+
 
 const HeaderPublic = forwardRef((props, ref) => {
    const [showAccountMenu, setShowAccountMenu] = useState(false);
@@ -16,24 +18,23 @@ const HeaderPublic = forwardRef((props, ref) => {
    const dispatch = useDispatch();
    const navigate = useNavigate();
    const isLoggedIn = useSelector((state) => state.admin.isLoggedIn);
+   const adminInfo = useSelector((state) => state.admin.adminInfo);
    const accountRef = useRef();
 
-   const handleChangeLanguage = (e) => {
-      const lang = e.target.value;
-      dispatch(setLanguage(lang));
+   // Get user initials for avatar
+   const getInitials = (name) => {
+      if (!name) return 'U';
+      const parts = name.trim().split(' ');
+      if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+      return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
+   };
 
-      toast(
-         (props) => (
-            <CustomToast
-               {...props}
-               type="info"
-               titleId="header_public.language_changed"
-               messageId={`header_public.language_${lang}`}
-               time={new Date()}
-            />
-         ),
-         { closeButton: false, type: "info" }
-      );
+   // Get avatar URL
+   const getAvatarUrl = () => {
+      if (adminInfo?.avatar) {
+         return `${process.env.REACT_APP_BACKEND_URL}/uploads/${adminInfo.avatar}`;
+      }
+      return null;
    };
 
    useEffect(() => {
@@ -84,18 +85,45 @@ const HeaderPublic = forwardRef((props, ref) => {
             </div>
 
             <div className="navbar-right">
+               <FaSearch className="icon" />
+
                <div className="wishlist-icon">
                   <FaHeart className="icon" />
                   <span className="wishlist-count">0</span>
                </div>
-               <FaSearch className="icon" />
 
+               <div className="cart-icon">
+                  <FaShoppingBag className="icon" />
+                  <span className="cart-count">0</span>
+               </div>
                <div className="account-wrapper" ref={accountRef}>
                   <FaUser className="icon" onClick={() => setShowAccountMenu(!showAccountMenu)} />
                   {showAccountMenu && (
                      <div className="account-dropdown">
                         {isLoggedIn ? (
                            <>
+                              {/* User Info Header */}
+                              <div className="dropdown-user-header">
+                                 <div className="dropdown-user-avatar">
+                                    {getAvatarUrl() ? (
+                                       <img src={getAvatarUrl()} alt="Avatar" />
+                                    ) : (
+                                       <span className="dropdown-user-initials">
+                                          {getInitials(adminInfo?.userName)}
+                                       </span>
+                                    )}
+                                 </div>
+                                 <div className="dropdown-user-info">
+                                    <div className="dropdown-user-name">
+                                       {adminInfo?.userName || 'User'}
+                                    </div>
+                                    <div className="dropdown-user-email">
+                                       {adminInfo?.email || adminInfo?.phoneNumber || ''}
+                                    </div>
+                                 </div>
+                              </div>
+
+                              {/* Menu Items */}
                               <div
                                  className="dropdown-item"
                                  onClick={() => {
@@ -103,9 +131,72 @@ const HeaderPublic = forwardRef((props, ref) => {
                                     setShowAccountMenu(false);
                                  }}
                               >
-                                 <FormattedMessage id="header_public.menu.profile" defaultMessage="Thông tin" />
-
+                                 <FormattedMessage id="header_public.menu.account_info" defaultMessage="Thông tin tài khoản" />
                               </div>
+
+                              <div
+                                 className="dropdown-item"
+                                 onClick={() => {
+                                    navigate('/order');
+                                    setShowAccountMenu(false);
+                                 }}
+                              >
+                                 <FormattedMessage id="header_public.menu.my_orders" defaultMessage="Đơn hàng đã mua" />
+                              </div>
+
+                              <div
+                                 className="dropdown-item"
+                                 onClick={() => {
+                                    navigate('/notification');
+                                    setShowAccountMenu(false);
+                                 }}
+                              >
+                                 <FormattedMessage id="header_public.menu.notification" defaultMessage="Gian hàng yêu thích" />
+                              </div>
+
+                              <div
+                                 className="dropdown-item"
+                                 onClick={() => {
+                                    navigate('/payment-history');
+                                    setShowAccountMenu(false);
+                                 }}
+                              >
+                                 <FormattedMessage id="header_public.menu.payment_history" defaultMessage="Lịch sử thanh toán" />
+                              </div>
+
+                              <div
+                                 className="dropdown-item"
+                                 onClick={() => {
+                                    navigate('/reseller');
+                                    setShowAccountMenu(false);
+                                 }}
+                              >
+                                 <FormattedMessage id="header_public.menu.reseller" defaultMessage="Reseller" />
+                              </div>
+
+                              <div
+                                 className="dropdown-item"
+                                 onClick={() => {
+                                    navigate('/settings');
+                                    setShowAccountMenu(false);
+                                 }}
+                              >
+                                 <FormattedMessage id="header_public.menu.settings" defaultMessage="Quản lý nội dung" />
+                              </div>
+
+                              <div
+                                 className="dropdown-item"
+                                 onClick={() => {
+                                    navigate('/change-password');
+                                    setShowAccountMenu(false);
+                                 }}
+                              >
+                                 <FormattedMessage id="header_public.menu.change_password" defaultMessage="Đổi mật khẩu" />
+                              </div>
+
+                              {/* Separator */}
+                              <div className="dropdown-separator"></div>
+
                               <div
                                  className="dropdown-item"
                                  onClick={() => {
@@ -113,9 +204,8 @@ const HeaderPublic = forwardRef((props, ref) => {
                                     setShowAccountMenu(false);
                                  }}
                               >
-                                 <FormattedMessage id="header_public.menu.logout" defaultMessage="Đăng xuất" />
+                                 <FormattedMessage id="header_public.menu.logout" defaultMessage="Thoát" />
                               </div>
-
                            </>
                         ) : (
                            <>
@@ -142,21 +232,24 @@ const HeaderPublic = forwardRef((props, ref) => {
                      </div>
                   )}
                </div>
-
-               <div className="cart-icon">
-                  <FaShoppingBag className="icon" />
-                  <span className="cart-count">0</span>
-               </div>
-
-               <select
-                  className="language-select"
+               <LanguageSelect
                   value={language}
-                  onChange={handleChangeLanguage}
-               >
-                  <option value="vi">VN</option>
-                  <option value="en">EN</option>
-               </select>
-
+                  onChange={(lang) => {
+                     dispatch(setLanguage(lang));
+                     toast(
+                        (props) => (
+                           <CustomToast
+                              {...props}
+                              type="info"
+                              titleId="header_public.language_changed"
+                              messageId={`header_public.language_${lang}`}
+                              time={new Date()}
+                           />
+                        ),
+                        { closeButton: false, type: "info" }
+                     );
+                  }}
+               />
 
             </div>
          </div>

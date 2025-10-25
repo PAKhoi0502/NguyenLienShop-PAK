@@ -385,6 +385,208 @@ const handleClearOTP = async (req, res) => {
    }
 };
 
+// 🔄 CHANGE PASSWORD CONTROLLERS (for authenticated users)
+
+const handleRequestChangePassword = async (req, res) => {
+   try {
+      const { currentPassword } = req.body;
+      const userId = req.user.id; // From verifyToken middleware
+      const ipAddress = req.ip || req.connection.remoteAddress;
+      const userAgent = req.get('User-Agent');
+
+      console.log(`🔄 Change password request from user ${userId}`);
+
+      if (!currentPassword) {
+         return res.status(400).json({
+            errCode: 1,
+            errMessage: 'Vui lòng nhập mật khẩu hiện tại!'
+         });
+      }
+
+      // Call service with only userId - it will query phoneNumber from database
+      const result = await authService.requestChangePassword(
+         userId,
+         currentPassword,
+         ipAddress,
+         userAgent
+      );
+
+      if (result.errCode !== 0) {
+         const statusCode =
+            result.errCode === 1 ? 404 :
+               result.errCode === 2 ? 401 :
+                  result.errCode === 3 ? 400 :
+                     result.errCode === 4 ? 429 : 500;
+
+         return res.status(statusCode).json({
+            errCode: result.errCode,
+            errMessage: result.errMessage
+         });
+      }
+
+      return res.status(200).json({
+         errCode: 0,
+         message: result.message,
+         resetToken: result.resetToken,
+         expiresIn: result.expiresIn
+      });
+
+   } catch (error) {
+      console.error('HandleRequestChangePassword error:', error);
+      return res.status(500).json({
+         errCode: -1,
+         errMessage: 'Lỗi server!'
+      });
+   }
+};
+
+const handleChangePassword = async (req, res) => {
+   try {
+      const { resetToken, newPassword } = req.body;
+      const userId = req.user.id; // From verifyToken middleware
+
+      console.log(`🔐 Change password request from user ${userId}`);
+
+      if (!newPassword) {
+         return res.status(400).json({
+            errCode: 1,
+            errMessage: 'Mật khẩu mới không được để trống!'
+         });
+      }
+
+      const result = await authService.changePassword(resetToken, newPassword);
+
+      if (result.errCode !== 0) {
+         const statusCode =
+            result.errCode === 1 ? 400 :
+               result.errCode === 2 ? 403 :
+                  result.errCode === 3 ? 400 : 500;
+
+         return res.status(statusCode).json({
+            errCode: result.errCode,
+            errMessage: result.errMessage
+         });
+      }
+
+      return res.status(200).json({
+         errCode: 0,
+         message: result.message
+      });
+
+   } catch (error) {
+      console.error('HandleChangePassword error:', error);
+      return res.status(500).json({
+         errCode: -1,
+         errMessage: 'Lỗi server!'
+      });
+   }
+};
+
+// 📧 UPDATE EMAIL CONTROLLERS (NEW FLOW - for authenticated users)
+// Flow: Email input → OTP to email → Verify OTP & Update
+
+const handleSendEmailOTP = async (req, res) => {
+   try {
+      const { newEmail } = req.body;
+      const userId = req.user.id;
+      const ipAddress = req.ip || req.connection.remoteAddress;
+      const userAgent = req.get('User-Agent');
+
+      console.log(`📧 Send email OTP request from user ${userId} to ${newEmail}`);
+
+      if (!newEmail) {
+         return res.status(400).json({
+            errCode: 1,
+            errMessage: 'Vui lòng nhập email!'
+         });
+      }
+
+      const result = await authService.sendEmailOTP(
+         userId,
+         newEmail,
+         ipAddress,
+         userAgent
+      );
+
+      if (result.errCode !== 0) {
+         const statusCode =
+            result.errCode === 1 ? 400 : // Invalid email
+               result.errCode === 2 ? 404 : // User not found
+                  result.errCode === 3 ? 409 : // Email exists
+                     result.errCode === 4 ? 429 : // Rate limit
+                        500;
+
+         return res.status(statusCode).json({
+            errCode: result.errCode,
+            errMessage: result.errMessage
+         });
+      }
+
+      return res.status(200).json({
+         errCode: 0,
+         message: result.message,
+         resetToken: result.resetToken,
+         expiresIn: result.expiresIn,
+         hasEmail: result.hasEmail,
+         currentEmail: result.currentEmail,
+         targetEmail: result.targetEmail
+      });
+
+   } catch (error) {
+      console.error('HandleSendEmailOTP error:', error);
+      return res.status(500).json({
+         errCode: -1,
+         errMessage: 'Lỗi server!'
+      });
+   }
+};
+
+const handleVerifyEmailOTPAndUpdate = async (req, res) => {
+   try {
+      const { resetToken, otpCode } = req.body;
+      const userId = req.user.id;
+
+      console.log(`📧 Verify email OTP request from user ${userId}`);
+
+      if (!resetToken || !otpCode) {
+         return res.status(400).json({
+            errCode: 1,
+            errMessage: 'Thiếu thông tin xác thực!'
+         });
+      }
+
+      const result = await authService.verifyEmailOTPAndUpdate(resetToken, otpCode);
+
+      if (result.errCode !== 0) {
+         const statusCode =
+            result.errCode === 1 ? 403 : // Token invalid/expired
+               result.errCode === 2 ? 429 : // Too many attempts
+                  result.errCode === 3 ? 400 : // Wrong OTP
+                     result.errCode === 4 ? 400 : // Invalid email
+                        result.errCode === 5 ? 409 : // Email exists
+                           500;
+
+         return res.status(statusCode).json({
+            errCode: result.errCode,
+            errMessage: result.errMessage,
+            attemptsRemaining: result.attemptsRemaining
+         });
+      }
+
+      return res.status(200).json({
+         errCode: 0,
+         message: result.message
+      });
+
+   } catch (error) {
+      console.error('HandleVerifyEmailOTPAndUpdate error:', error);
+      return res.status(500).json({
+         errCode: -1,
+         errMessage: 'Lỗi server!'
+      });
+   }
+};
+
 export default {
    handleLogin,
    handleRegister,
@@ -397,5 +599,9 @@ export default {
    handleForgotPassword,
    handleVerifyResetOTP,
    handleResetPassword,
-   handleClearOTP
+   handleClearOTP,
+   handleRequestChangePassword,
+   handleChangePassword,
+   handleSendEmailOTP,
+   handleVerifyEmailOTPAndUpdate
 };

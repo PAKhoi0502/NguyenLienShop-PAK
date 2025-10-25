@@ -1,0 +1,84 @@
+// ========== LanguageSelect.scss ==========
+.lang-select__control {
+    background-color: #fff !important;
+    border: 1.7px solid #d4d4d4 !important;
+    border-radius: 8px !important;
+    min-width: 60px;
+    cursor: pointer;
+    box-shadow: none !important;
+    transition: all 0.25s ease;
+
+    &:hover {
+        border-color: #000 !important;
+    }
+
+    &--is-focused {
+        border-color: #000 !important;
+        box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.08) !important;
+    }
+}
+
+.lang-select__single-value {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #000;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+.lang-select__dropdown-indicator {
+    color: #000 !important;
+
+    &:hover {
+        color: #000 !important;
+    }
+}
+
+.lang-select__indicator-separator {
+    display: none;
+}
+
+.lang-select__menu {
+    border-radius: 8px !important;
+    margin-top: 6px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+.lang-select__option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 400;
+    background-color: transparent !important;
+    color: #000;
+    cursor: pointer;
+    min-width: 60px;
+
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.05) !important;
+    }
+
+    &--is-selected {
+        font-weight: 600;
+        background-color: rgba(0, 0, 0, 0.07) !important;
+        color: #000 !important;
+    }
+}
+
+// Icon + text trong option
+.lang-option {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.lang-flag {
+    width: 20px;
+    height: 20px;
+    object-fit: cover;
+}
+
+.css-hlgwow {
+    padding: 0 0 0 5px !important;
+}

@@ -29,6 +29,11 @@ let handleUpdateUserProfile = async (req, res) => {
       const userId = req.user?.id;
       const data = req.body;
 
+      // Thêm avatar từ file upload
+      if (req.file) {
+         data.avatar = req.file.filename;
+      }
+
       if (!userId) {
          return res.status(400).json({
             errCode: 1,

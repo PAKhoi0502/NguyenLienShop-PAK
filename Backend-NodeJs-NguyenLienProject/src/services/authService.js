@@ -12,7 +12,7 @@ let loginUser = async (identifier, password) => {
 
       const user = await db.User.findOne({
          where: { phoneNumber: identifier },
-         attributes: ['id', 'userName', 'email', 'phoneNumber', 'roleId', 'password'],
+         attributes: ['id', 'userName', 'email', 'phoneNumber', 'fullName', 'gender', 'birthday', 'roleId', 'password', 'avatar', 'createdAt', 'updatedAt'],
          include: [{ model: db.Role, attributes: ['name'] }]
       });
 
@@ -117,7 +117,7 @@ let verifyUserPassword = async (userId, password) => {
       // Find user by ID with password
       const user = await db.User.findOne({
          where: { id: userId },
-         attributes: ['id', 'password', 'roleId'],
+         attributes: ['id', 'password', 'roleId', 'userName', 'email', 'phoneNumber', 'fullName', 'gender', 'birthday', 'avatar', 'createdAt', 'updatedAt'],
          include: [{ model: db.Role, attributes: ['name'] }]
       });
 
@@ -175,6 +175,22 @@ let requestPasswordReset = async (phoneNumber, ipAddress, userAgent) => {
             errMessage: "Bạn đã yêu cầu quá nhiều lần. Vui lòng đợi 15 phút trước khi thử lại."
          };
       }
+
+      // Invalidate all previous unused OTP tokens for this phone number
+      await db.PasswordResetToken.update(
+         {
+            isUsed: true
+         },
+         {
+            where: {
+               phoneNumber,
+               isUsed: false,
+               expiresAt: { [Op.gt]: new Date() } // Only invalidate non-expired tokens
+            }
+         }
+      );
+
+      console.log(`🔐 Invalidated previous OTP tokens for ${phoneNumber}`);
 
       // Generate secure reset token
       const crypto = require('crypto');
@@ -376,6 +392,398 @@ let clearOTPForPhone = async (phoneNumber) => {
    }
 };
 
+// 🔄 CHANGE PASSWORD SERVICES (for authenticated users)
+
+let requestChangePassword = async (userId, currentPassword, ipAddress, userAgent) => {
+   try {
+      // 1. Verify user exists and get their data (including phoneNumber)
+      const user = await db.User.findOne({
+         where: { id: userId },
+         attributes: ['id', 'phoneNumber', 'password', 'userName']
+      });
+
+      if (!user) {
+         return {
+            errCode: 1,
+            errMessage: "Người dùng không tồn tại!"
+         };
+      }
+
+      // 2. Verify current password
+      const match = bcrypt.compareSync(currentPassword, user.password);
+      if (!match) {
+         return {
+            errCode: 2,
+            errMessage: "Mật khẩu hiện tại không chính xác!"
+         };
+      }
+
+      // 3. Get phoneNumber from database (not from parameter)
+      const phoneNumber = user.phoneNumber;
+
+      if (!phoneNumber) {
+         return {
+            errCode: 3,
+            errMessage: "Tài khoản chưa có số điện thoại!"
+         };
+      }
+
+      // 4. Rate limiting - check recent requests
+      const recentTokens = await db.PasswordResetToken.findAll({
+         where: {
+            phoneNumber,
+            createdAt: {
+               [Op.gte]: new Date(Date.now() - 15 * 60 * 1000) // 15 minutes
+            }
+         }
+      });
+
+      if (recentTokens.length >= 3) {
+         return {
+            errCode: 4,
+            errMessage: "Bạn đã yêu cầu quá nhiều lần. Vui lòng đợi 15 phút."
+         };
+      }
+
+      // 5. Invalidate all previous unused OTP tokens for this phone number
+      await db.PasswordResetToken.update(
+         {
+            isUsed: true
+         },
+         {
+            where: {
+               phoneNumber,
+               isUsed: false,
+               expiresAt: { [Op.gt]: new Date() } // Only invalidate non-expired tokens
+            }
+         }
+      );
+
+      console.log(`🔄 Invalidated previous OTP tokens for ${phoneNumber}`);
+
+      // 6. Generate reset token and OTP
+      const crypto = require('crypto');
+      const resetToken = crypto.randomBytes(32).toString('hex');
+      const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+      const expiresAt = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes
+
+      // 7. Create password reset token
+      const passwordResetToken = await db.PasswordResetToken.create({
+         userId: user.id,
+         phoneNumber,
+         resetToken,
+         otpCode,
+         expiresAt,
+         ipAddress,
+         userAgent
+      });
+
+      // 8. Send OTP via SMS
+      const smsService = await import('./smsService.js');
+      const smsResult = await smsService.default.sendOTP(phoneNumber);
+
+      if (!smsResult.success) {
+         await passwordResetToken.destroy();
+         return {
+            errCode: 5,
+            errMessage: "Không thể gửi OTP. Vui lòng thử lại."
+         };
+      }
+
+      // 9. Update token with actual OTP sent
+      if (smsResult.otpCode) {
+         passwordResetToken.otpCode = smsResult.otpCode;
+         await passwordResetToken.save();
+      }
+
+      console.log(`🔄 Change password OTP sent to ${phoneNumber}, OTP: ${passwordResetToken.otpCode}`);
+
+      return {
+         errCode: 0,
+         message: "Mã OTP đã được gửi đến số điện thoại của bạn.",
+         resetToken,
+         expiresIn: 15
+      };
+
+   } catch (error) {
+      console.error('RequestChangePassword service error:', error);
+      return { errCode: -1, errMessage: "Lỗi server!" };
+   }
+};
+
+// 🔐 Change password with verified OTP
+let changePassword = async (resetToken, newPassword) => {
+   try {
+      // Validate new password
+      if (!newPassword || newPassword.length < 6) {
+         return {
+            errCode: 1,
+            errMessage: "Mật khẩu mới phải có ít nhất 6 ký tự."
+         };
+      }
+
+      // Find and validate reset token
+      const passwordResetToken = await db.PasswordResetToken.findValidToken(resetToken);
+
+      if (!passwordResetToken) {
+         return {
+            errCode: 2,
+            errMessage: "Token không hợp lệ hoặc đã hết hạn."
+         };
+      }
+
+      // Get current password to prevent using same password
+      const user = await db.User.findOne({
+         where: { id: passwordResetToken.userId },
+         attributes: ['id', 'password']
+      });
+
+      // 🔒 Security: Check if new password is same as old password
+      const isSamePassword = bcrypt.compareSync(newPassword, user.password);
+      if (isSamePassword) {
+         return {
+            errCode: 3,
+            errMessage: "Mật khẩu mới không được trùng với mật khẩu cũ!"
+         };
+      }
+
+      // Hash new password
+      const newHashedPassword = await hashUserPassword(newPassword);
+
+      // Update user password
+      await db.User.update(
+         { password: newHashedPassword },
+         { where: { id: passwordResetToken.userId } }
+      );
+
+      // Mark token as used
+      await passwordResetToken.markAsUsed();
+
+      // 🔒 Security: Invalidate all refresh tokens (force re-login on all devices)
+      await db.RefreshToken.update(
+         { isActive: false },
+         { where: { userId: passwordResetToken.userId } }
+      );
+
+      console.log(`🔐 Password changed successfully for user ${passwordResetToken.userId}`);
+
+      return {
+         errCode: 0,
+         message: "Thay đổi mật khẩu thành công! Vui lòng đăng nhập lại."
+      };
+
+   } catch (error) {
+      console.error('ChangePassword service error:', error);
+      return { errCode: -1, errMessage: "Lỗi server!" };
+   }
+};
+
+// 📧 UPDATE EMAIL SERVICES (NEW FLOW - for authenticated users)
+// Flow: Email input → OTP to email → Verify OTP → Update
+
+let sendEmailOTP = async (userId, newEmail, ipAddress, userAgent) => {
+   try {
+      // 1. Validate email format
+      if (!newEmail || !validator.isEmail(newEmail)) {
+         return {
+            errCode: 1,
+            errMessage: "Email không hợp lệ."
+         };
+      }
+
+      // 2. Verify user exists
+      const user = await db.User.findOne({
+         where: { id: userId },
+         attributes: ['id', 'email', 'userName', 'phoneNumber']
+      });
+
+      if (!user) {
+         return {
+            errCode: 2,
+            errMessage: "Người dùng không tồn tại!"
+         };
+      }
+
+      // 3. Check if email already exists (for another user)
+      const emailExists = await db.User.findOne({
+         where: {
+            email: newEmail,
+            id: { [Op.ne]: userId }
+         }
+      });
+
+      if (emailExists) {
+         return {
+            errCode: 3,
+            errMessage: "Email này đã được sử dụng bởi tài khoản khác!"
+         };
+      }
+
+      // 4. Rate limiting (use email as identifier)
+      const recentTokens = await db.PasswordResetToken.findAll({
+         where: {
+            userId,
+            createdAt: {
+               [Op.gte]: new Date(Date.now() - 15 * 60 * 1000)
+            }
+         }
+      });
+
+      if (recentTokens.length >= 3) {
+         return {
+            errCode: 4,
+            errMessage: "Bạn đã yêu cầu quá nhiều lần. Vui lòng đợi 15 phút."
+         };
+      }
+
+      // 5. Invalidate all previous unused OTP tokens for this user
+      await db.PasswordResetToken.update(
+         {
+            isUsed: true
+         },
+         {
+            where: {
+               userId,
+               isUsed: false,
+               expiresAt: { [Op.gt]: new Date() }
+            }
+         }
+      );
+
+      console.log(`📧 Invalidated previous OTP tokens for user ${userId}`);
+
+      // 6. Generate token and OTP
+      const crypto = require('crypto');
+      const resetToken = crypto.randomBytes(32).toString('hex');
+      const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+      const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
+
+      // 7. Create password reset token (store target email in phoneNumber field temporarily)
+      const passwordResetToken = await db.PasswordResetToken.create({
+         userId: user.id,
+         phoneNumber: newEmail, // Store target email here
+         resetToken,
+         otpCode,
+         expiresAt,
+         ipAddress,
+         userAgent
+      });
+
+      // 8. Send OTP via Email (mocked for now, log to console)
+      // TODO: Implement real email service later
+      console.log(`📧 ========================================`);
+      console.log(`📧 UPDATE EMAIL OTP`);
+      console.log(`📧 To: ${newEmail}`);
+      console.log(`📧 OTP Code: ${otpCode}`);
+      console.log(`📧 Expires in: 15 minutes`);
+      console.log(`📧 ========================================`);
+
+      return {
+         errCode: 0,
+         message: "Mã OTP đã được gửi đến email của bạn.",
+         resetToken,
+         expiresIn: 15,
+         hasEmail: !!user.email,
+         currentEmail: user.email,
+         targetEmail: newEmail // Return target email for UI display
+      };
+
+   } catch (error) {
+      console.error('SendEmailOTP service error:', error);
+      return { errCode: -1, errMessage: "Lỗi server!" };
+   }
+};
+
+// 📧 Verify email OTP and update email
+let verifyEmailOTPAndUpdate = async (resetToken, otpCode) => {
+   try {
+      // 1. Find reset token
+      const passwordResetToken = await db.PasswordResetToken.findOne({
+         where: {
+            resetToken,
+            isUsed: false,
+            expiresAt: { [Op.gt]: new Date() }
+         }
+      });
+
+      if (!passwordResetToken) {
+         return {
+            errCode: 1,
+            errMessage: "Token không hợp lệ hoặc đã hết hạn."
+         };
+      }
+
+      // 2. Check attempts
+      if (passwordResetToken.attempts >= 3) {
+         return {
+            errCode: 2,
+            errMessage: "Bạn đã nhập sai OTP quá nhiều lần. Vui lòng thử lại."
+         };
+      }
+
+      // 3. Verify OTP
+      if (passwordResetToken.otpCode !== otpCode) {
+         // Increment attempts
+         await passwordResetToken.update({
+            attempts: passwordResetToken.attempts + 1
+         });
+
+         const remainingAttempts = 3 - (passwordResetToken.attempts + 1);
+         return {
+            errCode: 3,
+            errMessage: `Mã OTP không đúng. Còn ${remainingAttempts} lần thử.`,
+            attemptsRemaining: remainingAttempts
+         };
+      }
+
+      // 4. OTP correct - Get target email from phoneNumber field
+      const newEmail = passwordResetToken.phoneNumber; // We stored email here
+
+      // 5. Validate email format
+      if (!newEmail || !validator.isEmail(newEmail)) {
+         return {
+            errCode: 4,
+            errMessage: "Email không hợp lệ."
+         };
+      }
+
+      // 6. Check if email already exists (for another user)
+      const emailExists = await db.User.findOne({
+         where: {
+            email: newEmail,
+            id: { [Op.ne]: passwordResetToken.userId }
+         }
+      });
+
+      if (emailExists) {
+         return {
+            errCode: 5,
+            errMessage: "Email này đã được sử dụng bởi tài khoản khác!"
+         };
+      }
+
+      // 7. Update user email
+      await db.User.update(
+         { email: newEmail },
+         { where: { id: passwordResetToken.userId } }
+      );
+
+      // 8. Mark token as used
+      await passwordResetToken.markAsUsed();
+
+      console.log(`📧 Email updated successfully for user ${passwordResetToken.userId} to ${newEmail}`);
+
+      return {
+         errCode: 0,
+         message: "Cập nhật email thành công!"
+      };
+
+   } catch (error) {
+      console.error('VerifyEmailOTPAndUpdate service error:', error);
+      return { errCode: -1, errMessage: "Lỗi server!" };
+   }
+};
+
 export default {
    loginUser,
    registerUser,
@@ -383,5 +791,9 @@ export default {
    requestPasswordReset,
    verifyResetOTP,
    resetPassword,
-   clearOTPForPhone
+   clearOTPForPhone,
+   requestChangePassword,
+   changePassword,
+   sendEmailOTP,
+   verifyEmailOTPAndUpdate
 }

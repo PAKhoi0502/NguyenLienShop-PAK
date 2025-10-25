@@ -15,7 +15,9 @@ import Login from '../pages/auth/Login';
 import Register from '../pages/auth/Register';
 import Logout from '../pages/auth/Logout';
 import ForgotPassword from '../pages/auth/ForgotPassword';
-import Profile from '../pages/user/Profile';
+import AccountPage from '../pages/user/AccountPage';
+import UpdateProfile from '../pages/user/UpdateProfile';
+import ChangePassword from '../pages/user/ChangePassword';
 import NotFoundPage from '../pages/auth/NotFoundPage';
 
 // Pages - Admin Dashboard
@@ -70,7 +72,9 @@ const AppRoutes = () => (
          <Route path="/register" element={<PublicLayout><PublicRoute element={Register} /></PublicLayout>} />
          <Route path="/logout" element={<PublicLayout><PublicRoute element={Logout} /></PublicLayout>} />
          <Route path="/forgot-password" element={<PublicLayout><PublicRoute element={ForgotPassword} /></PublicLayout>} />
-         <Route path="/profile" element={<PublicLayout><PrivateRoute element={Profile} role="2" /></PublicLayout>} />
+         <Route path="/profile" element={<PublicLayout><PrivateRoute element={AccountPage} /></PublicLayout>} />
+         <Route path="/profile/update-user" element={<PublicLayout><PrivateRoute element={UpdateProfile} /></PublicLayout>} />
+         <Route path="/profile/change-password" element={<PublicLayout><PrivateRoute element={ChangePassword} /></PublicLayout>} />
 
          {/* --- Admin Dashboard --- */}
          <Route path="/admin" element={<PrivateRoute role="1" element={() => <AdminLayout><Dashboard /></AdminLayout>} />} />

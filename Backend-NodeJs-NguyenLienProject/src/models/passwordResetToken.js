@@ -119,11 +119,11 @@ module.exports = (sequelize, DataTypes) => {
          }
       },
       phoneNumber: {
-         type: DataTypes.STRING(20),
+         type: DataTypes.STRING(255), // Increased to support both phone & email
          allowNull: false,
          validate: {
-            notEmpty: true,
-            len: [10, 20]
+            notEmpty: true
+            // Removed len validation to support email addresses
          }
       },
       resetToken: {

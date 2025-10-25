@@ -6,7 +6,8 @@
 @import '../styles/mixins';
 
 .breadcrumb {
-   background-color: #ffffff; // white
+   background-color: rgba(31, 41, 55, 0.95); // gray-800 with transparency
+   border-color: #374151; // gray-700
    border-bottom: 1px solid #e5e7eb; // gray-200
    padding: spacing(3) spacing(6);
    font-size: font-size(sm);
@@ -24,10 +25,23 @@
       color: #2563eb; // primary-600
       text-decoration: none;
       transition: transition(colors);
+      border-radius: 2px;
 
       &:hover {
          color: #1d4ed8; // primary-700
          text-decoration: underline;
+      }
+
+      // Accessibility: Focus state
+      &:focus {
+         color: #1d4ed8; // primary-700
+         text-decoration: underline;
+      }
+
+      &:focus-visible {
+         outline: 2px solid #2563eb; // primary-600
+         outline-offset: 2px;
+         text-decoration: none;
       }
    }
 
@@ -48,7 +62,8 @@
 // ==============================================
 @media (prefers-color-scheme: dark) {
    .breadcrumb {
-      background-color: #1f2937; // gray-800
+      // 🌙 Dark Mode Background
+      background-color: rgba(31, 41, 55, 0.95); // gray-800 with transparency
       border-color: #374151; // gray-700
 
       a {
@@ -56,6 +71,14 @@
 
          &:hover {
             color: #93c5fd; // primary-300
+         }
+
+         &:focus {
+            color: #93c5fd; // primary-300
+         }
+
+         &:focus-visible {
+            outline-color: #60a5fa; // primary-400
          }
       }
 

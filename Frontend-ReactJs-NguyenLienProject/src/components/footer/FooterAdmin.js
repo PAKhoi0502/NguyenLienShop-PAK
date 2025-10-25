@@ -142,7 +142,7 @@ class Footer extends Component {
       try {
          this.setState({ isLoadingProductStats: true });
 
-         const response = await adminService.getProductCategoryStats();
+         const response = await dashboardService.getProductCategoryStats();
 
          if (response.errCode === 0) {
             // Backend trả về dữ liệu dưới dạng: data.products.total và data.categories.total

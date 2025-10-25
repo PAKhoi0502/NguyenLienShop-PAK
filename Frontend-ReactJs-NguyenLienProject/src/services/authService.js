@@ -256,3 +256,107 @@ export const clearServerOTP = async (phoneNumber) => {
       };
    }
 };
+
+// 🔐 Change password services (for authenticated users)
+export const requestChangePassword = async (currentPassword) => {
+   try {
+      const res = await axios.post('/api/user/request-change-password', { currentPassword });
+      return res;
+   } catch (err) {
+      const errorMessage = err?.response?.data?.message || err?.response?.data?.errMessage || 'Lỗi máy chủ!';
+      const errorStatus = err?.response?.status;
+
+      console.error('Request change password error:', err);
+
+      return {
+         errCode: errorStatus || -1,
+         errMessage: errorMessage,
+      };
+   }
+};
+
+export const verifyChangeOTP = async (phoneNumber, otpCode) => {
+   try {
+      const res = await axios.post('/api/user/verify-change-otp', { phoneNumber, otpCode });
+      return res;
+   } catch (err) {
+      const errorMessage = err?.response?.data?.message || err?.response?.data?.errMessage || 'Lỗi máy chủ!';
+      const errorStatus = err?.response?.status;
+
+      console.error('Verify change OTP error:', err);
+
+      return {
+         errCode: errorStatus || -1,
+         errMessage: errorMessage,
+      };
+   }
+};
+
+export const changePassword = async (resetToken, newPassword) => {
+   try {
+      const res = await axios.post('/api/user/change-password', { resetToken, newPassword });
+      return res;
+   } catch (err) {
+      const errorMessage = err?.response?.data?.message || err?.response?.data?.errMessage || 'Lỗi máy chủ!';
+      const errorStatus = err?.response?.status;
+
+      console.error('Change password error:', err);
+
+      return {
+         errCode: errorStatus || -1,
+         errMessage: errorMessage,
+      };
+   }
+};
+
+// 📧 Update email services (for authenticated users)
+export const requestUpdateEmail = async (currentPassword) => {
+   try {
+      const res = await axios.post('/api/user/request-update-email', { currentPassword });
+      return res;
+   } catch (err) {
+      const errorMessage = err?.response?.data?.message || err?.response?.data?.errMessage || 'Lỗi máy chủ!';
+      const errorStatus = err?.response?.status;
+
+      console.error('Request update email error:', err);
+
+      return {
+         errCode: errorStatus || -1,
+         errMessage: errorMessage,
+      };
+   }
+};
+
+export const verifyEmailOTP = async (phoneNumber, otpCode) => {
+   try {
+      const res = await axios.post('/api/user/verify-email-otp', { phoneNumber, otpCode });
+      return res;
+   } catch (err) {
+      const errorMessage = err?.response?.data?.message || err?.response?.data?.errMessage || 'Lỗi máy chủ!';
+      const errorStatus = err?.response?.status;
+
+      console.error('Verify email OTP error:', err);
+
+      return {
+         errCode: errorStatus || -1,
+         errMessage: errorMessage,
+      };
+   }
+};
+
+export const updateEmail = async (resetToken, newEmail) => {
+   try {
+      const res = await axios.post('/api/user/update-email', { resetToken, newEmail });
+      return res;
+   } catch (err) {
+      const errorMessage = err?.response?.data?.message || err?.response?.data?.errMessage || 'Lỗi máy chủ!';
+      const errorStatus = err?.response?.status;
+
+      console.error('Update email error:', err);
+
+      return {
+         errCode: errorStatus || -1,
+         errMessage: errorMessage,
+      };
+   }
+};

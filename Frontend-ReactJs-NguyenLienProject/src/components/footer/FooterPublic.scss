@@ -1,7 +1,7 @@
 .footer {
    background-color: #111;
    color: #fff;
-   padding: 40px 30px;
+   padding: 20px 0 10px 0px;
    font-family: 'Roboto', sans-serif;
 
    .newsletter-row {
@@ -11,11 +11,11 @@
 
       .newsletter-inner {
          width: 100%;
-         max-width: 800px; // ✅ giới hạn chiều rộng khối logo + form
+         max-width: 900px;
          display: flex;
          align-items: center;
          justify-content: space-between;
-         gap: 40px;
+         gap: 149px;
          flex-wrap: wrap;
 
          .logo {
@@ -78,8 +78,9 @@
       gap: 40px;
       margin-bottom: 40px;
 
-      max-width: 1200px;
+      max-width: 1600px;
       margin: 0 auto 40px;
+      padding: 0 40px;
 
       .footer-col {
          h5 {
@@ -171,12 +172,34 @@
       clear: both;
       text-align: center;
       border-top: 1px solid #333;
-      padding-top: 20px;
+      padding-top: 10px;
       font-size: 13px;
       color: #aaa;
    }
 }
 
+// Màn hình laptop/desktop nhỏ
+@media screen and (max-width: 1400px) {
+   .footer {
+      .footer-content {
+         max-width: 100%;
+         padding: 0 60px;
+      }
+   }
+}
+
+// Màn hình tablet lớn / laptop nhỏ
+@media screen and (max-width: 1024px) {
+   .footer {
+      .footer-content {
+         grid-template-columns: repeat(2, 1fr);
+         gap: 30px;
+         padding: 0 40px;
+      }
+   }
+}
+
+// Màn hình mobile
 @media screen and (max-width: 768px) {
    .footer {
       padding: 20px 15px;

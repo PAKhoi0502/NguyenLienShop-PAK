@@ -2,12 +2,16 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/autoplay';
-import { Autoplay } from 'swiper/modules';
 import { useIntl } from 'react-intl';
 import { toast } from 'react-toastify';
 import { publicBanner } from '../../../services/bannerService.js';
 import CustomToast from '../../CustomToast.js';
+import { Autoplay, Navigation, Pagination } from 'swiper/modules';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 import './Banner.scss';
+
+
 
 const Banner = () => {
    const [bannerList, setBannerList] = useState([]);
@@ -77,12 +81,15 @@ const Banner = () => {
             </div>
          ) : (
             <Swiper
-               modules={[Autoplay]}
+               modules={[Autoplay, Navigation, Pagination]}
                autoplay={{ delay: 4000 }}
                loop={true}
                spaceBetween={0}
                slidesPerView={1}
+               navigation={true}
+               pagination={{ clickable: true }}
             >
+
                {bannerList.map((item) => (
                   <SwiperSlide key={item.id}>
                      <div

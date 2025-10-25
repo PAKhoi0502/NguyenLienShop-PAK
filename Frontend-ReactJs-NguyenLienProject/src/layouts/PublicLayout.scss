@@ -20,8 +20,8 @@
 
    .breadcrumb {
       position: sticky;
-      padding: 5px 60px;
-      background-color: #f5f5f5;
+      padding: 10px 60px;
+      background-color: rgba(248, 250, 252, 0.95);
       border-bottom: 1px solid #e0e0e0;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
       font-family: serif;
@@ -68,34 +68,6 @@
 
          span {
             margin: 0 3px;
-         }
-      }
-   }
-}
-
-// Dark mode
-@media (prefers-color-scheme: dark) {
-   .public-layout {
-      .breadcrumb {
-         background-color: #333;
-         border-bottom: 1px solid #444;
-         box-shadow: 0 2px 5px rgba(255, 255, 255, 0.05);
-         color: #ccc;
-
-         a {
-            color: #bbb;
-
-            &:hover {
-               color: #fff;
-            }
-         }
-
-         .breadcrumb-active {
-            color: #f39c12; // Cam sáng cho dark mode
-         }
-
-         span {
-            color: #888;
          }
       }
    }

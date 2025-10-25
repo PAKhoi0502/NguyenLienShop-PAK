@@ -1,18 +1,22 @@
 .banner-container {
    width: 100%;
-   height: 60vh;
+   height: 80vh;
    min-height: 400px;
    max-height: 600px;
    position: relative;
    margin: 0;
    overflow: hidden;
-   border-radius: 0 0 24px 24px;
-   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+   border-radius: 24px;
+   box-shadow: rgba(0, 0, 0, 0.16) 0px 5px 8px, rgba(0, 0, 0, 0.23) 0px 5px 8px;
 
    .swiper {
       width: 100%;
       height: 100%;
       border-radius: inherit;
+   }
+
+   .swiper-pagination-horizontal {
+      bottom: 1px;
    }
 
    .banner-slide {
@@ -153,5 +157,166 @@
       height: 45vh;
       min-height: 250px;
       border-radius: 0 0 12px 12px;
+   }
+}
+
+/* ===== Swiper navigation (mũi tên) ===== */
+:global(.swiper-button-next),
+:global(.swiper-button-prev) {
+   color: white;
+   background: rgba(0, 0, 0, 0.3);
+   width: 40px;
+   height: 40px;
+   border-radius: 50%;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   transition: all 0.3s ease;
+   opacity: 0.8;
+}
+
+:global(.swiper-button-next:hover),
+:global(.swiper-button-prev:hover) {
+   background: rgba(0, 0, 0, 0.5);
+   opacity: 1;
+   transform: scale(1.1);
+}
+
+:global(.swiper-button-next)::after,
+:global(.swiper-button-prev)::after {
+   font-size: 18px;
+   font-weight: bold;
+}
+
+/* ===== Swiper pagination (dấu chấm) ===== */
+:global(.swiper-pagination) {
+   bottom: 15px !important;
+}
+
+:global(.swiper-pagination-bullet) {
+   width: 10px;
+   height: 10px;
+   background: rgba(255, 255, 255, 0.6);
+   opacity: 1;
+   margin: 0 6px !important;
+   transition: all 0.3s ease;
+}
+
+:global(.swiper-pagination-bullet-active) {
+   background: #fff;
+   transform: scale(1.3);
+}
+
+.swiper-pagination-bullet {
+   background: linear-gradient(135deg, #aaa, #666) !important;
+   opacity: 0.6;
+   width: 8px;
+   height: 8px;
+   border-radius: 50%;
+   transition: all 0.3s ease;
+}
+
+.swiper-pagination-bullet:hover {
+   opacity: 1;
+   transform: scale(1.2);
+   background: linear-gradient(135deg, #777, #222) !important;
+}
+
+.swiper-pagination-bullet-active {
+   background: #000 !important;
+   transform: scale(1.4);
+   box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+}
+
+/* ======= SWIPER ARROWS - CHỈ MŨI TÊN, KHÔNG NỀN ======= */
+.swiper-button-prev {
+   left: 0 !important;
+}
+
+.swiper-button-next {
+   right: 0 !important;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+   width: 52px;
+   /* ✅ to hơn một chút */
+   height: 52px;
+   background: transparent;
+   border: none;
+   color: #fff;
+   transition: transform 0.4s ease, filter 0.4s ease;
+   position: absolute;
+   z-index: 10;
+}
+
+/* nhẹ nhàng scale khi hover */
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+   transform: scale(1.18);
+   /* ✅ hơi lớn hơn, mềm mại */
+   filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.35));
+}
+
+/* tạo hiệu ứng tô màu bằng gradient nền trên text */
+.swiper-button-prev::after,
+.swiper-button-next::after {
+   font-size: 26px;
+   /* ✅ icon lớn hơn */
+   font-weight: bold;
+   color: #fff;
+   /* ✅ hiển thị icon trắng mặc định */
+   transition: background-size 0.8s cubic-bezier(0.4, 0, 0.2, 1), color 0.4s ease;
+   background-repeat: no-repeat;
+   background-position: center;
+   background-size: 100% 0%;
+   background-clip: text;
+   -webkit-background-clip: text;
+}
+
+/* mũi tên phải — fill từ dưới lên */
+.swiper-button-next::after {
+   background-image: linear-gradient(0deg, #000 0%, #000 100%);
+   background-position: center bottom;
+}
+
+.swiper-button-next:hover::after {
+   background-size: 100% 100%;
+   color: transparent;
+   /* ✅ chỉ còn gradient hiển thị */
+}
+
+/* mũi tên trái — fill từ trên xuống */
+.swiper-button-prev::after {
+   background-image: linear-gradient(180deg, #000 0%, #000 100%);
+   background-position: center top;
+}
+
+.swiper-button-prev:hover::after {
+   background-size: 100% 100%;
+   color: transparent;
+}
+
+/* vị trí */
+.swiper-button-prev {
+   left: 18px;
+}
+
+.swiper-button-next {
+   right: 18px;
+}
+
+/* responsive */
+@media (max-width: 768px) {
+
+   .swiper-button-prev,
+   .swiper-button-next {
+      width: 40px;
+      height: 40px;
+   }
+
+   .swiper-button-prev::after,
+   .swiper-button-next::after {
+      font-size: 20px;
    }
 }
