@@ -241,6 +241,10 @@
             "otp_expired": "OTP has expired"
         },
         "update_email": {
+            "otp_sent_to": "The OTP has been sent to your email address.",
+            "otp_sent_to_email": "The OTP has been sent to your email address {email}.",
+            "update_warning": "If you update the new email, the old email will be deleted.",
+            "send_otp": "Send OTP",
             "error_title": "Error",
             "success_title": "Success",
             "otp_expired": "The OTP has expired. Please request a new one.",
@@ -256,6 +260,8 @@
             "verify_otp_failed": "Failed to verify OTP.",
             "email_required": "Please enter your email address.",
             "email_invalid": "Invalid email address.",
+            "same_email": "New email is the same as current email",
+            "email_exists": "This email is already in use by another account!",
             "update_failed": "Failed to update email.",
             "update_success": "Email updated successfully.",
             "otp_resent": "A new OTP has been resent.",
@@ -2360,6 +2366,67 @@
                 "send_failed": "Failed to send OTP",
                 "verification_failed": "OTP verification failed"
             }
+        }
+    },
+    "address": {
+        "default": "Default",
+        "phone": "Phone",
+        "set_default": "Set as Default",
+        "add_new": "Add New Address",
+        "empty": "You don't have any addresses yet. Add a new address for convenient shopping!",
+        "gender": {
+            "male": "Mr.",
+            "female": "Ms.",
+            "other": "Other"
+        },
+        "form": {
+            "title_add": "Add New Address",
+            "title_edit": "Edit Address",
+            "receiver_gender": "Title",
+            "receiver_name": "Receiver Name",
+            "receiver_name_placeholder": "Enter full name",
+            "receiver_phone": "Phone Number",
+            "receiver_phone_placeholder": "Enter phone number",
+            "city": "City/Province",
+            "city_placeholder": "Enter city/province",
+            "city_select": "-- Select City/Province --",
+            "district": "District",
+            "district_placeholder": "Enter district",
+            "district_select": "-- Select District --",
+            "district_select_province_first": "Select province first",
+            "ward": "Ward/Commune",
+            "ward_placeholder": "Enter ward/commune",
+            "ward_select": "-- Select Ward/Commune --",
+            "ward_select_district_first": "Select district first",
+            "address_line1": "Specific Address",
+            "address_line1_placeholder": "House number, street name...",
+            "address_line2": "Additional Address (Optional)",
+            "address_line2_placeholder": "Building, floor, additional notes...",
+            "set_as_default": "Set as default address"
+        },
+        "error": {
+            "receiver_name_required": "Please enter receiver name",
+            "receiver_phone_required": "Please enter phone number",
+            "receiver_phone_invalid": "Invalid phone number (10-11 digits)",
+            "address_line1_required": "Please enter specific address",
+            "city_required": "Please select City/Province",
+            "district_required": "Please select District",
+            "ward_required": "Please select Ward/Commune",
+            "fetch_failed": "Unable to load address list",
+            "create_failed": "Unable to add address",
+            "update_failed": "Unable to update address",
+            "delete_failed": "Unable to delete address",
+            "set_default_failed": "Unable to set default address",
+            "save_failed": "An error occurred while saving address"
+        },
+        "success": {
+            "created": "Address added successfully",
+            "updated": "Address updated successfully",
+            "deleted": "Address deleted successfully",
+            "set_default": "Default address set successfully"
+        },
+        "confirm": {
+            "delete": "Are you sure you want to delete this address?"
         }
     }
 }

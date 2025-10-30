@@ -658,16 +658,19 @@ let sendEmailOTP = async (userId, newEmail, ipAddress, userAgent) => {
       const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
       const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
 
-      // 7. Create password reset token (store target email in phoneNumber field temporarily)
+      // 7. Create password reset token with targetEmail field
+      console.log(`📧 [DEBUG] Creating token with target email:`, newEmail);
       const passwordResetToken = await db.PasswordResetToken.create({
          userId: user.id,
-         phoneNumber: newEmail, // Store target email here
+         phoneNumber: user.phoneNumber || 'N/A', // Keep original phone number
+         targetEmail: newEmail, // ✅ Use dedicated field for email
          resetToken,
          otpCode,
          expiresAt,
          ipAddress,
          userAgent
       });
+      console.log(`📧 [DEBUG] Token created with targetEmail:`, passwordResetToken.targetEmail);
 
       // 8. Send OTP via Email (mocked for now, log to console)
       // TODO: Implement real email service later
@@ -736,11 +739,25 @@ let verifyEmailOTPAndUpdate = async (resetToken, otpCode) => {
          };
       }
 
-      // 4. OTP correct - Get target email from phoneNumber field
-      const newEmail = passwordResetToken.phoneNumber; // We stored email here
+      // 4. OTP correct - Get target email from dedicated targetEmail field
+      const newEmail = passwordResetToken.targetEmail; // ✅ Use dedicated field
+
+      // 🐛 DEBUG: Log the email value
+      console.log(`📧 [DEBUG] Retrieved target email:`, newEmail);
+      console.log(`📧 [DEBUG] Token data:`, {
+         userId: passwordResetToken.userId,
+         phoneNumber: passwordResetToken.phoneNumber,
+         targetEmail: passwordResetToken.targetEmail,
+         resetToken: passwordResetToken.resetToken?.substring(0, 8) + '...'
+      });
 
       // 5. Validate email format
       if (!newEmail || !validator.isEmail(newEmail)) {
+         console.error(`❌ [DEBUG] Email validation failed:`, {
+            newEmail,
+            isEmpty: !newEmail,
+            isValidFormat: newEmail ? validator.isEmail(newEmail) : false
+         });
          return {
             errCode: 4,
             errMessage: "Email không hợp lệ."

@@ -126,6 +126,16 @@ module.exports = (sequelize, DataTypes) => {
             // Removed len validation to support email addresses
          }
       },
+      targetEmail: {
+         type: DataTypes.STRING(255),
+         allowNull: true, // Only used for email update requests
+         validate: {
+            isEmail: {
+               msg: 'Must be a valid email address'
+            }
+         },
+         comment: 'Target email address for email update requests'
+      },
       resetToken: {
          type: DataTypes.STRING(255),
          allowNull: false,

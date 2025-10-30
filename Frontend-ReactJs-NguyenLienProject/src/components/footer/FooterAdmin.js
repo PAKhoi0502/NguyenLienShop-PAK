@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 
 import * as actions from "../../store/actions";
 import './FooterAdmin.scss';
-import { dashboardService, adminService } from '../../services';
+import { dashboardService } from '../../services';
 import { getAnnouncementCount } from '../../services/announcementService';
 
 class Footer extends Component {

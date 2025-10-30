@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 import viewEngine from "./config/viewEngine";
 import initRoutes from './routes/web';
 import connectDB from './config/connectDB';
+import './jobs/voucherJobs.js'; // ⭐ Load voucher cronjobs
 
 // Load biến môi trường từ .env
 config({ path: path.resolve(__dirname, '../.env') });

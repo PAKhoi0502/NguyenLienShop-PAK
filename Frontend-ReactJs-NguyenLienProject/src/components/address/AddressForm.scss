@@ -1,0 +1,370 @@
+// ==============================================
+// 📝 ADDRESS FORM - MODAL OVERLAY
+// ==============================================
+
+.address-form-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.address-form {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 650px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    // Header
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 24px 28px;
+        border-bottom: 1px solid #e5e5e5;
+        background-color: #f9f9f9;
+
+        h2 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 600;
+            color: #333333;
+        }
+    }
+
+    &__close {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border: none;
+        background: none;
+        color: #666666;
+        font-size: 18px;
+        cursor: pointer;
+        border-radius: 50%;
+        transition: all 0.2s ease;
+
+        &:hover:not(:disabled) {
+            background-color: #e5e5e5;
+            color: #333333;
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
+
+    // Body
+    &__body {
+        padding: 28px;
+        overflow-y: auto;
+        flex: 1;
+    }
+
+    // Field
+    &__field {
+        margin-bottom: 20px;
+
+        &--checkbox {
+            margin-top: 24px;
+            margin-bottom: 24px;
+        }
+    }
+
+    &__label {
+        display: block;
+        font-size: 14px;
+        font-weight: 500;
+        color: #333333;
+        margin-bottom: 8px;
+    }
+
+    &__required {
+        color: #dc2626;
+        margin-left: 4px;
+    }
+
+    // Input
+    &__input {
+        width: 100%;
+        padding: 10px 14px;
+        border: 1px solid #d1d5db;
+        border-radius: 6px;
+        font-size: 14px;
+        color: #333333;
+        transition: all 0.2s ease;
+
+        &:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        &:disabled {
+            background-color: #f3f4f6;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        &--error {
+            border-color: #dc2626;
+
+            &:focus {
+                border-color: #dc2626;
+                box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+            }
+        }
+
+        &::placeholder {
+            color: #9ca3af;
+        }
+    }
+
+    // Select Dropdown (for cascading location)
+    &__select-wrapper {
+        position: relative;
+        width: 100%;
+    }
+
+    &__select {
+        width: 100%;
+        padding: 10px 14px;
+        padding-right: 36px; // Space for arrow
+        border: 1px solid #d1d5db;
+        border-radius: 6px;
+        font-size: 14px;
+        color: #333333;
+        background-color: #ffffff;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+
+        &:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        &:disabled {
+            background-color: #f3f4f6;
+            cursor: not-allowed;
+            opacity: 0.6;
+            color: #9ca3af;
+        }
+
+        &--error {
+            border-color: #dc2626;
+
+            &:focus {
+                border-color: #dc2626;
+                box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+            }
+        }
+
+        option {
+            padding: 8px;
+            color: #333333;
+        }
+    }
+
+    &__select-spinner {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #3b82f6;
+        font-size: 14px;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        from {
+            transform: translateY(-50%) rotate(0deg);
+        }
+
+        to {
+            transform: translateY(-50%) rotate(360deg);
+        }
+    }
+
+    // Radio Group
+    &__radio-group {
+        display: flex;
+        gap: 16px;
+    }
+
+    &__radio {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+
+        input[type="radio"] {
+            margin-right: 8px;
+            cursor: pointer;
+        }
+
+        span {
+            font-size: 14px;
+            color: #333333;
+        }
+    }
+
+    // Checkbox
+    &__checkbox {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+
+        input[type="checkbox"] {
+            margin-right: 10px;
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+
+        span {
+            font-size: 14px;
+            color: #333333;
+            font-weight: 500;
+        }
+    }
+
+    // Grid for City, District, Ward
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        margin-bottom: 20px;
+
+        @media (max-width: 768px) {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+    }
+
+    // Error Message
+    &__error {
+        display: block;
+        margin-top: 6px;
+        font-size: 13px;
+        color: #dc2626;
+    }
+
+    // Actions
+    &__actions {
+        display: flex;
+        gap: 12px;
+        justify-content: flex-end;
+        margin-top: 28px;
+        padding-top: 24px;
+        border-top: 1px solid #e5e5e5;
+    }
+
+    &__btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        // Cancel button
+        &--cancel {
+            background-color: #ffffff;
+            color: #666666;
+            border: 1px solid #d1d5db;
+
+            &:hover:not(:disabled) {
+                background-color: #f3f4f6;
+                border-color: #9ca3af;
+            }
+        }
+
+        // Submit button
+        &--submit {
+            background-color: #3b82f6;
+            color: #ffffff;
+
+            &:hover:not(:disabled) {
+                background-color: #2563eb;
+                box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+            }
+        }
+    }
+}
+
+// ==============================================
+// 📱 RESPONSIVE
+// ==============================================
+@media (max-width: 768px) {
+    .address-form-overlay {
+        padding: 0;
+        align-items: flex-end;
+    }
+
+    .address-form {
+        max-width: 100%;
+        max-height: 95vh;
+        border-radius: 12px 12px 0 0;
+
+        &__header {
+            padding: 20px;
+
+            h2 {
+                font-size: 18px;
+            }
+        }
+
+        &__close {
+            width: 28px;
+            height: 28px;
+            font-size: 16px;
+        }
+
+        &__body {
+            padding: 20px;
+        }
+
+        &__field {
+            margin-bottom: 18px;
+        }
+
+        &__actions {
+            flex-direction: column-reverse;
+            gap: 10px;
+
+            .address-form__btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    }
+}

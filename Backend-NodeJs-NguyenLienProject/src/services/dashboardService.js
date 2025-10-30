@@ -167,12 +167,13 @@ let getProductCategoryStats = async () => {
    }
 };
 
-// Lấy thống kê homepage (banner + announcement stats)
+// Lấy thống kê homepage (banner + announcement + voucher stats)
 let getHomepageStats = async () => {
    try {
       console.log('🔍 Starting getHomepageStats...');
       console.log('🖼️ Banner model available:', !!db.Banner);
       console.log('📢 Announcement model available:', !!db.Announcement);
+      console.log('🎁 DiscountCode model available:', !!db.DiscountCode);
 
       // Đếm tổng số banners
       const totalBanners = await db.Banner.count();
@@ -200,6 +201,19 @@ let getHomepageStats = async () => {
       // Đếm số announcements inactive
       const inactiveAnnouncements = totalAnnouncements - activeAnnouncements;
 
+      // Đếm tổng số vouchers (discount codes)
+      const totalVouchers = await db.DiscountCode.count();
+      console.log('📊 Total vouchers:', totalVouchers);
+
+      // Đếm số vouchers đang active (isActive = true)
+      const activeVouchers = await db.DiscountCode.count({
+         where: { isActive: true }
+      });
+      console.log('✅ Active vouchers:', activeVouchers);
+
+      // Đếm số vouchers inactive
+      const inactiveVouchers = totalVouchers - activeVouchers;
+
       const result = {
          errCode: 0,
          data: {
@@ -208,7 +222,10 @@ let getHomepageStats = async () => {
             inactiveBanners,
             totalAnnouncements,
             activeAnnouncements,
-            inactiveAnnouncements
+            inactiveAnnouncements,
+            totalVouchers,
+            activeVouchers,
+            inactiveVouchers
          },
          message: 'Lấy thống kê homepage thành công'
       };

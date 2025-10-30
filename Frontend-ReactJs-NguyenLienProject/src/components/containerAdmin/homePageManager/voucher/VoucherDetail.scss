@@ -1,0 +1,674 @@
+// ==============================================
+// 🎟️ VOUCHER DETAIL STYLES (Purple Theme)
+// ==============================================
+
+@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
+
+.voucher-detail-container {
+    min-height: 100vh;
+    padding: spacing(8) spacing(6);
+    background: linear-gradient(135deg, #f5f3ff 0%, color(white) 50%, #ede9fe 100%);
+
+    @include mobile-only {
+        padding: spacing(6) spacing(4);
+    }
+
+    // ==============================================
+    // 📋 HEADER & TITLE
+    // ==============================================
+    h1 {
+        font-size: font-size(3xl);
+        font-weight: font-weight(bold);
+        color: #5b21b6;
+        margin: 0 0 spacing(10) 0;
+        text-align: center;
+        position: relative;
+
+        &::before {
+            content: '🎟️ ';
+            margin-right: spacing(2);
+            font-size: font-size(2xl);
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 180px;
+            height: 4px;
+            background: linear-gradient(90deg, #8b5cf6, #7c3aed);
+            border-radius: border-radius(full);
+        }
+
+        @include mobile-only {
+            font-size: font-size(2xl);
+        }
+    }
+
+    // ==============================================
+    // 📊 LOADING STATE
+    // ==============================================
+    .loading-state {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 400px;
+        text-align: center;
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid #ede9fe;
+            border-top: 4px solid #8b5cf6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: spacing(4);
+        }
+
+        p {
+            color: #5b21b6;
+            font-size: font-size(lg);
+            font-weight: font-weight(medium);
+            margin: 0;
+        }
+    }
+
+    // ==============================================
+    // ❌ ERROR STATE
+    // ==============================================
+    .error-state {
+        max-width: 600px;
+        margin: 0 auto;
+        background: color(white);
+        padding: spacing(8);
+        border-radius: border-radius(xl);
+        box-shadow: shadow(lg);
+        border: 2px solid #fecaca;
+        text-align: center;
+
+        .error-icon {
+            font-size: font-size(4xl);
+            margin-bottom: spacing(4);
+        }
+
+        h2 {
+            color: #dc2626;
+            font-size: font-size(xl);
+            font-weight: font-weight(bold);
+            margin: 0 0 spacing(3) 0;
+        }
+
+        p {
+            color: #374151;
+            font-size: font-size(base);
+            margin: 0 0 spacing(6) 0;
+            line-height: line-height(relaxed);
+        }
+
+        button {
+            @include button-base;
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            color: white;
+            border: 1px solid #7c3aed;
+            padding: spacing(3) spacing(6);
+            font-size: font-size(sm);
+            font-weight: font-weight(semibold);
+            border-radius: border-radius(lg);
+            transition: all 0.3s ease;
+
+            &:hover {
+                background: linear-gradient(135deg, #7c3aed, #6d28d9);
+                transform: translateY(-2px);
+                box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);
+            }
+        }
+    }
+
+    // ==============================================
+    // 🎟️ VOUCHER DETAIL CARD
+    // ==============================================
+    .voucher-detail-card {
+        max-width: 1600px;
+        margin: 0 auto;
+        background: color(white);
+        border-radius: border-radius(xl);
+        box-shadow: shadow(lg);
+        border: 1px solid #c4b5fd;
+        overflow: hidden;
+
+        @include mobile-only {
+            margin: 0 spacing(2);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #ede9fe, #c4b5fd);
+            padding: spacing(6);
+            border-bottom: 2px solid #8b5cf6;
+
+            .header-content {
+                text-align: center;
+                margin-bottom: spacing(4);
+
+                h2 {
+                    color: #5b21b6;
+                    font-size: font-size(2xl);
+                    font-weight: font-weight(bold);
+                    margin: 0 0 spacing(2) 0;
+                    font-family: monospace;
+
+                    @include mobile-only {
+                        font-size: font-size(xl);
+                    }
+                }
+
+                .voucher-id {
+                    color: #5b21b6;
+                    font-size: font-size(lg);
+                    font-weight: font-weight(medium);
+                    background: color(white);
+                    padding: spacing(1) spacing(3);
+                    border-radius: border-radius(full);
+                    display: inline-block;
+                    border: 2px solid #8b5cf6;
+                }
+            }
+
+            .header-badges {
+                display: flex;
+                justify-content: center;
+                gap: spacing(3);
+                flex-wrap: wrap;
+            }
+        }
+
+        .card-body {
+            padding: spacing(8);
+
+            @include mobile-only {
+                padding: spacing(6) spacing(4);
+            }
+
+            .detail-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: spacing(6);
+
+                @include mobile-only {
+                    grid-template-columns: 1fr;
+                    gap: spacing(4);
+                }
+
+                .detail-section {
+                    background: #faf5ff;
+                    border-radius: border-radius(lg);
+                    padding: spacing(4);
+                    border: 1px solid #ede9fe;
+
+                    &.full-width {
+                        grid-column: 1 / -1;
+                    }
+
+                    .section-title {
+                        color: #5b21b6;
+                        font-size: font-size(lg);
+                        font-weight: font-weight(bold);
+                        margin: 0 0 spacing(4) 0;
+                        padding-bottom: spacing(2);
+                        border-bottom: 2px solid #c4b5fd;
+                    }
+
+                    .detail-item {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: flex-start;
+                        margin-bottom: spacing(3);
+                        padding-bottom: spacing(3);
+                        border-bottom: 1px solid #ede9fe;
+
+                        &:last-child {
+                            margin-bottom: 0;
+                            padding-bottom: 0;
+                            border-bottom: none;
+                        }
+
+                        .label {
+                            font-weight: font-weight(semibold);
+                            color: #5b21b6;
+                            min-width: 140px;
+                            font-size: font-size(sm);
+
+                            @include mobile-only {
+                                min-width: 100px;
+                            }
+                        }
+
+                        .value {
+                            color: #1f2937;
+                            font-size: font-size(base);
+                            text-align: right;
+                            flex: 1;
+                            word-break: break-word;
+
+                            pre {
+                                background: #f3f4f6;
+                                padding: spacing(2);
+                                border-radius: border-radius(md);
+                                font-size: font-size(xs);
+                                overflow: auto;
+                                text-align: left;
+                            }
+                        }
+                    }
+
+                    // Users table
+                    .users-table-wrapper {
+                        overflow-x: auto;
+                        margin-top: spacing(4);
+                    }
+
+                    .users-table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        font-size: font-size(sm);
+
+                        thead {
+                            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+
+                            th {
+                                padding: spacing(3);
+                                text-align: center;
+                                font-weight: font-weight(bold);
+                                color: color(white);
+                                border-bottom: 2px solid #7c3aed;
+                            }
+                        }
+
+                        tbody {
+                            tr {
+                                transition: all 0.3s ease;
+
+                                &:nth-child(even) {
+                                    background-color: #faf5ff;
+                                }
+
+                                &:hover {
+                                    background-color: #f3e8ff;
+                                }
+
+                                td {
+                                    text-align: center;
+                                    padding: spacing(3);
+                                    border-bottom: 1px solid #e5e7eb;
+                                    color: #374151;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .card-footer {
+            background: #faf5ff;
+            padding: spacing(6);
+            border-top: 1px solid #ede9fe;
+
+            .action-buttons {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                gap: spacing(3);
+                justify-content: center;
+
+                @media (max-width: 768px) {
+                    grid-template-columns: 1fr;
+                    gap: spacing(2);
+                }
+
+                .btn-action {
+                    border: none;
+                    padding: spacing(3) spacing(4);
+                    border-radius: border-radius(lg);
+                    font-weight: font-weight(semibold);
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                    font-size: font-size(sm);
+                    text-align: center;
+                    min-height: 48px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
+                    &:hover:not(:disabled) {
+                        transform: translateY(-2px);
+                        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+                    }
+
+                    &:active:not(:disabled) {
+                        transform: translateY(-1px);
+                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                    }
+
+                    &:disabled {
+                        opacity: 0.6;
+                        cursor: not-allowed;
+                        transform: none !important;
+                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+                    }
+
+                    // Update button (Purple)
+                    &.btn-update {
+                        background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+                        color: white;
+                        border: 1px solid #7c3aed;
+
+                        &:hover:not(:disabled) {
+                            background: linear-gradient(135deg, #7c3aed, #6d28d9);
+                            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);
+                        }
+                    }
+
+                    // Activate button (Green)
+                    &.btn-activate {
+                        background: linear-gradient(135deg, #34d399, #10b981);
+                        color: white;
+                        border: 1px solid #059669;
+
+                        &:hover:not(:disabled) {
+                            background: linear-gradient(135deg, #10b981, #059669);
+                            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
+                        }
+                    }
+
+                    // Deactivate button (Gray)
+                    &.btn-deactivate {
+                        background: linear-gradient(135deg, #9ca3af, #6b7280);
+                        color: white;
+                        border: 1px solid #4b5563;
+
+                        &:hover:not(:disabled) {
+                            background: linear-gradient(135deg, #6b7280, #4b5563);
+                            box-shadow: 0 8px 24px rgba(107, 114, 128, 0.3);
+                        }
+                    }
+
+                    // Delete button (Red)
+                    &.btn-delete {
+                        background: linear-gradient(135deg, #f87171, #ef4444);
+                        color: white;
+                        border: 1px solid #dc2626;
+
+                        &:hover:not(:disabled) {
+                            background: linear-gradient(135deg, #ef4444, #dc2626);
+                            box-shadow: 0 8px 24px rgba(239, 68, 68, 0.3);
+                        }
+                    }
+
+                    // Back button (Gray)
+                    &.btn-back {
+                        background: linear-gradient(135deg, #6b7280, #4b5563);
+                        color: white;
+                        border: 1px solid #4b5563;
+
+                        &:hover:not(:disabled) {
+                            background: linear-gradient(135deg, #4b5563, #374151);
+                            box-shadow: 0 8px 24px rgba(107, 114, 128, 0.3);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // ==============================================
+    // 🏷️ BADGE STYLES
+    // ==============================================
+    .badge {
+        display: inline-block;
+        padding: spacing(1) spacing(3);
+        border-radius: border-radius(full);
+        font-size: font-size(xs);
+        font-weight: font-weight(semibold);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+
+        &.badge-active {
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+            color: #065f46;
+            border: 1px solid #10b981;
+        }
+
+        &.badge-inactive {
+            background: linear-gradient(135deg, #fee2e2, #fecaca);
+            color: #991b1b;
+            border: 1px solid #ef4444;
+        }
+
+        &.badge-public {
+            background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+            color: #1e40af;
+            border: 1px solid #3b82f6;
+        }
+
+        &.badge-private {
+            background: linear-gradient(135deg, #e5e7eb, #d1d5db);
+            color: #374151;
+            border: 1px solid #6b7280;
+        }
+    }
+
+    // ==============================================
+    // 🎭 ANIMATIONS
+    // ==============================================
+    .voucher-detail-card {
+        animation: fade-in 0.6s ease-out;
+    }
+
+    .detail-section {
+        animation: slide-up 0.5s ease-out forwards;
+        opacity: 0;
+        transform: translateY(20px);
+
+        &:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        &:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        &:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        &:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+    }
+
+    @keyframes fade-in {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slide-up {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes spin {
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    // ==============================================
+    // 🌙 DARK MODE SUPPORT
+    // ==============================================
+    @media (prefers-color-scheme: dark) {
+        background: linear-gradient(135deg, #1e1b4b 0%, color(gray-900) 50%, #312e81 100%);
+
+        h1 {
+            color: #c4b5fd;
+
+            &::after {
+                background: linear-gradient(90deg, #a78bfa, #8b5cf6);
+            }
+        }
+
+        .loading-state {
+            .loading-spinner {
+                border-color: color(gray-700);
+                border-top-color: #a78bfa;
+            }
+
+            p {
+                color: #c4b5fd;
+            }
+        }
+
+        .error-state {
+            background: color(gray-800);
+            border-color: #f87171;
+
+            h2 {
+                color: #f87171;
+            }
+
+            p {
+                color: color(gray-300);
+            }
+
+            button {
+                background: linear-gradient(135deg, #7c3aed, #6d28d9);
+                border-color: #6d28d9;
+
+                &:hover {
+                    background: linear-gradient(135deg, #6d28d9, #5b21b6);
+                }
+            }
+        }
+
+        .voucher-detail-card {
+            background: color(gray-800);
+            border-color: #6d28d9;
+
+            .card-header {
+                background: linear-gradient(135deg, #1e1b4b, #312e81);
+                border-bottom-color: #6d28d9;
+
+                .header-content {
+                    h2 {
+                        color: #c4b5fd;
+                    }
+
+                    .voucher-id {
+                        background: color(gray-700);
+                        color: #c4b5fd;
+                        border-color: #8b5cf6;
+                    }
+                }
+            }
+
+            .card-body {
+                .detail-section {
+                    background: color(gray-700);
+                    border-color: color(gray-600);
+
+                    .section-title {
+                        color: #c4b5fd;
+                        border-bottom-color: #6d28d9;
+                    }
+
+                    .detail-item {
+                        border-bottom-color: color(gray-600);
+
+                        .label {
+                            color: #a78bfa;
+                        }
+
+                        .value {
+                            color: color(gray-200);
+
+                            pre {
+                                background: color(gray-600);
+                                color: color(gray-200);
+                            }
+                        }
+                    }
+
+                    .users-table {
+                        thead {
+                            background: linear-gradient(135deg, #6d28d9, #5b21b6);
+
+                            th {
+                                color: #e9d5ff;
+                            }
+                        }
+
+                        tbody {
+                            tr {
+                                &:nth-child(even) {
+                                    background-color: color(gray-600);
+                                }
+
+                                &:hover {
+                                    background-color: #312e81;
+                                }
+
+                                td {
+                                    color: color(gray-200);
+                                    border-bottom-color: color(gray-500);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            .card-footer {
+                background: color(gray-700);
+                border-top-color: color(gray-600);
+            }
+        }
+
+        .badge {
+            &.badge-active {
+                background: linear-gradient(135deg, #065f46, #047857);
+                color: #a7f3d0;
+            }
+
+            &.badge-inactive {
+                background: linear-gradient(135deg, #7f1d1d, #991b1b);
+                color: #fca5a5;
+            }
+
+            &.badge-public {
+                background: linear-gradient(135deg, #1e3a8a, #1e40af);
+                color: #bfdbfe;
+            }
+
+            &.badge-private {
+                background: linear-gradient(135deg, #374151, #4b5563);
+                color: #d1d5db;
+            }
+        }
+    }
+}

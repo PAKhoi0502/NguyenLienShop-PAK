@@ -18,10 +18,13 @@ module.exports = {
             onUpdate: 'CASCADE',
             onDelete: 'CASCADE'
          },
-         fullName: {
+         receiverName: {
             type: Sequelize.STRING
          },
-         phoneNumber: {
+         receiverPhone: {
+            type: Sequelize.STRING
+         },
+         receiverGender: {
             type: Sequelize.STRING
          },
          addressLine1: {

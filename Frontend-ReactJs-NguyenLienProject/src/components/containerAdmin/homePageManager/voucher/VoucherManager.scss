@@ -1,0 +1,533 @@
+// ==============================================
+// 🎟️ VOUCHER MANAGER STYLES (Purple/Blue Theme)
+// ==============================================
+
+@import '../../../../styles/variables';
+@import '../../../../styles/mixins';
+@import '../../../../components/common/IconRenderer.scss';
+
+.voucher-manager-container {
+    min-height: 100vh;
+    padding: spacing(8) spacing(6);
+    background: linear-gradient(135deg, #f5f3ff 0%, color(white) 50%, #ede9fe 100%);
+
+    @include mobile-only {
+        padding: spacing(6) spacing(4);
+    }
+
+    // ==============================================
+    // 📋 HEADER & TOP SECTION
+    // ==============================================
+    .voucher-manager-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: spacing(8);
+        padding: spacing(6);
+        background: linear-gradient(135deg, color(white) 0%, #f5f3ff 100%);
+        border-radius: border-radius(xl);
+        box-shadow: shadow(lg);
+        border: 1px solid #c4b5fd;
+
+        @include mobile-only {
+            flex-direction: column;
+            gap: spacing(4);
+            text-align: center;
+        }
+
+        .voucher-title {
+            font-size: font-size(3xl);
+            font-weight: font-weight(bold);
+            color: #5b21b6;
+            margin: 0;
+            position: relative;
+
+            &::before {
+                content: '🎟️ ';
+                margin-right: spacing(2);
+                font-size: font-size(2xl);
+            }
+
+            @include mobile-only {
+                font-size: font-size(2xl);
+            }
+        }
+
+        .btn-create-voucher {
+            @include button-base;
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            color: color(white);
+            border: 1px solid #7c3aed;
+            padding: spacing(3) spacing(6);
+            font-size: font-size(base);
+            font-weight: font-weight(semibold);
+            border-radius: border-radius(lg);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: spacing(2);
+
+            &:hover {
+                background: linear-gradient(135deg, #7c3aed, #6d28d9);
+                transform: translateY(-2px);
+                box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);
+            }
+
+            &:active {
+                transform: translateY(0);
+            }
+
+            @include mobile-only {
+                padding: spacing(3) spacing(4);
+                font-size: font-size(sm);
+            }
+        }
+    }
+
+    // ==============================================
+    // 🔍 FILTERS & SEARCH
+    // ==============================================
+    .voucher-filters {
+        padding: spacing(4);
+        background: color(white);
+        border-radius: border-radius(lg);
+        box-shadow: shadow(sm);
+        border: 1px solid #c4b5fd;
+        margin-bottom: spacing(4);
+
+        @include mobile-only {
+            padding: spacing(3);
+        }
+
+        // HintBox wrapper trong filter
+        .hint-icon-wrapper {
+            margin: 0 0 spacing(4) 0;
+            flex-shrink: 0;
+        }
+
+        .filter-row {
+            display: flex;
+            align-items: center;
+            gap: spacing(4);
+            flex-wrap: wrap;
+
+            @include mobile-only {
+                flex-direction: column;
+                align-items: stretch;
+                gap: spacing(3);
+            }
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: spacing(2);
+            flex: 1;
+            min-width: 200px;
+
+            @include mobile-only {
+                flex-direction: column;
+                align-items: stretch;
+                min-width: auto;
+            }
+
+            label {
+                font-weight: font-weight(semibold);
+                color: #5b21b6;
+                white-space: nowrap;
+                min-width: 100px;
+
+                @include mobile-only {
+                    min-width: auto;
+                }
+            }
+
+            select {
+                flex: 1;
+                padding: spacing(2) spacing(3);
+                border: 2px solid #c4b5fd;
+                border-radius: border-radius(md);
+                background: color(white);
+                color: #374151;
+                font-size: font-size(sm);
+                transition: all 0.3s ease;
+
+                &:focus {
+                    outline: none;
+                    border-color: #8b5cf6;
+                    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+                }
+
+                option {
+                    padding: spacing(2);
+                }
+            }
+        }
+    }
+
+    .voucher-search-bar {
+        margin-bottom: spacing(6);
+
+        input {
+            width: 100%;
+            padding: spacing(4);
+            border: 2px solid #c4b5fd;
+            border-radius: border-radius(lg);
+            font-size: font-size(base);
+            background: color(white);
+            color: #374151;
+            transition: all 0.3s ease;
+
+            &::placeholder {
+                color: #9ca3af;
+            }
+
+            &:focus {
+                outline: none;
+                border-color: #8b5cf6;
+                box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+                background: #f9fafb;
+            }
+
+            // Purple background when filled
+            &:not(:placeholder-shown) {
+                background-color: #faf5ff;
+                border-color: #c4b5fd;
+            }
+        }
+    }
+
+    // ==============================================
+    // 📊 TABLE STYLING
+    // ==============================================
+    .voucher-table-wrapper {
+        background: color(white);
+        border-radius: border-radius(xl);
+        box-shadow: shadow(lg);
+        overflow: hidden;
+        border: 1px solid #c4b5fd;
+    }
+
+    .voucher-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: font-size(sm);
+
+        @include mobile-only {
+            font-size: font-size(xs);
+        }
+
+        thead {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+
+            th {
+                padding: spacing(4);
+                text-align: center;
+                font-weight: font-weight(bold);
+                color: color(white);
+                border-bottom: 2px solid #7c3aed;
+                position: sticky;
+                top: 0;
+                z-index: 10;
+
+                @include mobile-only {
+                    padding: spacing(3) spacing(2);
+                    font-size: font-size(xs);
+                }
+            }
+        }
+
+        tbody {
+            tr {
+                transition: all 0.3s ease;
+
+                &:nth-child(even) {
+                    background-color: #faf5ff;
+                }
+
+                &:hover {
+                    background-color: #f3e8ff;
+                    transform: scale(1.01);
+                    box-shadow: 0 4px 8px rgba(139, 92, 246, 0.1);
+                }
+
+                td {
+                    text-align: center;
+                    padding: spacing(4);
+                    border-bottom: 1px solid #e5e7eb;
+                    color: #374151;
+                    vertical-align: middle;
+
+                    @include mobile-only {
+                        padding: spacing(3) spacing(2);
+                        font-size: font-size(xs);
+                    }
+
+                    // Empty state styling
+                    &[colspan] {
+                        text-align: center;
+                        color: #9ca3af;
+                        font-style: italic;
+                        padding: spacing(8);
+                    }
+                }
+            }
+        }
+    }
+
+    // ==============================================
+    // 🎯 ACTION BUTTONS
+    // ==============================================
+    .action-buttons {
+        display: flex;
+        gap: spacing(2);
+        flex-wrap: wrap;
+        justify-content: center;
+
+        @include mobile-only {
+            flex-direction: column;
+            gap: spacing(1);
+        }
+    }
+
+    .btn-action {
+        @include button-base;
+        padding: spacing(2) spacing(3);
+        font-size: font-size(sm);
+        font-weight: font-weight(medium);
+        border-radius: border-radius(md);
+        transition: all 0.3s ease;
+        min-width: 70px;
+        text-align: center;
+
+        @include mobile-only {
+            padding: spacing(2);
+            font-size: font-size(xs);
+            min-width: auto;
+        }
+
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: shadow(md);
+        }
+
+        &:active {
+            transform: translateY(0);
+        }
+
+        // Detail button (Blue)
+        &.btn-detail {
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            color: color(white);
+            border: 1px solid #2563eb;
+
+            &:hover {
+                background: linear-gradient(135deg, #3b82f6, #2563eb);
+                box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+            }
+        }
+
+        // Update button (Green)
+        &.btn-update {
+            background: linear-gradient(135deg, #34d399, #10b981);
+            color: color(white);
+            border: 1px solid #059669;
+
+            &:hover {
+                background: linear-gradient(135deg, #10b981, #059669);
+                box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            }
+        }
+
+        // Delete button (Red)
+        &.btn-delete {
+            background: linear-gradient(135deg, #f87171, #ef4444);
+            color: color(white);
+            border: 1px solid #dc2626;
+
+            &:hover {
+                background: linear-gradient(135deg, #ef4444, #dc2626);
+                box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+            }
+        }
+
+        // Activate button (Purple)
+        &.btn-activate {
+            background: linear-gradient(135deg, #c084fc, #a855f7);
+            color: color(white);
+            border: 1px solid #9333ea;
+
+            &:hover {
+                background: linear-gradient(135deg, #a855f7, #9333ea);
+                box-shadow: 0 4px 12px rgba(168, 85, 247, 0.3);
+            }
+        }
+
+        // Deactivate button (Gray)
+        &.btn-deactivate {
+            background: linear-gradient(135deg, #9ca3af, #6b7280);
+            color: color(white);
+            border: 1px solid #4b5563;
+
+            &:hover {
+                background: linear-gradient(135deg, #6b7280, #4b5563);
+                box-shadow: 0 4px 12px rgba(107, 114, 128, 0.3);
+            }
+        }
+    }
+
+    // ==============================================
+    // 🎟️ VOUCHER CODE LINK
+    // ==============================================
+    .voucher-code-link {
+        cursor: pointer;
+        color: #3b82f6;
+        text-decoration: underline;
+        font-weight: bold;
+        font-family: monospace;
+        transition: all 0.3s ease;
+
+        &:hover {
+            color: #1d4ed8;
+        }
+    }
+
+    // ==============================================
+    // 📱 LOADING & STATES
+    // ==============================================
+    .voucher-loading {
+        text-align: center;
+        padding: spacing(8);
+        color: #8b5cf6;
+        font-size: font-size(lg);
+        font-weight: font-weight(medium);
+
+        &::before {
+            content: '⏳ ';
+            margin-right: spacing(2);
+            animation: spin 2s linear infinite;
+        }
+    }
+
+    @keyframes spin {
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    // ==============================================
+    // 🎭 RESPONSIVE DESIGN
+    // ==============================================
+    @include mobile-only {
+        .voucher-table-wrapper {
+            overflow-x: auto;
+        }
+
+        .voucher-table {
+            min-width: 1000px;
+        }
+
+        .action-buttons {
+            min-width: 200px;
+        }
+    }
+
+    // ==============================================
+    // 🌙 DARK MODE SUPPORT
+    // ==============================================
+    @media (prefers-color-scheme: dark) {
+        background: linear-gradient(135deg, #1e1b4b 0%, color(gray-900) 50%, #312e81 100%);
+
+        .voucher-manager-top {
+            background: linear-gradient(135deg, color(gray-800) 0%, #1e1b4b 100%);
+            border-color: #6d28d9;
+
+            .voucher-title {
+                color: #c4b5fd;
+            }
+
+            .btn-create-voucher {
+                background: linear-gradient(135deg, #7c3aed, #6d28d9);
+                border-color: #6d28d9;
+
+                &:hover {
+                    background: linear-gradient(135deg, #6d28d9, #5b21b6);
+                }
+            }
+        }
+
+        .voucher-filters {
+            background: color(gray-800);
+            border-color: #6d28d9;
+
+            .filter-group {
+                label {
+                    color: #c4b5fd;
+                }
+
+                select {
+                    background: color(gray-700);
+                    color: color(gray-200);
+                    border-color: #6d28d9;
+
+                    &:focus {
+                        border-color: #8b5cf6;
+                    }
+                }
+            }
+        }
+
+        .voucher-search-bar input {
+            background: color(gray-800);
+            color: color(gray-200);
+            border-color: #6d28d9;
+
+            &:focus {
+                background: color(gray-700);
+                border-color: #8b5cf6;
+            }
+
+            &:not(:placeholder-shown) {
+                background-color: color(gray-700);
+                border-color: #6d28d9;
+            }
+        }
+
+        .voucher-table-wrapper {
+            background: color(gray-800);
+            border-color: #6d28d9;
+        }
+
+        .voucher-table {
+            thead {
+                background: linear-gradient(135deg, #6d28d9, #5b21b6);
+
+                th {
+                    color: #e9d5ff;
+                    border-bottom-color: #5b21b6;
+                }
+            }
+
+            tbody {
+                tr {
+                    &:nth-child(even) {
+                        background-color: color(gray-700);
+                    }
+
+                    &:hover {
+                        background-color: #312e81;
+                    }
+
+                    td {
+                        color: color(gray-200);
+                        border-bottom-color: color(gray-600);
+                    }
+                }
+            }
+        }
+    }
+}

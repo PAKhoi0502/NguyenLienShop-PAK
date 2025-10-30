@@ -50,6 +50,12 @@ import AnnouncementCreate from '../components/containerAdmin/homePageManager/ann
 import AnnouncementUpdate from '../components/containerAdmin/homePageManager/announcement/AnnouncementUpdate';
 import AnnouncementDetail from '../components/containerAdmin/homePageManager/announcement/AnnouncementDetail';
 
+// Admin - Quản lý voucher
+import VoucherManager from '../components/containerAdmin/homePageManager/voucher/VoucherManager';
+import VoucherCreate from '../components/containerAdmin/homePageManager/voucher/VoucherCreate';
+import VoucherUpdate from '../components/containerAdmin/homePageManager/voucher/VoucherUpdate';
+import VoucherDetail from '../components/containerAdmin/homePageManager/voucher/VoucherDetail';
+
 
 // //Admin - Quản lý product
 import { AddCategory, DeleteCategory, InfoCategory, ProductCreate, ProductDetail, ProductManager, ProductUpdate } from '../components/containerAdmin/homePageManager/product/index.js';
@@ -131,6 +137,11 @@ const AppRoutes = () => (
          <Route path="/admin/homepage-management/announcement-management/announcement-update/:id" element={<PrivateRoute role="1" element={() => <AdminLayout><AnnouncementUpdate /></AdminLayout>} />} />
          <Route path="/admin/homepage-management/announcement-management/announcement-detail/:id" element={<PrivateRoute role="1" element={() => <AdminLayout><AnnouncementDetail /></AdminLayout>} />} />
 
+         {/* --- Admin - Quản lý voucher --- */}
+         <Route path="/admin/homepage-management/voucher-management" element={<PrivateRoute role="1" element={() => <AdminLayout><VoucherManager /></AdminLayout>} />} />
+         <Route path="/admin/homepage-management/voucher-management/voucher-create" element={<PrivateRoute role="1" element={() => <AdminLayout><VoucherCreate /></AdminLayout>} />} />
+         <Route path="/admin/homepage-management/voucher-management/voucher-update/:id" element={<PrivateRoute role="1" element={() => <AdminLayout><VoucherUpdate /></AdminLayout>} />} />
+         <Route path="/admin/homepage-management/voucher-management/voucher-detail/:id" element={<PrivateRoute role="1" element={() => <AdminLayout><VoucherDetail /></AdminLayout>} />} />
 
          {/* --- Not Found --- */}
          <Route path="*" element={<NotFoundPage />} />

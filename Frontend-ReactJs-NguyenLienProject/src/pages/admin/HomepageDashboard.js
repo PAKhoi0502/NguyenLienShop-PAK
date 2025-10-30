@@ -10,7 +10,9 @@ const HomepageDashboard = () => {
       activeBanners: 0,
       totalAnnouncements: 0,
       activeAnnouncements: 0,
-      inactiveAnnouncements: 0
+      inactiveAnnouncements: 0,
+      totalVouchers: 0,
+      activeVouchers: 0
    });
    const [loading, setLoading] = useState(true);
    const [error, setError] = useState(null);
@@ -25,13 +27,15 @@ const HomepageDashboard = () => {
          const response = await getHomepageStats();
 
          if (response && response.errCode === 0 && response.data) {
-            const { totalBanners, activeBanners, totalAnnouncements, activeAnnouncements, inactiveAnnouncements } = response.data;
+            const { totalBanners, activeBanners, totalAnnouncements, activeAnnouncements, inactiveAnnouncements, totalVouchers, activeVouchers } = response.data;
             setHomepageStats({
                totalBanners: totalBanners || 0,
                activeBanners: activeBanners || 0,
                totalAnnouncements: totalAnnouncements || 0,
                activeAnnouncements: activeAnnouncements || 0,
-               inactiveAnnouncements: inactiveAnnouncements || 0
+               inactiveAnnouncements: inactiveAnnouncements || 0,
+               totalVouchers: totalVouchers || 0,
+               activeVouchers: activeVouchers || 0
             });
             setError(null);
          } else {
@@ -70,6 +74,17 @@ const HomepageDashboard = () => {
          stats: { total: homepageStats.totalAnnouncements, active: homepageStats.activeAnnouncements }
       },
       {
+         id: 'voucher-management',
+         titleId: 'dashboard.homepage_dashboard.voucher_management',
+         title: 'Quản lý Voucher',
+         descriptionId: 'dashboard.homepage_dashboard.voucher_description',
+         description: 'Tạo, chỉnh sửa và quản lý mã giảm giá, voucher khuyến mãi',
+         icon: 'voucher',
+         link: '/admin/homepage-management/voucher-management',
+         color: 'green',
+         stats: { total: homepageStats.totalVouchers, active: homepageStats.activeVouchers }
+      },
+      {
          id: 'homepage-settings',
          titleId: 'dashboard.homepage_dashboard.homepage_settings',
          title: 'Cài đặt trang chủ',
@@ -92,6 +107,11 @@ const HomepageDashboard = () => {
          announcement: (
             <svg className="option-card__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+            </svg>
+         ),
+         voucher: (
+            <svg className="option-card__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
             </svg>
          ),
          settings: (
@@ -143,6 +163,14 @@ const HomepageDashboard = () => {
                   </span>
                   <span className="quick-stat__label">
                      <FormattedMessage id="dashboard.homepage_dashboard.total_announcements" defaultMessage="Tổng thông báo" />
+                  </span>
+               </div>
+               <div className="quick-stat">
+                  <span className="quick-stat__number">
+                     {loading ? '...' : homepageStats.totalVouchers}
+                  </span>
+                  <span className="quick-stat__label">
+                     <FormattedMessage id="dashboard.homepage_dashboard.total_vouchers" defaultMessage="Tổng voucher" />
                   </span>
                </div>
             </div>

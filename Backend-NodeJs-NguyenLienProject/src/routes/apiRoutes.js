@@ -12,7 +12,6 @@ router.use('/admin', apiAdmin);
 router.use('/auth', apiAuth);
 router.use('/admin', apiHomePage);
 
-
 router.use('/user', apiUser);
 
 router.use('/public', apiPublicHomePage);

@@ -4,6 +4,8 @@ import bannerController from '../controllers/bannerController.js';
 import productController from '../controllers/productController.js';
 import categoryController from '../controllers/categoryController.js';
 import announcementController from '../controllers/announcementController.js';
+import addressController from '../controllers/addressController.js';
+import discountCodeController from '../controllers/discountCodeController.js';
 
 import { verifyToken, isRole } from '../middlewares/authMiddleware.js';
 import upload from '../middlewares/uploadMiddleware.js';
@@ -54,5 +56,32 @@ router.get('/announcement-type/:type', verifyToken, isRole(1), announcementContr
 router.get('/announcement-position/:position', verifyToken, isRole(1), announcementController.handleGetAnnouncementsByPosition);
 router.get('/announcement-active', verifyToken, isRole(1), announcementController.handleGetActiveAnnouncements);
 router.post('/announcement-check-expired', verifyToken, isRole(1), announcementController.handleCheckExpiredAnnouncements);
+
+// 📦 Address Management (Admin)
+// Note: User address routes are in apiUser.js (/api/user/addresses)
+// These are admin-only routes to manage all users' addresses
+
+// Admin: Get all addresses in the system (with user info)
+router.get('/address-management', verifyToken, isRole(1), addressController.handleAdminGetAllAddresses);
+
+// Admin: Get statistics about addresses
+router.get('/address-stats', verifyToken, isRole(1), addressController.handleAdminGetAddressStats);
+
+// Admin: Get all addresses of a specific user
+router.get('/address-user/:userId', verifyToken, isRole(1), addressController.handleAdminGetUserAddresses);
+
+// Admin: Get any address by ID (with user info)
+router.get('/address-detail/:id', verifyToken, isRole(1), addressController.handleAdminGetAddressById);
+
+// Admin: Delete any address
+router.delete('/address-admin-delete/:id', verifyToken, isRole(1), addressController.handleAdminDeleteAddress);
+
+// 🎁 Discount Code / Voucher Management (ADMIN)
+router.get('/discount-management', verifyToken, isRole(1), discountCodeController.handleGetAllDiscountCodes);
+router.get('/discount/:id', verifyToken, isRole(1), discountCodeController.handleGetDiscountCodeById);
+router.post('/discount-create', verifyToken, isRole(1), discountCodeController.handleCreateDiscountCode);
+router.put('/discount-update', verifyToken, isRole(1), discountCodeController.handleUpdateDiscountCode);
+router.delete('/discount-delete', verifyToken, isRole(1), discountCodeController.handleDeleteDiscountCode);
+router.patch('/discount-toggle/:id', verifyToken, isRole(1), discountCodeController.handleToggleActiveStatus);
 
 export default router;

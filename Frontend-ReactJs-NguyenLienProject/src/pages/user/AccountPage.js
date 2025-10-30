@@ -14,6 +14,7 @@ import './AccountPage.scss';
 import ProfileInfo from './ProfileInfo';
 import ChangePassword from './ChangePassword';
 import UpdateEmail from './UpdateEmail';
+import AddressBook from '../../components/address/AddressBook';
 
 const AccountPage = () => {
     const { isLoggedIn } = useSelector((state) => state.admin);
@@ -39,7 +40,7 @@ const AccountPage = () => {
             icon: <FaMapMarkerAlt />,
             labelId: 'profile.title.address',
             defaultLabel: 'Sổ địa chỉ',
-            component: <div className="coming-soon">Đang phát triển...</div>
+            component: <AddressBook />
         },
         {
             id: 'email',

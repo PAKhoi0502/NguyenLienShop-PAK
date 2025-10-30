@@ -254,6 +254,8 @@
             "email_hint": "Mã OTP sẽ được gửi đến email này",
             "email_required": "Vui lòng nhập địa chỉ email",
             "email_invalid": "Địa chỉ email không hợp lệ",
+            "same_email": "Email mới trùng với email hiện tại",
+            "email_exists": "Email này đã được sử dụng bởi tài khoản khác!",
             "loading": "Đang xử lý...",
             "send_otp": "Gửi mã OTP",
             "otp_sent": "Mã OTP đã được gửi đến email của bạn",
@@ -2420,6 +2422,67 @@
                 "send_failed": "Gửi OTP thất bại",
                 "verification_failed": "Xác thực OTP thất bại"
             }
+        }
+    },
+    "address": {
+        "default": "Mặc định",
+        "phone": "SĐT",
+        "set_default": "Đặt mặc định",
+        "add_new": "Thêm địa chỉ mới",
+        "empty": "Bạn chưa có địa chỉ nào. Thêm địa chỉ mới để thuận tiện cho việc mua sắm!",
+        "gender": {
+            "male": "Anh",
+            "female": "Chị",
+            "other": "Khác"
+        },
+        "form": {
+            "title_add": "Thêm địa chỉ mới",
+            "title_edit": "Sửa địa chỉ",
+            "receiver_gender": "Xưng hô",
+            "receiver_name": "Họ và tên người nhận",
+            "receiver_name_placeholder": "Nhập họ và tên",
+            "receiver_phone": "Số điện thoại",
+            "receiver_phone_placeholder": "Nhập số điện thoại",
+            "city": "Tỉnh/Thành phố",
+            "city_placeholder": "Nhập tỉnh/thành phố",
+            "city_select": "-- Chọn Tỉnh/Thành phố --",
+            "district": "Quận/Huyện",
+            "district_placeholder": "Nhập quận/huyện",
+            "district_select": "-- Chọn Quận/Huyện --",
+            "district_select_province_first": "Chọn tỉnh/thành phố trước",
+            "ward": "Phường/Xã",
+            "ward_placeholder": "Nhập phường/xã",
+            "ward_select": "-- Chọn Phường/Xã --",
+            "ward_select_district_first": "Chọn quận/huyện trước",
+            "address_line1": "Địa chỉ cụ thể",
+            "address_line1_placeholder": "Số nhà, tên đường...",
+            "address_line2": "Địa chỉ bổ sung (tùy chọn)",
+            "address_line2_placeholder": "Tòa nhà, số tầng, ghi chú thêm...",
+            "set_as_default": "Đặt làm địa chỉ mặc định"
+        },
+        "error": {
+            "receiver_name_required": "Vui lòng nhập tên người nhận",
+            "receiver_phone_required": "Vui lòng nhập số điện thoại",
+            "receiver_phone_invalid": "Số điện thoại không hợp lệ (10-11 số)",
+            "address_line1_required": "Vui lòng nhập địa chỉ cụ thể",
+            "city_required": "Vui lòng chọn Tỉnh/Thành phố",
+            "district_required": "Vui lòng chọn Quận/Huyện",
+            "ward_required": "Vui lòng chọn Phường/Xã",
+            "fetch_failed": "Không thể tải danh sách địa chỉ",
+            "create_failed": "Không thể thêm địa chỉ",
+            "update_failed": "Không thể cập nhật địa chỉ",
+            "delete_failed": "Không thể xóa địa chỉ",
+            "set_default_failed": "Không thể đặt địa chỉ mặc định",
+            "save_failed": "Có lỗi xảy ra khi lưu địa chỉ"
+        },
+        "success": {
+            "created": "Thêm địa chỉ thành công",
+            "updated": "Cập nhật địa chỉ thành công",
+            "deleted": "Xóa địa chỉ thành công",
+            "set_default": "Đặt địa chỉ mặc định thành công"
+        },
+        "confirm": {
+            "delete": "Bạn có chắc chắn muốn xóa địa chỉ này?"
         }
     }
 }

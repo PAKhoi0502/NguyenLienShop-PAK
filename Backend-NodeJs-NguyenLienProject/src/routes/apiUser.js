@@ -1,6 +1,8 @@
 import express from 'express';
 import userController from '../controllers/userController.js';
 import authController from '../controllers/authController.js';
+import addressController from '../controllers/addressController.js';
+import discountCodeController from '../controllers/discountCodeController.js';
 import { verifyToken, isRole } from '../middlewares/authMiddleware.js';
 import upload from '../middlewares/uploadMiddleware.js';
 import validateBodyFields from '../middlewares/validateBodyFields.js';
@@ -42,5 +44,21 @@ router.post('/verify-email-otp',
     validateBodyFields(['resetToken', 'otpCode']),
     authController.handleVerifyEmailOTPAndUpdate
 );
+
+// 📦 Address Book Management (Sổ địa chỉ - User)
+router.get('/addresses', verifyToken, addressController.handleGetUserAddresses);
+router.get('/address/:id', verifyToken, addressController.handleGetAddressById);
+router.get('/address-default', verifyToken, addressController.handleGetDefaultAddress);
+router.post('/address-create', verifyToken, addressController.handleCreateAddress);
+router.put('/address-update/:id', verifyToken, addressController.handleUpdateAddress);
+router.delete('/address-delete/:id', verifyToken, addressController.handleDeleteAddress);
+router.patch('/address-set-default/:id', verifyToken, addressController.handleSetDefaultAddress);
+
+// 🎁 Voucher / Discount Code (USER)
+router.get('/vouchers-available', verifyToken, discountCodeController.handleGetAvailableVouchers);
+router.get('/my-vouchers', verifyToken, discountCodeController.handleGetMyVouchers);
+router.post('/claim-voucher', verifyToken, discountCodeController.handleClaimVoucher);
+router.post('/validate-voucher', verifyToken, discountCodeController.handleValidateVoucher);
+router.post('/apply-voucher', verifyToken, discountCodeController.handleApplyVoucher);
 
 export default router;

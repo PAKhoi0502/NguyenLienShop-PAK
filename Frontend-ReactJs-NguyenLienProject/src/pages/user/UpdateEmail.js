@@ -84,21 +84,48 @@ const UpdateEmail = () => {
             return;
         }
 
+        // Check if new email is the same as current email
+        if (currentEmail && newEmail.trim().toLowerCase() === currentEmail.toLowerCase()) {
+            toast(
+                <CustomToast
+                    type="warning"
+                    titleId="profile.update_email.error_title"
+                    message={intl.formatMessage({ id: 'profile.update_email.same_email' })}
+                    time={new Date()}
+                />,
+                { closeButton: false, type: "warning" }
+            );
+            return;
+        }
+
         setLoading(true);
 
         try {
             const response = await sendEmailOTP(newEmail);
 
             if (response.errCode !== 0) {
-                toast(
-                    <CustomToast
-                        type="error"
-                        titleId="profile.update_email.error_title"
-                        message={response.errMessage || intl.formatMessage({ id: 'profile.update_email.send_otp_failed' })}
-                        time={new Date()}
-                    />,
-                    { closeButton: false, type: "error" }
-                );
+                // Handle specific error: email already exists (errCode: 3)
+                if (response.errCode === 3) {
+                    toast(
+                        <CustomToast
+                            type="error"
+                            titleId="profile.update_email.error_title"
+                            message={intl.formatMessage({ id: 'profile.update_email.email_exists' })}
+                            time={new Date()}
+                        />,
+                        { closeButton: false, type: "error" }
+                    );
+                } else {
+                    toast(
+                        <CustomToast
+                            type="error"
+                            titleId="profile.update_email.error_title"
+                            message={response.errMessage || intl.formatMessage({ id: 'profile.update_email.send_otp_failed' })}
+                            time={new Date()}
+                        />,
+                        { closeButton: false, type: "error" }
+                    );
+                }
                 return;
             }
 
@@ -159,6 +186,20 @@ const UpdateEmail = () => {
                             type="error"
                             titleId="profile.update_email.error_title"
                             message={intl.formatMessage({ id: 'profile.update_email.too_many_attempts' })}
+                            time={new Date()}
+                        />,
+                        { closeButton: false, type: "error" }
+                    );
+                    setStep(1);
+                    setOTPCode('');
+                    setCountdown(0);
+                } else if (response.errCode === 5) {
+                    // Handle specific error: email already exists (double check at verification step)
+                    toast(
+                        <CustomToast
+                            type="error"
+                            titleId="profile.update_email.error_title"
+                            message={intl.formatMessage({ id: 'profile.update_email.email_exists' })}
                             time={new Date()}
                         />,
                         { closeButton: false, type: "error" }

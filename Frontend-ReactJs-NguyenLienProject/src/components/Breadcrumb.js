@@ -45,6 +45,23 @@ const BREADCRUMB_MESSAGE_IDS = {
    'profile': { id: 'breadcrumb.profile', defaultMessage: 'Thông tin cá nhân' },
    'update': { id: 'breadcrumb.update', defaultMessage: 'Cập nhật thông tin' },
    'update-user': { id: 'breadcrumb.update-user', defaultMessage: 'Cập nhật thông tin người dùng' },
+   'address-management': { id: 'breadcrumb.address-management', defaultMessage: 'Quản lý địa chỉ' },
+   'address-detail': { id: 'breadcrumb.address-detail', defaultMessage: 'Chi tiết địa chỉ' },
+   'address-create': { id: 'breadcrumb.address-create', defaultMessage: 'Tạo địa chỉ' },
+   'address-update': { id: 'breadcrumb.address-update', defaultMessage: 'Chỉnh sửa địa chỉ' },
+   'address-delete': { id: 'breadcrumb.address-delete', defaultMessage: 'Xóa địa chỉ' },
+   'address-set-default': { id: 'breadcrumb.address-set-default', defaultMessage: 'Đặt làm địa chỉ mặc định' },
+   'address-default': { id: 'breadcrumb.address-default', defaultMessage: 'Địa chỉ mặc định' },
+   'address-stats': { id: 'breadcrumb.address-stats', defaultMessage: 'Thống kê địa chỉ' },
+   'address-user': { id: 'breadcrumb.address-user', defaultMessage: 'Địa chỉ người dùng' },
+   'voucher-management': { id: 'breadcrumb.voucher-management', defaultMessage: 'Quản lý voucher' },
+   'voucher-create': { id: 'breadcrumb.voucher-create', defaultMessage: 'Tạo voucher' },
+   'voucher-update': { id: 'breadcrumb.voucher-update', defaultMessage: 'Chỉnh sửa voucher' },
+   'voucher-detail': { id: 'breadcrumb.voucher-detail', defaultMessage: 'Chi tiết voucher' },
+   'voucher-delete': { id: 'breadcrumb.voucher-delete', defaultMessage: 'Xóa voucher' },
+   'voucher-set-default': { id: 'breadcrumb.voucher-set-default', defaultMessage: 'Đặt làm voucher mặc định' },
+   'voucher-default': { id: 'breadcrumb.voucher-default', defaultMessage: 'Voucher mặc định' },
+   'voucher-stats': { id: 'breadcrumb.voucher-stats', defaultMessage: 'Thống kê voucher' },
 };
 
 const Breadcrumb = ({ topOffset = 100 }) => {
