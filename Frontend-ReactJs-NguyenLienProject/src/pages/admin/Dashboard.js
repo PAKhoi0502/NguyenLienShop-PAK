@@ -11,7 +11,7 @@ class Dashboard extends Component {
          {
             id: 'account',
             titleId: 'dashboard.account_management',
-            title: 'Quản lý tài khoản',
+            title: '1.Quản lý tài khoản',
             descriptionId: 'dashboard.account_description',
             description: 'Quản lý người dùng và quản trị viên',
             icon: 'users',
@@ -21,7 +21,7 @@ class Dashboard extends Component {
          {
             id: 'product',
             titleId: 'dashboard.product_management',
-            title: 'Quản lý sản phẩm',
+            title: '2.Quản lý sản phẩm',
             descriptionId: 'dashboard.product_description',
             description: 'Quản lý sản phẩm và danh mục',
             icon: 'package',
@@ -31,7 +31,7 @@ class Dashboard extends Component {
          {
             id: 'homepage',
             titleId: 'dashboard.homepage_management',
-            title: 'Quản lý trang chủ',
+            title: '3.Quản lý trang chủ',
             descriptionId: 'dashboard.homepage_description',
             description: 'Quản lý banner và nội dung trang chủ',
             icon: 'home',

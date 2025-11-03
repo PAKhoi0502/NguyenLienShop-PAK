@@ -58,7 +58,7 @@ import VoucherDetail from '../components/containerAdmin/homePageManager/voucher/
 
 
 // //Admin - Quản lý product
-import { AddCategory, DeleteCategory, InfoCategory, ProductCreate, ProductDetail, ProductManager, ProductUpdate } from '../components/containerAdmin/homePageManager/product/index.js';
+import { AddCategory, DeleteCategory, InfoCategory, ProductCreate, ProductDetail, ProductImageManagePage, ProductManager, ProductUpdate } from '../components/containerAdmin/homePageManager/product/index.js';
 
 // //Admin - Quản lý category
 import { CategoryManager, CategoryCreate, CategoryUpdate, CategoryDetail, InfoProduct, AddProduct, DeleteProduct } from '../components/containerAdmin/homePageManager/category/index.js';
@@ -115,6 +115,7 @@ const AppRoutes = () => (
          <Route path="/admin/product-category-management/product-management/product-create" element={<PrivateRoute role="1" element={() => <AdminLayout><ProductCreate /></AdminLayout>} />} />
          <Route path="/admin/product-category-management/product-management/product-update/:id" element={<PrivateRoute role="1" element={() => <AdminLayout><ProductUpdate /></AdminLayout>} />} />
          <Route path="/admin/product-category-management/product-management/product-detail/:id" element={<PrivateRoute role="1" element={() => <AdminLayout><ProductDetail /></AdminLayout>} />} />
+         <Route path="/admin/product-category-management/product-management/product-images/:id" element={<PrivateRoute role="1" element={() => <AdminLayout><ProductImageManagePage /></AdminLayout>} />} />
          <Route path="/admin/product-category-management/product-management/info-category/:id" element={<PrivateRoute role="1" element={() => <AdminLayout><InfoCategory /></AdminLayout>} />} />
          <Route path="/admin/product-category-management/product-management/info-category/:id/add-category" element={<PrivateRoute role="1" element={() => <AdminLayout><AddCategory /></AdminLayout>} />} />
          <Route path="/admin/product-category-management/product-management/info-category/:id/delete-category" element={<PrivateRoute role="1" element={() => <AdminLayout><DeleteCategory /></AdminLayout>} />} />

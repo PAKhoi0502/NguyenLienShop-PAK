@@ -2,9 +2,6 @@ import cron from 'node-cron';
 import db from '../models/index.js';
 import { Op } from 'sequelize';
 import discountCodeService from '../services/discountCodeService.js';
-
-console.log('🤖 Voucher Cronjobs initialized');
-
 /**
  * 1. Auto expire user vouchers (chạy mỗi giờ)
  * Set status = 'expired' cho vouchers đã hết hạn

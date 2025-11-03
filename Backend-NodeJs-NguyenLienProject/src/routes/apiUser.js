@@ -3,6 +3,7 @@ import userController from '../controllers/userController.js';
 import authController from '../controllers/authController.js';
 import addressController from '../controllers/addressController.js';
 import discountCodeController from '../controllers/discountCodeController.js';
+import wishlistController from '../controllers/wishlistController.js';
 import { verifyToken, isRole } from '../middlewares/authMiddleware.js';
 import upload from '../middlewares/uploadMiddleware.js';
 import validateBodyFields from '../middlewares/validateBodyFields.js';
@@ -60,5 +61,13 @@ router.get('/my-vouchers', verifyToken, discountCodeController.handleGetMyVouche
 router.post('/claim-voucher', verifyToken, discountCodeController.handleClaimVoucher);
 router.post('/validate-voucher', verifyToken, discountCodeController.handleValidateVoucher);
 router.post('/apply-voucher', verifyToken, discountCodeController.handleApplyVoucher);
+
+// ❤️ Wishlist (USER)
+router.get('/wishlist', verifyToken, wishlistController.handleGetUserWishlist);
+router.get('/wishlist/count', verifyToken, wishlistController.handleGetWishlistCount);
+router.post('/wishlist/add', verifyToken, validateBodyFields(['productId']), wishlistController.handleAddToWishlist);
+router.delete('/wishlist/:id', verifyToken, wishlistController.handleRemoveFromWishlist);
+router.delete('/wishlist/product/:productId', verifyToken, wishlistController.handleRemoveFromWishlistByProductId);
+router.get('/wishlist/check/:productId', verifyToken, wishlistController.handleCheckProductInWishlist);
 
 export default router;

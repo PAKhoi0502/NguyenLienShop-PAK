@@ -5,19 +5,19 @@
 @import '../../styles/variables';
 @import '../../styles/mixins';
 
+// ==============================================
+// 📋 DASHBOARD WRAPPER
+// ==============================================
 .dashboard {
    min-height: 48vh;
-   // Xóa min-height để dashboard chỉ chiếm đúng kích thước nội dung
-   background-color: #f9fafb; // gray-50
+   background-color: #111827;
    padding: spacing(6);
 
    @include mobile-only {
       padding: spacing(4);
    }
 
-   // ==============================================
-   // 📋 DASHBOARD HEADER
-   // ==============================================
+   // HEADER
    &__header {
       margin-bottom: spacing(8);
       text-align: center;
@@ -28,10 +28,11 @@
    }
 
    &__title {
-      font-size: font-size(3xl);
+      text-align: center;
+      font-size: 2.5rem;
       font-weight: font-weight(bold);
-      color: #111827; // gray-900
-      margin: 0 0 spacing(2) 0;
+      color: #fff;
+      margin-bottom: spacing(2);
       line-height: line-height(tight);
 
       @include mobile-only {
@@ -40,8 +41,9 @@
    }
 
    &__subtitle {
+      text-align: center;
       font-size: font-size(lg);
-      color: #4b5563; // gray-600
+      color: #8d9196;
       margin: 0;
       line-height: line-height(relaxed);
 
@@ -50,15 +52,11 @@
       }
    }
 
-   // ==============================================
-   // 🃏 DASHBOARD CARDS GRID
-   // ==============================================
+   // GRID
    &__grid {
       display: grid;
       grid-template-columns: 1fr;
       gap: spacing(6);
-      // Xóa margin-bottom để không tạo thêm khoảng trống không cần thiết
-      // margin-bottom: spacing(8);
 
       @include mobile-first(md) {
          grid-template-columns: repeat(2, 1fr);
@@ -76,19 +74,42 @@
 .dashboard-card {
    @include card-base;
    @include card-hover;
+
    text-decoration: none;
    color: inherit;
    display: block;
    transition: all 0.3s ease;
    position: relative;
    overflow: hidden;
+   background-color: #1f2937; // gray-800
+   border-color: #374151; // gray-700
 
+   // ✨ Hover animation
    &:hover {
-      transform: translateY(-2px);
-      box-shadow: shadow(lg);
-      text-decoration: none;
+      border-color: #3b82f6;
+      border-radius: border-radius(lg);
+      animation: pulse-border 1s infinite;
+      transform: translateY(-3px);
    }
 
+   // 🔁 Pulse animation
+   @keyframes pulse-border {
+      0% {
+         box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.5), 0 0 10px rgba(139, 92, 246, 0.3);
+      }
+
+      70% {
+         box-shadow: 0 0 0 8px rgba(59, 130, 246, 0), 0 0 30px rgba(139, 92, 246, 0);
+      }
+
+      100% {
+         box-shadow: 0 0 0 0 rgba(59, 130, 246, 0), 0 0 10px rgba(139, 92, 246, 0);
+      }
+   }
+
+   // ===============================
+   // 📦 CARD CONTENT
+   // ===============================
    &__content {
       @include card-padding(lg);
       position: relative;
@@ -97,31 +118,19 @@
       display: flex;
       flex-direction: column;
 
-      // Color variants
-      &.dashboard-card--blue {
-         border-left: 4px solid #3b82f6; // primary-500
-
-         .dashboard-card__icon-wrapper {
-            background-color: #dbeafe; // primary-100
-            color: #2563eb; // primary-600
-         }
-      }
-
-      &.dashboard-card--green {
-         border-left: 4px solid #10b981; // success-500
-
-         .dashboard-card__icon-wrapper {
-            background-color: #d1fae5; // success-100
-            color: #059669; // success-600
-         }
-      }
-
+      // 🎨 Color variants
+      &.dashboard-card--blue,
+      &.dashboard-card--green,
       &.dashboard-card--purple {
-         border-left: 4px solid #8b5cf6;
+         border-left: 4px solid #647caf;
+
+         .dashboard-card:hover & {
+            border-left-color: #3b82f6; // Màu khi hover (xanh hơn)
+         }
 
          .dashboard-card__icon-wrapper {
-            background-color: #f3e8ff;
-            color: #8b5cf6;
+            background-color: #dbeafe;
+            color: #2563eb;
          }
       }
    }
@@ -133,34 +142,44 @@
    }
 
    &__icon-wrapper {
-      width: 48px;
-      height: 48px;
+      width: 58px;
+      height: 58px;
       @include flex-center;
       border-radius: border-radius(lg);
       transition: transition(transform);
 
       .dashboard-card:hover & {
-         transform: scale(1.1);
+         transform: scale(1.1) rotate(5deg);
       }
    }
 
    &__icon {
-      width: 24px;
-      height: 24px;
+      width: 44px;
+      height: 44px;
       stroke-width: 1.5;
    }
 
    &__title {
-      font-size: font-size(xl);
-      font-weight: font-weight(semibold);
-      color: #111827; // gray-900
-      margin: spacing(3) 0 0 0;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: transparent;
+      background: linear-gradient(to right, #7dabf6 50%, #fff 50%);
+      background-size: 200% 100%;
+      background-position: right bottom;
+      -webkit-background-clip: text;
+      background-clip: text;
+      transition: background-position 0.6s ease;
+      margin-top: spacing(3);
       line-height: line-height(tight);
+
+      .dashboard-card:hover & {
+         background-position: left bottom;
+      }
    }
 
    &__description {
       font-size: font-size(sm);
-      color: #4b5563; // gray-600
+      color: #d1d5db;
       line-height: line-height(relaxed);
       margin: 0;
       flex-grow: 1;
@@ -172,11 +191,11 @@
       right: spacing(6);
       width: 20px;
       height: 20px;
-      color: #9ca3af; // gray-400
+      color: #9ca3af;
       transition: transition(all);
 
       .dashboard-card:hover & {
-         color: #3b82f6; // primary-500
+         color: #3b82f6;
          transform: translateX(4px);
       }
 
@@ -188,7 +207,7 @@
 }
 
 // ==============================================
-//  RESPONSIVE ADJUSTMENTS
+// 📱 RESPONSIVE ADJUSTMENTS
 // ==============================================
 @include mobile-only {
    .dashboard {
@@ -212,48 +231,7 @@
       }
    }
 
-   .stat-card {
-      &__value {
-         font-size: font-size(2xl);
-      }
-   }
-}
-
-// ==============================================
-// 🌙 DARK MODE SUPPORT (Future-ready)
-// ==============================================
-@media (prefers-color-scheme: dark) {
-   .dashboard {
-      background-color: #111827; // gray-900
-
-      &__title {
-         color: #ffffff; // white
-      }
-
-      &__subtitle {
-         color: #d1d5db; // gray-300
-      }
-   }
-
-   .dashboard-card {
-      background-color: #1f2937; // gray-800
-      border-color: #374151; // gray-700
-
-      &__title {
-         color: #ffffff; // white
-      }
-
-      &__description {
-         color: #d1d5db; // gray-300
-      }
-   }
-
-   .stat-card {
-      background-color: #1f2937; // gray-800
-      border-color: #374151; // gray-700
-
-      &__label {
-         color: #d1d5db; // gray-300
-      }
+   .stat-card__value {
+      font-size: font-size(2xl);
    }
 }

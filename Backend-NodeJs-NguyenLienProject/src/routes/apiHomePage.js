@@ -2,6 +2,7 @@ import express from 'express';
 
 import bannerController from '../controllers/bannerController.js';
 import productController from '../controllers/productController.js';
+import productImageController from '../controllers/productImageController.js';
 import categoryController from '../controllers/categoryController.js';
 import announcementController from '../controllers/announcementController.js';
 import addressController from '../controllers/addressController.js';
@@ -43,6 +44,13 @@ router.post('/product-add-category', verifyToken, isRole(1), productController.h
 router.post('/product-delete-category', verifyToken, isRole(1), productController.handleDeleteCategoryForProduct); //delete category
 router.get('/get-category', verifyToken, isRole(1), productController.handleGetCategoriesByProductId); // info product
 router.get('/products-get-all', verifyToken, isRole(1), productController.handleGetAllProducts); //get all products to add category
+
+// Product Images
+router.get('/product-images', verifyToken, isRole(1), productImageController.handleGetImagesByProductId); // get images by productId
+router.post('/product-image-create', verifyToken, isRole(1), upload.single('image'), productImageController.handleCreateProductImage); // upload image
+router.put('/product-image-set-thumbnail', verifyToken, isRole(1), productImageController.handleSetThumbnail); // set thumbnail
+router.delete('/product-image-delete', verifyToken, isRole(1), productImageController.handleDeleteProductImage); // delete image
+router.put('/product-image-active', verifyToken, isRole(1), productImageController.handleUpdateImageActive); // update image active status
 
 // 📢 Announcement Management
 router.get('/announcement-management', verifyToken, isRole(1), announcementController.handleGetAnnouncements);

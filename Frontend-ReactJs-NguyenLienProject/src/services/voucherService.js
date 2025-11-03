@@ -344,11 +344,13 @@ export const applyVoucher = async (code, orderId) => {
  */
 export const getPublicVouchers = async () => {
     try {
+        // Axios interceptor đã trả về data trực tiếp, không cần .data
         const res = await axios.get('/api/public/vouchers');
-        return res.data;
+        // Interceptor trả về data object trực tiếp
+        return res;
     } catch (err) {
         console.error('getPublicVouchers error:', err);
-        const errorMessage = err?.response?.data?.errMessage || 'Lỗi khi tải danh sách voucher';
+        const errorMessage = err?.response?.data?.errMessage || err?.errorMessage || err?.message || 'Lỗi khi tải danh sách voucher';
         return { errCode: -1, errMessage: errorMessage };
     }
 };

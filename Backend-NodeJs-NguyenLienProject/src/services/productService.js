@@ -85,6 +85,14 @@ let getProductById = async (id) => {
                as: 'categories',
                through: { attributes: [] }, // Exclude junction table attributes
                attributes: ['id', 'nameCategory']
+            },
+            {
+               model: db.ProductImage,
+               as: 'images',
+               order: [
+                  ['isThumbnail', 'DESC'],
+                  ['createdAt', 'ASC']
+               ]
             }
          ]
       });

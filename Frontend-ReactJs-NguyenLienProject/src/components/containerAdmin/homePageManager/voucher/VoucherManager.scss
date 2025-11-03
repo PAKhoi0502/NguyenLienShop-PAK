@@ -9,7 +9,7 @@
 .voucher-manager-container {
     min-height: 100vh;
     padding: spacing(8) spacing(6);
-    background: linear-gradient(135deg, #f5f3ff 0%, color(white) 50%, #ede9fe 100%);
+    background: linear-gradient(135deg, #f5f3ff 0%, white 50%, #ede9fe 100%);
 
     @include mobile-only {
         padding: spacing(6) spacing(4);
@@ -24,7 +24,7 @@
         align-items: center;
         margin-bottom: spacing(8);
         padding: spacing(6);
-        background: linear-gradient(135deg, color(white) 0%, #f5f3ff 100%);
+        background: linear-gradient(135deg, white 0%, #f5f3ff 100%);
         border-radius: border-radius(xl);
         box-shadow: shadow(lg);
         border: 1px solid #c4b5fd;
@@ -43,7 +43,6 @@
             position: relative;
 
             &::before {
-                content: '🎟️ ';
                 margin-right: spacing(2);
                 font-size: font-size(2xl);
             }
@@ -56,7 +55,7 @@
         .btn-create-voucher {
             @include button-base;
             background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-            color: color(white);
+            color: white;
             border: 1px solid #7c3aed;
             padding: spacing(3) spacing(6);
             font-size: font-size(base);
@@ -89,7 +88,7 @@
     // ==============================================
     .voucher-filters {
         padding: spacing(4);
-        background: color(white);
+        background: white;
         border-radius: border-radius(lg);
         box-shadow: shadow(sm);
         border: 1px solid #c4b5fd;
@@ -147,7 +146,7 @@
                 padding: spacing(2) spacing(3);
                 border: 2px solid #c4b5fd;
                 border-radius: border-radius(md);
-                background: color(white);
+                background: white;
                 color: #374151;
                 font-size: font-size(sm);
                 transition: all 0.3s ease;
@@ -174,7 +173,7 @@
             border: 2px solid #c4b5fd;
             border-radius: border-radius(lg);
             font-size: font-size(base);
-            background: color(white);
+            background: white;
             color: #374151;
             transition: all 0.3s ease;
 
@@ -201,7 +200,7 @@
     // 📊 TABLE STYLING
     // ==============================================
     .voucher-table-wrapper {
-        background: color(white);
+        background: white;
         border-radius: border-radius(xl);
         box-shadow: shadow(lg);
         overflow: hidden;
@@ -224,7 +223,7 @@
                 padding: spacing(4);
                 text-align: center;
                 font-weight: font-weight(bold);
-                color: color(white);
+                color: white;
                 border-bottom: 2px solid #7c3aed;
                 position: sticky;
                 top: 0;
@@ -318,7 +317,7 @@
         // Detail button (Blue)
         &.btn-detail {
             background: linear-gradient(135deg, #60a5fa, #3b82f6);
-            color: color(white);
+            color: white;
             border: 1px solid #2563eb;
 
             &:hover {
@@ -330,7 +329,7 @@
         // Update button (Green)
         &.btn-update {
             background: linear-gradient(135deg, #34d399, #10b981);
-            color: color(white);
+            color: white;
             border: 1px solid #059669;
 
             &:hover {
@@ -342,7 +341,7 @@
         // Delete button (Red)
         &.btn-delete {
             background: linear-gradient(135deg, #f87171, #ef4444);
-            color: color(white);
+            color: white;
             border: 1px solid #dc2626;
 
             &:hover {
@@ -354,7 +353,7 @@
         // Activate button (Purple)
         &.btn-activate {
             background: linear-gradient(135deg, #c084fc, #a855f7);
-            color: color(white);
+            color: white;
             border: 1px solid #9333ea;
 
             &:hover {
@@ -366,7 +365,7 @@
         // Deactivate button (Gray)
         &.btn-deactivate {
             background: linear-gradient(135deg, #9ca3af, #6b7280);
-            color: color(white);
+            color: white;
             border: 1px solid #4b5563;
 
             &:hover {
@@ -380,15 +379,15 @@
     // 🎟️ VOUCHER CODE LINK
     // ==============================================
     .voucher-code-link {
+        color: white !important;
+        text-decoration: none !important;
         cursor: pointer;
-        color: #3b82f6;
-        text-decoration: underline;
         font-weight: bold;
-        font-family: monospace;
-        transition: all 0.3s ease;
+        font-size: 1.1rem;
 
         &:hover {
-            color: #1d4ed8;
+            transition: all 0.3s ease;
+            color: #ad8aff !important;
         }
     }
 

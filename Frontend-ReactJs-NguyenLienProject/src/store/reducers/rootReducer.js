@@ -6,6 +6,7 @@ import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 
 import appReducer from './appReducer';
 import adminReducer from './adminReducer';
+import wishlistReducer from './wishlistReducer';
 // import userReducer from './userReducer'; // Xóa nếu không dùng
 
 const persistCommonConfig = {
@@ -22,6 +23,7 @@ const adminPersistConfig = {
 const rootReducer = combineReducers({
     admin: persistReducer(adminPersistConfig, adminReducer),
     app: appReducer,
+    wishlist: wishlistReducer,
     // user: userReducer, // Xóa nếu không dùng
 });
 

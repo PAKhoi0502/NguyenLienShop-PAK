@@ -15,7 +15,6 @@ const VoucherManager = () => {
     const [search, setSearch] = useState('');
     const [loading, setLoading] = useState(true);
     const [filterStatus, setFilterStatus] = useState('all');
-    const [filterType, setFilterType] = useState('all');
     const [filterApplication, setFilterApplication] = useState('all');
     const navigate = useNavigate();
     const intl = useIntl();
@@ -68,37 +67,25 @@ const VoucherManager = () => {
         const filtered = vouchers.filter(voucher => {
             const matchSearch =
                 (voucher.code || '').toLowerCase().includes(keyword) ||
-                String(voucher.id).includes(keyword) ||
-                (voucher.discountType || '').toLowerCase().includes(keyword);
+                String(voucher.id).includes(keyword);
 
-            const matchType =
-                filterType === 'all' ||
-                voucher.discountType === filterType;
-
-            return matchSearch && matchType;
+            return matchSearch;
         });
 
         setFilteredVouchers(filtered);
-    }, [search, vouchers, filterType]);
+    }, [search, vouchers]);
 
     const handleDetailClick = (voucher) => {
         navigate(`/admin/homepage-management/voucher-management/voucher-detail/${voucher.id}`);
     };
 
-    const handleUpdateClick = (voucher) => {
-        navigate(`/admin/homepage-management/voucher-management/voucher-update/${voucher.id}`);
-    };
-
-    const formatDate = (dateString) => {
-        if (!dateString) return 'Không giới hạn';
-        return new Date(dateString).toLocaleDateString('vi-VN');
-    };
-
-    const formatDiscountValue = (voucher) => {
-        if (voucher.discountType === 'percent') {
-            return `${voucher.discountValue}%`;
+    const handleUpdateClick = (clickedVoucher) => {
+        const realVoucher = vouchers.find(v => v.id === clickedVoucher.id);
+        if (realVoucher?.isActive) {
+            showToast("error", 'Vui lòng tắt voucher trước khi cập nhật');
+            return;
         }
-        return `${voucher.discountValue.toLocaleString('vi-VN')}đ`;
+        navigate(`/admin/homepage-management/voucher-management/voucher-update/${clickedVoucher.id}`);
     };
 
     const getApplicationTypeLabel = (type) => {
@@ -106,18 +93,6 @@ const VoucherManager = () => {
             'order': 'Toàn đơn',
             'product': 'Sản phẩm',
             'shipping': 'Vận chuyển'
-        };
-        return labels[type] || type;
-    };
-
-    const getConditionTypeLabel = (type) => {
-        const labels = {
-            'none': 'Không',
-            'first_order': 'Đơn đầu',
-            'location': 'Địa điểm',
-            'user_segment': 'Phân khúc KH',
-            'specific_category': 'Danh mục',
-            'min_items': 'Số lượng tối thiểu'
         };
         return labels[type] || type;
     };
@@ -162,15 +137,6 @@ const VoucherManager = () => {
                     </div>
 
                     <div className="filter-group">
-                        <label>Loại giảm giá:</label>
-                        <select value={filterType} onChange={(e) => setFilterType(e.target.value)}>
-                            <option value="all">Tất cả</option>
-                            <option value="percent">Phần trăm (%)</option>
-                            <option value="fixed">Số tiền cố định</option>
-                        </select>
-                    </div>
-
-                    <div className="filter-group">
                         <label>Áp dụng cho:</label>
                         <select value={filterApplication} onChange={(e) => setFilterApplication(e.target.value)}>
                             <option value="all">Tất cả</option>
@@ -200,30 +166,26 @@ const VoucherManager = () => {
                     <table className="voucher-table">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Mã voucher</th>
-                                <th>Loại giảm</th>
-                                <th>Giá trị</th>
-                                <th>Áp dụng</th>
-                                <th>Điều kiện</th>
-                                <th>Hạn sử dụng</th>
-                                <th>Đã claim/Giới hạn</th>
-                                <th>Công khai</th>
-                                <th>Trạng thái</th>
-                                <th>Hành động</th>
+                                <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }}>ID</th>
+                                <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }}>Mã voucher</th>
+                                <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }}>Áp dụng</th>
+                                <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }}>Đã claim/Giới hạn</th>
+                                <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }}>Công khai</th>
+                                <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }}>Trạng thái</th>
+                                <th style={{ fontSize: '1.1rem', fontWeight: 'bold', fontFamily: 'monospace' }}>Hành động</th>
                             </tr>
                         </thead>
                         <tbody>
                             {filteredVouchers.length === 0 ? (
                                 <tr>
-                                    <td colSpan={11} style={{ textAlign: 'center', color: '#888' }}>
+                                    <td colSpan={7} style={{ textAlign: 'center', color: '#888' }}>
                                         <FormattedMessage id="voucher.manager.empty_body" defaultMessage="Không có voucher nào phù hợp." />
                                     </td>
                                 </tr>
                             ) : (
                                 filteredVouchers.map((voucher) => (
                                     <tr key={voucher.id}>
-                                        <td>{voucher.id}</td>
+                                        <td style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>{voucher.id}</td>
                                         <td>
                                             <span
                                                 className="voucher-code-link"
@@ -233,25 +195,14 @@ const VoucherManager = () => {
                                                     color: '#2563eb',
                                                     textDecoration: 'underline',
                                                     fontWeight: 'bold',
-                                                    fontFamily: 'monospace'
+                                                    fontFamily: 'monospace',
+                                                    fontSize: '1.1rem'
                                                 }}
                                             >
                                                 {voucher.code}
                                             </span>
                                         </td>
-                                        <td>
-                                            {voucher.discountType === 'percent' ? (
-                                                <span style={{ color: '#10b981' }}>Phần trăm</span>
-                                            ) : (
-                                                <span style={{ color: '#f59e0b' }}>Cố định</span>
-                                            )}
-                                        </td>
-                                        <td style={{ fontWeight: 'bold', color: '#ef4444' }}>
-                                            {formatDiscountValue(voucher)}
-                                        </td>
                                         <td>{getApplicationTypeLabel(voucher.applicationType)}</td>
-                                        <td>{getConditionTypeLabel(voucher.conditionType)}</td>
-                                        <td>{formatDate(voucher.expiryDate)}</td>
                                         <td>
                                             <span style={{
                                                 color: voucher.usedCount >= voucher.usageLimit ? '#ef4444' : '#10b981'
@@ -261,18 +212,18 @@ const VoucherManager = () => {
                                         </td>
                                         <td>
                                             {voucher.isPublic ? (
-                                                <span style={{ color: '#10b981' }}>✓ Có</span>
+                                                <span style={{ color: '#10b981', fontSize: '1.1rem', fontWeight: 'bold' }}>✓ Có</span>
                                             ) : (
-                                                <span style={{ color: '#6b7280' }}>✗ Không</span>
+                                                <span style={{ color: '#6b7280', fontSize: '1.1rem', fontWeight: 'bold' }}>✗ Không</span>
                                             )}
                                         </td>
                                         <td>
                                             {voucher.isActive ? (
-                                                <span style={{ color: '#10b981', fontWeight: 'bold' }}>
+                                                <span style={{ color: '#10b981', fontSize: '1.1rem', fontWeight: 'bold' }}>
                                                     ✅ Hoạt động
                                                 </span>
                                             ) : (
-                                                <span style={{ color: '#ef4444' }}>
+                                                <span style={{ color: '#ef4444', fontSize: '1.1rem', fontWeight: 'bold' }}>
                                                     ❌ Đã tắt
                                                 </span>
                                             )}

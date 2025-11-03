@@ -2332,18 +2332,18 @@
     "dashboard": {
         "title": "Bảng điều khiển",
         "subtitle": "Chào mừng bạn đến với bảng điều khiển quản trị",
-        "account_management": "Quản lý tài khoản",
+        "account_management": "1. Quản lý tài khoản",
         "account_description": "Quản lý người dùng và quản trị viên",
-        "product_management": "Quản lý sản phẩm",
+        "product_management": "2. Quản lý sản phẩm",
         "product_description": "Quản lý sản phẩm và danh mục",
-        "homepage_management": "Quản lý trang chủ",
+        "homepage_management": "3. Quản lý trang chủ",
         "homepage_description": "Quản lý banner và nội dung trang chủ",
         "account_dashboard": {
             "title": "Quản lý tài khoản",
             "subtitle": "Quản lý tài khoản quản trị viên và người dùng hệ thống",
-            "admin_management": "Quản lý tài khoản quản trị viên",
+            "admin_management": "1. Quản lý tài khoản quản trị viên",
             "admin_description": "Tạo, chỉnh sửa và quản lý tài khoản admin",
-            "user_management": "Quản lý tài khoản người dùng",
+            "user_management": "2. Quản lý tài khoản người dùng",
             "user_description": "Tạo, chỉnh sửa và quản lý tài khoản người dùng",
             "total_accounts": "Tổng tài khoản",
             "total": "Tổng",
@@ -2357,11 +2357,11 @@
             "total_products": "Tổng sản phẩm",
             "total_categories": "Tổng danh mục",
             "product_management": {
-                "title": "Quản lý sản phẩm",
+                "title": "1. Quản lý sản phẩm",
                 "description": "Tạo, chỉnh sửa và quản lý thông tin sản phẩm"
             },
             "category_management": {
-                "title": "Quản lý danh mục sản phẩm",
+                "title": "2. Quản lý danh mục sản phẩm",
                 "description": "Tạo, chỉnh sửa và quản lý danh mục sản phẩm"
             },
             "stats": {
@@ -2373,9 +2373,11 @@
             }
         },
         "homepage_dashboard": {
+            "voucher_management": "3. Quản lý voucher",
+            "voucher_description": "Tạo, chỉnh sửa và quản lý voucher hệ thống",
             "total_announcements": "Tổng thông báo",
             "announcement_description": "Tạo, chỉnh sửa và quản lý thông báo hệ thống",
-            "announcement_management": "Quản lý thông báo",
+            "announcement_management": "2. Quản lý thông báo",
             "title": "Quản lý trang chủ",
             "subtitle": "Quản lý banner và nội dung trang chủ",
             "total_banners": "Tổng banner",
@@ -2384,9 +2386,9 @@
             "active_products": "Sản phẩm đang hoạt động",
             "total_categories": "Tổng danh mục",
             "active_categories": "Danh mục đang hoạt động",
-            "banner_management": "Quản lý banner",
+            "banner_management": "1. Quản lý banner",
             "banner_description": "Quản lý banner hiển thị trên trang chủ",
-            "homepage_settings": "Cài đặt trang chủ",
+            "homepage_settings": "4. Cài đặt trang chủ",
             "homepage_settings_description": "Cấu hình các thiết lập chung cho trang chủ",
             "stats": {
                 "total": "Tổng",
@@ -2483,6 +2485,56 @@
         },
         "confirm": {
             "delete": "Bạn có chắc chắn muốn xóa địa chỉ này?"
+        }
+    },
+    "wishlist": {
+        "title": "Danh sách yêu thích",
+        "empty": "Danh sách yêu thích trống",
+        "login_required": "Vui lòng đăng nhập để xem danh sách yêu thích",
+        "loading": "Đang tải...",
+        "view_all": "Xem tất cả",
+        "removed": "Đã xóa",
+        "removed_message": "Đã xóa sản phẩm khỏi danh sách yêu thích",
+        "error": "Lỗi",
+        "added": "Đã thêm",
+        "added_message": "Đã thêm sản phẩm vào danh sách yêu thích",
+        "already_in_wishlist": "Sản phẩm đã có trong danh sách yêu thích"
+    },
+    "voucher": {
+        "public": {
+            "title": "Voucher khuyến mãi",
+            "subtitle": "Lưu voucher ngay để nhận ưu đãi hấp dẫn",
+            "loading": "Đang tải voucher...",
+            "load_error": "Không thể tải danh sách voucher",
+            "load_error_title": "Lỗi tải voucher",
+            "empty": "Hiện tại không có voucher nào",
+            "type_order": "Giảm toàn đơn",
+            "type_product": "Giảm sản phẩm",
+            "type_shipping": "Miễn phí ship",
+            "no_expiry": "Không giới hạn",
+            "min_order": "Đơn tối thiểu:",
+            "min_order_short": "Cho đơn từ",
+            "max_discount": "Giảm tối đa:",
+            "expiry": "HSD:",
+            "expiry_label": "HSD:",
+            "condition_label": "Điều kiện:",
+            "condition": {
+                "none": "Không có điều kiện",
+                "first_order": "Chỉ áp dụng cho đơn đầu tiên",
+                "location": "Áp dụng theo khu vực",
+                "category": "Áp dụng cho sản phẩm cụ thể"
+            },
+            "expired": "Đã hết hạn",
+            "unavailable": "Đã hết lượt",
+            "claimed": "Đã lưu",
+            "claim": "Lưu voucher",
+            "claiming": "Đang lưu...",
+            "claim_success": "Lưu voucher thành công!",
+            "claim_success_title": "Thành công",
+            "claim_error": "Không thể lưu voucher",
+            "claim_error_title": "Lỗi",
+            "login_required": "Vui lòng đăng nhập để lưu voucher",
+            "login_required_title": "Cần đăng nhập"
         }
     }
 }

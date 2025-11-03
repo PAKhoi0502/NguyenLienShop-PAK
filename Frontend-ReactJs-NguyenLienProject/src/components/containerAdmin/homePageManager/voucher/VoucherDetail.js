@@ -135,15 +135,15 @@ const VoucherDetail = () => {
                     <div className="detail-grid">
                         {/* Thông tin giảm giá */}
                         <div className="detail-section">
-                            <h3 className="section-title">💰 Thông tin giảm giá</h3>
+                            <h3 className="section-title">Thông tin giảm giá</h3>
 
                             <div className="detail-item">
                                 <span className="label">Loại giảm giá:</span>
                                 <span className="value">
                                     {voucher.discountType === 'percent' ? (
-                                        <span style={{ color: '#10b981' }}>📊 Phần trăm (%)</span>
+                                        <span style={{ color: '#10b981' }}>Phần trăm (%)</span>
                                     ) : (
-                                        <span style={{ color: '#f59e0b' }}>💵 Số tiền cố định</span>
+                                        <span style={{ color: '#f59e0b' }}>Số tiền cố định</span>
                                     )}
                                 </span>
                             </div>
@@ -178,7 +178,7 @@ const VoucherDetail = () => {
 
                         {/* Phạm vi áp dụng */}
                         <div className="detail-section">
-                            <h3 className="section-title">🎯 Phạm vi áp dụng</h3>
+                            <h3 className="section-title">Phạm vi áp dụng</h3>
 
                             <div className="detail-item">
                                 <span className="label">Áp dụng cho:</span>
@@ -214,7 +214,7 @@ const VoucherDetail = () => {
 
                         {/* Thông tin sử dụng */}
                         <div className="detail-section">
-                            <h3 className="section-title">📊 Thông tin sử dụng</h3>
+                            <h3 className="section-title">Thông tin sử dụng</h3>
 
                             <div className="detail-item">
                                 <span className="label">Số lượng đã claim:</span>
@@ -269,7 +269,7 @@ const VoucherDetail = () => {
 
                         {/* Thời gian */}
                         <div className="detail-section">
-                            <h3 className="section-title">🕒 Thời gian</h3>
+                            <h3 className="section-title">Thời gian</h3>
 
                             <div className="detail-item">
                                 <span className="label">Ngày tạo:</span>

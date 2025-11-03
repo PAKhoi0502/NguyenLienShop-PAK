@@ -85,7 +85,12 @@ const ProductCreate = () => {
          const res = await createProduct(data);
          if (res && res.errCode === 0) {
             showToast('success', intl.formatMessage({ id: 'body_admin.product_management.create.success', defaultMessage: 'Tạo sản phẩm thành công' }));
-            navigate('/admin/product-category-management/product-management');
+            // Navigate to product detail page if product ID is available, otherwise go to list
+            if (res.product?.id) {
+               navigate(`/admin/product-category-management/product-management/product-detail/${res.product.id}`);
+            } else {
+               navigate('/admin/product-category-management/product-management');
+            }
          } else if (res && res.errCode === 401) {
             // Xử lý lỗi 401 - không có quyền
             showToast('error', res.errMessage || intl.formatMessage({ id: 'body_admin.product_management.create.unauthorized', defaultMessage: 'Không có quyền tạo sản phẩm' }));

@@ -156,6 +156,10 @@ $line-height: (
    @return map-get($font-weight, $weight);
 }
 
+@function line-height($size) {
+   @return map-get($line-height, $size);
+}
+
 // ==============================================
 // 📐 BORDER RADIUS
 // ==============================================

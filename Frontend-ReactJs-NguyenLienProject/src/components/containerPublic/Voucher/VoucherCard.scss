@@ -1,0 +1,70 @@
+.coupon {
+    display: flex;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.coupon-left {
+    flex: 0 0 180px;
+    background: #000000;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.coupon-left::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-image: linear-gradient(to bottom,
+            transparent 10%,
+            #fff 10%,
+            #fff 50%,
+            transparent 50%,
+            transparent 100%);
+    background-size: 4px 8px;
+}
+
+.coupon-con {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #ffffff;
+}
+
+.discount-value {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.btn-claim {
+    align-self: flex-end;
+    background: #4caf50;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+
+    &:hover {
+        background: #388e3c;
+    }
+}
+
+.voucher-code-text,
+.discount-value,
+.discount-type {
+    text-align: center;
+    font-size: 1rem;
+}

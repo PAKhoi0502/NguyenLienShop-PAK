@@ -698,6 +698,12 @@ const ProductDetail = () => {
                      <h3 className="images"><FormattedMessage id="body_admin.product_management.detail_product.images" defaultMessage="Hình ảnh" /></h3>
 
                      <div className="detail-item">
+                        <button
+                           className="btn-manage-images"
+                           onClick={() => navigate(`/admin/product-category-management/product-management/product-images/${product.id}`)}
+                        >
+                           <FormattedMessage id="body_admin.product_management.detail_product.manage_images" defaultMessage="Quản lý hình ảnh" />
+                        </button>
                      </div>
                   </div>
 

@@ -2,6 +2,7 @@ export { default as ProductManager } from './ProductManager';
 export { default as ProductCreate } from './ProductCreate';
 export { default as ProductUpdate } from './ProductUpdate';
 export { default as ProductDetail } from './ProductDetail';
+export { default as ProductImageManagePage } from './ProductImageManagePage';
 export { default as AddCategory } from './AddCategory';
 export { default as InfoCategory } from './InfoCategory';
 export { default as DeleteCategory } from './DeleteCategory';

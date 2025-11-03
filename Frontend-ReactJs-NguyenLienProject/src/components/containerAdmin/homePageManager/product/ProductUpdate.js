@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { getProductById, updateProduct } from '../../../../services/productService.js';
 import CustomToast from '../../../../components/CustomToast';
 import HintBox from '../../../../components/HintBox';
+import ProductImageManager from './ProductImageManager';
 import './ProductUpdate.scss';
 
 const ProductUpdate = () => {
@@ -374,6 +375,10 @@ const ProductUpdate = () => {
                      checked={isBestSeller}
                      onChange={(e) => setIsBestSeller(e.target.checked)}
                   />
+               </div>
+               <div className="form-group">
+                  <label><FormattedMessage id="body_admin.product_management.update_product.images" defaultMessage="Hình ảnh sản phẩm:" /></label>
+                  <ProductImageManager productId={id} mode="edit" />
                </div>
                <div className="form-actions">
                   <button className="btn-submit" type="submit" disabled={loading}>

@@ -54,8 +54,7 @@ const AccountDashboard = () => {
          description: 'Tạo, chỉnh sửa và quản lý tài khoản admin',
          icon: 'shield',
          link: '/admin/account-management/admin-management',
-         color: 'red',
-         stats: { total: accountStats.totalAdmins, active: 1 } // active để số mẫu
+         color: 'blue'
       },
       {
          id: 'user-management',
@@ -65,20 +64,19 @@ const AccountDashboard = () => {
          description: 'Tạo, chỉnh sửa và quản lý tài khoản người dùng',
          icon: 'users',
          link: '/admin/account-management/user-management',
-         color: 'blue',
-         stats: { total: accountStats.totalUsers, active: 1 } // active để số mẫu
+         color: 'blue'
       }
    ];
 
    const renderIcon = (iconName) => {
       const icons = {
          shield: (
-            <svg className="option-card__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="dashboard-card__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
             </svg>
          ),
          users: (
-            <svg className="option-card__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="dashboard-card__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
             </svg>
          )
@@ -107,36 +105,21 @@ const AccountDashboard = () => {
 
          <div className="account-dashboard__content">
             {accountManagementOptions.map(option => (
-               <Link key={option.id} to={option.link} className="option-card">
-                  <div className={`option-card__container option-card--${option.color}`}>
-                     <div className="option-card__header">
-                        <div className="option-card__icon-wrapper">
+               <Link key={option.id} to={option.link} className="dashboard-card">
+                  <div className={`dashboard-card__content dashboard-card--${option.color}`}>
+                     <div className="dashboard-card__header">
+                        <div className="dashboard-card__icon-wrapper">
                            {renderIcon(option.icon)}
                         </div>
-                        <div className="option-card__stats">
-                           <div className="stat-item">
-                              <span className="stat-number">{option.stats.total}</span>
-                              <span className="stat-label"><FormattedMessage id="dashboard.account_dashboard.total" defaultMessage="Tổng" /></span>
-                           </div>
-                           <div className="stat-item">
-                              <span className="stat-number">{option.stats.active}</span>
-                              <span className="stat-label"><FormattedMessage id="dashboard.account_dashboard.active" defaultMessage="Hoạt động" /></span>
-                           </div>
-                        </div>
-                     </div>
-
-                     <div className="option-card__content">
-                        <h3 className="option-card__title">
+                        <h3 className="dashboard-card__title">
                            <FormattedMessage id={option.titleId} defaultMessage={option.title} />
                         </h3>
-                        <p className="option-card__description">
-                           <FormattedMessage id={option.descriptionId} defaultMessage={option.description} />
-                        </p>
                      </div>
-
-                     <div className="option-card__action">
-                        <span className="action-text"><FormattedMessage id="dashboard.account_dashboard.manage" defaultMessage="Quản lý" /></span>
-                        <svg className="action-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                     <p className="dashboard-card__description">
+                        <FormattedMessage id={option.descriptionId} defaultMessage={option.description} />
+                     </p>
+                     <div className="dashboard-card__arrow">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
                      </div>

@@ -10,16 +10,22 @@ import CustomToast from '../../components/CustomToast';
 import { FormattedMessage } from 'react-intl';
 import Announcement from '../containerPublic/Announcement/Announcement';
 import LanguageSelect from "../../components/header/LanguageSelect";
+import WishlistDropdown from './WishlistDropdown';
+import { getWishlistCount } from '../../services/wishlistService';
+import { setWishlistCount, clearWishlist } from '../../store/reducers/wishlistReducer';
 
 
 const HeaderPublic = forwardRef((props, ref) => {
    const [showAccountMenu, setShowAccountMenu] = useState(false);
+   const [showWishlistDropdown, setShowWishlistDropdown] = useState(false);
    const language = useSelector((state) => state.app.language);
    const dispatch = useDispatch();
    const navigate = useNavigate();
    const isLoggedIn = useSelector((state) => state.admin.isLoggedIn);
    const adminInfo = useSelector((state) => state.admin.adminInfo);
+   const wishlistCount = useSelector((state) => state.wishlist.count);
    const accountRef = useRef();
+   const wishlistRef = useRef();
 
    // Get user initials for avatar
    const getInitials = (name) => {
@@ -37,10 +43,22 @@ const HeaderPublic = forwardRef((props, ref) => {
       return null;
    };
 
+   // Load wishlist count when user logs in
+   useEffect(() => {
+      if (isLoggedIn) {
+         loadWishlistCount();
+      } else {
+         dispatch(clearWishlist());
+      }
+   }, [isLoggedIn]);
+
    useEffect(() => {
       const handleClickOutside = (event) => {
          if (accountRef.current && !accountRef.current.contains(event.target)) {
             setShowAccountMenu(false);
+         }
+         if (wishlistRef.current && !wishlistRef.current.contains(event.target)) {
+            setShowWishlistDropdown(false);
          }
       };
       document.addEventListener('mousedown', handleClickOutside);
@@ -48,6 +66,18 @@ const HeaderPublic = forwardRef((props, ref) => {
          document.removeEventListener('mousedown', handleClickOutside);
       };
    }, []);
+
+   const loadWishlistCount = async () => {
+      if (!isLoggedIn) return;
+      try {
+         const result = await getWishlistCount();
+         if (result.errCode === 0) {
+            dispatch(setWishlistCount(result.count));
+         }
+      } catch (error) {
+         console.error('Error loading wishlist count:', error);
+      }
+   };
 
    return (
       <header ref={ref} className="main-header">
@@ -87,9 +117,28 @@ const HeaderPublic = forwardRef((props, ref) => {
             <div className="navbar-right">
                <FaSearch className="icon" />
 
-               <div className="wishlist-icon">
-                  <FaHeart className="icon" />
-                  <span className="wishlist-count">0</span>
+               <div className="wishlist-wrapper" ref={wishlistRef}>
+                  <div
+                     className="wishlist-icon"
+                     onClick={() => {
+                        if (isLoggedIn) {
+                           setShowWishlistDropdown(!showWishlistDropdown);
+                        } else {
+                           navigate('/login');
+                        }
+                     }}
+                  >
+                     <FaHeart className="icon" />
+                     {wishlistCount > 0 && (
+                        <span className="wishlist-count">{wishlistCount}</span>
+                     )}
+                  </div>
+                  {showWishlistDropdown && (
+                     <WishlistDropdown
+                        isOpen={showWishlistDropdown}
+                        onClose={() => setShowWishlistDropdown(false)}
+                     />
+                  )}
                </div>
 
                <div className="cart-icon">

@@ -68,8 +68,28 @@ const UserManager = () => {
                   className="btn-create"
                   onClick={() => navigate('/admin/account-management/user-management/user-register')}
                >
-                  + <FormattedMessage id="body_admin.account_management.user_manager.create_button" defaultMessage="Tạo người dùng" />
+                  <svg
+                     xmlns="http://www.w3.org/2000/svg"
+                     fill="none"
+                     viewBox="0 0 24 24"
+                     strokeWidth={1.5}
+                     stroke="currentColor"
+                     className="btn-icon"
+                  >
+                     <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z"
+                     />
+                  </svg>
+
+                  <FormattedMessage
+                     id="body_admin.account_management.user_manager.create_button"
+                     defaultMessage="Tạo người dùng"
+                  />
                </button>
+
+
             </div>
          </div>
          <div className="user-search-section">
@@ -153,6 +173,9 @@ const UserManager = () => {
                                  <div className="action-buttons">
                                     <button className="btn-action btn-user-detail" onClick={() => handleGetUserProfile(user)}>
                                        <FormattedMessage id="body_admin.account_management.user_manager.detail" defaultMessage="Chi tiết" />
+                                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="btn-icon-detail">
+                                          <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                                       </svg>
                                     </button>
                                     <button className="btn-action btn-update" onClick={() => handleUpdate(user)}>
                                        <FormattedMessage id="body_admin.account_management.user_manager.update" defaultMessage="Cập nhật" />

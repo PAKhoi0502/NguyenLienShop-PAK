@@ -32,6 +32,12 @@ const VoucherDelete = ({ voucher, onSuccess }) => {
             return;
         }
 
+        // Check if voucher is active - cannot delete active vouchers
+        if (voucher.isActive) {
+            showToast("error", 'Không thể xóa voucher đang hoạt động. Vui lòng tắt voucher trước khi xóa.');
+            return;
+        }
+
         // Bước 1: Xác nhận lần 1
         const confirmFirst = await Swal.fire({
             title: '⚠️ Xác nhận xóa Voucher',

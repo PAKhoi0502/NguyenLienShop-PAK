@@ -1282,6 +1282,23 @@
                 "products_images": "Product Images",
                 "product_statistics": "Product Statistics"
             },
+            "images": {
+                "title": "Product Images",
+                "loading": "Loading images...",
+                "no_images": "No images yet",
+                "add_image": "Add Image",
+                "add_first_image": "Add First Image",
+                "uploading": "Uploading...",
+                "thumbnail": "Main Image",
+                "set_thumbnail": "Set as Main Image",
+                "delete": "Delete",
+                "confirm_delete": "Are you sure you want to delete this image?",
+                "invalid_file_type": "Only image files are accepted (JPG, PNG, WebP)",
+                "file_too_large": "File size must not exceed 5MB",
+                "success_title": "Success",
+                "error_title": "Error",
+                "product_image": "Product Image"
+            },
             "update_product": {
                 "title": "Update Product",
                 "name": "Product Name",
@@ -1292,6 +1309,7 @@
                 "stock": "Stock",
                 "isNew": "New Product",
                 "isBestSeller": "Best Seller",
+                "images": "Product Images",
                 "submit": "Update Product",
                 "cancel": "Cancel",
                 "loading": "Updating...",
@@ -2275,18 +2293,18 @@
     "dashboard": {
         "title": "Dashboard",
         "subtitle": "Welcome to the admin dashboard",
-        "account_management": "Account Management",
+        "account_management": "1. Account Management",
         "account_description": "Manage users and administrators",
-        "product_management": "Product Management",
+        "product_management": "2. Product Management",
         "product_description": "Manage products and categories",
-        "homepage_management": "Homepage Management",
+        "homepage_management": "3. Homepage Management",
         "homepage_description": "Manage banners and homepage content",
         "account_dashboard": {
             "title": "Account Management",
             "subtitle": "Manage admin and system user accounts",
-            "admin_management": "Admin Account Management",
+            "admin_management": "1. Admin Account Management",
             "admin_description": "Create, edit, and manage admin accounts",
-            "user_management": "User Account Management",
+            "user_management": "2. User Account Management",
             "user_description": "Create, edit, and manage user accounts",
             "total_accounts": "Total Accounts",
             "total": "Total",
@@ -2300,11 +2318,11 @@
             "total_products": "Total Products",
             "total_categories": "Total Categories",
             "product_management": {
-                "title": "Product Management",
+                "title": "1. Product Management",
                 "description": "Create, edit, and manage product information"
             },
             "category_management": {
-                "title": "Product Category Management",
+                "title": "2. Product Category Management",
                 "description": "Create, edit, and manage product categories"
             },
             "stats": {
@@ -2316,10 +2334,12 @@
             }
         },
         "homepage_dashboard": {
+            "voucher_management": "3. Voucher Management",
+            "voucher_description": "Create, edit, and manage voucher system",
             "inactive_banners": "Inactive Banners",
             "total_announcements": "Total Announcements",
             "announcement_description": "Create, edit, and manage system announcements",
-            "announcement_management": "Announcement Management",
+            "announcement_management": "2. Announcement Management",
             "title": "Homepage Management",
             "subtitle": "Manage banners and homepage content",
             "total_banners": "Total Banners",
@@ -2328,9 +2348,9 @@
             "active_products": "Active Products",
             "total_categories": "Total Categories",
             "active_categories": "Active Categories",
-            "banner_management": "Banner Management",
+            "banner_management": "1. Banner Management",
             "banner_description": "Manage banners displayed on the homepage",
-            "homepage_settings": "Homepage Settings",
+            "homepage_settings": "4. Homepage Settings",
             "homepage_settings_description": "Configure common settings for the homepage",
             "stats": {
                 "total": "Total",
@@ -2427,6 +2447,52 @@
         },
         "confirm": {
             "delete": "Are you sure you want to delete this address?"
+        }
+    },
+    "wishlist": {
+        "title": "Wishlist",
+        "empty": "Your wishlist is empty",
+        "login_required": "Please login to view your wishlist",
+        "loading": "Loading...",
+        "view_all": "View All",
+        "removed": "Removed",
+        "removed_message": "Product removed from wishlist",
+        "error": "Error",
+        "added": "Added",
+        "added_message": "Product added to wishlist",
+        "already_in_wishlist": "Product already in wishlist"
+    },
+    "voucher": {
+        "public": {
+            "title": "Promotional Vouchers",
+            "subtitle": "Save vouchers now to get great deals",
+            "loading": "Loading vouchers...",
+            "load_error": "Unable to load vouchers",
+            "load_error_title": "Error loading vouchers",
+            "empty": "No vouchers available",
+            "type_order": "Order discount",
+            "type_product": "Product discount",
+            "type_shipping": "Free shipping",
+            "no_expiry": "No expiry",
+            "min_order": "Min order:",
+            "max_discount": "Max discount:",
+            "expiry": "Expiry:",
+            "condition": {
+                "first_order": "First order only",
+                "location": "Location specific",
+                "category": "Specific products"
+            },
+            "expired": "Expired",
+            "unavailable": "Unavailable",
+            "claimed": "Saved",
+            "claim": "Save voucher",
+            "claiming": "Saving...",
+            "claim_success": "Voucher saved successfully!",
+            "claim_success_title": "Success",
+            "claim_error": "Unable to save voucher",
+            "claim_error_title": "Error",
+            "login_required": "Please login to save voucher",
+            "login_required_title": "Login required"
         }
     }
 }

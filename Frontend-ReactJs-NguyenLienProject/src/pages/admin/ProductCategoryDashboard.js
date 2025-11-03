@@ -42,7 +42,7 @@ const ProductCategoryDashboard = () => {
       {
          id: 'product-management',
          titleId: 'dashboard.dashboard_product_category.product_management.title',
-         title: 'Quản lý sản phẩm',
+         title: '1. Quản lý sản phẩm',
          descriptionId: 'dashboard.dashboard_product_category.product_management.description',
          description: 'Tạo, chỉnh sửa và quản lý thông tin sản phẩm',
          icon: 'package',
@@ -53,7 +53,7 @@ const ProductCategoryDashboard = () => {
       {
          id: 'category-management',
          titleId: 'dashboard.dashboard_product_category.category_management.title',
-         title: 'Quản lý danh mục sản phẩm',
+         title: '2. Quản lý danh mục sản phẩm',
          descriptionId: 'dashboard.dashboard_product_category.category_management.description',
          description: 'Tạo, chỉnh sửa và quản lý danh mục sản phẩm',
          icon: 'folder',

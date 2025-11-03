@@ -490,6 +490,216 @@
                     border-color: #4b5563;
                 }
             }
+
+            // ==============================================
+            // 🎯 CONDITION VALUE GROUP - Dynamic Fields
+            // ==============================================
+            .condition-value-group {
+                background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+                border: 2px solid #0ea5e9;
+                border-radius: border-radius(lg);
+                padding: spacing(4);
+                margin-top: spacing(3);
+                position: relative;
+
+                &::before {
+                    content: '💡';
+                    position: absolute;
+                    top: -12px;
+                    left: 16px;
+                    background: white;
+                    padding: 0 spacing(2);
+                    font-size: 1.2em;
+                }
+
+                label {
+                    color: #0c4a6e;
+                    font-weight: font-weight(semibold);
+                }
+
+                input,
+                select {
+                    border-color: #0ea5e9;
+
+                    &:focus {
+                        border-color: #0284c7;
+                        box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15);
+                    }
+                }
+
+                small {
+                    color: #0369a1;
+                    font-style: italic;
+                }
+
+                // ==============================================
+                // 📁 CATEGORY SELECTOR & PROVINCE SELECTOR
+                // ==============================================
+                .category-selector,
+                .province-selector {
+                    margin-top: spacing(2);
+
+                    .category-header,
+                    .province-header {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-bottom: spacing(3);
+                        gap: spacing(2);
+
+                        small {
+                            flex: 1;
+                        }
+
+                        .btn-select-all {
+                            @include button-base;
+                            background: #0ea5e9;
+                            color: white;
+                            padding: spacing(2) spacing(3);
+                            font-size: font-size(sm);
+                            border-radius: border-radius(md);
+                            border: none;
+                            transition: all 0.2s;
+                            white-space: nowrap;
+
+                            &:hover {
+                                background: #0284c7;
+                                transform: translateY(-1px);
+                            }
+
+                            &:active {
+                                transform: translateY(0);
+                            }
+                        }
+
+                        @include mobile-only {
+                            flex-direction: column;
+                            align-items: flex-start;
+
+                            .btn-select-all {
+                                align-self: stretch;
+                            }
+                        }
+                    }
+
+                    .category-list,
+                    .province-list {
+                        max-height: 300px;
+                        overflow-y: auto;
+                        border: 1px solid #bae6fd;
+                        border-radius: border-radius(md);
+                        padding: spacing(2);
+                        background: white;
+
+                        &::-webkit-scrollbar {
+                            width: 8px;
+                        }
+
+                        &::-webkit-scrollbar-track {
+                            background: #f1f5f9;
+                            border-radius: 4px;
+                        }
+
+                        &::-webkit-scrollbar-thumb {
+                            background: #0ea5e9;
+                            border-radius: 4px;
+
+                            &:hover {
+                                background: #0284c7;
+                            }
+                        }
+
+                        .category-item,
+                        .province-item {
+                            display: flex;
+                            align-items: center;
+                            gap: spacing(2);
+                            padding: spacing(2) spacing(3);
+                            margin-bottom: spacing(2);
+                            background: #f8fafc;
+                            border: 2px solid transparent;
+                            border-radius: border-radius(md);
+                            cursor: pointer;
+                            transition: all 0.2s;
+
+                            &:hover {
+                                background: #e0f2fe;
+                                border-color: #0ea5e9;
+                            }
+
+                            &:last-child {
+                                margin-bottom: 0;
+                            }
+
+                            input[type="checkbox"] {
+                                width: 18px;
+                                height: 18px;
+                                cursor: pointer;
+                                accent-color: #0ea5e9;
+                            }
+
+                            .category-name,
+                            .province-name {
+                                flex: 1;
+                                font-weight: font-weight(medium);
+                                color: #0c4a6e;
+                            }
+
+                            .category-id,
+                            .province-code {
+                                font-size: font-size(sm);
+                                color: #64748b;
+                                background: #e2e8f0;
+                                padding: spacing(1) spacing(2);
+                                border-radius: border-radius(sm);
+                            }
+
+                            &:has(input:checked) {
+                                background: #dbeafe;
+                                border-color: #0284c7;
+
+                                .category-name,
+                                .province-name {
+                                    color: #0369a1;
+                                    font-weight: font-weight(semibold);
+                                }
+
+                                .category-id,
+                                .province-code {
+                                    background: #0ea5e9;
+                                    color: white;
+                                }
+                            }
+                        }
+                    }
+
+                    .selected-summary {
+                        margin-top: spacing(3);
+                        padding: spacing(3);
+                        background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+                        border-left: 4px solid #0ea5e9;
+                        border-radius: border-radius(md);
+                        color: #0c4a6e;
+
+                        strong {
+                            font-weight: font-weight(bold);
+                        }
+
+                        .selected-ids,
+                        .selected-names {
+                            display: block;
+                            margin-top: spacing(1);
+                            font-size: font-size(sm);
+                            color: #0369a1;
+                            font-family: monospace;
+                        }
+                    }
+                }
+
+                @include mobile-only {
+                    padding: spacing(3);
+                }
+            }
         }
     }
 }

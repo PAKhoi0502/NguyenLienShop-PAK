@@ -1,34 +1,38 @@
-// ==============================================
-// 👥 USER MANAGER STYLES
-// ==============================================
-
 @import '../../../styles/variables';
 @import '../../../styles/mixins';
 
+/* -----------------------------
+   Layout container
+   ----------------------------- */
 .user-manager-container {
    padding: spacing(6);
-   background: linear-gradient(135deg, #eff6ff 0%, color(white) 50%, #dbeafe 100%);
+   background: #111827;
    min-height: 100vh;
 
    @include mobile-only {
       padding: spacing(4);
    }
+
+   .user-fade-in {
+      @include fade-in;
+   }
 }
 
-// ==============================================
-// 🎯 USER MANAGER HEADER (Blue theme)
-// ==============================================
+/* -----------------------------
+   Top header area
+   ----------------------------- */
 .user-manager-top {
    @include flex-between;
    margin-bottom: spacing(6);
    padding: spacing(6);
-   background: linear-gradient(135deg, color(white) 0%, #eff6ff 100%);
+   background: #1f2937;
    border-radius: border-radius(xl);
    box-shadow: shadow(lg);
    border-left: 5px solid #2563eb;
+   border: 1px solid #374151;
    position: relative;
+   z-index: 1;
 
-   // Decorative background
    &::before {
       content: '';
       position: absolute;
@@ -45,23 +49,16 @@
       flex-direction: column;
       gap: spacing(4);
       padding: spacing(4);
+      align-items: center;
    }
 }
 
 .user-title {
-   font-size: font-size(2xl);
+   font-size: 2.5rem;
    font-weight: font-weight(bold);
-   color: #1e3a8a;
+   color: #6c789b;
    margin: 0;
-   position: relative;
    z-index: 1;
-
-   // User group icon effect
-   &::before {
-      content: '👥';
-      margin-right: spacing(2);
-      font-size: font-size(xl);
-   }
 
    @include mobile-only {
       font-size: font-size(xl);
@@ -69,10 +66,13 @@
    }
 }
 
+/* -----------------------------
+   Actions & create button
+   ----------------------------- */
 .user-actions {
    display: flex;
    gap: spacing(3);
-   position: relative;
+   align-items: center;
    z-index: 1;
 
    @include mobile-only {
@@ -81,9 +81,62 @@
    }
 }
 
-// ==============================================
-// 🔍 USER SEARCH SECTION (Container for search bar and hint)
-// =======================================================
+.btn-create {
+   padding: spacing(5) spacing(6);
+   background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(147, 197, 253, 0.05) 100%) !important;
+   border-radius: border-radius(lg);
+   box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.1), 0 2px 4px -1px rgba(59, 130, 246, 0.06);
+   border: 1px solid rgba(59, 130, 246, 0.3) !important;
+   position: relative;
+   overflow: hidden;
+   transition: all 0.3s ease;
+   color: #ffffff;
+   font-weight: font-weight(medium);
+   min-width: 220px;
+   font-size: 1.5rem;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   gap: 10px;
+
+   &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+      transition: left 0.5s ease;
+      z-index: 0;
+   }
+
+   &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.2), 0 4px 6px -2px rgba(59, 130, 246, 0.1);
+      border-color: rgba(59, 130, 246, 0.5) !important;
+      color: #2d5eff !important;
+
+      &::after {
+         left: 100%;
+      }
+   }
+
+   >* {
+      position: relative;
+      z-index: 1;
+   }
+
+   .btn-icon {
+      width: 30px;
+      height: 30px;
+      stroke-width: 2;
+   }
+}
+
+/* -----------------------------
+   Search area
+   ----------------------------- */
 .user-search-section {
    display: flex;
    align-items: center;
@@ -92,29 +145,29 @@
 
    @include mobile-only {
       flex-direction: column;
-      align-items: flex-start;
+      align-items: stretch;
       gap: spacing(2);
    }
 }
 
-// 🔍 USER SEARCH BAR (Blue theme)
-// ==============================================
 .user-search-bar {
    flex: 1;
 
    input {
       @include input-base;
+      color: #ffffff;
+      width: 100%;
       max-width: 400px;
-      background-color: color(white);
+      background-color: #213655;
       border-color: #93c5fd;
 
       &:focus {
          border-color: #2563eb;
-         box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+         box-shadow: 0 0 0 3px rgba(37, 100, 235, 0.548);
       }
 
       &::placeholder {
-         color: #9ca3af;
+         color: #ffffff4f;
       }
 
       @include mobile-only {
@@ -123,38 +176,9 @@
    }
 }
 
-// ==============================================
-// ✨ USER ACTION BUTTONS (Blue theme)
-// ==============================================
-.btn-create {
-   @include button-base;
-   @include button-size(md);
-   background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-   color: color(white);
-   gap: spacing(2);
-   border: none;
-   box-shadow: shadow(sm);
-
-   &:hover:not(:disabled) {
-      background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
-      transform: translateY(-1px);
-      box-shadow: shadow(md);
-   }
-
-   &:active {
-      transform: translateY(0);
-   }
-
-   // Add user icon effect
-   &::before {
-      content: '👤';
-      margin-right: spacing(1);
-   }
-}
-
-// ==============================================
-// 📊 USER DATA TABLE (Blue theme)
-// ==============================================
+/* -----------------------------
+   Table wrapper & table
+   ----------------------------- */
 .user-table-wrapper {
    @include card-base;
    overflow: hidden;
@@ -171,19 +195,19 @@
    border-radius: 0;
 
    thead {
-      background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+      background: #32425c;
 
       th {
          text-align: center;
          padding: spacing(4);
          font-weight: font-weight(semibold);
          font-size: font-size(sm);
-         color: #1e3a8a;
-         border-bottom: 2px solid #93c5fd;
+         color: white;
+         border-bottom: 2px solid #555f6e;
          position: relative;
 
          &:first-child {
-            border-left: 3px solid #2563eb;
+            border-left: 5px solid #2563eb;
          }
       }
    }
@@ -191,31 +215,38 @@
    tbody {
       tr {
          @include table-row;
-         border-left: 3px solid transparent;
          transition: all 0.3s ease;
+         background-color: #182433;
+         border-left: 5px solid #93c5fd;
+
 
          &:hover {
-            background-color: #eff6ff;
-            border-left-color: #2563eb;
-            transform: translateX(2px);
+            border-left: 5px solid #2563eb;
+            background-color: #2a374e;
+            transform: translateX(5px);
+            transition: all 0.5s ease;
+
+            &::after {
+               background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.5), transparent);
+            }
          }
 
+
          td {
-            color: #ffffff;
-            border-bottom: 1px solid #dbeafe;
+            color: #d1d5db;
+            border-bottom: 1px solid #4b515a;
             text-align: center;
+            padding: spacing(3);
          }
       }
    }
 
-   // Responsive table
    .hide-mobile {
       @include mobile-only {
          display: none;
       }
    }
 
-   // Cell styling
    .cell-na {
       color: #909191;
       font-style: italic;
@@ -223,12 +254,6 @@
       padding: 2px 6px;
       font-size: 0.8rem !important;
       position: relative;
-
-
-      &::before {
-         margin-right: 4px;
-         font-size: 0.8rem;
-      }
    }
 
    .phone-number-cell {
@@ -248,7 +273,6 @@
          font-size: 0.9rem;
       }
 
-      // Clickable phone number styling
       span {
          cursor: pointer;
          transition: all 0.2s ease;
@@ -268,28 +292,20 @@
    }
 }
 
-// ==============================================
-// 🏷️ USER SPECIFIC BADGES
-// ==============================================
+/* -----------------------------
+   Badges & action buttons
+   ----------------------------- */
 .role-user {
-   font-weight: bold !important;
+   font-weight: font-weight(semibold);
    @include status-badge(info);
    text-transform: uppercase;
-   font-weight: font-weight(semibold);
    background: linear-gradient(135deg, #dbeafe, #bfdbfe);
    color: #ffffff;
    border: 1px solid #93c5fd;
    padding: 0.25rem 1.5rem;
-
-   &::before {
-      content: '👤';
-   }
 }
 
-// ==============================================
-// 🎛️ USER ACTION BUTTONS
-// ==============================================
-.user-table .action-buttons {
+.action-buttons {
    display: flex;
    gap: spacing(3);
    flex-wrap: wrap;
@@ -303,10 +319,10 @@
    .btn-action {
       @include button-base;
       padding: spacing(2) spacing(3);
-      font-size: font-size(lg);
+      font-size: 1rem;
       font-weight: font-weight(medium);
       border-radius: border-radius(md);
-      transition: all 0.3s ease;
+      transition: all 0.5s ease;
       min-width: 80px;
       text-align: center;
 
@@ -326,13 +342,18 @@
       }
 
       &.btn-user-detail {
-         background: linear-gradient(135deg, #8EC5FF, #155DFC);
-         color: color(white);
+         background: linear-gradient(135deg, #155DFC, #162456);
+         color: white;
          border: 1px solid #2563eb;
+
+         .btn-icon-detail {
+            width: 25px;
+            height: 25px;
+         }
 
          &:hover {
             background: linear-gradient(135deg, #162456, #155DFC);
-            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+            box-shadow: 0 5px 15px rgba(94, 118, 255, 0.5);
          }
       }
 
@@ -340,29 +361,19 @@
          background: linear-gradient(135deg, #7BF1A8, #2AA63E);
          color: color(white);
          border: 1px solid #16a34a;
-
-         &:hover {
-            background: linear-gradient(135deg, #032E15, #2AA63E);
-            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
-         }
       }
 
       &.btn-delete {
          background: linear-gradient(135deg, #FFA2A2, #E7180B);
          color: color(white);
          border: 1px solid #dc2626;
-
-         &:hover {
-            background: linear-gradient(135deg, #460809, #E7180B);
-            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
-         }
       }
    }
 }
 
-// ==============================================
-// 📱 USER LOADING & ERROR STATES
-// ==============================================
+/* -----------------------------
+   Loading & error states
+   ----------------------------- */
 .user-loading {
    @include flex-center;
    padding: spacing(8);
@@ -400,87 +411,27 @@
    }
 }
 
-// ==============================================
-// 🎭 USER ANIMATIONS
-// ==============================================
+/* -----------------------------
+   Keyframes & responsive tweaks
+   ----------------------------- */
 @keyframes user-spin {
    to {
       transform: rotate(360deg);
    }
 }
 
-.user-manager-container {
-   .user-fade-in {
-      @include fade-in;
-   }
-}
-
-// ==============================================
-// 📱 RESPONSIVE ADJUSTMENTS
-// ==============================================
 @include mobile-only {
    .user-table {
       font-size: font-size(xs);
-
-      th,
-      td {
-         padding: spacing(2);
-      }
    }
 
-   .action-buttons {
-      .btn-action {
-         font-size: font-size(xs);
-         padding: spacing(1) spacing(2);
-      }
-   }
-}
-
-// ==============================================
-// 🌙 DARK MODE SUPPORT
-// ==============================================
-@media (prefers-color-scheme: dark) {
-   .user-manager-container {
-      background: linear-gradient(135deg, #1e3a8a 0%, color(gray-900) 50%, #1e40af 100%);
+   .user-table th,
+   .user-table td {
+      padding: spacing(2);
    }
 
-   .user-manager-top {
-      background: linear-gradient(135deg, color(gray-800) 0%, #1e3a8a 100%);
-      border-color: #2563eb;
-   }
-
-   .user-title {
-      color: #93c5fd;
-   }
-
-   .user-table {
-      background-color: color(gray-800);
-
-      thead {
-         background: linear-gradient(135deg, color(gray-700) 0%, #1e3a8a 100%);
-
-         th {
-            color: #93c5fd;
-            border-color: #2563eb;
-         }
-      }
-
-      tbody {
-         tr {
-            td {
-               border-color: color(gray-700);
-            }
-
-            &:hover {
-               background-color: #1e3a8a;
-            }
-         }
-      }
-   }
-
-   .role-user {
-      font-size: 1rem;
-      background: linear-gradient(135deg, #1e3a8a, #1e40af);
-      border-color: #2563eb;
+   .action-buttons .btn-action {
+      font-size: font-size(xs);
+      padding: spacing(1) spacing(2);
    }
 }

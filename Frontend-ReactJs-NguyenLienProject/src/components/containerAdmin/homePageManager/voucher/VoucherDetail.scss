@@ -25,12 +25,6 @@
         text-align: center;
         position: relative;
 
-        &::before {
-            content: '🎟️ ';
-            margin-right: spacing(2);
-            font-size: font-size(2xl);
-        }
-
         &::after {
             content: '';
             position: absolute;
@@ -203,10 +197,11 @@
                 }
 
                 .detail-section {
-                    background: #faf5ff;
+                    background: #374151;
+                    border-color: #4b5563;
                     border-radius: border-radius(lg);
                     padding: spacing(4);
-                    border: 1px solid #ede9fe;
+                    border: 1px solid;
 
                     &.full-width {
                         grid-column: 1 / -1;

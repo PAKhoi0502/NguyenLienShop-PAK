@@ -118,24 +118,30 @@
             }
          }
 
-         .wishlist-icon {
+         .wishlist-wrapper {
             position: relative;
-            margin-right: 15px;
 
-            .icon {
-               font-size: 22px;
-            }
+            .wishlist-icon {
+               position: relative;
+               cursor: pointer;
 
-            .wishlist-count {
-               position: absolute;
-               top: -6px;
-               right: -18px;
-               background-color: red;
-               color: white;
-               font-size: 11px;
-               padding: 2px 6px;
-               border-radius: 50%;
-               font-weight: bold;
+               .icon {
+                  font-size: 22px;
+               }
+
+               .wishlist-count {
+                  position: absolute;
+                  top: -6px;
+                  right: -18px;
+                  background-color: red;
+                  color: white;
+                  font-size: 11px;
+                  padding: 2px 6px;
+                  border-radius: 50%;
+                  font-weight: bold;
+                  min-width: 18px;
+                  text-align: center;
+               }
             }
          }
 
@@ -312,7 +318,7 @@
                font-size: 18px;
             }
 
-            .wishlist-icon .wishlist-count,
+            .wishlist-wrapper .wishlist-icon .wishlist-count,
             .cart-icon .cart-count {
                font-size: 10px;
                padding: 1px 5px;

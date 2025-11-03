@@ -1,0 +1,149 @@
+.voucher-list-container {
+    width: 100%;
+    padding: 2rem 1rem;
+    margin-top: 0.5rem;
+
+    .voucher-section-header {
+        text-align: center;
+        margin-bottom: 2rem;
+
+        .section-title {
+            font-family: "Be Vietnam Pro", sans-serif;
+            font-weight: 450;
+            font-style: normal;
+            font-size: 2rem;
+            color: #111;
+            margin-bottom: 0.5rem;
+            text-align: center;
+            letter-spacing: 0.05rem;
+        }
+
+        .section-subtitle {
+            font-size: 1rem;
+            color: #666;
+            margin: 0;
+        }
+    }
+
+    .voucher-grid {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: 1.5rem;
+        max-width: 1400px;
+        margin: 0 auto;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding-bottom: 1rem;
+
+        /* Scrollbar styling */
+        &::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+
+        &::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* Ensure voucher cards don't shrink */
+        >* {
+            flex: 0 0 520px;
+            min-width: 520px;
+        }
+    }
+
+    .voucher-loading,
+    .voucher-error,
+    .voucher-empty {
+        text-align: center;
+        padding: 3rem 1.5rem;
+        font-size: 1.1rem;
+        color: #666;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        border-radius: 16px;
+    }
+
+    .voucher-error {
+        color: #e74c3c;
+        background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+    }
+
+    .voucher-empty {
+        color: #94a3b8;
+    }
+
+    // Responsive
+    @media (max-width: 1200px) {
+        padding: 2rem 1.25rem;
+
+        .voucher-grid {
+            gap: 1.25rem;
+
+            >* {
+                flex: 0 0 480px;
+                min-width: 480px;
+            }
+        }
+    }
+
+    @media (max-width: 768px) {
+        padding: 1.5rem 1rem;
+        margin-top: 1rem;
+
+        .voucher-section-header {
+            margin-bottom: 1.5rem;
+
+            .section-title {
+                font-size: 1.75rem;
+            }
+
+            .section-subtitle {
+                font-size: 0.9rem;
+            }
+        }
+
+        .voucher-grid {
+            gap: 1rem;
+
+            >* {
+                flex: 0 0 360px;
+                min-width: 360px;
+            }
+        }
+    }
+
+    @media (max-width: 480px) {
+        padding: 1.25rem 0.75rem;
+
+        .voucher-section-header {
+            margin-bottom: 1.25rem;
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .section-subtitle {
+                font-size: 0.85rem;
+            }
+        }
+
+        .voucher-grid {
+            gap: 1rem;
+
+            >* {
+                flex: 0 0 300px;
+                min-width: 300px;
+            }
+        }
+    }
+}
