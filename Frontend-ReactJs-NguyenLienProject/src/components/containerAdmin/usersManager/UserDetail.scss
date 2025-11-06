@@ -8,8 +8,7 @@
 .user-detail-container {
    width: 100%;
    padding: spacing(6);
-   background: linear-gradient(135deg, #fef2f2 0%, color(white) 50%, #fee2e2 100%);
-   min-height: 100vh;
+   background: #111827;
 
    @include mobile-only {
       padding: spacing(4);
@@ -20,37 +19,42 @@
 // 🎯 user DETAIL HEADER (Red theme)
 // ==============================================
 .user-detail-title {
-   font-size: font-size(2xl);
+   font-size: 2.5rem;
    font-weight: font-weight(bold);
-   color: #7f1d1d;
+   color: #6c789b;
+   margin: 0;
+   z-index: 1;
+   position: relative;
    text-align: center;
    margin-bottom: spacing(8);
-   position: relative;
 
-   // user detail icon effect
-   &::before {
-      display: block;
-      font-size: font-size(3xl);
-      margin-bottom: spacing(2);
-   }
-
-   // Decorative underline
-   &::after {
-      content: '';
-      position: absolute;
-      top: 120%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 200px;
-      height: 4px;
-      background: linear-gradient(135deg, #2563eb, #1d4ed8);
-      border-radius: border-radius(full);
-   }
+   // hiệu ứng shine
+   background: linear-gradient(to right,
+         #6c789b 0%,
+         #ffffff 20%,
+         #6c789b 40%,
+         #6c789b 100%);
+   background-size: 200% auto;
+   -webkit-background-clip: text;
+   -webkit-text-fill-color: transparent;
+   animation: shineText 3s linear infinite;
 
    @include mobile-only {
       font-size: font-size(xl);
-      margin-bottom: spacing(6);
+      text-align: center;
+      display: block;
    }
+}
+
+@keyframes shineText {
+   0% {
+      background-position: 0% center;
+   }
+
+   100% {
+      background-position: 200% center;
+   }
+
 }
 
 // ==============================================
@@ -59,8 +63,8 @@
 .user-detail-content {
    @include card-base;
    @include card-padding(lg);
-   background: color(white);
-   border: 1px solid #fca5a5;
+   background: #1f2937;
+   border: 1px solid #374151;
    border-radius: border-radius(xl);
    box-shadow: shadow(lg);
    max-width: 700px;
@@ -75,19 +79,11 @@
       left: 0;
       right: 0;
       height: 4px;
-      background: linear-gradient(135deg, #dc2626 0%, #b91c1c 50%, #991b1b 100%);
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 50%, #1e40af 100%);
       border-radius: border-radius(xl) border-radius(xl) 0 0;
    }
 
-   // user shield watermark
-   &::after {
-      position: absolute;
-      top: spacing(4);
-      right: spacing(4);
-      font-size: font-size(3xl);
-      opacity: 0.1;
-      z-index: 0;
-   }
+
 
    @include mobile-only {
       padding: spacing(4);
@@ -97,15 +93,19 @@
 
    >div {
       display: flex;
+      align-items: center;
+      justify-content: space-between;
+
       padding: spacing(4);
-      border-bottom: 1px solid #fee2e2;
+      border-bottom: 2px solid #555f6e;
       position: relative;
       z-index: 1;
       transition: all 0.3s ease;
       border-radius: border-radius(md);
 
       &:hover {
-         background-color: #fef2f2;
+         background-color: #2a374e;
+
          transform: translateX(spacing(1));
       }
 
@@ -123,7 +123,7 @@
       }
 
       strong {
-         color: #7f1d1d;
+         color: rgb(147, 197, 255);
          font-weight: font-weight(semibold);
          min-width: 140px;
          margin-right: spacing(3);
@@ -138,8 +138,8 @@
 
       // Data value styling (text after strong tag)
       >*:not(strong) {
-         color: color(white);
-         font-size: font-size(base);
+         color: rgb(255, 255, 255);
+         font-size: 1.2rem;
          font-weight: font-weight(medium);
       }
 
@@ -165,6 +165,7 @@
          border-radius: border-radius(sm);
          font-size: font-size(xs);
          border: 1px solid #d1d5db;
+         text-align: center;
       }
    }
 }
@@ -188,138 +189,175 @@
 // ==============================================
 // ✨ ACTION BUTTONS (Red theme)
 // ==============================================
-.user-detail-actions .btn-edit {
-   @include button-base;
-   @include button-size(lg);
-   background: linear-gradient(135deg, #3683ff 0%, #012259 100%);
-   color: color(white);
-   border: none;
-   min-width: 180px;
-   position: relative;
-   overflow: hidden;
-
-   // Edit icon effect
-
-
-   // Shimmer effect
-   &::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: left 0.6s ease;
-   }
-
-   &:hover:not(:disabled) {
-      background: linear-gradient(135deg, #012259 0%, #3683ff 100%);
-      transform: translateY(-2px);
-      box-shadow: shadow(lg);
-
-      &::after {
-         left: 100%;
-      }
-   }
-
-   &:active:not(:disabled) {
-      transform: translateY(0);
-   }
+.action-buttons {
+   display: flex;
+   gap: spacing(3);
+   flex-wrap: wrap;
+   justify-content: center;
 
    @include mobile-only {
-      width: 100%;
-      min-width: auto;
-   }
-}
-
-.user-detail-actions .btn-back {
-   @include button-base;
-   @include button-size(lg);
-   background: linear-gradient(135deg, #919191 0%, #252525 100%);
-   color: color(white);
-   border: none;
-   min-width: 180px;
-   position: relative;
-   overflow: hidden;
-
-   // Edit icon effect
-
-
-   // Shimmer effect
-   &::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: left 0.6s ease;
+      flex-direction: column;
+      gap: spacing(1);
    }
 
-   &:hover:not(:disabled) {
-      background: linear-gradient(135deg, #252525 0%, #919191 100%);
-      transform: translateY(-2px);
-      box-shadow: shadow(lg);
+   .btn-action {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 8px;
+      width: 150px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      overflow: hidden;
+      position: relative;
+      transition: all 0.4s ease;
+      color: white;
 
-      &::after {
-         left: 100%;
+      .btn-icon-back,
+      .btn-icon-update,
+      .btn-icon-delete {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         width: 28px;
+         height: 28px;
+         border-radius: 50%;
+         color: white;
+         transition:
+            transform 0.6s cubic-bezier(0.25, 1, 0.3, 1),
+            background 0.3s ease,
+            color 0.3s ease,
+            box-shadow 0.4s ease;
+         transform: translateX(0) scale(1);
+         box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+         flex-shrink: 0;
+         position: relative;
+
+         /* Tạo hiệu ứng glow nhẹ */
+         &::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 50%;
+            background: transparent;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+         }
       }
-   }
 
-   &:active:not(:disabled) {
-      transform: translateY(0);
-   }
-
-   @include mobile-only {
-      width: 100%;
-      min-width: auto;
-   }
-}
-
-.user-detail-actions .btn-delete {
-   @include button-base;
-   @include button-size(lg);
-   background: linear-gradient(135deg, #ff3f3f 0%, #480d0d 100%);
-   color: color(white);
-   border: none;
-   min-width: 180px;
-   position: relative;
-   overflow: hidden;
-
-   // Edit icon effect
-
-
-   // Shimmer effect
-   &::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: left 0.6s ease;
-   }
-
-   &:hover:not(:disabled) {
-      background: linear-gradient(135deg, #480d0d 0%, #ff3f3f 100%);
-      transform: translateY(-2px);
-      box-shadow: shadow(lg);
-
-      &::after {
-         left: 100%;
+      .btn-text {
+         font-size: 1.1rem;
+         transition: all 0.5s ease;
+         opacity: 1;
+         transform: translateX(0);
+         white-space: nowrap;
       }
-   }
 
-   &:active:not(:disabled) {
-      transform: translateY(0);
-   }
+      svg {
+         width: 30px;
+         height: 30px;
+         transition: transform 0.4s ease;
+      }
 
-   @include mobile-only {
-      width: 100%;
-      min-width: auto;
+      /* --- Hover --- */
+      &:hover {
+
+         .btn-icon-back,
+         .btn-icon-update,
+         .btn-icon-delete {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85)) !important;
+            transition:
+               background 0.3s ease,
+               color 0.3s ease,
+               box-shadow 0.4s ease !important;
+
+            &::before {
+               opacity: 1;
+               background: radial-gradient(circle, rgba(37, 99, 235, 0.3), transparent 70%) !important;
+               animation: pulseGlow 2s ease-in-out infinite 0.6s !important;
+            }
+         }
+
+         svg {
+            transform: rotate(25deg);
+         }
+      }
+
+      /* --- Các loại nút --- */
+      &.btn-update {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         background: linear-gradient(135deg, #2D9966, #032E15);
+         border: 2px solid #16a34a;
+
+         &:hover {
+            background: linear-gradient(135deg, #032E15, #2D9966);
+            border: 2px solid #8effb7;
+            transform: scale(1.05) !important;
+            transition: all 0.3s ease;
+
+            .btn-icon-update {
+               background: linear-gradient(135deg, rgba(74, 222, 128, 0.95), rgba(74, 222, 128, 0.85));
+               color: #032E15 !important;
+
+               &::before {
+                  background: radial-gradient(circle, rgba(74, 222, 128, 0.4), transparent 70%);
+               }
+            }
+         }
+      }
+
+      &.btn-delete {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         background: linear-gradient(135deg, #E7180B, #460809);
+         border: 2px solid #dc2626;
+
+         &:hover {
+            background: linear-gradient(135deg, #460809, #E7180B) !important;
+            border: 2px solid #ff9797;
+            box-shadow: none !important;
+            transform: scale(1.05) !important;
+            transition: all 0.3s ease;
+
+            .btn-icon-delete {
+               background: linear-gradient(135deg, rgba(248, 113, 113, 0.95), rgba(248, 113, 113, 0.85));
+               color: #460809;
+
+               &::before {
+                  background: radial-gradient(circle, rgba(248, 113, 113, 0.4), transparent 70%);
+               }
+            }
+         }
+      }
+
+      &.btn-back {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         background: linear-gradient(135deg, #45556C, #020618);
+         border: 2px solid #1D293D;
+
+         &:hover {
+            background: linear-gradient(135deg, #020618, #45556C);
+            border: 2px solid #62748E;
+            transform: scale(1.05) !important;
+            transition: all 0.3s ease;
+
+            .btn-icon-back {
+               background: linear-gradient(135deg, rgba(74, 222, 128, 0.95), rgba(74, 222, 128, 0.85));
+               color: #020618 !important;
+
+               &::before {
+                  background: radial-gradient(circle, rgba(74, 222, 128, 0.4), transparent 70%);
+               }
+            }
+         }
+      }
    }
 }
 
@@ -382,40 +420,6 @@
 }
 
 // ==============================================
-// 🏷️ SPECIAL FIELD STYLING
-// ==============================================
-.user-detail-content {
-
-   // ID field special styling
-   >div:first-child {
-      background: linear-gradient(135deg, #fef2f2, #fee2e2);
-      border: 1px solid #fca5a5;
-      border-radius: border-radius(md);
-      font-weight: font-weight(medium);
-
-      strong {
-         color: #991b1b;
-      }
-   }
-
-   // Role field special styling
-   >div:last-child {
-      background: linear-gradient(135deg, #dcfce7, #bbf7d0);
-      border: 1px solid #86efac;
-      border-radius: border-radius(md);
-      font-weight: font-weight(medium);
-
-      strong {
-         color: #166534;
-      }
-
-      &:hover {
-         background: linear-gradient(135deg, #bbf7d0, #86efac);
-      }
-   }
-}
-
-// ==============================================
 // 📱 RESPONSIVE ADJUSTMENTS
 // ==============================================
 @include mobile-only {
@@ -433,88 +437,6 @@
       .btn-back {
          font-size: font-size(base);
          padding: spacing(3) spacing(4);
-      }
-   }
-}
-
-// ==============================================
-// 🌙 DARK MODE SUPPORT
-// ==============================================
-@media (prefers-color-scheme: dark) {
-   .user-detail-container {
-      background: linear-gradient(135deg, #2563eb 0%, color(gray-900) 50%, #1d4ed8 100%);
-   }
-
-   .user-detail-title {
-      color: #B8E6FE;
-   }
-
-   .user-detail-content {
-      background-color: color(gray-800);
-      border-color: #2563eb;
-
-      >div {
-         border-color: color(gray-700);
-
-         &:hover {
-            background-color: #2563eb;
-         }
-
-         strong {
-            color: #B8E6FE;
-         }
-
-         em {
-            background: linear-gradient(135deg, color(gray-700), color(gray-600));
-            border-color: color(gray-500);
-            color: color(gray-300);
-         }
-      }
-
-      // ID field dark mode
-      >div:first-child {
-         background: linear-gradient(135deg, #2563eb, #1d4ed8);
-         border-color: #2563eb;
-
-         strong {
-            color: #B8E6FE;
-         }
-      }
-
-      // Role field dark mode
-      >div:last-child {
-         background: linear-gradient(135deg, color(gray-700), color(gray-600));
-         border-color: color(gray-500);
-
-         strong {
-            color: #10b981;
-         }
-
-         &:hover {
-            background: linear-gradient(135deg, color(gray-600), color(gray-500));
-         }
-      }
-   }
-
-   .user-detail-loading {
-      background: linear-gradient(135deg, #7f1d1d, color(gray-800));
-      color: #B8E6FE;
-   }
-
-   .user-detail-error {
-      background: linear-gradient(135deg, #7f1d1d, #991b1b);
-      border-color: #dc2626;
-      color: #fca5a5;
-   }
-
-   .btn-back {
-      background: linear-gradient(135deg, color(gray-700) 0%, color(gray-600) 100%);
-      color: color(gray-300);
-      border-color: color(gray-500);
-
-      &:hover:not(:disabled) {
-         background: linear-gradient(135deg, color(gray-600) 0%, color(gray-500) 100%);
-         border-color: color(gray-400);
       }
    }
 }
@@ -553,10 +475,4 @@
       margin-right: 4px;
       font-size: 0.8rem;
    }
-}
-
-.span {
-   color: color(white);
-   font-size: font-size(xl) !important;
-   font-weight: font-weight(medium);
 }

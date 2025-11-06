@@ -172,13 +172,36 @@ const UserManager = () => {
                               <td>
                                  <div className="action-buttons">
                                     <button className="btn-action btn-user-detail" onClick={() => handleGetUserProfile(user)}>
-                                       <FormattedMessage id="body_admin.account_management.user_manager.detail" defaultMessage="Chi tiết" />
-                                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="btn-icon-detail">
-                                          <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
-                                       </svg>
+                                       <span className="btn-text">
+                                          <FormattedMessage id="body_admin.account_management.user_manager.detail" defaultMessage="Chi tiết" />
+                                       </span>
+                                       <span className="btn-icon-detail">
+                                          <svg
+                                             xmlns="http://www.w3.org/2000/svg"
+                                             fill="none"
+                                             viewBox="0 0 24 24"
+                                             strokeWidth="1.5"
+                                             stroke="currentColor"
+                                          >
+                                             <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 
+            12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"
+                                             />
+                                          </svg>
+                                       </span>
                                     </button>
+
                                     <button className="btn-action btn-update" onClick={() => handleUpdate(user)}>
-                                       <FormattedMessage id="body_admin.account_management.user_manager.update" defaultMessage="Cập nhật" />
+                                       <span className="btn-text">
+                                          <FormattedMessage id="body_admin.account_management.user_manager.update" defaultMessage="Cập nhật" />
+                                       </span>
+                                       <span className='btn-icon-update'>
+                                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+                                             <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                          </svg>
+                                       </span>
                                     </button>
                                     <UserDelete user={user} onSuccess={(deletedId) => {
                                        setUsers(prev => prev.filter(u => u.id !== deletedId));

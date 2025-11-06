@@ -227,7 +227,7 @@ const UserCreate = () => {
                <h2 className="user-create-title">{intl.formatMessage({ id: 'body_admin.account_management.user_manager.create.title' })}</h2>
                <form className="user-create-form" onSubmit={handleSubmit} autoComplete="off">
                   <div className="form-group">
-                     <label>{intl.formatMessage({ id: 'body_admin.account_management.user_manager.create.phone' })}</label>
+                     <label>{intl.formatMessage({ id: 'body_admin.account_management.user_manager.create.phone' })} <span className="required-asterisk" style={{ color: 'red' }}>*</span></label>
                      <input
                         type="text"
                         name="phoneNumber"
@@ -238,7 +238,7 @@ const UserCreate = () => {
                      />
                   </div>
                   <div className="form-group">
-                     <label>{intl.formatMessage({ id: 'body_admin.account_management.user_manager.create.password' })}</label>
+                     <label>{intl.formatMessage({ id: 'body_admin.account_management.user_manager.create.password' })} <span className="required-asterisk" style={{ color: 'red' }}>*</span></label>
                      <input
                         type="password"
                         name="password"
@@ -250,7 +250,7 @@ const UserCreate = () => {
                      />
                   </div>
                   <div className="form-group">
-                     <label>{intl.formatMessage({ id: 'body_admin.account_management.user_manager.create.confirm_password' })}</label>
+                     <label>{intl.formatMessage({ id: 'body_admin.account_management.user_manager.create.confirm_password' })} <span className="required-asterisk" style={{ color: 'red' }}>*</span></label>
                      <input
                         type="password"
                         name="confirmPassword"
@@ -262,25 +262,40 @@ const UserCreate = () => {
                      />
                   </div>
 
-                  <div className="form-actions">
+                  <div className="action-buttons">
                      <button
                         type="button"
-                        className="btn-verify-phone"
+                        className="btn-action btn-verify-phone"
                         onClick={handleContinueToOTP}
-                        disabled={loading || !phoneNumber || !password || !confirmPassword}
+                        disabled={loading}
                      >
-                        {loading ? intl.formatMessage({ id: 'body_admin.account_management.user_manager.create.processing' }) : intl.formatMessage({ id: 'body_admin.account_management.user_manager.create.verify_phone_button' })}
+                        <span className='btn-text'>
+                           {loading ? intl.formatMessage({ id: 'body_admin.account_management.user_manager.create.processing' }) : intl.formatMessage({ id: 'body_admin.account_management.user_manager.create.verify_phone_button' })}
+                        </span>
+                        <span className='btn-icon-verify-phone'>
+                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
+                           </svg>
+                        </span>
                      </button>
 
                      <button
                         type="button"
-                        className="btn-cancel"
+                        className="btn-action btn-cancel"
                         onClick={() => navigate(-1)}
                         disabled={loading}
                      >
-                        {intl.formatMessage({ id: 'body_admin.account_management.user_manager.create.cancel_button' })}
+                        <span className='btn-text'>
+                           {intl.formatMessage({ id: 'body_admin.account_management.user_manager.create.cancel_button' })}
+                        </span>
+                        <span className='btn-icon-cancel'>
+                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                           </svg>
+                        </span>
                      </button>
                   </div>
+
                </form>
             </>
          )}

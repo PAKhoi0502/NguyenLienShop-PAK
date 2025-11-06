@@ -228,19 +228,33 @@ const UserUpdate = () => {
                </select>
             </div>
 
-            <div className="form-actions">
-               <button type="submit" className="btn-submit" disabled={loading}>
-                  {loading
-                     ? <FormattedMessage id="body_admin.account_management.user_manager.update_user.saving" defaultMessage="Đang cập nhật..." />
-                     : <FormattedMessage id="body_admin.account_management.user_manager.update_user.save" defaultMessage="Lưu thay đổi" />}
+            <div className="action-buttons">
+               <button type="submit" className="btn-action btn-submit" disabled={loading}>
+                  <span className='btn-text'>
+                     {loading
+                        ? <FormattedMessage id="body_admin.account_management.user_manager.update_user.saving" defaultMessage="Đang cập nhật..." />
+                        : <FormattedMessage id="body_admin.account_management.user_manager.update_user.save" defaultMessage="Lưu thay đổi" />}
+                  </span>
+                  <span className='btn-icon-submit'>
+                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                     </svg>
+                  </span>
                </button>
                <button
                   type="button"
-                  className="btn-cancel"
+                  className="btn-action btn-cancel"
                   onClick={() => navigate(-1)}
                   disabled={loading}
                >
-                  <FormattedMessage id="body_admin.account_management.user_manager.update_user.cancel" defaultMessage="Hủy" />
+                  <span className='btn-text'>
+                     {intl.formatMessage({ id: 'body_admin.account_management.user_manager.update_user.cancel' })}
+                  </span>
+                  <span className='btn-icon-cancel'>
+                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                     </svg>
+                  </span>
                </button>
             </div>
          </form>

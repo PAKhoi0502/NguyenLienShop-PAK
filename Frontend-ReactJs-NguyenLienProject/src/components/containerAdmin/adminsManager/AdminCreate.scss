@@ -1,5 +1,5 @@
 // ==============================================
-// 🛡️ ADMIN CREATE FORM STYLES
+// 👥 ADMIN CREATE FORM STYLES
 // ==============================================
 
 @import '../../../styles/variables';
@@ -8,7 +8,7 @@
 .admin-create-container {
    width: 100%;
    padding: spacing(6);
-   background: linear-gradient(135deg, #fef2f2 0%, color(white) 50%, #fee2e2 100%);
+   background-color: #111827;
    min-height: 100vh;
 
    @include mobile-only {
@@ -16,47 +16,54 @@
    }
 }
 
-// ==============================================
-// 🎯 ADMIN CREATE HEADER (Red theme)
-// ==============================================
 .admin-create-title {
-   font-size: font-size(2xl);
+   font-size: 2.5rem;
    font-weight: font-weight(bold);
-   color: #7f1d1d;
+   color: #6c789b;
+   margin: 0;
+   z-index: 1;
+   position: relative;
    text-align: center;
    margin-bottom: spacing(8);
-   position: relative;
 
-   // Admin creation icon effect
-
-   // Decorative underline
-   &::after {
-      content: '';
-      position: absolute;
-      bottom: -spacing(2);
-      left: 50%;
-      transform: translateX(-50%);
-      width: 15rem !important;
-      height: 4px !important;
-      top: 2.5rem !important;
-      background: linear-gradient(135deg, #dc2626, #b91c1c);
-      border-radius: border-radius(full);
-   }
+   // hiệu ứng shine
+   background: linear-gradient(to right,
+         #6c789b 0%,
+         #ffffff 20%,
+         #6c789b 40%,
+         #6c789b 100%);
+   background-size: 200% auto;
+   -webkit-background-clip: text;
+   background-clip: text;
+   -webkit-text-fill-color: transparent;
+   animation: shineText 3s linear infinite;
 
    @include mobile-only {
       font-size: font-size(xl);
-      margin-bottom: spacing(6);
+      text-align: center;
+      display: block;
    }
 }
 
+@keyframes shineText {
+   0% {
+      background-position: 0% center;
+   }
+
+   100% {
+      background-position: 200% center;
+   }
+
+}
+
 // ==============================================
-// 📝 ADMIN CREATE FORM (Red theme)
+// 📝 ADMIN CREATE FORM (Blue theme)
 // ==============================================
 .admin-create-form {
    @include card-base;
    @include card-padding(lg);
-   background: color(white);
-   border: 1px solid #fca5a5;
+   background: #1f2937;
+   border: 1px solid #374151;
    border-radius: border-radius(xl);
    box-shadow: shadow(lg);
    position: relative;
@@ -71,7 +78,7 @@
       left: 0;
       right: 0;
       height: 4px;
-      background: linear-gradient(135deg, #dc2626 0%, #b91c1c 50%, #991b1b 100%);
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 50%, #1e40af 100%);
       border-radius: border-radius(xl) border-radius(xl) 0 0;
    }
 
@@ -82,7 +89,7 @@
 }
 
 // ==============================================
-// 🏷️ FORM GROUPS (Red theme)
+// 🏷️ FORM GROUPS (Blue theme)
 // ==============================================
 .admin-create-form .form-group {
    margin-bottom: spacing(6);
@@ -91,85 +98,329 @@
       display: block;
       font-weight: font-weight(semibold);
       font-size: font-size(sm);
-      color: #7f1d1d;
+      color: rgb(147, 197, 255);
       margin-bottom: spacing(2);
       position: relative;
 
       // Required asterisk styling
-      &::after {
-         content: '';
-         position: absolute;
-         top: 0;
-         right: -spacing(1);
+      &:has(+ input[required]):after,
+      &:has(+ select[required]):after {
+         content: ' *';
+         color: #dc2626;
+         font-weight: font-weight(bold);
       }
    }
 
-   input {
+   input,
+   select {
       @include input-base;
-      width: 100%;
-      background-color: #fef2f2;
-      border: 2px solid #fca5a5;
-      color: #1f2937;
+      background-color: #d3ebff;
+      border: 3px solid #203d74bd;
       transition: all 0.3s ease;
 
       &:focus {
-         border-color: #dc2626;
-         background-color: #ffffff;
-         box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.1);
-         transform: translateY(-1px);
-      }
-
-      &::placeholder {
-         color: #9ca3af;
-         font-style: italic;
+         background-color: #a9d8ff;
+         border: 3px solid #0059ff;
+         box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+         outline: none;
       }
 
       &:disabled {
-         background-color: #f3f4f6;
-         border-color: #d1d5db;
-         color: #6b7280;
+         background-color: #f1f5f9;
+         color: #64748b;
          cursor: not-allowed;
-         opacity: 0.7;
       }
 
-      // Input states when has value (Pink theme)
-      &:not(:placeholder-shown):not(:focus) {
-         background-color: #fdf2f8;
-         border-color: #f472b6;
-         color: #1f2937;
-         font-weight: font-weight(medium);
-      }
-
-      // Input validation states
-      &:valid:not(:placeholder-shown) {
-         border-color: #f472b6;
-         background-color: #fdf2f8;
-         color: #1f2937;
-      }
-
-      &:invalid:not(:placeholder-shown) {
-         border-color: #ef4444;
-         background-color: #fef2f2;
-         color: #1f2937;
-      }
-   }
-
-   // Last form group spacing
-   &:last-of-type {
-      margin-bottom: spacing(8);
-   }
-
-   @include mobile-only {
-      margin-bottom: spacing(4);
-
-      &:last-of-type {
-         margin-bottom: spacing(6);
+      &::placeholder {
+         color: #94a3b8;
+         font-style: italic;
       }
    }
 }
 
 // ==============================================
-// ✅ SUCCESS PAGE STYLES
+// 🎛️ FORM ACTIONS (Blue theme)
+// ==============================================
+.admin-create-container .action-buttons {
+   display: flex;
+   gap: spacing(3);
+   flex-wrap: wrap;
+   justify-content: center;
+
+   @include mobile-only {
+      flex-direction: column;
+      gap: spacing(1);
+   }
+
+   .btn-action {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      overflow: hidden;
+      position: relative;
+      transition: all 0.4s ease;
+      color: white;
+
+      .btn-icon-verify-phone,
+      .btn-icon-cancel {
+         display: flex;
+         align-items: center;
+         justify-content: flex-start;
+         width: 28px;
+         height: 28px;
+         border-radius: 50%;
+         color: white;
+         transition:
+            transform 0.6s cubic-bezier(0.25, 1, 0.3, 1),
+            background 0.3s ease,
+            color 0.3s ease,
+            box-shadow 0.4s ease;
+         transform: translateX(0) scale(1);
+         box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+         flex-shrink: 0;
+         position: relative;
+
+
+         /* Tạo hiệu ứng glow nhẹ */
+         &::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 50%;
+            background: transparent;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+         }
+      }
+
+      .btn-text {
+         font-size: 1.1rem;
+         transition: all 0.5s ease;
+         opacity: 1;
+         transform: translateX(0);
+         white-space: nowrap;
+      }
+
+      svg {
+         width: 30px;
+         height: 30px;
+         transition: transform 0.4s ease;
+      }
+
+      /* --- Hover --- */
+      &:hover {
+
+         .btn-icon-verify-phone,
+         .btn-icon-cancel {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85)) !important;
+            transition:
+               background 0.3s ease,
+               color 0.3s ease,
+               box-shadow 0.4s ease !important;
+
+            &::before {
+               opacity: 1;
+               background: radial-gradient(circle, rgba(37, 99, 235, 0.3), transparent 70%) !important;
+               animation: pulseGlow 2s ease-in-out infinite 0.6s !important;
+            }
+         }
+
+         svg {
+            transform: rotate(25deg);
+         }
+      }
+
+      /* --- Các loại nút --- */
+      &.btn-verify-phone {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         background: linear-gradient(135deg, #155dfc, #162456);
+         border: 2px solid #2563eb;
+
+         &:hover {
+            background: linear-gradient(135deg, #162456, #155dfc);
+            border: 2px solid #8eb1fd;
+            transform: scale(1.05) !important;
+            transition: all 0.3s ease;
+            box-shadow: none !important;
+
+            .btn-icon-verify-phone {
+               background: linear-gradient(135deg, rgba(142, 177, 253, 0.95), rgba(142, 177, 253, 0.85));
+               color: #162456 !important;
+
+               &::before {
+                  background: radial-gradient(circle, rgba(142, 177, 253, 0.4), transparent 70%);
+               }
+            }
+         }
+      }
+
+      &.btn-cancel {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         background: linear-gradient(135deg, #52525C, #09090B);
+         border: 2px solid rgb(68, 68, 73);
+
+         &:hover {
+            background: linear-gradient(135deg, #09090B, #52525C) !important;
+            border: 2px solid #71717B;
+            box-shadow: none !important;
+            transform: scale(1.05) !important;
+            transition: all 0.3s ease;
+
+            .btn-icon-cancel {
+               background: linear-gradient(135deg, rgba(248, 113, 113, 0.95), rgba(248, 113, 113, 0.85));
+               color: #09090B;
+
+               &::before {
+                  background: radial-gradient(circle, rgba(248, 113, 113, 0.4), transparent 70%);
+               }
+            }
+         }
+      }
+   }
+}
+
+// ==============================================
+// 🎨 FORM VALIDATION STATES
+// ==============================================
+.admin-create-form {
+   .form-group {
+      &.has-error {
+
+         input,
+         select {
+            border-color: #dc2626;
+            background-color: #fef2f2;
+
+            &:focus {
+               border-color: #dc2626;
+               box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+            }
+         }
+
+         label {
+            color: #dc2626;
+         }
+
+         .error-message {
+            color: #dc2626;
+            font-size: font-size(xs);
+            margin-top: spacing(1);
+            display: flex;
+            align-items: center;
+
+            &::before {
+               content: '⚠️';
+               margin-right: spacing(1);
+            }
+         }
+      }
+
+      &.has-success {
+
+         input,
+         select {
+            border-color: #059669;
+            background-color: #f0fdf4;
+
+            &:focus {
+               border-color: #059669;
+               box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+            }
+         }
+
+         .success-message {
+            color: #059669;
+            font-size: font-size(xs);
+            margin-top: spacing(1);
+            display: flex;
+            align-items: center;
+
+            &::before {
+               content: '✅';
+               margin-right: spacing(1);
+            }
+         }
+      }
+   }
+}
+
+// ==============================================
+// 🎭 ADMIN CREATE ANIMATIONS
+// ==============================================
+@keyframes admin-create-spin {
+   to {
+      transform: rotate(360deg);
+   }
+}
+
+
+
+@keyframes fade-in {
+   from {
+      opacity: 0;
+      transform: translateY(20px);
+   }
+
+   to {
+      opacity: 1;
+      transform: translateY(0);
+   }
+}
+
+// ==============================================
+// 📱 RESPONSIVE ADJUSTMENTS
+// ==============================================
+@include mobile-only {
+   .admin-create-form {
+      .form-group {
+
+         input,
+         select {
+            font-size: font-size(base);
+         }
+      }
+   }
+}
+
+// ==============================================
+// ✅ VERIFICATION BADGE STYLES
+// ==============================================
+.verification-badge {
+   display: inline-flex;
+   align-items: center;
+   margin-left: spacing(2);
+   padding: spacing(1) spacing(2);
+   background: linear-gradient(135deg, #10b981, #059669);
+   color: white;
+   font-size: 0.75rem;
+   font-weight: 600;
+   border-radius: 12px;
+   box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+   animation: slideInRight 0.3s ease-out;
+
+   @keyframes slideInRight {
+      from {
+         opacity: 0;
+         transform: translateX(10px);
+      }
+
+      to {
+         opacity: 1;
+         transform: translateX(0);
+      }
+   }
+}
+
+// ==============================================
+// ✅ SUCCESS PAGE STYLES (Blue theme for Admin Create)
 // ==============================================
 .admin-create-success {
    display: flex;
@@ -184,11 +435,11 @@
    }
 }
 
-.success-message {
+.admin-create-success .success-message {
    @include card-base;
    @include card-padding(xl);
-   background: linear-gradient(135deg, color(white) 0%, #f0fdf4 100%);
-   border: 2px solid #bbf7d0;
+   background: linear-gradient(135deg, color(white) 0%, #f0f9ff 100%);
+   border: 2px solid #bfdbfe;
    border-radius: border-radius(2xl);
    box-shadow: shadow(xl);
    text-align: center;
@@ -197,7 +448,7 @@
    position: relative;
    overflow: hidden;
 
-   // Success border animation
+   // Success border animation (blue theme)
    &::before {
       content: '';
       position: absolute;
@@ -205,7 +456,7 @@
       left: 0;
       right: 0;
       height: 4px;
-      background: linear-gradient(135deg, #22c55e 0%, #16a34a 50%, #15803d 100%);
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 50%, #1d4ed8 100%);
       border-radius: border-radius(2xl) border-radius(2xl) 0 0;
    }
 
@@ -217,7 +468,7 @@
       left: -50%;
       width: 200%;
       height: 200%;
-      background: radial-gradient(circle, rgba(34, 197, 94, 0.05) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.05) 0%, transparent 70%);
       animation: admin-success-rotate 10s linear infinite;
       pointer-events: none;
       z-index: 0;
@@ -235,12 +486,12 @@
    }
 }
 
-.success-icon {
+.admin-create-success .success-icon {
    font-size: 4rem;
    margin-bottom: spacing(4);
    animation: admin-success-bounce 2s ease-in-out infinite;
    display: inline-block;
-   filter: drop-shadow(0 4px 8px rgba(34, 197, 94, 0.3));
+   filter: drop-shadow(0 4px 8px rgba(59, 130, 246, 0.3));
 
    @include mobile-only {
       font-size: 3rem;
@@ -248,15 +499,15 @@
    }
 }
 
-.success-message h2 {
+.admin-create-success .success-message h2 {
    font-size: font-size(2xl);
    font-weight: font-weight(bold);
-   color: #15803d;
+   color: #1e40af;
    margin-bottom: spacing(3);
    position: relative;
 
    // Text shadow for better visibility
-   text-shadow: 0 2px 4px rgba(21, 128, 61, 0.1);
+   text-shadow: 0 2px 4px rgba(30, 64, 175, 0.1);
 
    @include mobile-only {
       font-size: font-size(xl);
@@ -264,9 +515,9 @@
    }
 }
 
-.success-message p {
+.admin-create-success .success-message p {
    font-size: font-size(base);
-   color: #059669;
+   color: #2563eb;
    margin-bottom: spacing(6);
    line-height: line-height(relaxed);
    font-weight: font-weight(medium);
@@ -277,33 +528,32 @@
    }
 }
 
-.redirecting {
+.admin-create-success .redirecting {
    @include card-base;
-   background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
-   border: 1px solid #86efac;
+   background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+   border: 1px solid #93c5fd;
    border-radius: border-radius(lg);
    padding: spacing(4);
    font-size: font-size(sm);
-   color: #166534;
+   color: #1e3a8a;
    font-weight: font-weight(semibold);
    position: relative;
    overflow: hidden;
 
-   // Animated progress bar
+   // Animated progress bar (blue theme)
    &::before {
       content: '';
       position: absolute;
       bottom: 0;
       left: 0;
       height: 3px;
-      background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
       border-radius: 0 0 border-radius(lg) border-radius(lg);
       animation: admin-countdown-progress 3s linear;
    }
 
    // Icon animation
    &::after {
-      content: '⏱️';
       position: absolute;
       top: spacing(1);
       right: spacing(3);
@@ -318,7 +568,7 @@
 }
 
 // ==============================================
-// 🎭 SUCCESS PAGE ANIMATIONS
+// 🎭 SUCCESS PAGE ANIMATIONS (Admin theme)
 // ==============================================
 @keyframes admin-success-bounce {
 
@@ -378,308 +628,6 @@
    }
 }
 
-// ==============================================
-// 🌙 DARK MODE SUCCESS STYLES
-// ==============================================
-@media (prefers-color-scheme: dark) {
-   .success-message {
-      background: linear-gradient(135deg, color(gray-800) 0%, #1a2e05 100%);
-      border-color: #15803d;
-
-      h2 {
-         color: #86efac;
-      }
-
-      p {
-         color: #bbf7d0;
-      }
-   }
-
-   .redirecting {
-      background: linear-gradient(135deg, color(gray-700) 0%, #1a2e05 100%);
-      border-color: #15803d;
-      color: #86efac;
-   }
-}
-
-// ==============================================
-// 🎬 FORM ACTIONS (Red theme)
-// ==============================================
-.admin-create-form .form-actions {
-   display: flex;
-   gap: spacing(4);
-   justify-content: center;
-   padding-top: spacing(4);
-   border-top: 1px solid #fee2e2;
-
-   @include mobile-only {
-      flex-direction: column;
-      gap: spacing(3);
-   }
-}
-
-// ==============================================
-// ✨ ACTION BUTTONS (Red theme)
-// ==============================================
-.admin-create-form .btn-submit {
-   @include button-base;
-   @include button-size(lg);
-   background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
-   color: #ffffff;
-   border: none;
-   min-width: 140px;
-   position: relative;
-   overflow: hidden;
-
-   // Loading animation overlay
-   &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: left 0.6s ease;
-   }
-
-   &:hover:not(:disabled) {
-      background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
-      transform: translateY(-2px);
-      box-shadow: shadow(lg);
-
-      &::before {
-         left: 100%;
-      }
-   }
-
-   &:active:not(:disabled) {
-      transform: translateY(0);
-   }
-
-   &:disabled {
-      background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
-      cursor: not-allowed;
-      transform: none;
-
-      &::after {
-         content: '';
-         position: absolute;
-         top: 50%;
-         left: spacing(3);
-         transform: translateY(-50%);
-         width: 16px;
-         height: 16px;
-         border: 2px solid #ffffff;
-         border-top-color: transparent;
-         border-radius: 50%;
-         animation: admin-create-spin 1s linear infinite;
-      }
-   }
-
-   @include mobile-only {
-      width: 100%;
-      min-width: auto;
-   }
-}
-
-.admin-create-form .btn-cancel {
-   @include button-base;
-   @include button-size(lg);
-   background: linear-gradient(135deg, color(white) 0%, #f9fafb 100%);
-   color: #374151;
-   border: 2px solid #d1d5db;
-   min-width: 140px;
-
-   &:hover:not(:disabled) {
-      background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
-      border-color: #9ca3af;
-      transform: translateY(-1px);
-   }
-
-   &:active:not(:disabled) {
-      transform: translateY(0);
-   }
-
-   &:disabled {
-      background: #f3f4f6;
-      color: #9ca3af;
-      border-color: #e5e7eb;
-      cursor: not-allowed;
-   }
-
-   @include mobile-only {
-      width: 100%;
-      min-width: auto;
-   }
-}
-
-// ==============================================
-// 🎭 ADMIN CREATE ANIMATIONS
-// ==============================================
-@keyframes admin-create-spin {
-   to {
-      transform: translateY(-50%) rotate(360deg);
-   }
-}
-
-.admin-create-container {
-   .admin-fade-in {
-      @include fade-in;
-   }
-}
-
-// ==============================================
-// 🔄 FORM VALIDATION STATES
-// ==============================================
-.form-group {
-
-   // Success state
-   &.success {
-      input {
-         border-color: #10b981 !important;
-         background-color: #f9fafb !important;
-         color: #374151 !important;
-
-         &:focus {
-            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1) !important;
-         }
-      }
-
-      label::after {
-         content: ' ✓';
-         color: #10b981;
-         font-weight: font-weight(bold);
-      }
-   }
-
-   // Error state
-   &.error {
-      input {
-         border-color: #ef4444 !important;
-         background-color: #f9fafb !important;
-         color: #374151 !important;
-
-         &:focus {
-            box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1) !important;
-         }
-      }
-
-      label::after {
-         content: ' ✗';
-         color: #ef4444;
-         font-weight: font-weight(bold);
-      }
-   }
-}
-
-// ==============================================
-// RESPONSIVE ADJUSTMENTS
-// ==============================================
-@include mobile-only {
-   .admin-create-form .form-group {
-      input {
-         font-size: font-size(base);
-         padding: spacing(3);
-      }
-   }
-
-   .form-actions {
-
-      .btn-submit,
-      .btn-cancel {
-         font-size: font-size(base);
-         padding: spacing(3) spacing(4);
-      }
-   }
-}
-
-// ==============================================
-// 🌙 DARK MODE SUPPORT
-// ==============================================
-@media (prefers-color-scheme: dark) {
-   .admin-create-container {
-      background: linear-gradient(135deg, #7f1d1d 0%, #111827 50%, #991b1b 100%);
-   }
-
-   .admin-create-title {
-      color: #fca5a5;
-   }
-
-   .admin-create-form {
-      background-color: #1f2937;
-      border-color: #dc2626;
-
-      .form-group {
-         label {
-            color: #fca5a5;
-         }
-
-         input {
-            background-color: #374151;
-            border-color: #dc2626;
-            color: #ffffff;
-
-            &:focus {
-               background-color: #1f2937;
-               border-color: #f87171;
-            }
-
-            &::placeholder {
-               color: #9ca3af;
-            }
-         }
-      }
-
-      .form-actions {
-         border-color: #374151;
-      }
-
-      .btn-cancel {
-         background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
-         color: #d1d5db;
-         border-color: #6b7280;
-
-         &:hover:not(:disabled) {
-            background: linear-gradient(135deg, #4b5563 0%, #6b7280 100%);
-            border-color: #9ca3af;
-         }
-      }
-   }
-}
-
-// ==============================================
-// 🎨 FOCUS INDICATORS (Accessibility)
-// ==============================================
-.admin-create-form {
-
-   input:focus-visible,
-   button:focus-visible {
-      outline: 2px solid #dc2626;
-      outline-offset: 2px;
-   }
-}
-
-// ==============================================
-// 💡 FORM HINTS & HELPERS
-// ==============================================
-.form-group {
-   .form-hint {
-      font-size: font-size(xs);
-      color: #6b7280;
-      margin-top: spacing(1);
-      font-style: italic;
-   }
-
-   .form-error {
-      font-size: font-size(xs);
-      color: #ef4444;
-      margin-top: spacing(1);
-      font-weight: font-weight(medium);
-
-      &::before {
-         content: '⚠️ ';
-         margin-right: spacing(1);
-      }
-   }
+.admin-create-container .action-buttons .btn-action.btn-verify-phone {
+   width: 200px;
 }

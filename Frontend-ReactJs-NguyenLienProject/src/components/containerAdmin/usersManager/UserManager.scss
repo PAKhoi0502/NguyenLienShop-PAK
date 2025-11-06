@@ -7,7 +7,6 @@
 .user-manager-container {
    padding: spacing(6);
    background: #111827;
-   min-height: 100vh;
 
    @include mobile-only {
       padding: spacing(4);
@@ -59,10 +58,34 @@
    color: #6c789b;
    margin: 0;
    z-index: 1;
+   position: relative;
+   display: inline-block;
+
+   // hiệu ứng shine
+   background: linear-gradient(to right,
+         #6c789b 0%,
+         #ffffff 20%,
+         #6c789b 40%,
+         #6c789b 100%);
+   background-size: 200% auto;
+   -webkit-background-clip: text;
+   -webkit-text-fill-color: transparent;
+   animation: shineText 3s linear infinite;
 
    @include mobile-only {
       font-size: font-size(xl);
       text-align: center;
+      display: block;
+   }
+}
+
+@keyframes shineText {
+   0% {
+      background-position: 0% center;
+   }
+
+   100% {
+      background-position: 200% center;
    }
 }
 
@@ -250,8 +273,6 @@
    .cell-na {
       color: #909191;
       font-style: italic;
-      border-radius: 4px;
-      padding: 2px 6px;
       font-size: 0.8rem !important;
       position: relative;
    }
@@ -264,29 +285,26 @@
       transition: all 0.3s ease;
 
       &:hover {
-         transform: translateY(-1px);
-      }
-
-      &::before {
-         content: '📞';
-         margin-right: 2px;
-         font-size: 0.9rem;
+         color: #7ea9ff;
       }
 
       span {
          cursor: pointer;
          transition: all 0.2s ease;
-         border-radius: 4px;
+         border-radius: 10px;
          padding: 2px 4px;
          display: inline-block;
+         text-decoration: underline;
+         text-decoration-color: #7a95ce;
+         text-decoration-thickness: 1px;
+         text-underline-offset: 3px;
 
          &:hover {
-            background-color: rgba(255, 255, 255, 0.1);
             transform: scale(1.05);
          }
 
          &:active {
-            transform: scale(0.95);
+            transform: scale(0.85);
          }
       }
    }
@@ -299,10 +317,16 @@
    font-weight: font-weight(semibold);
    @include status-badge(info);
    text-transform: uppercase;
-   background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+   background: linear-gradient(135deg, #00208a, #02244e);
    color: #ffffff;
-   border: 1px solid #93c5fd;
+   border: 1px solid #469cff;
    padding: 0.25rem 1.5rem;
+}
+
+@keyframes returnToStart {
+   100% {
+      transform: translateX(0) scale(1);
+   }
 }
 
 .action-buttons {
@@ -317,59 +341,166 @@
    }
 
    .btn-action {
-      @include button-base;
-      padding: spacing(2) spacing(3);
-      font-size: 1rem;
-      font-weight: font-weight(medium);
-      border-radius: border-radius(md);
-      transition: all 0.5s ease;
-      min-width: 80px;
-      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 8px;
+      width: 150px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      overflow: hidden;
+      position: relative;
+      transition: all 0.4s ease;
+      color: white;
 
-      @include mobile-only {
-         padding: spacing(2);
-         font-size: font-size(2xs);
-         min-width: auto;
-      }
-
-      &:hover {
-         transform: translateY(-2px);
-         box-shadow: shadow(md);
-      }
-
-      &:active {
-         transform: translateY(0);
-      }
-
-      &.btn-user-detail {
-         background: linear-gradient(135deg, #155DFC, #162456);
+      .btn-icon-detail,
+      .btn-icon-update,
+      .btn-icon-delete {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         width: 28px;
+         height: 28px;
+         border-radius: 50%;
          color: white;
-         border: 1px solid #2563eb;
+         transition:
+            transform 0.6s cubic-bezier(0.25, 1, 0.3, 1),
+            background 0.3s ease,
+            color 0.3s ease,
+            box-shadow 0.4s ease;
+         transform: translateX(0) scale(1);
+         box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+         flex-shrink: 0;
+         position: relative;
 
-         .btn-icon-detail {
-            width: 25px;
-            height: 25px;
+         /* Tạo hiệu ứng glow nhẹ */
+         &::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 50%;
+            background: transparent;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+         }
+      }
+
+      .btn-text {
+         font-size: 1.1rem;
+         transition: all 0.5s ease;
+         opacity: 1;
+         transform: translateX(0);
+         white-space: nowrap;
+      }
+
+      svg {
+         width: 30px;
+         height: 30px;
+         transition: transform 0.4s ease;
+      }
+
+      /* --- Hover --- */
+      &:hover {
+
+         .btn-icon-detail,
+         .btn-icon-update,
+         .btn-icon-delete {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85)) !important;
+            transition:
+               background 0.3s ease,
+               color 0.3s ease,
+               box-shadow 0.4s ease !important;
+
+            &::before {
+               opacity: 1;
+               background: radial-gradient(circle, rgba(37, 99, 235, 0.3), transparent 70%) !important;
+               animation: pulseGlow 2s ease-in-out infinite 0.6s !important;
+            }
          }
 
+         svg {
+            transform: rotate(25deg);
+         }
+      }
+
+      /* --- Các loại nút --- */
+      &.btn-user-detail {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         background: linear-gradient(135deg, #155dfc, #162456);
+         border: 2px solid #2563eb;
+
          &:hover {
-            background: linear-gradient(135deg, #162456, #155DFC);
-            box-shadow: 0 5px 15px rgba(94, 118, 255, 0.5);
+            background: linear-gradient(135deg, #162456, #155dfc);
+            border: 2px solid #8eb1fd;
+            transform: scale(1.05) !important;
+            transition: all 0.3s ease;
+
+            .btn-icon-detail {
+               background: linear-gradient(135deg, rgba(142, 177, 253, 0.95), rgba(142, 177, 253, 0.85));
+               color: #162456 !important;
+
+               &::before {
+                  background: radial-gradient(circle, rgba(142, 177, 253, 0.4), transparent 70%);
+               }
+            }
          }
       }
 
       &.btn-update {
-         background: linear-gradient(135deg, #7BF1A8, #2AA63E);
-         color: color(white);
-         border: 1px solid #16a34a;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         background: linear-gradient(135deg, #2D9966, #032E15);
+         border: 2px solid #16a34a;
+
+         &:hover {
+            background: linear-gradient(135deg, #032E15, #2D9966);
+            border: 2px solid #8effb7;
+            transform: scale(1.05) !important;
+            transition: all 0.3s ease;
+
+            .btn-icon-update {
+               background: linear-gradient(135deg, rgba(74, 222, 128, 0.95), rgba(74, 222, 128, 0.85));
+               color: #032E15 !important;
+
+               &::before {
+                  background: radial-gradient(circle, rgba(74, 222, 128, 0.4), transparent 70%);
+               }
+            }
+         }
       }
 
       &.btn-delete {
-         background: linear-gradient(135deg, #FFA2A2, #E7180B);
-         color: color(white);
-         border: 1px solid #dc2626;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         background: linear-gradient(135deg, #E7180B, #460809);
+         border: 2px solid #dc2626;
+
+         &:hover {
+            background: linear-gradient(135deg, #460809, #E7180B) !important;
+            border: 2px solid #ff9797;
+            box-shadow: none !important;
+            transform: scale(1.05) !important;
+            transition: all 0.3s ease;
+
+            .btn-icon-delete {
+               background: linear-gradient(135deg, rgba(248, 113, 113, 0.95), rgba(248, 113, 113, 0.85));
+               color: #460809;
+
+               &::before {
+                  background: radial-gradient(circle, rgba(248, 113, 113, 0.4), transparent 70%);
+               }
+            }
+         }
       }
    }
 }
+
 
 /* -----------------------------
    Loading & error states

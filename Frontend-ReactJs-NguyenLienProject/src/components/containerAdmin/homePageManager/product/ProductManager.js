@@ -91,46 +91,58 @@ const ProductManager = () => {
             <h1 className="product-title">
                <FormattedMessage id="body_admin.product_management.title_head" defaultMessage="Quản lý sản phẩm" />
             </h1>
-            <button
-               className="btn-create-product"
-               onClick={() => navigate('/admin/product-category-management/product-management/product-create')}
-            >
-               + <FormattedMessage id="body_admin.product_management.create_button" defaultMessage="Tạo sản phẩm" />
-            </button>
+            <div className="product-actions">
+               <button
+                  className="btn-create btn-create-product"
+                  onClick={() => navigate('/admin/product-category-management/product-management/product-create')}
+               >
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="btn-icon">
+                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 10.5v6m3-3H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
+                  </svg>
+
+                  <FormattedMessage id="body_admin.product_management.create_button" defaultMessage="Tạo sản phẩm" />
+               </button>
+            </div>
          </div>
 
-         <div className="product-filters">
-            <HintBox
-               theme="product"
-               content={
-                  <div>
-                     <p><FormattedMessage id="body_admin.product_management.hint_title" defaultMessage="Hướng dẫn: Quản lý danh sách sản phẩm, bao gồm tạo, cập nhật, xóa và thay đổi trạng thái hiển thị." /></p>
-                     <ul>
-                        <li><FormattedMessage id="body_admin.product_management.hint_1" defaultMessage="Sử dụng nút 'Tạo sản phẩm' để thêm sản phẩm mới vào hệ thống." /></li>
-                        <li><FormattedMessage id="body_admin.product_management.hint_2" defaultMessage="Chỉ có thể cập nhật sản phẩm khi đã ẩn khỏi trang chủ." /></li>
-                        <li><FormattedMessage id="body_admin.product_management.hint_3" defaultMessage="Sử dụng bộ lọc để tìm sản phẩm theo trạng thái hiển thị." /></li>
-                        <li><FormattedMessage id="body_admin.product_management.hint_4" defaultMessage="Chức năng tìm kiếm hỗ trợ tìm theo tên sản phẩm hoặc ID." /></li>
-                        <li><FormattedMessage id="body_admin.product_management.hint_5" defaultMessage="Quản lý danh mục sản phẩm thông qua nút 'Danh mục'." /></li>
-                     </ul>
-                  </div>
-               }
-            />
+         <div className="product-search-section">
 
-            <label><FormattedMessage id="body_admin.product_management.filter_status" defaultMessage="Lọc trạng thái:" /></label>
-            <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
-               <option value="all"><FormattedMessage id="body_admin.product_management.filter_all" defaultMessage="Tất cả" /></option>
-               <option value="active"><FormattedMessage id="body_admin.product_management.filter_active" defaultMessage="Đang hiển thị" /></option>
-               <option value="inactive"><FormattedMessage id="body_admin.product_management.filter_inactive" defaultMessage="Đã ẩn" /></option>
-               <option value="out_of_stock"><FormattedMessage id="body_admin.product_management.filter_out_of_stock" defaultMessage="Hết hàng" /></option>
-            </select>
-         </div>
-         <div className="product-search-bar">
-            <input
-               type="text"
-               placeholder={intl.formatMessage({ id: 'body_admin.product_management.search_placeholder', defaultMessage: 'Tìm theo tên sản phẩm, ID...' })}
-               value={search}
-               onChange={(e) => setSearch(e.target.value)}
-            />
+            <div className="product-hint-box">
+               <HintBox
+                  theme="product"
+                  content={
+                     <div>
+                        <p><FormattedMessage id="body_admin.product_management.hint_title" defaultMessage="Hướng dẫn: Quản lý danh sách sản phẩm, bao gồm tạo, cập nhật, xóa và thay đổi trạng thái hiển thị." /></p>
+                        <ul>
+                           <li><FormattedMessage id="body_admin.product_management.hint_1" defaultMessage="Sử dụng nút 'Tạo sản phẩm' để thêm sản phẩm mới vào hệ thống." /></li>
+                           <li><FormattedMessage id="body_admin.product_management.hint_2" defaultMessage="Chỉ có thể cập nhật sản phẩm khi đã ẩn khỏi trang chủ." /></li>
+                           <li><FormattedMessage id="body_admin.product_management.hint_3" defaultMessage="Sử dụng bộ lọc để tìm sản phẩm theo trạng thái hiển thị." /></li>
+                           <li><FormattedMessage id="body_admin.product_management.hint_4" defaultMessage="Chức năng tìm kiếm hỗ trợ tìm theo tên sản phẩm hoặc ID." /></li>
+                           <li><FormattedMessage id="body_admin.product_management.hint_5" defaultMessage="Quản lý danh mục sản phẩm thông qua nút 'Danh mục'." /></li>
+                        </ul>
+                     </div>
+                  }
+               />
+            </div>
+
+            <div className="product-search-bar">
+               <input
+                  type="text"
+                  placeholder={intl.formatMessage({ id: 'body_admin.product_management.search_placeholder', defaultMessage: 'Tìm theo tên sản phẩm, ID...' })}
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+               />
+            </div>
+
+            <div className="product-filter-status">
+               <label><FormattedMessage id="body_admin.product_management.filter_status" defaultMessage="Lọc trạng thái:" /></label>
+               <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
+                  <option value="all"><FormattedMessage id="body_admin.product_management.filter_all" defaultMessage="Tất cả" /></option>
+                  <option value="active"><FormattedMessage id="body_admin.product_management.filter_active" defaultMessage="Đang hiển thị" /></option>
+                  <option value="inactive"><FormattedMessage id="body_admin.product_management.filter_inactive" defaultMessage="Đang ẩn" /></option>
+                  <option value="out_of_stock"><FormattedMessage id="body_admin.product_management.filter_out_of_stock" defaultMessage="Hết hàng" /></option>
+               </select>
+            </div>
          </div>
 
          {loading ? (
@@ -159,19 +171,14 @@ const ProductManager = () => {
                         filteredProducts.map((product) => (
                            <tr key={product.id}>
                               <td style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>{product.id}</td>
-                              <td style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>
+                              <td style={{ fontSize: '1.1rem', fontWeight: 'bold' }} className="product-name-cell">
                                  <span
                                     className="product-name-link"
                                     onClick={() => handleDetailClick(product)}
                                     title={intl.formatMessage({ id: 'body_admin.product_management.detail_title', defaultMessage: 'Click để xem chi tiết' })}
                                     style={{
-                                       cursor: 'pointer',
-                                       color: '#2563eb',
-                                       textDecoration: 'underline',
-                                       transition: 'color 0.3s ease'
+                                       cursor: 'pointer'
                                     }}
-                                    onMouseEnter={(e) => e.target.style.color = '#1d4ed8'}
-                                    onMouseLeave={(e) => e.target.style.color = '#2563eb'}
                                  >
                                     {product.nameProduct || ''}
                                  </span>
@@ -192,18 +199,46 @@ const ProductManager = () => {
                               </td>
                               <td>
                                  <div className="action-buttons">
+
                                     <button
                                        className="btn-action btn-detail"
                                        onClick={() => handleDetailClick(product)}
                                     >
-                                       <FormattedMessage id="body_admin.product_management.detail" defaultMessage="Chi tiết" />
+                                       <span className="btn-text">
+                                          <FormattedMessage id="body_admin.product_management.detail" defaultMessage="Chi tiết" />
+                                       </span>
+                                       <span className="btn-icon-detail">
+                                          <svg
+                                             xmlns="http://www.w3.org/2000/svg"
+                                             fill="none"
+                                             viewBox="0 0 24 24"
+                                             strokeWidth="1.5"
+                                             stroke="currentColor"
+                                          >
+                                             <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 
+            12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"
+                                             />
+                                          </svg>
+                                       </span>
                                     </button>
+
                                     <button
                                        className="btn-action btn-update"
                                        onClick={() => handleUpdateClick(product)}
                                     >
-                                       <FormattedMessage id="body_admin.product_management.update" defaultMessage="Cập nhật" />
+                                       <span className="btn-text">
+                                          <FormattedMessage id="body_admin.product_management.update" defaultMessage="Cập nhật" />
+                                       </span>
+                                       <span className="btn-icon-update">
+                                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+                                             <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                          </svg>
+                                       </span>
                                     </button>
+
                                     <ProductActive
                                        product={product}
                                        onSuccess={(productId, updatedProduct) => {
@@ -212,18 +247,28 @@ const ProductManager = () => {
                                           );
                                        }}
                                     />
+
                                     <button
                                        className="btn-action btn-add-category"
                                        onClick={() => navigate(`/admin/product-category-management/product-management/info-category/${product.id}`)}
                                     >
-                                       <FormattedMessage id="body_admin.product_management.info_category" defaultMessage="Danh mục" />
+                                       <span className="btn-text">
+                                          <FormattedMessage id="body_admin.product_management.info_category" defaultMessage="Danh mục" />
+                                       </span>
+                                       <span className="btn-icon-add-category">
+                                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+                                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 10.5v6m3-3H9m4.06-7.19-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z" />
+                                          </svg>
+                                       </span>
                                     </button>
+
                                     <ProductDelete
                                        product={product}
                                        onSuccess={(deletedProductId) => {
                                           setProducts((prev) => prev.filter((p) => p.id !== deletedProductId));
                                        }}
                                     />
+
                                  </div>
                               </td>
                            </tr>

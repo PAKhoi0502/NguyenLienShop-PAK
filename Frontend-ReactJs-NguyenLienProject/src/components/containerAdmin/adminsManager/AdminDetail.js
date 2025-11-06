@@ -76,13 +76,28 @@ const AdminDetail = () => {
             }</div>
          </div>
 
-         <div className="admin-detail-actions">
-            <button className="btn-edit" onClick={handleEdit}>
-               <FormattedMessage id="body_admin.account_management.admin_manager.detail_admin.edit_button" defaultMessage="Cập nhật thông tin" />
+         <div className="action-buttons">
+            <button className="btn-action btn-update" onClick={handleEdit}>
+               <span className="btn-text">
+                  <FormattedMessage id="body_admin.account_management.admin_manager.detail_admin.edit_button" defaultMessage="Cập nhật thông tin" />
+               </span>
+               <span className="btn-icon-update">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+                     <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                  </svg>
+               </span>
             </button>
-            <AdminDelete user={user} onSuccess={handleDeleteSuccess} className="btn-delete" />
-            <button className="btn-back" onClick={() => navigate(-1)}>
-               <FormattedMessage id="body_admin.account_management.admin_manager.detail_admin.back_button" defaultMessage="Quay lại" />
+            <AdminDelete user={user} onSuccess={handleDeleteSuccess} />
+            <button className="btn-action btn-back" onClick={() => navigate(-1)}>
+               <span className="btn-text">
+                  <FormattedMessage id="body_admin.account_management.admin_manager.detail_admin.back_button" defaultMessage="Quay lại" />
+               </span>
+               <span className="btn-icon-back">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+                     <path strokeLinecap="round" strokeLinejoin="round" d="m12.75 15 3-3m0 0-3-3m3 3h-7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                  </svg>
+
+               </span>
             </button>
          </div>
       </div>

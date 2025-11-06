@@ -8,7 +8,7 @@
 .user-create-container {
    width: 100%;
    padding: spacing(6);
-   background: linear-gradient(135deg, #eff6ff 0%, color(white) 50%, #dbeafe 100%);
+   background-color: #111827;
    min-height: 100vh;
 
    @include mobile-only {
@@ -16,38 +16,44 @@
    }
 }
 
-// ==============================================
-// 🎯 USER CREATE HEADER (Blue theme)
-// ==============================================
 .user-create-title {
-   font-size: font-size(2xl);
+   font-size: 2.5rem;
    font-weight: font-weight(bold);
-   color: #1e3a8a;
+   color: #6c789b;
+   margin: 0;
+   z-index: 1;
+   position: relative;
    text-align: center;
    margin-bottom: spacing(8);
-   position: relative;
 
-   // User creation icon effect
-
-
-   // Decorative underline
-   &::after {
-      content: '';
-      position: absolute;
-      bottom: -spacing(2);
-      left: 50%;
-      transform: translateX(-50%);
-      width: 15rem !important;
-      height: 4px !important;
-      top: 2.3rem !important;
-      background: linear-gradient(135deg, #2563eb, #1d4ed8);
-      border-radius: border-radius(full);
-   }
+   // hiệu ứng shine
+   background: linear-gradient(to right,
+         #6c789b 0%,
+         #ffffff 20%,
+         #6c789b 40%,
+         #6c789b 100%);
+   background-size: 200% auto;
+   -webkit-background-clip: text;
+   background-clip: text;
+   -webkit-text-fill-color: transparent;
+   animation: shineText 3s linear infinite;
 
    @include mobile-only {
       font-size: font-size(xl);
-      margin-bottom: spacing(6);
+      text-align: center;
+      display: block;
    }
+}
+
+@keyframes shineText {
+   0% {
+      background-position: 0% center;
+   }
+
+   100% {
+      background-position: 200% center;
+   }
+
 }
 
 // ==============================================
@@ -56,8 +62,8 @@
 .user-create-form {
    @include card-base;
    @include card-padding(lg);
-   background: color(white);
-   border: 1px solid #93c5fd;
+   background: #1f2937;
+   border: 1px solid #374151;
    border-radius: border-radius(xl);
    box-shadow: shadow(lg);
    position: relative;
@@ -92,7 +98,7 @@
       display: block;
       font-weight: font-weight(semibold);
       font-size: font-size(sm);
-      color: #1e3a8a;
+      color: rgb(147, 197, 255);
       margin-bottom: spacing(2);
       position: relative;
 
@@ -108,13 +114,13 @@
    input,
    select {
       @include input-base;
-      background-color: #f8fafc;
-      border-color: #cbd5e1;
+      background-color: #d3ebff;
+      border: 3px solid #203d74bd;
       transition: all 0.3s ease;
 
       &:focus {
-         background-color: #ffffff;
-         border-color: #2563eb;
+         background-color: #a9d8ff;
+         border: 3px solid #0059ff;
          box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
          outline: none;
       }
@@ -130,94 +136,153 @@
          font-style: italic;
       }
    }
-
-   select {
-      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
-      background-position: right spacing(2) center;
-      background-repeat: no-repeat;
-      background-size: 16px 12px;
-      padding-right: spacing(8);
-   }
 }
 
 // ==============================================
 // 🎛️ FORM ACTIONS (Blue theme)
 // ==============================================
-.user-create-form .form-actions {
+.user-create-container .action-buttons {
    display: flex;
-   gap: spacing(4);
+   gap: spacing(3);
+   flex-wrap: wrap;
    justify-content: center;
-   margin-top: spacing(8);
-   padding-top: spacing(6);
-   border-top: 1px solid #e2e8f0;
 
    @include mobile-only {
       flex-direction: column;
-      gap: spacing(3);
+      gap: spacing(1);
    }
 
-   .btn-submit {
-      @include button-base;
-      @include button-size(lg);
-      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-      color: #ffffff;
+   .btn-action {
+      display: flex;
+      align-items: center;
+      gap: 8px;
       border: none;
-      font-weight: font-weight(semibold);
-      min-width: 140px;
+      border-radius: 30px;
+      cursor: pointer;
+      overflow: hidden;
       position: relative;
+      transition: all 0.4s ease;
+      color: white;
 
-      &:hover:not(:disabled) {
-         background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
-         transform: translateY(-1px);
-         box-shadow: shadow(lg);
-      }
-
-      &:active:not(:disabled) {
-         transform: translateY(0);
-      }
-
-      &:disabled {
-         background: linear-gradient(135deg, #94a3b8, #64748b);
-         cursor: not-allowed;
-         transform: none;
-      }
-
-      // Loading spinner for submit button
-      &:disabled::before {
-         content: '';
-         width: 16px;
-         height: 16px;
-         border: 2px solid transparent;
-         border-top-color: #ffffff;
+      .btn-icon-verify-phone,
+      .btn-icon-cancel {
+         display: flex;
+         align-items: center;
+         justify-content: flex-start;
+         width: 28px;
+         height: 28px;
          border-radius: 50%;
-         animation: user-create-spin 1s linear infinite;
-         display: inline-block;
-         margin-right: spacing(2);
+         color: white;
+         transition:
+            transform 0.6s cubic-bezier(0.25, 1, 0.3, 1),
+            background 0.3s ease,
+            color 0.3s ease,
+            box-shadow 0.4s ease;
+         transform: translateX(0) scale(1);
+         box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+         flex-shrink: 0;
+         position: relative;
+
+
+         /* Tạo hiệu ứng glow nhẹ */
+         &::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 50%;
+            background: transparent;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+         }
       }
-   }
 
-   .btn-cancel {
-      @include button-base;
-      @include button-size(lg);
-      background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
-      color: #475569;
-      border: 1px solid #cbd5e1;
-      min-width: 120px;
-
-      &:hover:not(:disabled) {
-         background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
-         border-color: #94a3b8;
-         transform: translateY(-1px);
+      .btn-text {
+         font-size: 1.1rem;
+         transition: all 0.5s ease;
+         opacity: 1;
+         transform: translateX(0);
+         white-space: nowrap;
       }
 
-      &:active:not(:disabled) {
-         transform: translateY(0);
+      svg {
+         width: 30px;
+         height: 30px;
+         transition: transform 0.4s ease;
       }
 
-      &:disabled {
-         opacity: 0.6;
-         cursor: not-allowed;
-         transform: none;
+      /* --- Hover --- */
+      &:hover {
+
+         .btn-icon-verify-phone,
+         .btn-icon-cancel {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85)) !important;
+            transition:
+               background 0.3s ease,
+               color 0.3s ease,
+               box-shadow 0.4s ease !important;
+
+            &::before {
+               opacity: 1;
+               background: radial-gradient(circle, rgba(37, 99, 235, 0.3), transparent 70%) !important;
+               animation: pulseGlow 2s ease-in-out infinite 0.6s !important;
+            }
+         }
+
+         svg {
+            transform: rotate(25deg);
+         }
+      }
+
+      /* --- Các loại nút --- */
+      &.btn-verify-phone {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         background: linear-gradient(135deg, #155dfc, #162456);
+         border: 2px solid #2563eb;
+
+         &:hover {
+            background: linear-gradient(135deg, #162456, #155dfc);
+            border: 2px solid #8eb1fd;
+            transform: scale(1.05) !important;
+            transition: all 0.3s ease;
+            box-shadow: none !important;
+
+            .btn-icon-verify-phone {
+               background: linear-gradient(135deg, rgba(142, 177, 253, 0.95), rgba(142, 177, 253, 0.85));
+               color: #162456 !important;
+
+               &::before {
+                  background: radial-gradient(circle, rgba(142, 177, 253, 0.4), transparent 70%);
+               }
+            }
+         }
+      }
+
+      &.btn-cancel {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         background: linear-gradient(135deg, #52525C, #09090B);
+         border: 2px solid rgb(68, 68, 73);
+
+         &:hover {
+            background: linear-gradient(135deg, #09090B, #52525C) !important;
+            border: 2px solid #71717B;
+            box-shadow: none !important;
+            transform: scale(1.05) !important;
+            transition: all 0.3s ease;
+
+            .btn-icon-cancel {
+               background: linear-gradient(135deg, rgba(248, 113, 113, 0.95), rgba(248, 113, 113, 0.85));
+               color: #09090B;
+
+               &::before {
+                  background: radial-gradient(circle, rgba(248, 113, 113, 0.4), transparent 70%);
+               }
+            }
+         }
       }
    }
 }
@@ -296,9 +361,7 @@
    }
 }
 
-.user-create-container {
-   animation: fade-in 0.5s ease-out;
-}
+
 
 @keyframes fade-in {
    from {
@@ -322,61 +385,6 @@
          input,
          select {
             font-size: font-size(base);
-         }
-      }
-   }
-}
-
-// ==============================================
-// 🌙 DARK MODE SUPPORT
-// ==============================================
-@media (prefers-color-scheme: dark) {
-   .user-create-container {
-      background: linear-gradient(135deg, #1e3a8a 0%, color(gray-900) 50%, #1e40af 100%);
-   }
-
-   .user-create-title {
-      color: #93c5fd;
-   }
-
-   .user-create-form {
-      background-color: #1f2937;
-      border-color: #2563eb;
-
-      .form-group {
-         label {
-            color: #93c5fd;
-         }
-
-         input,
-         select {
-            background-color: #374151;
-            border-color: #4b5563;
-            color: #f3f4f6;
-
-            &:focus {
-               background-color: #374151;
-               border-color: #2563eb;
-               box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-            }
-
-            &::placeholder {
-               color: #9ca3af;
-            }
-         }
-      }
-
-      .form-actions {
-         border-color: #4b5563;
-
-         .btn-cancel {
-            background: linear-gradient(135deg, #374151, #4b5563);
-            color: #e5e7eb;
-            border-color: #6b7280;
-
-            &:hover:not(:disabled) {
-               background: linear-gradient(135deg, #4b5563, #6b7280);
-            }
          }
       }
    }
@@ -620,68 +628,6 @@
    }
 }
 
-// ==============================================
-// 🌙 DARK MODE SUCCESS STYLES (User theme)
-// ==============================================
-@media (prefers-color-scheme: dark) {
-   .user-create-success .success-message {
-      background: linear-gradient(135deg, color(gray-800) 0%, #1e3a8a 100%);
-      border-color: #1d4ed8;
-
-      h2 {
-         color: #93c5fd;
-      }
-
-      p {
-         color: #bfdbfe;
-      }
-   }
-
-   .user-create-success .redirecting {
-      background: linear-gradient(135deg, color(gray-700) 0%, #1e3a8a 100%);
-      border-color: #1d4ed8;
-      color: #93c5fd;
-   }
-}
-
-// ==============================================
-// 📱 OTP VERIFICATION BUTTON STYLES
-// ==============================================
-.btn-verify-phone {
-   background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-   border: 2px solid #2563eb;
-   color: white;
-   padding: spacing(3) spacing(6);
-   border-radius: 8px;
-   font-size: font-size(base);
-   font-weight: font-weight(medium);
-   cursor: pointer;
-   transition: all 0.3s ease;
-   position: relative;
-   overflow: hidden;
-
-   &::before {
-      position: absolute;
-      left: 16px;
-      top: 50%;
-      transform: translateY(-50%);
-   }
-
-   &:hover:not(:disabled) {
-      background: linear-gradient(135deg, #2563eb, #1e40af);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
-   }
-
-   &:active:not(:disabled) {
-      transform: translateY(0);
-   }
-
-   &:disabled {
-      background: linear-gradient(135deg, #9ca3af, #6b7280);
-      border-color: #9ca3af;
-      cursor: not-allowed;
-      transform: none;
-      box-shadow: none;
-   }
+.user-create-container .action-buttons .btn-action.btn-verify-phone {
+   width: 200px;
 }

@@ -532,12 +532,16 @@ const ProductDetail = () => {
 
    return (
       <div className="product-detail-container">
-         <h1>
+         <div className="product-detail-title">
             <FormattedMessage id="body_admin.product_management.detail_product.title" defaultMessage="Thông tin sản phẩm" />
-         </h1>
+         </div>
 
          <div className="product-detail-card">
+
             <div className="card-header">
+               <div className='product-detail-header-title'>
+                  <FormattedMessage id="body_admin.product_management.detail_product.name" defaultMessage="Tên sản phẩm" />:
+               </div>
                <h2>{product.nameProduct || intl.formatMessage({ id: 'body_admin.product_management.detail_product.no_name', defaultMessage: 'Không có tên sản phẩm' })}</h2>
                <div className="product-id">ID: {product.id}</div>
             </div>

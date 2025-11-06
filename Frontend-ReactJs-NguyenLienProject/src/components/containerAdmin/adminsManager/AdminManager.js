@@ -68,11 +68,43 @@ const AdminManager = () => {
                   className="btn-create btn-create-admin"
                   onClick={() => navigate('/admin/account-management/admin-management/admin-register')}
                >
-                  + <FormattedMessage id="body_admin.account_management.admin_manager.create_button" defaultMessage="Tạo quản trị viên" />
+                  <svg
+                     xmlns="http://www.w3.org/2000/svg"
+                     fill="none"
+                     viewBox="0 0 24 24"
+                     strokeWidth={1.5}
+                     stroke="currentColor"
+                     className="btn-icon"
+                  >
+                     <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z"
+                     />
+                  </svg>
+                  <FormattedMessage id="body_admin.account_management.admin_manager.create_button" defaultMessage="Tạo quản trị viên" />
                </button>
             </div>
          </div>
+
          <div className="admin-search-section">
+            <div className="admin-hint-box">
+               <HintBox
+                  theme="user"
+                  content={
+                     <div>
+                        <p><FormattedMessage id="body_admin.account_management.admin_manager.hint_title" defaultMessage="Hướng dẫn" /></p>
+                        <ul>
+                           <li><FormattedMessage id="body_admin.account_management.admin_manager.hint_1" defaultMessage="Sử dụng nút 'Tạo quản trị viên' để thêm tài khoản quản trị mới vào hệ thống." /></li>
+                           <li><FormattedMessage id="body_admin.account_management.admin_manager.hint_2" defaultMessage="Click vào tên quản trị viên để xem thông tin chi tiết." /></li>
+                           <li><FormattedMessage id="body_admin.account_management.admin_manager.hint_3" defaultMessage="Sử dụng chức năng tìm kiếm để lọc theo tên, email hoặc họ tên." /></li>
+                           <li><FormattedMessage id="body_admin.account_management.admin_manager.hint_4" defaultMessage="Tắt hiện thị của banner trước khi muốn cập nhật hoặc xóa nó." /></li>
+                           <li><FormattedMessage id="body_admin.account_management.admin_manager.hint_5" defaultMessage="Hãy thận trọng khi xóa tài khoản quản trị viên." /></li>
+                        </ul>
+                     </div>
+                  }
+               />
+            </div>
             <div className="admin-search-bar">
                <input
                   type="text"
@@ -81,22 +113,10 @@ const AdminManager = () => {
                   onChange={e => setSearch(e.target.value)}
                />
             </div>
-            <HintBox
-               theme="user"
-               content={
-                  <div>
-                     <p><FormattedMessage id="body_admin.account_management.admin_manager.hint_title" defaultMessage="Hướng dẫn" /></p>
-                     <ul>
-                        <li><FormattedMessage id="body_admin.account_management.admin_manager.hint_1" defaultMessage="Sử dụng nút 'Tạo quản trị viên' để thêm tài khoản quản trị mới vào hệ thống." /></li>
-                        <li><FormattedMessage id="body_admin.account_management.admin_manager.hint_2" defaultMessage="Click vào tên quản trị viên để xem thông tin chi tiết." /></li>
-                        <li><FormattedMessage id="body_admin.account_management.admin_manager.hint_3" defaultMessage="Sử dụng chức năng tìm kiếm để lọc theo tên, email hoặc họ tên." /></li>
-                        <li><FormattedMessage id="body_admin.account_management.admin_manager.hint_4" defaultMessage="Tắt hiện thị của banner trước khi muốn cập nhật hoặc xóa nó." /></li>
-                        <li><FormattedMessage id="body_admin.account_management.admin_manager.hint_5" defaultMessage="Hãy thận trọng khi xóa tài khoản quản trị viên." /></li>
-                     </ul>
-                  </div>
-               }
-            />
+
          </div>
+
+
          {loading ? (
             <div className="admin-loading">
                <FormattedMessage id="body_admin.account_management.admin_manager.loading" defaultMessage="Đang tải..." />
@@ -152,10 +172,35 @@ const AdminManager = () => {
                               <td>
                                  <div className="action-buttons">
                                     <button className="btn-action btn-user-detail" onClick={() => handleGetAdminProfile(user)}>
-                                       <FormattedMessage id="body_admin.account_management.admin_manager.detail" defaultMessage="Chi tiết" />
+                                       <span className="btn-text">
+                                          <FormattedMessage id="body_admin.account_management.admin_manager.detail" defaultMessage="Chi tiết" />
+                                       </span>
+                                       <span className="btn-icon-detail">
+                                          <svg
+                                             xmlns="http://www.w3.org/2000/svg"
+                                             fill="none"
+                                             viewBox="0 0 24 24"
+                                             strokeWidth="1.5"
+                                             stroke="currentColor"
+                                          >
+                                             <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 
+            12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z"
+                                             />
+                                          </svg>
+                                       </span>
                                     </button>
                                     <button className="btn-action btn-update" onClick={() => handleUpdate(user)}>
-                                       <FormattedMessage id="body_admin.account_management.admin_manager.update" defaultMessage="Cập nhật" />
+                                       <span className="btn-text">
+                                          <FormattedMessage id="body_admin.account_management.admin_manager.update" defaultMessage="Cập nhật" />
+                                       </span>
+                                       <span className="btn-icon-update">
+                                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+                                             <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                          </svg>
+                                       </span>
                                     </button>
                                     <AdminDelete user={user} onSuccess={(deletedId) => {
                                        setUsers(prev => prev.filter(u => u.id !== deletedId));

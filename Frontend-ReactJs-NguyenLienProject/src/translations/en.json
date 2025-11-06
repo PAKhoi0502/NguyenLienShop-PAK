@@ -104,7 +104,7 @@
         "error_title_invalid_password": "Invalid password!",
         "error_title_invalid_re_password": "Passwords do not match!",
         "phone_verified": "✅ Phone number verified",
-        "verify_phone_button": "Verify Phone Number",
+        "verify_phone_button": "Verify OTP",
         "title": "Create Account",
         "phone_placeholder": "Phone number",
         "password_placeholder": "Password",
@@ -660,7 +660,7 @@
                 "status_label": "Status",
                 "created_at": "Created At",
                 "updated_at": "Updated At",
-                "edit_button": "Update Information",
+                "edit_button": "Update",
                 "back_button": "Back"
             },
             "update": {
@@ -789,7 +789,7 @@
                     "role": "Role",
                     "hidden_field": "(Hidden - update on another page)",
                     "empty": "No data",
-                    "edit_button": "Edit Information",
+                    "edit_button": "Edit",
                     "back_button": "Back"
                 },
                 "gender_admin": {
@@ -931,11 +931,11 @@
                 "update_error_title": "Error",
                 "create": {
                     "title": "Create User Account",
-                    "phone": "Phone Number *",
+                    "phone": "Phone Number",
                     "phone_placeholder": "Enter phone number",
-                    "password": "Password *",
+                    "password": "Password",
                     "password_placeholder": "Enter password (minimum 6 characters)",
-                    "confirm_password": "Confirm Password *",
+                    "confirm_password": "Confirm Password",
                     "confirm_password_placeholder": "Re-enter password",
                     "submit": "Create Account",
                     "creating": "Creating...",
@@ -1003,7 +1003,7 @@
                     "role": "Role",
                     "missing": "Missing",
                     "hidden": "(Hidden - update on another page)",
-                    "edit_button": "Edit Information",
+                    "edit_button": "Edit",
                     "back_button": "Back"
                 },
                 "gender_user": {
@@ -1154,7 +1154,7 @@
             "empty_body": "No matching products found.",
             "detail": "Details",
             "update": "Update",
-            "info_category": "Category Management",
+            "info_category": "Category",
             "deactivate_button": "Deactivate",
             "activate_button": "Activate",
             "delete_button": "Delete",
