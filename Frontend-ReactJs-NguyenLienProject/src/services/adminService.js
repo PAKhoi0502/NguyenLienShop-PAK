@@ -164,9 +164,9 @@ export const getAdmins = async (id = 'ALL') => {
     }
 };
 
-export const verifyPassword = async (passwordData) => {
+export const verifyPassword = async (passwordData, config = {}) => {
     try {
-        const res = await axios.post('/api/admin/verify-password', passwordData);
+        const res = await axios.post('/api/admin/verify-password', passwordData, config);
         const data = res.data || res;
         if (!data) {
             return { errCode: -1, errMessage: 'Không nhận được dữ liệu từ server.' };

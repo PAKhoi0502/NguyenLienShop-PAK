@@ -8,7 +8,8 @@
 .homepage-dashboard {
     min-height: 48vh;
     background-color: #111827;
-    padding: spacing(6);
+    padding: spacing(12) spacing(8);
+
 
     @include mobile-only {
         padding: spacing(4);
@@ -39,27 +40,35 @@
     }
 
     &__title {
-        font-size: 2.5rem;
+        font-size: 3.5rem;
         font-weight: font-weight(bold);
-        color: white;
-        line-height: line-height(tight);
+        color: #6c789b;
+        margin: 0;
+        z-index: 1;
         position: relative;
+        display: inline-block;
+
+        // hiệu ứng shine
+        background: linear-gradient(to right,
+                #6c789b 0%,
+                #ffffff 20%,
+                #6c789b 40%,
+                #6c789b 100%);
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shineText 3s linear infinite;
 
         @include mobile-only {
-            font-size: font-size(2xl);
+            font-size: font-size(xl);
             text-align: center;
-
-            &::after {
-                left: 50%;
-                transform: translateX(-50%);
-            }
+            display: block;
         }
     }
 
     &__subtitle {
         font-size: font-size(lg);
-        color: #8d9196;
-        margin: spacing(2) 0 0 0;
+        color: #8d9196; // gray-600
         line-height: line-height(relaxed);
 
         @include mobile-only {
@@ -157,195 +166,47 @@
 // ==============================================
 // 🎯 DASHBOARD CARD COMPONENT
 // ==============================================
-.option-card {
+.dashboard-card {
     @include card-base;
     @include card-hover;
 
     text-decoration: none;
     color: inherit;
     display: block;
-    transition: all 0.3s ease;
+    transition: all 0.5s ease;
     position: relative;
     overflow: hidden;
     background-color: #1f2937; // gray-800
     border-color: #374151; // gray-700
 
-    // ✨ Hover animation
     &:hover {
         border-color: #3b82f6;
         border-radius: border-radius(lg);
-        animation: pulse-border 1s infinite;
+        animation: pulse-border 2s infinite;
         transform: translateY(-3px);
     }
 
-    // 🔁 Pulse animation
     @keyframes pulse-border {
         0% {
-            box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.5), 0 0 10px rgba(139, 92, 246, 0.3);
+            box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.5),
+                0 0 10px rgba(139, 92, 246, 0.3);
         }
 
         70% {
-            box-shadow: 0 0 0 8px rgba(59, 130, 246, 0), 0 0 30px rgba(139, 92, 246, 0);
+            box-shadow: 0 0 0 8px rgba(59, 130, 246, 0),
+                0 0 30px rgba(139, 92, 246, 0);
         }
 
         100% {
-            box-shadow: 0 0 0 0 rgba(59, 130, 246, 0), 0 0 10px rgba(139, 92, 246, 0);
+            box-shadow: 0 0 0 0 rgba(59, 130, 246, 0),
+                0 0 10px rgba(139, 92, 246, 0);
         }
-    }
-
-    &__container {
-        @include card-padding(lg);
-        position: relative;
-        height: 100%;
-        min-height: 180px;
-        display: flex;
-        flex-direction: column;
-        background-color: transparent;
-        border: none;
-
-        // 🎨 Color variants
-        &.option-card--purple {
-            border-left: 4px solid #647caf;
-
-            .option-card:hover & {
-                border-left-color: #3b82f6; // Màu khi hover (xanh hơn)
-            }
-
-            .option-card__icon-wrapper {
-                background-color: #dbeafe;
-                color: black;
-                transition: all 0.3s ease;
-            }
-        }
-
-        &.option-card--gray {
-            border-left: 4px solid #647caf;
-
-            .option-card:hover & {
-                border-left-color: #3b82f6; // Màu khi hover (xanh hơn)
-            }
-
-            .option-card__icon-wrapper {
-                background-color: #dbeafe;
-                color: black;
-                transition: all 0.3s ease;
-            }
-        }
-
-        &.option-card--green {
-            border-left: 4px solid #647caf;
-
-            .option-card:hover & {
-                border-left-color: #3b82f6; // Màu khi hover (xanh hơn)
-            }
-
-            .option-card__icon-wrapper {
-                background-color: #dbeafe;
-                color: black;
-                transition: all 0.3s ease;
-            }
-        }
-
-        &.option-card--blue {
-            border-left: 4px solid #647caf;
-
-            .option-card:hover & {
-                border-left-color: #3b82f6; // Màu khi hover (xanh hơn)
-            }
-
-            .option-card__icon-wrapper {
-                background-color: #dbeafe;
-                color: black;
-                transition: all 0.3s ease;
-            }
-        }
-
-        // Icon color change on card hover for color variants
-        &.option-card--purple {
-            .option-card:hover & .option-card__icon-wrapper {
-                color: #1d4ed8;
-            }
-        }
-
-        &.option-card--gray {
-            .option-card:hover & .option-card__icon-wrapper {
-                color: #1d4ed8;
-            }
-        }
-
-        &.option-card--green {
-            .option-card:hover & .option-card__icon-wrapper {
-                color: #1d4ed8;
-            }
-        }
-
-        &.option-card--blue {
-            .option-card:hover & .option-card__icon-wrapper {
-                color: #1d4ed8;
-            }
-        }
-    }
-
-    &:hover &__container &__icon-wrapper {
-        color: #1d4ed8;
     }
 
     &__header {
         @include flex-between;
+        margin-bottom: spacing(4);
         align-items: flex-start;
-        position: relative;
-        z-index: 2;
-    }
-
-    &__icon-wrapper {
-        width: 58px;
-        height: 58px;
-        @include flex-center;
-        border-radius: border-radius(lg);
-        transition: transition(all);
-    }
-
-    &:hover &__icon-wrapper {
-        transform: scale(1.1) rotate(5deg);
-    }
-
-    &__icon {
-        width: 34px;
-        height: 34px;
-        stroke-width: 1.5;
-    }
-
-    &__stats {
-        display: flex;
-        gap: spacing(4);
-
-        @include mobile-only {
-            justify-content: center;
-        }
-    }
-
-    .stat-item {
-        text-align: center;
-
-        .stat-number {
-            display: block;
-            font-size: font-size(xl);
-            font-weight: font-weight(bold);
-            color: white;
-            line-height: line-height(none);
-        }
-
-        .stat-label {
-            display: block;
-            font-size: font-size(xs);
-            color: #9ca3af; // gray-400
-            font-weight: font-weight(medium);
-            margin-top: spacing(1);
-        }
-    }
-
-    &__content {
-        flex-grow: 1;
     }
 
     &__title {
@@ -360,11 +221,10 @@
         transition: background-position 0.6s ease;
         margin-top: spacing(3);
         line-height: line-height(tight);
-        margin-bottom: spacing(2);
-    }
 
-    &:hover &__title {
-        background-position: left bottom;
+        .dashboard-card:hover & {
+            background-position: left bottom;
+        }
     }
 
     &__description {
@@ -372,6 +232,77 @@
         color: #d1d5db;
         line-height: line-height(relaxed);
         margin: 0;
+        flex-grow: 1;
+    }
+
+    // ===============================
+    // 📦 CARD CONTENT
+    // ===============================
+
+    &__content {
+        @include card-padding(lg);
+        position: relative;
+        height: 100%;
+        min-height: 180px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+
+        &::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background-color: #647caf; // màu mặc định
+            z-index: 1;
+        }
+
+        &::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0; // chạy từ dưới lên
+            width: 4px;
+            height: 0;
+            background: linear-gradient(to top, #1e3a8a, #3b82f6);
+            box-shadow: 0 0 6px rgba(59, 130, 246, 0.4);
+            transition: height 0.5s ease-in-out;
+            z-index: 2;
+        }
+
+        // hiệu ứng chạy từ dưới lên khi hover
+        .dashboard-card:hover &::after {
+            height: 100%;
+        }
+
+        .dashboard-card__icon-wrapper {
+            background-color: #dbeafe;
+            color: #000;
+        }
+
+        .dashboard-card:hover & .dashboard-card__icon-wrapper {
+            color: #1d4ed8;
+        }
+    }
+
+    &__icon-wrapper {
+        width: 58px;
+        height: 58px;
+        @include flex-center;
+        border-radius: border-radius(lg);
+        transition: transition(transform);
+
+        .dashboard-card:hover & {
+            transform: scale(1.1) rotate(5deg);
+        }
+    }
+
+    &__icon {
+        width: 44px;
+        height: 44px;
+        stroke-width: 1.5;
     }
 
     &__action {
@@ -381,40 +312,88 @@
         display: flex;
         align-items: center;
         gap: spacing(2);
-    }
 
-    .action-text {
-        font-size: font-size(sm);
-        color: #9ca3af;
-        font-weight: font-weight(medium);
-        transition: all 0.3s ease;
-        display: inline-block;
-    }
-
-    .action-arrow {
-        width: 20px;
-        height: 20px;
-        color: #9ca3af;
-        transition: transition(all);
-
-        svg {
-            width: 100%;
-            height: 100%;
-        }
-    }
-
-    &:hover {
         .action-text {
-            color: #3b82f6;
-            transform: translateX(4px);
+            font-size: font-size(sm);
+            color: #9ca3af;
+            font-weight: font-weight(medium);
+            transition: all 0.3s ease;
+            display: inline-block;
         }
 
         .action-arrow {
-            color: #3b82f6;
-            transform: translateX(4px);
+            width: 20px;
+            height: 20px;
+            color: #9ca3af;
+            transition: transition(all);
+
+            svg {
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        .dashboard-card:hover & {
+
+
+
+            .action-text {
+                color: #3b82f6 !important;
+                transform: translateX(4px);
+            }
+
+            .action-arrow {
+                color: #3b82f6;
+                transform: translateX(4px) !important;
+            }
+        }
+    }
+
+    &__stats {
+        display: flex;
+        gap: spacing(4);
+
+        @include mobile-only {
+            justify-content: center;
         }
     }
 }
+
+.dashboard-card__stats {
+    display: flex;
+    gap: spacing(3);
+    margin-top: spacing(4);
+
+    .stat-item {
+        background-color: rgba(255, 255, 255, 0.05);
+        border-radius: 50px;
+        padding: spacing(2) spacing(4);
+        display: flex;
+        align-items: center;
+        gap: spacing(2);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        transition: all 0.3s ease;
+
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-number {
+            font-weight: font-weight(bold);
+            color: #93c5fd;
+            font-size: font-size(lg);
+        }
+
+        .stat-label {
+            font-size: font-size(xs);
+            text-transform: uppercase;
+            color: #9ca3af;
+            letter-spacing: 0.03em;
+        }
+    }
+}
+
 
 // ==============================================
 // 📱 RESPONSIVE ADJUSTMENTS

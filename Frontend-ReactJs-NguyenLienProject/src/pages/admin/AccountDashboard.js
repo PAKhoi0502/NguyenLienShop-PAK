@@ -5,45 +5,36 @@ import { getAccountCountStats } from '../../services/dashboardService';
 import './AccountDashboard.scss';
 
 const AccountDashboard = () => {
+
    const [accountStats, setAccountStats] = useState({
       totalAdmins: 0,
-      totalUsers: 0
+      totalUsers: 0,
+      totalAccounts: 0
    });
+   const [loading, setLoading] = useState(true);
+   const [error, setError] = useState(null);
 
    useEffect(() => {
+      const fetchAccountStats = async () => {
+         try {
+            setLoading(true);
+            const result = await getAccountCountStats();
+
+            if (result.errCode === 0) {
+               setAccountStats(result.data);
+               setError(null);
+            } else {
+               setError(result.errMessage || 'Không thể lấy dữ liệu thống kê');
+            }
+         } catch (err) {
+            console.error('Error fetching stats:', err);
+            setError('Lỗi kết nối server');
+         } finally {
+            setLoading(false);
+         }
+      };
       fetchAccountStats();
    }, []);
-
-   const fetchAccountStats = async () => {
-      try {
-         // Gọi API mới để lấy số lượng admin và user
-         const response = await getAccountCountStats();
-
-         if (response && response.errCode === 0 && response.data) {
-            const { totalAdmins, totalUsers } = response.data;
-
-            console.log('� Final Stats:', { totalAdmins, totalUsers });
-
-            setAccountStats({
-               totalAdmins: totalAdmins || 0,
-               totalUsers: totalUsers || 0
-            });
-         } else {
-            console.error('❌ API response error:', response);
-            setAccountStats({
-               totalAdmins: 0,
-               totalUsers: 0
-            });
-         }
-      } catch (error) {
-         console.error('❌ Error fetching account stats:', error);
-         // Giữ số liệu mặc định nếu có lỗi
-         setAccountStats({
-            totalAdmins: 0,
-            totalUsers: 0
-         });
-      }
-   };
 
    const accountManagementOptions = [
       {
@@ -54,7 +45,8 @@ const AccountDashboard = () => {
          description: 'Tạo, chỉnh sửa và quản lý tài khoản admin',
          icon: 'shield',
          link: '/admin/account-management/admin-management',
-         color: 'blue'
+         color: 'blue',
+         stats: { total: accountStats.totalAdmins, active: accountStats.totalAdmins }
       },
       {
          id: 'user-management',
@@ -64,7 +56,8 @@ const AccountDashboard = () => {
          description: 'Tạo, chỉnh sửa và quản lý tài khoản người dùng',
          icon: 'users',
          link: '/admin/account-management/user-management',
-         color: 'blue'
+         color: 'blue',
+         stats: { total: accountStats.totalUsers, active: accountStats.totalUsers }
       }
    ];
 
@@ -84,9 +77,31 @@ const AccountDashboard = () => {
       return icons[iconName] || icons.users;
    };
 
+   if (loading) {
+      return (
+         <div className="account-dashboard__loading">
+            <p>Đang tải dữ liệu...</p>
+         </div>
+      );
+   }
+
    return (
       <div className="account-dashboard">
+         {error && (
+            <div className="error-message" style={{
+               backgroundColor: '#fee',
+               color: '#c33',
+               padding: '10px',
+               marginBottom: '20px',
+               borderRadius: '4px',
+               border: '1px solid #fcc'
+            }}>
+               ⚠️ {error}
+            </div>
+         )}
+
          <div className="account-dashboard__header">
+
             <div className="header-content">
                <h1 className="account-dashboard__title">
                   <FormattedMessage id="dashboard.account_dashboard.title" defaultMessage="Quản lý tài khoản" />
@@ -95,18 +110,21 @@ const AccountDashboard = () => {
                   <FormattedMessage id="dashboard.account_dashboard.subtitle" defaultMessage="Quản lý tài khoản quản trị viên và người dùng hệ thống" />
                </p>
             </div>
+
             <div className="header-stats">
                <div className="quick-stat">
-                  <span className="quick-stat__number">{accountStats.totalAdmins + accountStats.totalUsers}</span>
+                  <span className="quick-stat__number">{accountStats.totalAccounts || (accountStats.totalAdmins + accountStats.totalUsers)}</span>
                   <span className="quick-stat__label"><FormattedMessage id="dashboard.account_dashboard.total_accounts" defaultMessage="Tổng tài khoản" /></span>
                </div>
             </div>
+
          </div>
 
          <div className="account-dashboard__content">
             {accountManagementOptions.map(option => (
                <Link key={option.id} to={option.link} className="dashboard-card">
-                  <div className={`dashboard-card__content dashboard-card--${option.color}`}>
+                  <div className={`dashboard-card__content`}>
+
                      <div className="dashboard-card__header">
                         <div className="dashboard-card__icon-wrapper">
                            {renderIcon(option.icon)}
@@ -115,14 +133,42 @@ const AccountDashboard = () => {
                            <FormattedMessage id={option.titleId} defaultMessage={option.title} />
                         </h3>
                      </div>
+
                      <p className="dashboard-card__description">
                         <FormattedMessage id={option.descriptionId} defaultMessage={option.description} />
                      </p>
-                     <div className="dashboard-card__arrow">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+
+
+                     <div className="dashboard-card__stats">
+                        <div className="stat-item">
+                           <span className="stat-number">{option.stats.total}</span>
+                           <span className="stat-label">
+                              <FormattedMessage
+                                 id="dashboard.dashboard_product_category.stats.total"
+                                 defaultMessage="Tổng"
+                              />
+                           </span>
+                        </div>
+                        <div className="stat-item">
+                           <span className="stat-number">{option.stats.active}</span>
+                           <span className="stat-label">
+                              <FormattedMessage
+                                 id="dashboard.dashboard_product_category.stats.active"
+                                 defaultMessage="Hoạt động"
+                              />
+                           </span>
+                        </div>
+                     </div>
+
+                     <div className="dashboard-card__action">
+                        <span className="action-text">
+                           <FormattedMessage id="dashboard.dashboard_product_category.action.manage" defaultMessage="Quản lý" />
+                        </span>
+                        <svg className="action-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
                      </div>
+
                   </div>
                </Link>
             ))}

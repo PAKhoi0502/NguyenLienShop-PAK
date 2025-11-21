@@ -20,28 +20,49 @@ const OtpVerification = ({
     const [countdown, setCountdown] = useState(0);
     const [attempts, setAttempts] = useState(0);
     const [otpSent, setOtpSent] = useState(false); // Add flag to track if OTP was sent
+    const [otpSentAt, setOtpSentAt] = useState(null); // Track when OTP was sent
+    const [currentOtpCode, setCurrentOtpCode] = useState(null); // Store OTP code for development display
+    const OTP_EXPIRY_TIME = 60; // OTP expires after 60 seconds
     const maxAttempts = 3;
     const otpSentRef = useRef(false); // Add ref to prevent duplicate sends
 
     const inputRefs = useRef([]);
+
+    // Helper function to check if OTP has expired
+    const isOtpExpired = useCallback(() => {
+        return otpSentAt && (Date.now() - otpSentAt) > (OTP_EXPIRY_TIME * 1000);
+    }, [otpSentAt]);
 
     // Initialize input refs
     useEffect(() => {
         inputRefs.current = inputRefs.current.slice(0, 6);
     }, []);
 
-    // Start countdown timer
+    // Start countdown timer and check expiry
     useEffect(() => {
-        let timer;
-        if (countdown > 0) {
-            timer = setInterval(() => {
-                setCountdown(prev => prev - 1);
-            }, 1000);
+        if (!otpSentAt) {
+            setCountdown(0);
+            return;
         }
+
+        let timer = setInterval(() => {
+            const elapsed = Math.floor((Date.now() - otpSentAt) / 1000);
+            const remaining = Math.max(0, OTP_EXPIRY_TIME - elapsed);
+            setCountdown(remaining);
+
+            // Auto clear when expired
+            if (remaining === 0) {
+                setOtpSent(false);
+                setOtpSentAt(null);
+                setOtpCode(['', '', '', '', '', '']);
+                setCurrentOtpCode(null); // Clear OTP code when expired
+            }
+        }, 1000);
+
         return () => {
             if (timer) clearInterval(timer);
         };
-    }, [countdown]);
+    }, [otpSentAt]);
 
     const handleSendOTP = useCallback(async () => {
         if (otpSent || otpSentRef.current) {
@@ -60,10 +81,12 @@ const OtpVerification = ({
                     message={intl.formatMessage({ id: 'register.otp.sent_success_msg' })}
                     time={new Date()}
                 />);
-                setCountdown(60); // 60 seconds countdown
+                setCountdown(OTP_EXPIRY_TIME); // 60 seconds countdown
                 setOtpCode(['', '', '', '', '', '']); // Clear previous OTP
                 setAttempts(0); // Reset attempts
                 setOtpSent(true); // Mark OTP as sent
+                setOtpSentAt(Date.now()); // Store timestamp when OTP was sent
+                setCurrentOtpCode(result.otpCode || null); // Store OTP code for development display
 
                 // Focus first input
                 setTimeout(() => {
@@ -170,6 +193,22 @@ const OtpVerification = ({
             return;
         }
 
+        // Check if OTP has expired (60 seconds)
+        if (isOtpExpired()) {
+            toast(<CustomToast
+                type="error"
+                titleId="register.otp.error_title"
+                message={intl.formatMessage({ id: 'otp.error.expired' }, { defaultMessage: 'Mã OTP đã hết hạn. Vui lòng gửi lại mã mới.' })}
+                time={new Date()}
+            />);
+            setOtpCode(['', '', '', '', '', '']);
+            setOtpSent(false);
+            setOtpSentAt(null);
+            setCountdown(0);
+            setCurrentOtpCode(null); // Clear OTP code when expired
+            return;
+        }
+
         setLoading(true);
         setAttempts(prev => prev + 1);
 
@@ -178,6 +217,7 @@ const OtpVerification = ({
 
             if (result.success) {
                 // Don't show success toast here - let parent component handle it
+                setCurrentOtpCode(null); // Clear OTP code after successful verification
                 onVerificationSuccess();
             } else {
                 toast(<CustomToast
@@ -192,6 +232,13 @@ const OtpVerification = ({
                 setTimeout(() => {
                     inputRefs.current[0]?.focus();
                 }, 100);
+
+                // Check if OTP has expired based on error message
+                if (result.message && result.message.includes('hết hạn')) {
+                    setOtpSent(false);
+                    setOtpSentAt(null);
+                    setCountdown(0);
+                }
 
                 // Check if max attempts reached
                 if (attempts >= maxAttempts - 1) {
@@ -228,10 +275,12 @@ const OtpVerification = ({
                     titleId='register.otp.sent_title'
                     time={new Date()}
                 />);
-                setCountdown(60);
+                setCountdown(OTP_EXPIRY_TIME);
                 setOtpCode(['', '', '', '', '', '']);
                 setAttempts(0);
                 setOtpSent(true); // Mark as sent again
+                setOtpSentAt(Date.now()); // Store new timestamp
+                setCurrentOtpCode(result.otpCode || null); // Store new OTP code for development display
                 otpSentRef.current = true; // Set ref again
 
                 setTimeout(() => {
@@ -295,8 +344,8 @@ const OtpVerification = ({
                                 value={digit}
                                 onChange={(e) => handleOtpChange(index, e.target.value)}
                                 onKeyDown={(e) => handleKeyDown(index, e)}
-                                className={`otp-input ${digit ? 'filled' : ''} ${loading ? 'loading' : ''}`}
-                                disabled={loading}
+                                className={`otp-input ${digit ? 'filled' : ''} ${loading ? 'loading' : ''} ${isOtpExpired() ? 'expired' : ''}`}
+                                disabled={loading || isOtpExpired()}
                                 autoComplete="off"
                             />
                         ))}
@@ -311,7 +360,7 @@ const OtpVerification = ({
                             />
                         </div>
 
-                        {countdown > 0 && (
+                        {countdown > 0 && !isOtpExpired() ? (
                             <div className="countdown-info">
                                 <FormattedMessage
                                     id="body_admin.account_management.admin_manager.otp.expires_in"
@@ -319,7 +368,14 @@ const OtpVerification = ({
                                     values={{ seconds: countdown }}
                                 />
                             </div>
-                        )}
+                        ) : isOtpExpired() ? (
+                            <div className="countdown-info expired">
+                                <FormattedMessage
+                                    id="body_admin.account_management.admin_manager.otp.expired"
+                                    defaultMessage="Mã OTP đã hết hạn"
+                                />
+                            </div>
+                        ) : null}
                     </div>
                 </div>
 
@@ -327,7 +383,7 @@ const OtpVerification = ({
                     <button
                         className="btn-verify"
                         onClick={() => handleVerifyOTP()}
-                        disabled={loading || otpCode.some(digit => digit === '')}
+                        disabled={loading || otpCode.some(digit => digit === '') || isOtpExpired()}
                     >
                         {loading ? (
                             <>
@@ -375,12 +431,13 @@ const OtpVerification = ({
                     </button>
                 </div>
 
-                {process.env.NODE_ENV === 'development' && (
+                {process.env.NODE_ENV === 'development' && currentOtpCode && (
                     <div className="development-info">
                         <small>
                             <FormattedMessage
                                 id="body_admin.account_management.admin_manager.otp.dev_info"
-                                defaultMessage="Development: Kiểm tra console để xem mã OTP"
+                                defaultMessage="Mã OTP (dành cho dev): {otp}"
+                                values={{ otp: currentOtpCode }}
                             />
                         </small>
                     </div>

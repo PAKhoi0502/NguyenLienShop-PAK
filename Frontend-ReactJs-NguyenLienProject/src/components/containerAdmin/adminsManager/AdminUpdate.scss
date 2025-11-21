@@ -400,3 +400,79 @@
 .admin-update-container .action-buttons .btn-action.btn-submit {
     width: 200px;
 }
+
+.birthday-group {
+    .age-display {
+        .age-text {
+            font-size: font-size(sm);
+            color: #6c789b;
+            font-weight: font-weight(medium);
+        }
+    }
+
+    .birthday-display {
+        .birthday-formatted {
+            font-size: font-size(sm);
+            color: #6c789b;
+            font-weight: font-weight(medium);
+        }
+    }
+}
+
+.swal2-popup {
+    width: min(40rem, 70vw);
+    padding: 24px;
+    border-radius: 16px;
+    background-color: #0B1220;
+    border: 2px solid #1E2A44;
+}
+
+.swal2-icon.swal2-warning {
+    border-color: #FB2C36;
+    color: #FB2C36;
+}
+
+.swal2-icon.swal2-question {
+    border-color: #0084ff;
+    color: #0084ff;
+}
+
+.swal2-icon.swal2-icon-show {
+    animation: swal2-animate-error-icon 1.2s;
+}
+
+.swal2-title {
+    color: #ffffff;
+    font-size: 2.4rem;
+    padding: 0;
+}
+
+.swal2-html-container {
+    margin-top: 1rem;
+    font-size: 1.4rem;
+    color: #90A1B9;
+    text-align: center;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 10px !important;
+
+    strong {
+        font-style: normal;
+        color: #fff;
+        font-weight: 500;
+        font-size: 1.2rem;
+        background: #1f2835;
+        padding: 5px 10px;
+        border-radius: 5px;
+        margin-right: 20px;
+
+        span {
+            font-style: italic;
+            color: #90A1B9;
+            font-weight: 400;
+            font-size: 1rem;
+        }
+    }
+}

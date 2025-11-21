@@ -87,6 +87,7 @@ const ProductManager = () => {
 
    return (
       <div className="product-manager-container">
+
          <div className="product-manager-top">
             <h1 className="product-title">
                <FormattedMessage id="body_admin.product_management.title_head" defaultMessage="Quản lý sản phẩm" />
@@ -171,16 +172,16 @@ const ProductManager = () => {
                         filteredProducts.map((product) => (
                            <tr key={product.id}>
                               <td style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>{product.id}</td>
+
                               <td style={{ fontSize: '1.1rem', fontWeight: 'bold' }} className="product-name-cell">
                                  <span
                                     className="product-name-link"
                                     onClick={() => handleDetailClick(product)}
-                                    title={intl.formatMessage({ id: 'body_admin.product_management.detail_title', defaultMessage: 'Click để xem chi tiết' })}
                                     style={{
                                        cursor: 'pointer'
                                     }}
                                  >
-                                    {product.nameProduct || ''}
+                                    {product.nameProduct || 'N/A'}
                                  </span>
                               </td>
 

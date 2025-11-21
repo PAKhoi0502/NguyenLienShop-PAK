@@ -59,6 +59,7 @@ const AdminManager = () => {
 
    return (
       <div className="admin-manager-container">
+
          <div className="admin-manager-top">
             <h1 className="admin-title">
                <FormattedMessage id="body_admin.account_management.admin_manager.title" defaultMessage="Quản lý quản trị viên" />
@@ -88,23 +89,34 @@ const AdminManager = () => {
          </div>
 
          <div className="admin-search-section">
+
             <div className="admin-hint-box">
                <HintBox
                   theme="user"
                   content={
                      <div>
-                        <p><FormattedMessage id="body_admin.account_management.admin_manager.hint_title" defaultMessage="Hướng dẫn" /></p>
-                        <ul>
-                           <li><FormattedMessage id="body_admin.account_management.admin_manager.hint_1" defaultMessage="Sử dụng nút 'Tạo quản trị viên' để thêm tài khoản quản trị mới vào hệ thống." /></li>
-                           <li><FormattedMessage id="body_admin.account_management.admin_manager.hint_2" defaultMessage="Click vào tên quản trị viên để xem thông tin chi tiết." /></li>
-                           <li><FormattedMessage id="body_admin.account_management.admin_manager.hint_3" defaultMessage="Sử dụng chức năng tìm kiếm để lọc theo tên, email hoặc họ tên." /></li>
-                           <li><FormattedMessage id="body_admin.account_management.admin_manager.hint_4" defaultMessage="Tắt hiện thị của banner trước khi muốn cập nhật hoặc xóa nó." /></li>
-                           <li><FormattedMessage id="body_admin.account_management.admin_manager.hint_5" defaultMessage="Hãy thận trọng khi xóa tài khoản quản trị viên." /></li>
+                        <h1><FormattedMessage id="hint_box.admin_manager.title" defaultMessage="Admin Manager" /></h1>
+                        <p><FormattedMessage id="hint_box.admin_manager.subtitle" defaultMessage="Đây là trang dùng để quản lý tài khoản quản trị viên" /></p>
+                        <ul className="hint-list"> <FormattedMessage id="hint_box.admin_manager.overview_ul" defaultMessage="Giới thiệu" />
+                           <li className="hint-item"><FormattedMessage id="hint_box.admin_manager.overview_li_1" defaultMessage="Đây là trang dùng để quản lý tài khoản quản trị viên." /></li>
+                           <li className="hint-item"><FormattedMessage id="hint_box.admin_manager.overview_li_2" defaultMessage="Có đầy đủ các chức năng tạo, chỉnh sửa, xóa tài khoản." /></li>
+                        </ul>
+                        <ul className="hint-list"> <FormattedMessage id="hint_box.admin_manager.user_guide_ul" defaultMessage="Hướng dẫn sử dụng" />
+                           <li className="hint-item"><FormattedMessage id="hint_box.admin_manager.user_guide_li_1" defaultMessage="Nút tạo tài khoản dùng để tạo tài khoản quản trị viên." /></li>
+                           <li className="hint-item"><FormattedMessage id="hint_box.admin_manager.user_guide_li_2" defaultMessage="Nút tìm kiếm dùng để tìm kiếm tài khoản quản trị viên." /></li>
+                           <li className="hint-item"><FormattedMessage id="hint_box.admin_manager.user_guide_li_3" defaultMessage="Nút chi tiết dùng để xem thông tin chi tiết tài khoản quản trị viên." /></li>
+                           <li className="hint-item"><FormattedMessage id="hint_box.admin_manager.user_guide_li_4" defaultMessage="Nút cập nhật dùng để cập nhật thông tin tài khoản quản trị viên." /></li>
+                           <li className="hint-item"><FormattedMessage id="hint_box.admin_manager.user_guide_li_5" defaultMessage="Nút xóa dùng để xóa tài khoản quản trị viên." /></li>
+                        </ul>
+                        <ul className="hint-list"> <FormattedMessage id="hint_box.admin_manager.note_title" defaultMessage="Lưu ý" />
+                           <li className="hint-item"><FormattedMessage id="hint_box.admin_manager.note_li_1" defaultMessage="Hãy thận trọng khi xóa tài khoản quản trị viên vì sẽ xóa tài khoản vĩnh viễn mà không thể hoàn tác." /></li>
+                           <li className="hint-item"><FormattedMessage id="hint_box.admin_manager.note_li_2" defaultMessage="Chỉnh sửa thông tin tài khoản cần có quyền hạn hoặc có sự thông báo và được chấp nhận từ quản trị viên." /></li>
                         </ul>
                      </div>
                   }
                />
             </div>
+
             <div className="admin-search-bar">
                <input
                   type="text"
@@ -139,7 +151,7 @@ const AdminManager = () => {
                   <tbody>
                      {filteredUsers.length === 0 ? (
                         <tr>
-                           <td colSpan={6} style={{ textAlign: 'center', color: '#888' }}>
+                           <td colSpan={6}>
                               <FormattedMessage id="body_admin.account_management.admin_manager.empty" defaultMessage="Không có người dùng nào phù hợp." />
                            </td>
                         </tr>
@@ -149,12 +161,12 @@ const AdminManager = () => {
                               <td style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>{user.id}</td>
                               <td style={{ fontSize: '1.1rem', fontWeight: 'bold' }} className={user.userName ? "" : "cell-na"}>{user.userName || "N/A"}</td>
                               <td style={{ fontSize: '1.1rem', fontWeight: 'bold' }} className={user.email ? "" : "cell-na"}>{user.email || "N/A"}</td>
+
                               <td style={{ fontSize: '1.1rem', fontWeight: 'bold' }} className={user.phoneNumber ? "hide-mobile phone-number-cell" : "hide-mobile cell-na"}>
                                  {user.phoneNumber ? (
                                     <span
                                        style={{ cursor: 'pointer' }}
                                        onClick={() => handleGetAdminProfile(user)}
-                                       title="Click để xem chi tiết"
                                     >
                                        {user.phoneNumber}
                                     </span>
@@ -162,16 +174,16 @@ const AdminManager = () => {
                                     "N/A"
                                  )}
                               </td>
-                              <td>
-                                 <span className={user.roleId === 1 ? "role-admin" : "role-user"}>
-                                    {user.roleId === 1
-                                       ? intl.formatMessage({ id: 'body_admin.account_management.admin_manager.role_admin.admin' })
-                                       : intl.formatMessage({ id: 'body_admin.account_management.admin_manager.role_admin.user' })}
+
+                              <td style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>
+                                 <span className="role-admin">
+                                    {intl.formatMessage({ id: 'role.admin' })}
                                  </span>
                               </td>
                               <td>
                                  <div className="action-buttons">
-                                    <button className="btn-action btn-user-detail" onClick={() => handleGetAdminProfile(user)}>
+
+                                    <button className="btn-action btn-detail" onClick={() => handleGetAdminProfile(user)}>
                                        <span className="btn-text">
                                           <FormattedMessage id="body_admin.account_management.admin_manager.detail" defaultMessage="Chi tiết" />
                                        </span>
@@ -192,6 +204,7 @@ const AdminManager = () => {
                                           </svg>
                                        </span>
                                     </button>
+
                                     <button className="btn-action btn-update" onClick={() => handleUpdate(user)}>
                                        <span className="btn-text">
                                           <FormattedMessage id="body_admin.account_management.admin_manager.update" defaultMessage="Cập nhật" />
@@ -202,9 +215,11 @@ const AdminManager = () => {
                                           </svg>
                                        </span>
                                     </button>
+
                                     <AdminDelete user={user} onSuccess={(deletedId) => {
                                        setUsers(prev => prev.filter(u => u.id !== deletedId));
                                     }} />
+
                                  </div>
                               </td>
                            </tr>

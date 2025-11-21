@@ -10,11 +10,11 @@ import { validateVietnamesePhone } from '../../../utils/vietnamesePhoneValidator
 import './AdminCreate.scss';
 
 const AdminCreate = () => {
-   const [step, setStep] = useState(1); // 1: Form, 2: OTP Verification, 3: Success
+   const [step, setStep] = useState(1);
    const [phoneNumber, setPhoneNumber] = useState('');
    const [password, setPassword] = useState('');
    const [confirmPassword, setConfirmPassword] = useState('');
-   const [countdown, setCountdown] = useState(3);
+   const [countdown, setCountdown] = useState(15);
    const [shouldRedirect, setShouldRedirect] = useState(false);
    const [loading, setLoading] = useState(false);
    const navigate = useNavigate();
@@ -312,9 +312,27 @@ const AdminCreate = () => {
                         { seconds: countdown }
                      )}
                   </div>
+
+                  <div className="success-actions">
+                     <button
+                        type="button"
+                        className="btn-back-to-manager"
+                        onClick={() => navigate('/admin/account-management/admin-management')}
+                     >
+                        <span className="btn-text">
+                           {intl.formatMessage({ id: 'body_admin.account_management.admin_manager.back_to_manager' })}
+                        </span>
+                        <span className="btn-icon-back">
+                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3" />
+                           </svg>
+                        </span>
+                     </button>
+                  </div>
                </div>
             </div>
          )}
+
       </div>
    );
 };

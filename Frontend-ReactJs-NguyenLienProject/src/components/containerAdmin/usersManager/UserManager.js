@@ -63,9 +63,9 @@ const UserManager = () => {
             <h1 className="user-title">
                <FormattedMessage id="body_admin.account_management.user_manager.title" defaultMessage="Quản lý người dùng" />
             </h1>
-            <div style={{ display: 'flex', gap: 10 }}>
+            <div className="user-actions">
                <button
-                  className="btn-create"
+                  className="btn-create btn-create-user"
                   onClick={() => navigate('/admin/account-management/user-management/user-register')}
                >
                   <svg
@@ -91,8 +91,30 @@ const UserManager = () => {
 
 
             </div>
+
          </div>
+
          <div className="user-search-section">
+
+
+            <div className="user-hint-box">
+               <HintBox
+                  theme="user"
+                  content={
+                     <div>
+                        <p><FormattedMessage id="body_admin.account_management.user_manager.hint_title" defaultMessage="Hướng dẫn: Quản lý danh sách người dùng, bao gồm tạo, xem thông tin và xóa tài khoản." /></p>
+                        <ul>
+                           <li><FormattedMessage id="body_admin.account_management.user_manager.hint_1" defaultMessage="Sử dụng nút 'Tạo người dùng' để thêm tài khoản người dùng mới vào hệ thống." /></li>
+                           <li><FormattedMessage id="body_admin.account_management.user_manager.hint_2" defaultMessage="Click vào tên người dùng để xem thông tin chi tiết." /></li>
+                           <li><FormattedMessage id="body_admin.account_management.user_manager.hint_3" defaultMessage="Sử dụng chức năng tìm kiếm để lọc theo tên, email hoặc họ tên." /></li>
+                           <li><FormattedMessage id="body_admin.account_management.user_manager.hint_4" defaultMessage="Hãy thận trọng khi xóa tài khoản người dùng." /></li>
+                           <li><FormattedMessage id="body_admin.account_management.user_manager.hint_5" defaultMessage="Có thể cập nhật thông tin hoặc xóa tài khoản người dùng khi cần thiết." /></li>
+                        </ul>
+                     </div>
+                  }
+               />
+            </div>
+
             <div className="user-search-bar">
                <input
                   type="text"
@@ -101,22 +123,12 @@ const UserManager = () => {
                   onChange={e => setSearch(e.target.value)}
                />
             </div>
-            <HintBox
-               theme="user"
-               content={
-                  <div>
-                     <p><FormattedMessage id="body_admin.account_management.user_manager.hint_title" defaultMessage="Hướng dẫn: Quản lý danh sách người dùng, bao gồm tạo, xem thông tin và xóa tài khoản." /></p>
-                     <ul>
-                        <li><FormattedMessage id="body_admin.account_management.user_manager.hint_1" defaultMessage="Sử dụng nút 'Tạo người dùng' để thêm tài khoản người dùng mới vào hệ thống." /></li>
-                        <li><FormattedMessage id="body_admin.account_management.user_manager.hint_2" defaultMessage="Click vào tên người dùng để xem thông tin chi tiết." /></li>
-                        <li><FormattedMessage id="body_admin.account_management.user_manager.hint_3" defaultMessage="Sử dụng chức năng tìm kiếm để lọc theo tên, email hoặc họ tên." /></li>
-                        <li><FormattedMessage id="body_admin.account_management.user_manager.hint_4" defaultMessage="Hãy thận trọng khi xóa tài khoản người dùng." /></li>
-                        <li><FormattedMessage id="body_admin.account_management.user_manager.hint_5" defaultMessage="Có thể cập nhật thông tin hoặc xóa tài khoản người dùng khi cần thiết." /></li>
-                     </ul>
-                  </div>
-               }
-            />
+
+
+
          </div>
+
+
          {loading ? (
             <div className="user-loading">
                <FormattedMessage id="body_admin.account_management.user_manager.loading" defaultMessage="Đang tải..." />
@@ -139,7 +151,7 @@ const UserManager = () => {
                   <tbody>
                      {filteredUsers.length === 0 ? (
                         <tr>
-                           <td colSpan={6} style={{ textAlign: 'center', color: '#888' }}>
+                           <td colSpan={6}>
                               <FormattedMessage id="body_admin.account_management.user_manager.empty" defaultMessage="Không có người dùng nào phù hợp." />
                            </td>
                         </tr>
@@ -154,7 +166,6 @@ const UserManager = () => {
                                     <span
                                        style={{ cursor: 'pointer' }}
                                        onClick={() => handleGetUserProfile(user)}
-                                       title="Click để xem chi tiết"
                                     >
                                        {user.phoneNumber}
                                     </span>
@@ -163,15 +174,14 @@ const UserManager = () => {
                                  )}
                               </td>
                               <td style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>
-                                 <span className={user.roleId === 1 ? "role-admin" : "role-user"}>
-                                    {user.roleId === 1
-                                       ? intl.formatMessage({ id: 'body_admin.account_management.user_manager.role.admin' })
-                                       : intl.formatMessage({ id: 'body_admin.account_management.user_manager.role_user.user' })}
+                                 <span className="role-user">
+                                    {intl.formatMessage({ id: 'role.user' })}
                                  </span>
                               </td>
                               <td>
                                  <div className="action-buttons">
-                                    <button className="btn-action btn-user-detail" onClick={() => handleGetUserProfile(user)}>
+
+                                    <button className="btn-action btn-detail" onClick={() => handleGetUserProfile(user)}>
                                        <span className="btn-text">
                                           <FormattedMessage id="body_admin.account_management.user_manager.detail" defaultMessage="Chi tiết" />
                                        </span>
@@ -203,9 +213,11 @@ const UserManager = () => {
                                           </svg>
                                        </span>
                                     </button>
+
                                     <UserDelete user={user} onSuccess={(deletedId) => {
                                        setUsers(prev => prev.filter(u => u.id !== deletedId));
                                     }} />
+
                                  </div>
                               </td>
                            </tr>

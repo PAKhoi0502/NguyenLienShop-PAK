@@ -62,16 +62,19 @@ const ProductDelete = ({ product }) => {
       const confirmText = await Swal.fire({
          title: intl.formatMessage({ id: 'body_admin.product_management.delete_product.security_title', defaultMessage: 'Xác nhận bảo mật' }),
          html: `
-            <div style="text-align: left; margin: 20px 0;">
-               <p style="margin-bottom: 15px; color: #ef4444; font-weight: 600;">
+            <div className="security-text-confirmation">
+               <p className="security-text-confirmation__warning" style="margin-bottom: 15px; color: #ef4444; font-weight: 600;">
                   ${intl.formatMessage({ id: 'body_admin.product_management.delete_product.security_warning', defaultMessage: 'Cảnh báo: Hành động này sẽ xóa vĩnh viễn sản phẩm!' })}
                </p>
-               <p style="margin-bottom: 10px; color: #374151;">
-                  ${intl.formatMessage({ id: 'body_admin.product_management.delete_product.security_confirm_text', defaultMessage: 'Sản phẩm cần xóa' })}: <strong style="color: #dc2626;">${product.nameProduct || intl.formatMessage({ id: 'body_admin.product_management.delete_product.no_name', defaultMessage: 'Không có tên sản phẩm' })}</strong>
+               <p className="security-text-confirmation__confirm-text" style="margin-bottom: 10px;">
+                  ${intl.formatMessage({ id: 'body_admin.product_management.delete_product.security_confirm_text', defaultMessage: 'Sản phẩm cần xóa' })}: <strong style="color: #fff; font-weight: 600; font-size: 1.2em;">${product.nameProduct || intl.formatMessage({ id: 'body_admin.product_management.delete_product.no_name', defaultMessage: 'Không có tên sản phẩm' })}</strong>
                </p>
-               <p style="margin-bottom: 15px; color: #374151;">
-                  ${intl.formatMessage({ id: 'body_admin.product_management.delete_product.security_type_exact', defaultMessage: 'Nhập chính xác cụm từ' })}: <code style="background: #f3f4f6; padding: 2px 6px; border-radius: 4px; color: #dc2626; font-weight: 600;">${intl.formatMessage({ id: 'body_admin.product_management.delete_product.security_phrase', defaultMessage: 'XÓA SẢN PHẨM' })}</code>
+               <p className="security-text-confirmation__type-exact" style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px; flex-direction: column;">
+                  ${intl.formatMessage({ id: 'body_admin.product_management.delete_product.security_type_exact', defaultMessage: 'Nhập chính xác cụm từ' })}: <code id="securityPhrase" style="background: #f3f4f6; padding: 2px 6px; border-radius: 4px; color: #dc2626; font-weight: 600; font-style: bolder !important;">${intl.formatMessage({ id: 'body_admin.product_management.delete_product.security_phrase', defaultMessage: 'XÓA SẢN PHẨM' })}</code>
                </p>
+               <button type="button" className="btn-copy-security" id="copySecurityBtn" style="background: #57585860; color: #fff; font-weight: 600; border-radius: 5px; cursor: pointer;">
+                  ${intl.formatMessage({ id: 'body_admin.product_management.delete_product.security_copy_button', defaultMessage: 'Sao chép' })}
+               </button>
             </div>
          `,
          input: 'text',
@@ -89,6 +92,33 @@ const ProductDelete = ({ product }) => {
          customClass: {
             popup: 'swal-delete-step3',
             input: 'swal-text-input'
+         },
+         didOpen: () => {
+            const copyBtn = document.getElementById('copySecurityBtn');
+            const securityCode = document.getElementById('securityPhrase');
+            const securityPhrase = intl.formatMessage({ id: 'body_admin.product_management.delete_product.security_phrase', defaultMessage: 'XÓA SẢN PHẨM' });
+
+            if (copyBtn) {
+               copyBtn.addEventListener('click', async () => {
+                  try {
+                     await navigator.clipboard.writeText(securityPhrase);
+                     copyBtn.innerText = intl.formatMessage({ id: 'body_admin.product_management.delete_product.security_copied', defaultMessage: 'Đã sao chép' });
+                     setTimeout(() => {
+                        copyBtn.innerText = intl.formatMessage({ id: 'body_admin.product_management.delete_product.security_copy_button', defaultMessage: 'Sao chép' });
+                     }, 1500);
+                  } catch (error) {
+                     console.error('Failed to copy text:', error);
+                     // Fallback: select text if clipboard API fails
+                     if (securityCode) {
+                        const range = document.createRange();
+                        range.selectNodeContents(securityCode);
+                        const selection = window.getSelection();
+                        selection.removeAllRanges();
+                        selection.addRange(range);
+                     }
+                  }
+               });
+            }
          }
       });
 

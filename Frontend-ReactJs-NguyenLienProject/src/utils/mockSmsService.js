@@ -7,6 +7,9 @@
 // Store OTP codes in memory for development (don't use in production)
 const otpStore = new Map();
 
+// OTP expiry time in seconds (60 seconds = 1 minute)
+const OTP_EXPIRY_TIME = 60;
+
 /**
  * Generate 6-digit OTP code
  */
@@ -27,8 +30,8 @@ export const sendOTP = async (phoneNumber) => {
         // Generate OTP
         const otpCode = generateOTP();
 
-        // Store OTP with expiration time (5 minutes)
-        const expiresAt = Date.now() + (5 * 60 * 1000);
+        // Store OTP with expiration time (60 seconds)
+        const expiresAt = Date.now() + (OTP_EXPIRY_TIME * 1000);
         otpStore.set(phoneNumber, {
             code: otpCode,
             expiresAt,
@@ -40,8 +43,8 @@ export const sendOTP = async (phoneNumber) => {
         console.log(`📱 [MOCK SMS SERVICE] ===========================`);
         console.log(`📞 Gửi OTP đến: ${phoneNumber}`);
         console.log(`🔢 Mã OTP: ${otpCode}`);
-        console.log(`⏰ Có hiệu lực: 5 phút`);
-        console.log(`📱 [MOCK SMS] Nội dung: "NguyenLienShop - Mã xác thực: ${otpCode}. Có hiệu lực 5 phút."`);
+        console.log(`⏰ Có hiệu lực: ${OTP_EXPIRY_TIME} giây`);
+        console.log(`📱 [MOCK SMS] Nội dung: "NguyenLienShop - Mã xác thực: ${otpCode}. Có hiệu lực ${OTP_EXPIRY_TIME} giây."`);
         console.log(`===============================================`);
 
         return {

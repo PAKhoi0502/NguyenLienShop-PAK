@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Swal from 'sweetalert2';
 import CustomToast from '../../../components/CustomToast';
+import { showSecurityConfirmation } from '../../../components/common/SecurityConfirmation';
 import './UserUpdate.scss';
 
 const UserUpdate = () => {
@@ -90,8 +91,8 @@ const UserUpdate = () => {
 
       // Step 1: Initial Confirmation
       const confirmFirst = await Swal.fire({
-         title: intl.formatMessage({ id: 'body_admin.account_management.user_manager.update_user.confirm_title_1', defaultMessage: 'Xác nhận cập nhật người dùng' }),
-         html: `<strong>${form.userName || intl.formatMessage({ id: 'body_admin.account_management.user_manager.update_user.no_username', defaultMessage: 'Không có tên người dùng' })}</strong><br>ID: ${id}`,
+         title: intl.formatMessage({ id: 'body_admin.account_management.user_manager.update_user.confirm_title_1', defaultMessage: 'Xác nhận cập nhật' }),
+         html: `<strong><span>${intl.formatMessage({ id: 'body_admin.account_management.admin_manager.id_label' })}:</span> ${id}</strong><strong><span>${intl.formatMessage({ id: 'body_admin.account_management.admin_manager.username' })}:</span> ${form.userName || intl.formatMessage({ id: 'body_admin.account_management.admin_manager.update_admin.no_username', defaultMessage: 'Không có tên' })}</strong>`,
          icon: 'warning',
          showCancelButton: true,
          confirmButtonText: intl.formatMessage({ id: 'body_admin.account_management.user_manager.update_user.confirm_button_1', defaultMessage: 'Tiếp tục' }),
@@ -102,7 +103,7 @@ const UserUpdate = () => {
 
       // Step 2: Secondary Confirmation
       const confirmSecond = await Swal.fire({
-         title: intl.formatMessage({ id: 'body_admin.account_management.user_manager.update_user.confirm_title_2', defaultMessage: 'Bạn chắc chắn muốn cập nhật?' }),
+         title: intl.formatMessage({ id: 'body_admin.account_management.user_manager.update_user.confirm_title_2', defaultMessage: 'Chắc chắn muốn cập nhật?' }),
          text: intl.formatMessage({ id: 'body_admin.account_management.user_manager.update_user.confirm_text_2', defaultMessage: 'Thông tin người dùng sẽ được thay đổi!' }),
          icon: 'question',
          showCancelButton: true,
@@ -112,38 +113,22 @@ const UserUpdate = () => {
 
       if (!confirmSecond.isConfirmed) return;
 
-      // Step 3: Text confirmation - Type exact phrase
-      const confirmText = await Swal.fire({
-         title: intl.formatMessage({ id: 'body_admin.account_management.user_manager.update_user.security_title', defaultMessage: 'Xác nhận bảo mật' }),
-         html: `
-            <div style="text-align: left; margin: 20px 0;">
-               <p style="margin-bottom: 15px; color: #ef4444; font-weight: 600;">
-                  ${intl.formatMessage({ id: 'body_admin.account_management.user_manager.update_user.security_warning', defaultMessage: 'Cảnh báo: Hành động này sẽ cập nhật thông tin người dùng!' })}
-               </p>
-               <p style="margin-bottom: 10px; color: #374151;">
-                  ${intl.formatMessage({ id: 'body_admin.account_management.user_manager.update_user.security_confirm_text', defaultMessage: 'Người dùng cần cập nhật' })}: <strong style="color: #dc2626;">${form.userName || intl.formatMessage({ id: 'body_admin.account_management.user_manager.update_user.no_username', defaultMessage: 'Không có tên người dùng' })}</strong>
-               </p>
-               <p style="margin-bottom: 15px; color: #374151;">
-                  ${intl.formatMessage({ id: 'body_admin.account_management.user_manager.update_user.security_type_exact', defaultMessage: 'Nhập chính xác cụm từ' })}: <code style="background: #f3f4f6; padding: 2px 6px; border-radius: 4px; color: #dc2626; font-weight: 600;">${intl.formatMessage({ id: 'body_admin.account_management.user_manager.update_user.security_phrase', defaultMessage: 'CẬP NHẬT NGƯỜI DÙNG' })}</code>
-               </p>
-            </div>
-         `,
-         input: 'text',
-         inputPlaceholder: intl.formatMessage({ id: 'body_admin.account_management.user_manager.update_user.security_placeholder', defaultMessage: 'Nhập cụm từ xác nhận...' }),
-         icon: 'warning',
-         showCancelButton: true,
-         confirmButtonText: intl.formatMessage({ id: 'body_admin.account_management.user_manager.update_user.security_continue', defaultMessage: 'Tiếp tục cập nhật' }),
-         cancelButtonText: intl.formatMessage({ id: 'body_admin.account_management.user_manager.update_user.cancel_button', defaultMessage: 'Hủy' }),
-         inputValidator: (value) => {
-            const expectedPhrase = intl.formatMessage({ id: 'body_admin.account_management.user_manager.update_user.security_phrase', defaultMessage: 'CẬP NHẬT NGƯỜI DÙNG' });
-            if (value !== expectedPhrase) {
-               return intl.formatMessage({ id: 'body_admin.account_management.user_manager.update_user.security_error', defaultMessage: 'Cụm từ không chính xác. Vui lòng nhập đúng cụm từ được yêu cầu.' });
-            }
-         },
-         customClass: {
-            popup: 'swal-update-step3',
-            input: 'swal-text-input'
-         }
+      // Step 3: Text confirmation - Type exact phrase (sử dụng utility function)
+      const confirmText = await showSecurityConfirmation({
+         intl,
+         titleId: 'body_admin.account_management.user_manager.update_user.security_title',
+         warningId: 'body_admin.account_management.user_manager.update_user.security_warning',
+         confirmTextId: 'body_admin.account_management.user_manager.update_user.security_confirm_text',
+         confirmValue: form.userName,
+         noValueId: 'body_admin.account_management.user_manager.update_user.no_username',
+         typeExactId: 'body_admin.account_management.user_manager.update_user.security_type_exact',
+         phraseId: 'body_admin.account_management.user_manager.update_user.security_phrase',
+         placeholderId: 'body_admin.account_management.user_manager.update_user.security_placeholder',
+         continueId: 'body_admin.account_management.user_manager.update_user.security_continue',
+         cancelId: 'body_admin.account_management.user_manager.update_user.cancel_button',
+         errorId: 'body_admin.account_management.user_manager.update_user.security_error',
+         copiedId: 'body_admin.account_management.user_manager.update_user.security_copied',
+         copyButtonId: 'body_admin.account_management.user_manager.update_user.security_copy_button'
       });
 
       if (!confirmText.isConfirmed) return;

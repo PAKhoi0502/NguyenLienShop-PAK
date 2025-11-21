@@ -43,8 +43,18 @@ export const shouldRefreshToken = (error) => {
    const isLoginEndpoint = error.config?.url?.includes('/api/auth/login');
    const isOnLoginPage = window.location.pathname === '/login';
 
-   // Don't refresh tokens for login endpoints, refresh endpoints, or when on login page
-   return isUnauthorized && !isRefreshEndpoint && !isLoginEndpoint && !isOnLoginPage;
+   // Check if request has X-Prevent-Retry header to prevent token refresh loop
+   // Axios may store headers in different places, so check all possible locations
+   const headers = error.config?.headers || {};
+   const preventRetry =
+      headers['X-Prevent-Retry'] === 'true' ||
+      headers['x-prevent-retry'] === 'true' ||
+      headers['X-Prevent-Retry'] === true ||
+      headers['x-prevent-retry'] === true ||
+      (headers.common && (headers.common['X-Prevent-Retry'] === 'true' || headers.common['x-prevent-retry'] === 'true'));
+
+   // Don't refresh tokens for login endpoints, refresh endpoints, when on login page, or when X-Prevent-Retry header is present
+   return isUnauthorized && !isRefreshEndpoint && !isLoginEndpoint && !isOnLoginPage && !preventRetry;
 };
 
 /**

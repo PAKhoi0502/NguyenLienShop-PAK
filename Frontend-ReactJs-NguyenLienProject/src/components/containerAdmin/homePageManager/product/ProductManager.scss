@@ -85,6 +85,72 @@
 
       }
 
+      .product-actions {
+         display: flex;
+         gap: spacing(3);
+         align-items: center;
+         z-index: 1;
+
+         @include mobile-only {
+            width: 100%;
+            justify-content: center;
+         }
+
+         .btn-create.btn-create-product {
+            padding: spacing(5) spacing(6);
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(147, 197, 253, 0.05) 100%);
+            border-radius: border-radius(lg);
+            box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.1), 0 2px 4px -1px rgba(59, 130, 246, 0.06);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            color: #ffffff;
+            font-weight: font-weight(medium);
+            min-width: 220px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+
+            &::after {
+               content: '';
+               position: absolute;
+               top: 0;
+               left: -100%;
+               width: 100%;
+               height: 100%;
+               background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+               transition: left 0.5s ease;
+               z-index: 0;
+            }
+
+            &:hover {
+               transform: translateY(-2px);
+               box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.2), 0 4px 6px -2px rgba(59, 130, 246, 0.1);
+               border-color: rgba(59, 130, 246, 0.5);
+               color: #2d5eff;
+
+               &::after {
+                  left: 100%;
+               }
+            }
+
+            >* {
+               position: relative;
+               z-index: 1;
+            }
+
+            .btn-icon {
+               width: 30px;
+               height: 30px;
+               stroke-width: 2;
+            }
+         }
+
+      }
+
    }
 
    // ==============================================
@@ -204,6 +270,14 @@
                padding: spacing(3);
             }
          }
+      }
+
+      .product-hint-box {
+
+         display: flex;
+         justify-content: center;
+         align-items: center;
+
       }
 
 
@@ -468,7 +542,7 @@
          svg {
             width: 30px;
             height: 30px;
-            transition: transform 0.4s ease;
+            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1) !important;
          }
 
          /* --- Hover --- */
@@ -481,11 +555,11 @@
             .btn-icon-deactivate,
             .btn-icon-active,
             .btn-icon-add-category {
-               background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85)) !important;
+               background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
                transition:
                   background 0.3s ease,
                   color 0.3s ease,
-                  box-shadow 0.4s ease !important;
+                  box-shadow 0.4s ease;
 
                &::before {
                   opacity: 1;
@@ -509,15 +583,15 @@
             &:hover {
                background: linear-gradient(135deg, #432004, #D0872E);
                border: 2px solid #E5A440;
-               transform: scale(1.05) !important;
+               transform: scale(1.05);
                transition: all 0.3s ease;
 
                .btn-icon-add-category {
                   background: linear-gradient(135deg, rgba(229, 164, 64, 0.95), rgba(229, 164, 64, 0.85));
-                  color: #432004 !important;
+                  color: #432004;
 
                   &::before {
-                     background: radial-gradient(circle, rgba(229, 164, 64, 0.4), transparent 70%) !important;
+                     background: radial-gradient(circle, rgba(229, 164, 64, 0.4), transparent 70%);
                   }
                }
             }
@@ -584,7 +658,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #2D9966, #032E15);
+            background: linear-gradient(135deg, #2D9966, #032E15) !important;
             border: 2px solid #16a34a;
 
             &:hover {

@@ -1,0 +1,152 @@
+.swal2-popup.swal-security-confirmation {
+    width: min(40rem, 70vw);
+    padding: 24px;
+    border-radius: 16px;
+    background-color: #0B1220;
+    border: 2px solid #1E2A44;
+}
+
+.swal2-popup.swal-security-confirmation .swal2-warning {
+    border-color: #FB2C36;
+    color: #FB2C36;
+}
+
+.swal2-popup.swal-security-confirmation .swal2-icon-show {
+    animation: swal2-animate-error-icon 1.2s;
+}
+
+.swal2-popup.swal-security-confirmation .swal2-title {
+    color: #ffffff;
+    font-size: 2.4rem;
+    padding: 0;
+}
+
+svg {
+    width: 24px;
+    height: 24px;
+}
+
+.swal2-popup.swal-security-confirmation .swal2-html-container {
+    padding: 0;
+}
+
+.swal2-popup.swal-security-confirmation .security-confirmation__warning {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-style: italic;
+    font-size: 1rem;
+    color: #56585a;
+    font-weight: 400;
+}
+
+.swal2-popup.swal-security-confirmation .security-confirmation__confirm-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-style: italic;
+    font-size: 1rem;
+    color: #90A1B9;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+
+    strong {
+        font-style: normal;
+        color: #fff;
+        font-weight: 500;
+        font-size: 1.2rem;
+        background: #1f2835;
+        padding: 5px 10px;
+        border-radius: 5px;
+    }
+}
+
+.swal2-popup.swal-security-confirmation .security-confirmation__type-exact {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    font-style: italic;
+    font-size: 1rem;
+    color: #90A1B9;
+}
+
+
+.swal2-popup.swal-security-confirmation .security-confirmation-content {
+    margin-bottom: 12px;
+    font-size: 1.45rem;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.swal2-popup.swal-security-confirmation .security-confirmation__phrase {
+    color: #fff;
+    font-style: normal;
+    font-weight: bold;
+    background: #374151;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+    font-size: 1.4rem;
+}
+
+.swal2-popup.swal-security-confirmation .security-confirmation__copy-btn {
+    padding: 4px 10px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    width: fit-content;
+    align-self: center;
+    margin-bottom: 1rem;
+    background: #1e2b38;
+    border-radius: 5px;
+    color: #fff;
+    font-weight: 600;
+    border: none;
+    outline: none;
+    transition: all 0.25s ease;
+
+    &:hover {
+        background: #1f456b;
+    }
+
+    &:focus {
+        outline: none;
+        border: none;
+        background: #1f456b;
+    }
+}
+
+
+.swal2-popup.swal-security-confirmation .swal2-input {
+    width: 70%;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    color: #fff;
+    background: rgba(33, 54, 85, 0.9);
+    border: 1.5px solid rgba(147, 197, 253, 0.4);
+    border-radius: spacing(2);
+    padding: spacing(3) spacing(4);
+    font-size: font-size(base);
+    transition: all 0.25s ease;
+
+    &::placeholder {
+        color: rgba(255, 255, 255, 0.4);
+    }
+
+    &:hover {
+        background: rgba(33, 54, 85, 1);
+        border-color: rgba(147, 197, 253, 0.8);
+    }
+
+    &:focus {
+        outline: none;
+        border-color: #3b82f6; // blue-500
+        background: rgba(37, 56, 90, 1);
+    }
+}

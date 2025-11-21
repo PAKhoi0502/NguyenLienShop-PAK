@@ -1,313 +1,213 @@
-// ==============================================
-// 💡 HINT BOX STYLES (Modern Theme)
-// ==============================================
-
-@import '../styles/variables';
-@import '../styles/mixins';
+/* ===============================
+   HINT BOX UI PREMIUM — FULL
+================================= */
+.no-scroll {
+   overflow: hidden !important;
+}
 
 .hint-icon-wrapper {
    display: inline-flex;
    align-items: center;
-   margin: spacing(3) 0;
+   justify-content: center;
+   border: 1px solid #facc15;
+   padding: 1px;
+   border-radius: 50%;
+   background-color: #facc151a;
+   cursor: pointer;
+   transition: 0.25s ease-in-out;
+   position: relative;
+   overflow: hidden;
+   color: #facc15c4;
 
-   .hint-icon {
-      font-size: font-size(2xl);
-      color: #f59e0b;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      padding: spacing(3);
-      border-radius: border-radius(full);
-      background: rgba(245, 158, 11, 0.1);
-      border: 2px solid rgba(245, 158, 11, 0.3);
-      min-width: 48px;
-      min-height: 48px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      @include mobile-only {
-         font-size: font-size(xl);
-         min-width: 42px;
-         min-height: 42px;
-         padding: spacing(2);
-      }
-
-      &:hover {
-         color: #d97706;
-         background: rgba(245, 158, 11, 0.2);
-         transform: scale(1.15);
-         box-shadow: 0 6px 16px rgba(245, 158, 11, 0.4);
-         border-color: rgba(245, 158, 11, 0.5);
-      }
-
-      &:active {
-         transform: scale(1.05);
-      }
+   &:hover {
+      transform: scale(1.12);
+      background-color: #facc1533;
+      box-shadow: 0 0 10px rgba(250, 204, 21, 0.5);
    }
 
-   // Smaller variant when inside filters
-   .product-filters &,
-   .filters-container & {
-      margin: 0;
+   &:active {
+      transform: scale(0.94);
+   }
 
-      .hint-icon {
-         font-size: font-size(xl);
-         min-width: 40px;
-         min-height: 40px;
-         padding: spacing(2);
+   &::after {
+      content: "";
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: rgba(250, 204, 21, 0.4);
+      border-radius: 50%;
+      transform: scale(0);
+      opacity: 0;
+   }
 
-         @include mobile-only {
-            font-size: font-size(lg);
-            min-width: 36px;
-            min-height: 36px;
-            padding: spacing(1);
-         }
+   &:active::after {
+      animation: ripple 0.45s ease-out;
+   }
+}
 
-         &:hover {
-            transform: scale(1.1);
-         }
-      }
+@keyframes ripple {
+   0% {
+      transform: scale(0);
+      opacity: 0.5;
+   }
+
+   100% {
+      transform: scale(7);
+      opacity: 0;
    }
 }
 
 .hint-overlay {
    position: fixed;
-   top: 0;
-   left: 0;
-   width: 100vw;
-   height: 100vh;
-   background: rgba(0, 0, 0, 0.6);
+   inset: 0;
+   background: rgba(0, 0, 0, 0.55);
    display: flex;
    align-items: center;
    justify-content: center;
    z-index: 9999;
-   -webkit-backdrop-filter: blur(4px); // Safari support
-   backdrop-filter: blur(4px);
-   animation: fade-in 0.3s ease-out;
-
-   @include mobile-only {
-      padding: spacing(4);
-   }
+   animation: fadeIn 0.2s ease forwards;
 }
 
 .hint-box {
-   background: #ffffff; // white
-   padding: spacing(8);
-   border-radius: border-radius(xl);
-   box-shadow: shadow(2xl);
-   max-width: 600px;
-   width: 90%;
-   border: 2px solid #f59e0b;
    position: relative;
-   animation: slide-up 0.4s ease-out;
+   background: #d3ebff;
+   border-left: 6px solid #2563eb;
+   padding: 0;
 
-   @include mobile-only {
-      padding: spacing(6);
-      max-width: 100%;
+   width: 90%;
+   max-width: 800px;
+   min-width: 320px;
+   max-height: 85vh;
+   display: flex;
+   flex-direction: column;
+
+   border-radius: 16px;
+   box-shadow:
+      0 4px 18px rgba(37, 99, 235, 0.18),
+      0 0 0 3px rgba(37, 99, 235, 0.15);
+
+   animation: slideUp 0.25s ease forwards;
+
+
+   @media (min-width: 1200px) {
+      width: 60%;
+      max-width: 1000px;
+   }
+}
+
+.hint-box-header {
+   position: relative;
+   flex-shrink: 0;
+   padding: 24px 28px 0 28px;
+}
+
+.hint-box-content {
+   padding: 24px 28px;
+   overflow-y: auto;
+   flex: 1;
+   min-height: 0;
+
+   scrollbar-width: thin;
+   scrollbar-color: #2563eb #d3ebff;
+
+   &::-webkit-scrollbar {
+      width: 6px;
    }
 
-   // Header with icon
-   &::before {
-      content: '💡';
-      position: absolute;
-      top: -20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #ffffff; // white
-      padding: spacing(2);
-      border-radius: border-radius(full);
-      border: 2px solid #f59e0b;
-      font-size: font-size(xl);
+   &::-webkit-scrollbar-thumb {
+      background: #2563eb;
+      border-radius: 6px;
    }
 
-   // Close button
-   .hint-close {
-      position: absolute;
-      top: spacing(3);
-      right: spacing(4);
-      font-size: font-size(xl);
-      color: #6b7280;
-      cursor: pointer;
-      width: 32px;
-      height: 32px;
-      border-radius: border-radius(full);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-      font-weight: font-weight(bold);
-      line-height: 1;
+   &::-webkit-scrollbar-track {
+      background: #d3ebff;
+   }
 
-      &:hover {
-         background: #f3f4f6;
-         color: #374151;
-         transform: scale(1.1);
-      }
-
-      &:active {
-         transform: scale(0.95);
-      }
+   h1 {
+      color: #2563eb;
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 3px solid #2563eb;
+      padding-bottom: 0.5rem;
+      border-radius: 4px;
+      background-color: #2563eb1a;
+      padding: 0.5rem;
    }
 
    p {
-      font-size: font-size(lg);
-      font-weight: font-weight(bold);
-      margin: spacing(4) 0 spacing(6) 0;
-      color: #1f2937;
       text-align: center;
-      line-height: line-height(relaxed);
-
-      @include mobile-only {
-         font-size: font-size(base);
-         margin: spacing(3) 0 spacing(4) 0;
-      }
+      color: #00000073;
+      line-height: 1.55;
+      font-size: 15px;
+      margin-bottom: 1rem;
    }
 
    ul {
-      list-style: none;
-      padding-left: 0;
-      margin: 0;
+      margin-left: 18px;
+      margin-top: 6px;
+      border-bottom: 1px solid #555f6e6e;
+      padding-bottom: 0.5rem;
+      margin-bottom: 0.5rem;
+      color: #474747;
+      font-size: 1.5rem;
+      font-weight: 600;
 
       li {
-         padding: spacing(3) 0 spacing(3) spacing(8);
-         font-size: font-size(base);
-         color: #374151;
-         line-height: line-height(relaxed);
-         position: relative;
-         border-left: 3px solid transparent;
-         transition: all 0.3s ease;
+         font-size: 1rem;
+         line-height: 1.55;
+         padding-left: 4px;
+         list-style-type: disc;
+         margin-bottom: 0.5rem;
+         color: #1d1d1d;
+         font-weight: 400;
 
-         @include mobile-only {
-            padding: spacing(2) 0 spacing(2) spacing(6);
-            font-size: font-size(sm);
-         }
 
-         &::before {
-            content: '✅';
-            position: absolute;
-            left: spacing(2);
-            top: spacing(3);
-            font-size: font-size(sm);
-
-            @include mobile-only {
-               top: spacing(2);
-            }
-         }
-
-         &:hover {
-            background: #f9fafb;
-            border-left-color: #f59e0b;
-            padding-left: spacing(10);
-
-            @include mobile-only {
-               padding-left: spacing(8);
-            }
-         }
-
-         // Alternate styling for each item
-         &:nth-child(even) {
-            &::before {
-               content: '💡';
-            }
-         }
-
-         &:nth-child(3n) {
-            &::before {
-               content: '⚡';
-            }
-         }
       }
    }
 
-   // Product theme variation
-   &.product-theme {
-      border-color: #22c55e;
-
-      &::before {
-         border-color: #22c55e;
-      }
-
-      ul li {
-         &:hover {
-            border-left-color: #22c55e;
-         }
-
-         &::before {
-            content: '📦';
-         }
-
-         &:nth-child(even)::before {
-            content: '🔧';
-         }
-
-         &:nth-child(3n)::before {
-            content: '📊';
-         }
-      }
-   }
-
-   // User theme variation
-   &.user-theme {
-      border-color: #3b82f6;
-
-      &::before {
-         border-color: #3b82f6;
-      }
-
-      ul li {
-         &:hover {
-            border-left-color: #3b82f6;
-         }
-
-         &::before {
-            content: '👤';
-         }
-
-         &:nth-child(even)::before {
-            content: '🔐';
-         }
-
-         &:nth-child(3n)::before {
-            content: '📋';
-         }
-      }
-   }
-
-   &.category-theme {
-      border-color: #f59e0b;
-
-      &::before {
-         border-color: #f59e0b;
-      }
-   }
-
-   ul li {
-      &:hover {
-         border-left-color: #f59e0b;
-      }
-   }
-
-   &:nth-child(even)::before {
-      content: '🔧';
-   }
-
-   &:nth-child(3n)::before {
-      content: '📊';
-   }
-
-   &:nth-child(3n)::before {
-      content: '📊';
-   }
-
-   &:nth-child(3n)::before {
-      content: '📊';
+   ul:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
    }
 }
 
-// ==============================================
-// 🎭 ANIMATIONS
-// ==============================================
-@keyframes fade-in {
+.hint-close {
+   position: absolute;
+   top: 16px;
+   right: 16px;
+   cursor: pointer;
+   padding: 4px;
+   border-radius: 50%;
+   transition: 0.25s ease;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   z-index: 10;
+
+   &:hover {
+      background-color: rgba(250, 204, 21, 0.22);
+      transform: scale(1.12);
+   }
+
+   .hint-close-icon {
+      width: 22px;
+      height: 22px;
+      color: #444;
+      transition: 0.25s ease;
+
+      .hint-close:hover & {
+         color: #FACC15;
+      }
+   }
+
+}
+
+@keyframes fadeIn {
    from {
       opacity: 0;
    }
@@ -317,98 +217,14 @@
    }
 }
 
-@keyframes slide-up {
+@keyframes slideUp {
    from {
+      transform: translateY(14px);
       opacity: 0;
-      transform: translateY(30px) scale(0.95);
    }
 
    to {
+      transform: translateY(0);
       opacity: 1;
-      transform: translateY(0) scale(1);
-   }
-}
-
-// ==============================================
-// 🌙 DARK MODE SUPPORT
-// ==============================================
-@media (prefers-color-scheme: dark) {
-   .hint-icon-wrapper {
-      .hint-icon {
-         color: #fbbf24;
-         background: rgba(251, 191, 36, 0.15);
-         border-color: rgba(251, 191, 36, 0.4);
-
-         &:hover {
-            color: #f59e0b;
-            background: rgba(251, 191, 36, 0.25);
-            border-color: rgba(251, 191, 36, 0.6);
-            box-shadow: 0 6px 16px rgba(251, 191, 36, 0.3);
-         }
-      }
-   }
-
-   .hint-overlay {
-      background: rgba(0, 0, 0, 0.8);
-   }
-
-   .hint-box {
-      background: #1f2937; // gray-800
-      border-color: #fbbf24;
-
-      &::before {
-         background: #1f2937; // gray-800
-         border-color: #fbbf24;
-      }
-
-      &::after {
-         background: #1f2937; // gray-800
-         border-color: #fbbf24;
-      }
-
-      .hint-close {
-         color: #9ca3af; // gray-400
-
-         &:hover {
-            background: #374151; // gray-700
-            color: #e5e7eb; // gray-200
-         }
-      }
-
-      p {
-         color: #f3f4f6; // gray-100
-      }
-
-      ul li {
-         color: #d1d5db; // gray-300
-
-         &:hover {
-            background: #374151; // gray-700
-         }
-      }
-
-      &.product-theme {
-         border-color: #22c55e;
-
-         &::before {
-            border-color: #22c55e;
-         }
-
-         ul li:hover {
-            border-left-color: #22c55e;
-         }
-      }
-
-      &.user-theme {
-         border-color: #60a5fa;
-
-         &::before {
-            border-color: #60a5fa;
-         }
-
-         ul li:hover {
-            border-left-color: #60a5fa;
-         }
-      }
    }
 }

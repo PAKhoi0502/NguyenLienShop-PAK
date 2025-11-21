@@ -24,14 +24,12 @@ const ProductCreate = () => {
       e.preventDefault();
       setLoading(true);
 
-      // Kiểm tra dữ liệu bắt buộc
       if (!nameProduct || !price || !stock || !saleQuantity) {
          showToast('error', intl.formatMessage({ id: 'body_admin.product_management.create.create_blocked', defaultMessage: 'Vui lòng nhập đầy đủ các trường bắt buộc (tên, giá, số lượng tồn kho, số lượng đơn vị bán)' }));
          setLoading(false);
          return;
       }
 
-      // Validation chi tiết cho Price
       const priceValue = parseFloat(price);
       if (isNaN(priceValue) || priceValue <= 0) {
          showToast('error', intl.formatMessage({ id: 'body_admin.product_management.create.price_invalid', defaultMessage: 'Giá sản phẩm phải lớn hơn 0' }));
@@ -39,7 +37,6 @@ const ProductCreate = () => {
          return;
       }
 
-      // Validation cho Discount Price
       if (discountPrice) {
          const discountValue = parseFloat(discountPrice);
          if (isNaN(discountValue) || discountValue < 0) {
@@ -54,7 +51,6 @@ const ProductCreate = () => {
          }
       }
 
-      // Validation cho Stock
       const stockValue = parseInt(stock);
       if (isNaN(stockValue) || stockValue < 0 || !Number.isInteger(parseFloat(stock))) {
          showToast('error', intl.formatMessage({ id: 'body_admin.product_management.create.stock_invalid', defaultMessage: 'Số lượng tồn kho phải là số nguyên dương' }));
@@ -62,7 +58,6 @@ const ProductCreate = () => {
          return;
       }
 
-      // Validation cho Sale Quantity
       const saleQuantityValue = parseInt(saleQuantity);
       if (isNaN(saleQuantityValue) || saleQuantityValue <= 0 || !Number.isInteger(parseFloat(saleQuantity))) {
          showToast('error', intl.formatMessage({ id: 'body_admin.product_management.create.saleQuantity_invalid', defaultMessage: 'Số lượng đơn vị bán phải là số nguyên dương' }));
@@ -78,33 +73,26 @@ const ProductCreate = () => {
          dimensions: length && width ? `${length} x ${width}` : '',
          stock,
          saleQuantity: saleQuantity || 1,
-         isActive: false // Mặc định sản phẩm mới không active
+         isActive: false
       };
 
       try {
          const res = await createProduct(data);
          if (res && res.errCode === 0) {
             showToast('success', intl.formatMessage({ id: 'body_admin.product_management.create.success', defaultMessage: 'Tạo sản phẩm thành công' }));
-            // Navigate to product detail page if product ID is available, otherwise go to list
-            if (res.product?.id) {
-               navigate(`/admin/product-category-management/product-management/product-detail/${res.product.id}`);
-            } else {
+            setTimeout(() => {
                navigate('/admin/product-category-management/product-management');
-            }
+            }, 1500);
          } else if (res && res.errCode === 401) {
-            // Xử lý lỗi 401 - không có quyền
             showToast('error', res.errMessage || intl.formatMessage({ id: 'body_admin.product_management.create.unauthorized', defaultMessage: 'Không có quyền tạo sản phẩm' }));
-            // Không redirect về login, để axios interceptor xử lý
          } else {
             showToast('error', res.errMessage || intl.formatMessage({ id: 'body_admin.product_management.create.error', defaultMessage: 'Không thể tạo sản phẩm' }));
          }
       } catch (err) {
          console.error('Create product error:', err);
 
-         // Xử lý lỗi 401 từ axios interceptor
          if (err.response?.status === 401) {
             showToast('error', intl.formatMessage({ id: 'body_admin.product_management.create.unauthorized', defaultMessage: 'Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại' }));
-            // Không cần navigate, axios interceptor sẽ xử lý
          } else {
             showToast('error', intl.formatMessage({ id: 'body_admin.product_management.create.server_error', defaultMessage: 'Lỗi server khi tạo sản phẩm' }));
          }
@@ -252,6 +240,7 @@ const ProductCreate = () => {
             </div>
             <div className="form-actions">
                <button className="btn-submit" type="submit" disabled={loading}>
+
                   {loading ? <FormattedMessage id="body_admin.product_management.create.loading" defaultMessage="Đang tạo..." /> : <FormattedMessage id="body_admin.product_management.create.submit" defaultMessage="Tạo sản phẩm" />}
                </button>
                <button
