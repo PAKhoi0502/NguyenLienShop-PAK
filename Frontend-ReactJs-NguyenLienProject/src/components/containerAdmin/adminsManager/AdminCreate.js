@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import CustomToast from '../../../components/CustomToast';
 import OtpVerification from '../../../components/OtpVerification';
 import { validateVietnamesePhone } from '../../../utils/vietnamesePhoneValidator';
+import HintBox from '../../../components/HintBox';
 import './AdminCreate.scss';
 
 const AdminCreate = () => {
@@ -212,6 +213,7 @@ const AdminCreate = () => {
 
    return (
       <div className="admin-create-container">
+
          {step === 2 && (
             <OtpVerification
                phoneNumber={phoneNumber}

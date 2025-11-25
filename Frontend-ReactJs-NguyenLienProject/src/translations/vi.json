@@ -884,7 +884,7 @@
                 "update_admin": {
                     "security_title": "Xác nhận bảo mật",
                     "security_warning": "Hành động này không thể hoàn tác!",
-                    "security_confirm_text": "Cập nhật quản trị viên",
+                    "security_confirm_text": "Tên tài khoản",
                     "security_type_exact": "Vui lòng nhập chính xác",
                     "security_phrase": "CẬP NHẬT QUẢN TRỊ VIÊN",
                     "security_placeholder": "Nhập cụm từ xác nhận...",
@@ -1155,6 +1155,10 @@
                     }
                 },
                 "delete": {
+                    "security_copy_button": "Sao chép",
+                    "security_copied": "Đã sao chép!",
+                    "security_copy_button_tooltip": "Nhấn để sao chép",
+                    "username_label": "Tên người dùng",
                     "not_available": "Không có thông tin",
                     "loading_title": "Đang xóa...",
                     "loading_text": "Vui lòng chờ trong giây lát.",
@@ -1165,7 +1169,7 @@
                     "try_again": "Thử lại",
                     "confirm_button_1": "Xác nhận",
                     "cancel_button": "Hủy",
-                    "confirm_title_1": "Bạn chắc chắn muốn xóa người dùng này?",
+                    "confirm_title_1": "Xóa người dùng này?",
                     "confirm_title_2": "Bạn thực sự muốn xóa?",
                     "confirm_text_2": "Hành động này sẽ không thể hoàn tác!",
                     "confirm_button_2": "Xóa ngay",
@@ -1187,8 +1191,8 @@
                     "password_min_length": "Mật khẩu phải có ít nhất 6 ký tự",
                     "delete_success_message": "Xóa người dùng thành công!",
                     "delete_error_message": "Không thể xóa người dùng này!",
-                    "phone_label": "Số điện thoại:",
-                    "id_label": "ID:",
+                    "phone_label": "Số điện thoại",
+                    "id_label": "ID",
                     "error": {
                         "max_attempts": "Xóa không thành công - Nhập sai mật khẩu quá 3 lần",
                         "invalid_password": "Mật khẩu không hợp lệ",
@@ -1206,7 +1210,7 @@
                         "cannot_delete": "Không thể xóa người dùng!",
                         "server": "Đã xảy ra lỗi khi xóa người dùng."
                     },
-                    "confirm_title": "Bạn chắc chắn muốn xóa người dùng này?",
+                    "confirm_title": "Xóa người dùng này?",
                     "confirm_title_final": "Bạn thực sự muốn xóa?",
                     "confirm_text_final": "Hành động này sẽ không thể hoàn tác!",
                     "confirm_delete_now": "Xóa ngay",

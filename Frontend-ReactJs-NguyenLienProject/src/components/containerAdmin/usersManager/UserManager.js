@@ -95,20 +95,27 @@ const UserManager = () => {
          </div>
 
          <div className="user-search-section">
-
-
             <div className="user-hint-box">
                <HintBox
                   theme="user"
                   content={
                      <div>
-                        <p><FormattedMessage id="body_admin.account_management.user_manager.hint_title" defaultMessage="Hướng dẫn: Quản lý danh sách người dùng, bao gồm tạo, xem thông tin và xóa tài khoản." /></p>
-                        <ul>
-                           <li><FormattedMessage id="body_admin.account_management.user_manager.hint_1" defaultMessage="Sử dụng nút 'Tạo người dùng' để thêm tài khoản người dùng mới vào hệ thống." /></li>
-                           <li><FormattedMessage id="body_admin.account_management.user_manager.hint_2" defaultMessage="Click vào tên người dùng để xem thông tin chi tiết." /></li>
-                           <li><FormattedMessage id="body_admin.account_management.user_manager.hint_3" defaultMessage="Sử dụng chức năng tìm kiếm để lọc theo tên, email hoặc họ tên." /></li>
-                           <li><FormattedMessage id="body_admin.account_management.user_manager.hint_4" defaultMessage="Hãy thận trọng khi xóa tài khoản người dùng." /></li>
-                           <li><FormattedMessage id="body_admin.account_management.user_manager.hint_5" defaultMessage="Có thể cập nhật thông tin hoặc xóa tài khoản người dùng khi cần thiết." /></li>
+                        <h1><FormattedMessage id="hint_box.user_manager.title" defaultMessage="User Manager" /></h1>
+                        <p><FormattedMessage id="hint_box.admin_manager.subtitle" defaultMessage="Đây là trang dùng để quản lý tài khoản người dùng/khách hàng" /></p>
+                        <ul className="hint-list"> <FormattedMessage id="hint_box.admin_manager.overview_ul" defaultMessage="Giới thiệu" />
+                           <li className="hint-item"><FormattedMessage id="hint_box.admin_manager.overview_li_1" defaultMessage="Đây là trang dùng để quản lý tài khoản người dùng/khách hàng." /></li>
+                           <li className="hint-item"><FormattedMessage id="hint_box.admin_manager.overview_li_2" defaultMessage="Có đầy đủ các chức năng tạo, chỉnh sửa, xóa tài khoản." /></li>
+                        </ul>
+                        <ul className="hint-list"> <FormattedMessage id="hint_box.admin_manager.user_guide_ul" defaultMessage="Hướng dẫn sử dụng" />
+                           <li className="hint-item"><FormattedMessage id="hint_box.admin_manager.user_guide_li_1" defaultMessage="Nút tạo tài khoản dùng để tạo tài khoản người dùng/khách hàng." /></li>
+                           <li className="hint-item"><FormattedMessage id="hint_box.admin_manager.user_guide_li_2" defaultMessage="Nút tìm kiếm dùng để tìm kiếm tài khoản người dùng/khách hàng." /></li>
+                           <li className="hint-item"><FormattedMessage id="hint_box.admin_manager.user_guide_li_3" defaultMessage="Nút chi tiết dùng để xem thông tin chi tiết tài khoản người dùng/khách hàng." /></li>
+                           <li className="hint-item"><FormattedMessage id="hint_box.admin_manager.user_guide_li_4" defaultMessage="Nút cập nhật dùng để cập nhật thông tin tài khoản người dùng/khách hàng." /></li>
+                           <li className="hint-item"><FormattedMessage id="hint_box.admin_manager.user_guide_li_5" defaultMessage="Nút xóa dùng để xóa tài khoản người dùng/khách hàng." /></li>
+                        </ul>
+                        <ul className="hint-list"> <FormattedMessage id="hint_box.admin_manager.note_title" defaultMessage="Lưu ý" />
+                           <li className="hint-item"><FormattedMessage id="hint_box.admin_manager.note_li_1" defaultMessage="Hãy thận trọng khi xóa tài khoản người dùng/khách hàng vì sẽ xóa tài khoản vĩnh viễn mà không thể hoàn tác." /></li>
+                           <li className="hint-item"><FormattedMessage id="hint_box.admin_manager.note_li_2" defaultMessage="Chỉnh sửa thông tin tài khoản cần có quyền hạn hoặc có sự thông báo và được chấp nhận từ người dùng/khách hàng." /></li>
                         </ul>
                      </div>
                   }

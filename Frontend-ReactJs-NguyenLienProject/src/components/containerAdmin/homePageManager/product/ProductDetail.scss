@@ -31,6 +31,7 @@
             #6c789b 100%);
       background-size: 200% auto;
       -webkit-background-clip: text;
+      background-clip: text;
       -webkit-text-fill-color: transparent;
       animation: shineText 3s linear infinite;
 
@@ -39,6 +40,17 @@
          text-align: center;
          display: block;
       }
+   }
+
+   @keyframes shineText {
+      0% {
+         background-position: 0% center;
+      }
+
+      100% {
+         background-position: 200% center;
+      }
+
    }
 
 

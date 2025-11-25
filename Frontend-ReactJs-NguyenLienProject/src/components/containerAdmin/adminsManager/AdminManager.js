@@ -89,7 +89,6 @@ const AdminManager = () => {
          </div>
 
          <div className="admin-search-section">
-
             <div className="admin-hint-box">
                <HintBox
                   theme="user"
